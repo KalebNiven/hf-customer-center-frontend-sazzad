@@ -1,0 +1,10 @@
+
+.env
+.env.client
+package-lock.json
+test-report.xml
+
+
+node_modules
+public
+.vscode

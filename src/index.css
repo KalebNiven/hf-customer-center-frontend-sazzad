@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+
+.now-pow-resources-slider .slick-disabled {
+  display: none;
+}
+
+.now-pow-resources-slider .slick-arrow:hover {
+  background: #fff;
+}
+
+.now-pow-resources-slider .slick-dots li button:before {
+  font-size: 10px;
+  color: #474b55;
+  opacity: .2;
+}
+
+.now-pow-resources-slider .slick-dots li.slick-active button:before {
+  color: #474b55;
+  opacity: 1;
+}
+
+.now-pow-resources-slider .slick-dots li {
+  margin: 0;
+}
+
+.now-pow-resources-slider .slick-track {
+  margin: 0;
+}
+
+.now-pow-resources-carousel .slick-next.slick-arrow{
+  display: block !important;
+}
+
+.now-pow-resources-carousel .slick-slide{
+  margin-bottom: -7px !important;
+}
+
+.chat-widget #sc-launcher .sc-launcher {
+  z-index: 80 !important;
+}
+
+.footer{
+  background: #474b55;
+  padding: 1rem;
+  width: 100%;
+  /* margin-top:20px; */
+  position:sticky;
+}
