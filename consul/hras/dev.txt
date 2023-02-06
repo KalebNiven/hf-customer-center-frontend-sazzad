@@ -1,0 +1,6 @@
+CONSUL_AWS_CERT_ARN=arn:aws:acm:us-east-1:634459263622:certificate/894c822e-dff7-48ab-8a13-25cb7f02c8a5
+CONSUL_AWS_WAF_ARN=arn:aws:wafv2:us-east-1:634459263622:global/webacl/Restricted-Countries/7adca2fd-6897-496c-86d1-0d8ae1887aff
+CONSUL_AWS_S3_BUCKET_NAME=hf-cde-hra-survey-dev
+CONSUL_AWS_OAI=origin-access-identity/cloudfront/EFJYC45MIP13O
+CONSUL_AWS_CNAME=hra-survey-st.healthfirst.org
+HRA_API_BASE_URL=https://rgagyphxzb.execute-api.us-east-1.amazonaws.com/dev

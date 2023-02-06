@@ -8,4 +8,6 @@ test-report.xml
 node_modules
 public
 .vscode
+build/
+
 dist/

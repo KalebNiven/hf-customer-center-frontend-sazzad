@@ -1,0 +1,11 @@
+CONSUL_PC_SPLIT_AUTH_KEY=DEV_AUTH_SPLIT_KEY
+
+CONSUL_PREF_CENTER_MFA_API_HOST=https://tg2sqd75j6.execute-api.us-east-1.amazonaws.com/dev
+
+CONSUL_PREF_CENTER_MFA_API_URL_CONFIG="{\"DEFAULT\":{\"SUBJECT\":\"api/v1/mfa/customers\",\"MOBILE_ENROLL\":\"api/v1/mfa/customers/enroll/mobile-phone\",\"EMAIL_ENROLL\":\"api/v1/mfa/customers/enroll/email\",\"MFA_ACTIVATE\":\"api/v1/mfa/customers/factor/activate\"}}"
+
+CONSUL_REACT_APP_API_HOST=https://hf-cde-preference-center-react-eapi-dev.us-e1.cloudhub.io
+
+CONSUL_REACT_APP_URL_CONFIG="{\"DEFAULT\":{\"PUBLISH\":\"publish/subjects\",\"STRUCTURE\":\"structure\",\"INGEST\":\"ingest/subjects\",\"DELETE\":\"ingest/subjects/channels\"}, \"CCO\":{\"PUBLISH\":\"publish/subjects\",\"STRUCTURE\":\"structure\",\"INGEST\":\"ingest/subjects\",\"DELETE\":\"ingest/subjects/channels\"},\"MP\":{\"PUBLISH\":\"publish/subjects\",\"STRUCTURE\":\"structure\",\"INGEST\":\"ingest/subjects\",\"DELETE\":\"ingest/subjects/channels\"}}"
+
+CONSUL_REACT_APP_V_CONFIG="{\"DEFAULT\":{\"PUBLISH\":\"api/okjwt/v3\",\"STRUCTURE\":\"api/okjwt/v2\",\"INGEST\":\"api/okjwt/v3\",\"DELETE\":\"api/okjwt/v3\"}, \"CCO\":{\"PUBLISH\":\"api/stjwt/v3\",\"STRUCTURE\":\"api/stjwt/v2\",\"INGEST\":\"api/stjwt/v3\",\"DELETE\":\"api/stjwt/v3\"},\"MP\":{\"PUBLISH\":\"api/stjwt/v3\",\"STRUCTURE\":\"api/stjwt/v2\",\"INGEST\":\"api/stjwt/v3\",\"DELETE\":\"api/stjwt/v3\"}}"
