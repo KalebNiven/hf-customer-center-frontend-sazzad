@@ -5,7 +5,7 @@ import NonMemberForm from './nonMemberForm';
 import { Header, StyledButton} from "./styles";
 import { useSelector } from "react-redux";
 import { handleSegment } from "./handleSegment";
-import VerifyAccount from "./VerifyAccount";
+import VerifyAccount from "./verifyAccount";
 import FooterMenu from "../auth/login/footerMenu"
 
 const CreateAccount = () => {

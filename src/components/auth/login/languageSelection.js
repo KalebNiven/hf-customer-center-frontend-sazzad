@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components';
-const { MIX_APP_DOMAIN } = process.env;
+const { REACT_APP_MIX_APP_DOMAIN } = process.env;
 
 const LanguageSelection = () => {
-    const domainURLObject = new URL(MIX_APP_DOMAIN);
+    const domainURLObject = new URL(REACT_APP_MIX_APP_DOMAIN);
     const generateURL = (langCode) => {
         switch(langCode) {
             case "en": 

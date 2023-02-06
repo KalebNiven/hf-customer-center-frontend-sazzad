@@ -5,17 +5,21 @@ import { useHistory } from "react-router-dom";
 import { Security } from '@okta/okta-react';
 import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
 import { oktaConfig } from './libs/oktaConfig'
-const oktaAuth = new OktaAuth(oktaConfig);
 import AppWrapper from "./AppWrapper";
+
+const { MIX_REACT_OKTA_ISSUER_SPA } = process.env;
+
+console.log("Venkatesh: env: ", process.env)
+const oktaAuth = new OktaAuth(oktaConfig);
 
 const App = ({ jwt, selectedMemberId }) => {
   const [loaderShow, setLoaderShow] = useState(sessionStorage.getItem("longLoad"))
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     const longLoad = sessionStorage.getItem("longLoad")
     setLoaderShow(longLoad)
-  },[])
-  
+  }, [])
+
   const history = useHistory();
 
   const onAuthRequired = () => {
