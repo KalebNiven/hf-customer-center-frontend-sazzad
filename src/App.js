@@ -9,7 +9,6 @@ import AppWrapper from "./AppWrapper";
 
 const { MIX_REACT_OKTA_ISSUER_SPA } = process.env;
 
-console.log("Venkatesh: env: ", process.env)
 const oktaAuth = new OktaAuth(oktaConfig);
 
 const App = ({ jwt, selectedMemberId }) => {
