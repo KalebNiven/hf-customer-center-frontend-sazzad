@@ -1,28 +1,47 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
+const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
-
+const envDir = path.join(__dirname, "/.env");
 const isProduction = process.env.NODE_ENV == "production";
-
+const dotenv = require("dotenv");
 const stylesHandler = "style-loader";
 
+const getEnvVars = (envVars) => {
+  const vars = { ...envVars, LOCALE_VERSION: new Date().getTime() };
+  return JSON.stringify(vars);
+};
+
+// console.log('This is the result: ', getEnvVars(dotenv.config({ path: envDir }).parsed));
 const config = {
-  entry: "./src/index.js",
+  entry:{
+    reactApp: './src/index.js',
+    navMenu: './src/App.js',
+    sideNavMenu: './src/indexSideNavMenu.js',
+    moreTools: './src/moreTools.js',
+    myHealthPage: './src/components/myHealth/myHealthPage.js',
+    preferredContactInfo: './src/preferredContactInfo.js'
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
   },
   devServer: {
     open: true,
     host: "localhost",
-
+    static: {
+      directory: path.join(__dirname, "build"),
+    },
+    port: "3000",
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "index.html",
+      template: "public/index.html",
     }),
-
+    new webpack.DefinePlugin({
+      "process.env": getEnvVars(dotenv.config({ path: envDir }).parsed),
+    }),
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],

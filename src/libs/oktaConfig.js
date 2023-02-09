@@ -1,5 +1,5 @@
-const CLIENT_ID = process.env.REACT_APP_MIX_REACT_OKTA_CLIENT_ID_SPA
-const ISSUER = process.env.REACT_APP_MIX_REACT_OKTA_ISSUER_SPA
+const CLIENT_ID = process.env.MIX_REACT_OKTA_CLIENT_ID_SPA
+const ISSUER = process.env.MIX_REACT_OKTA_ISSUER_SPA
 const REDIRECT_URI = window.location.origin + '/login/callback'
 
 export const oktaConfig = {

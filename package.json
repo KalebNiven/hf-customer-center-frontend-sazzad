@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "webpack --config webpack.config.js",
+    "start": "npm run serve",
+    "build": "webpack --config webpack.config.js --mode=development",
     "test": "jest",
     "lint": "eslint .",
     "eject": "react-scripts eject",
