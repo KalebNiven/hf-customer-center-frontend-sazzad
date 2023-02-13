@@ -5,14 +5,15 @@
   "private": true,
   "scripts": {
     "start": "npm run serve",
-    "build": "webpack --config webpack.config.js --mode=development",
+    "build": "cross-env NODE_ENV=production npm run delete-builds && webpack --config webpack.config.js --mode=production",
     "test": "jest",
     "lint": "eslint .",
     "eject": "react-scripts eject",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "webpack serve"
+    "serve": "webpack serve",
+    "delete-builds": "rimraf build"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
