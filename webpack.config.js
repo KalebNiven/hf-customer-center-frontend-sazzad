@@ -11,6 +11,7 @@ const stylesHandler = "style-loader";
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const InterpolateHtmlPlugin = require("interpolate-html-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const devPort = "3000"
 
 const getEnvVars = (envVars) => {
   const vars = { ...envVars, LOCALE_VERSION: new Date().getTime() };
@@ -19,7 +20,6 @@ const getEnvVars = (envVars) => {
 const defaultChunkLimit = 100;
 const distDir = path.join(__dirname, "build");
 
-// console.log('This is the result: ', getEnvVars(dotenv.config({ path: envDir }).parsed));
 const config = {
   // entry:{
   //   reactApp: './src/index.js',
@@ -43,7 +43,7 @@ const config = {
       directory: path.join(__dirname, "build"),
     },
     hot: true,
-    port: "3000",
+    port: devPort,
   },
   plugins: [
     new InterpolateHtmlPlugin({

@@ -1,6 +1,7 @@
 
 .env
 .env.client
+coverage
 package-lock.json
 test-report.xml
 

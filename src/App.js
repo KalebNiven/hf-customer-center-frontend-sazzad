@@ -7,8 +7,6 @@ import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
 import { oktaConfig } from './libs/oktaConfig'
 import AppWrapper from "./AppWrapper";
 
-const { MIX_REACT_OKTA_ISSUER_SPA } = process.env;
-
 const oktaAuth = new OktaAuth(oktaConfig);
 
 const App = ({ jwt, selectedMemberId }) => {
@@ -30,7 +28,7 @@ const App = ({ jwt, selectedMemberId }) => {
   };
 
   return (
-    <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri} onAuthRequired={onAuthRequired}>
+    <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri} onAuthRequired={onAuthRequired} data-testid="appcomponent">
       <AppWrapper jwt={jwt} selectedMemberId={selectedMemberId} />
     </Security>
   );
