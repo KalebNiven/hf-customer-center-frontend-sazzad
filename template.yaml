@@ -14,7 +14,7 @@ Parameters:
   S3BucketName:
     Description: S3 bucket name
     Type: String
-    Default: hf-cde-hra-survey-dev
+    Default: hf-cde-cc-frontend-dev
   OriginAccessIdentity:
     Description: OAI 
     Type: String
