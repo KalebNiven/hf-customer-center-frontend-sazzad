@@ -1,15 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Healthfirst Provider Directory App" />
-    <title>Healthfirst</title>
-    <script src="https://hf-cde-provider-directory-st.healthfirst.org/embed//provider-directory-widget.js"></script>
-  </head>
-  <body>
-    <a class="skip-link" style="display: none" href="#maincontent"></a>
-    <div id="ReactAppWrapper-wide"></div>
-  </body>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="description" content="Healthfirst Provider Directory App" />
+        <title>Healthfirst</title>
+        <script src="https://hf-cde-provider-directory-st.healthfirst.org/embed/provider-directory-widget.js"></script>
+      </head>
+      <body>
+        <a class="skip-link" style="display: none" href="#maincontent"></a>
+        <div id="ReactAppWrapper-wide">
+        </div>
+      </body>
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker
+                    .register("service-worker.js")
+                    .then((registration) => {
+                        console.log("Service Worker registered: ", registration);
+                    })
+                    .catch((registrationError) => {
+                        console.error("Service Worker registration failed: ", registrationError);
+                    });
+            });
+        }
+    </script>
 </html>

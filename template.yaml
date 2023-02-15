@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: React Client-Side Rendered Application
+
+Parameters:
+  CertificateARN:
+    Description: ACM certificate ARN
+    Type: String
+    Default: arn:aws:acm:us-east-1:254161167246:certificate/10791c4f-3dae-4627-b3df-a5e353bd6be5
+  WebACLARN:
+    Description: Web ACL ARN
+    Type: String
+    Default: arn:aws:wafv2:us-east-1:254161167246:global/webacl/Restricted-Countries/e19c8c41-bc6a-45bf-99c9-166c95ef5e93
+  S3BucketName:
+    Description: S3 bucket name
+    Type: String
+    Default: hf-cde-cc-frontend-dev
+  OriginAccessIdentity:
+    Description: OAI 
+    Type: String
+    Default: origin-access-identity/cloudfront/E4DT39JQHX44S
+  CNAME:
+    Description: CloudFront CNAME 
+    Type: String
+    Default: preference-cntr-dev.healthfirst.org
+ 
+Resources:
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+        - DomainName: !Join [ ., [ !Ref S3BucketName, s3.amazonaws.com ] ]
+          Id: !Join [ -, [ S3, !Ref S3BucketName ] ]
+          S3OriginConfig: 
+            OriginAccessIdentity: !Ref OriginAccessIdentity
+        Enabled: true
+        Comment: !Join [ -, [ S3, !Ref S3BucketName ] ]
+        Logging: 
+          Bucket: !Join [ ., [ !Ref S3BucketName, s3.amazonaws.com ] ]
+          Prefix: uilogs
+          IncludeCookies: false
+        PriceClass: PriceClass_100
+        HttpVersion: http1.1
+        Aliases: 
+          - !Ref CNAME
+        DefaultRootObject: index.html
+        DefaultCacheBehavior: 
+          TargetOriginId: !Join [ -, [ S3, !Ref S3BucketName ] ]
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: 
+            - GET
+            - HEAD
+          CachedMethods: 
+            - GET
+            - HEAD
+          ForwardedValues: 
+              QueryString: false
+              Cookies:
+                Forward: none
+          SmoothStreaming : false
+          Compress: false
+        ## The certificate to use when viewers use HTTPS to request objects.
+        ViewerCertificate:
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2018
+          AcmCertificateArn: !Ref CertificateARN
+        WebACLId: !Ref WebACLARN
+        CustomErrorResponses:
+          - ErrorCachingMinTTL: 10
+            ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+

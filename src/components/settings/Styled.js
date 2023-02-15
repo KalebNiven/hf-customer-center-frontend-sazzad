@@ -139,7 +139,7 @@ const TextBox = styled.div`
   border-radius: 4px;
   border: ${(props) => props.error ? 'solid 1px #ad122a' : 'solid 1px #a8abac'};
 `;
-RightHeader,SubHeader,Card,Title,Text,RowBlock,UserName,EditButton,EditImg,ButtonTxt,Label,TextBox,UserImg,InputBox,ButtonRow
+// RightHeader,SubHeader,Card,Title,Text,RowBlock,UserName,EditButton,EditImg,ButtonTxt,Label,TextBox,UserImg,InputBox,ButtonRow
 const UserImg = styled.img`
   width: ${(props) => props.width ? '30px' : '20px'};
   height: 20px;

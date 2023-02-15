@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-const { MIX_APP_DOMAIN } = process.env;
 import { useSelector } from "react-redux";
 
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../constants/segment";
 import {AnalyticsTrack } from "../components/common/segment/analytics";
 import {getDocumentsBasedOnId} from "../../src/store/saga/apis";
+const { MIX_APP_DOMAIN } = process.env;
 // @@ useRedirect take required "url" argument, validates the URL and redirects the user if validation is passed
 // @@ useRedirect takes optional "callback" argument which will be called after successful redirect
 const useRedirect = (url, callback) => {

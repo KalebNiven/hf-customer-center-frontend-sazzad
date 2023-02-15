@@ -1,10 +1,13 @@
 
 .env
 .env.client
+coverage
 package-lock.json
 test-report.xml
 
-
+.DS_Store
 node_modules
 public
 .vscode
+build/
+dist/

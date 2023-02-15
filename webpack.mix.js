@@ -31,6 +31,16 @@ mix.webpackConfig({
       myHealthPage: './src/components/myHealth/myHealthPage.js',
       preferredContactInfo: './src/preferredContactInfo.js'
     },
+    target: 'web',
+    devServer: {
+      port: '5000',
+      static: {
+        directory: path.join(__dirname, 'public')
+  },
+      open: true,
+      hot: true,
+      liveReload: true,
+    },
    output: {
       path: path.resolve(__dirname, 'public/react'),
       filename: '[name].js',
