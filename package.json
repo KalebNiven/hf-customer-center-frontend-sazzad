@@ -1,7 +1,6 @@
 {
   "private": true,
   "scripts": {
-    "start:dev": "react-scripts start && webpack --config webpack.config.js --mode=production",
     "start": "npm run serve",
     "build": "cross-env NODE_ENV=production npm run delete-builds && webpack --config webpack.config.js --mode=production",
     "dev": "npm run development",

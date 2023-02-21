@@ -7,7 +7,6 @@ import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
 import { oktaConfig } from './libs/oktaConfig'
 import AppWrapper from "./AppWrapper";
 
-console.log('Venkatesh: ', process.env);
 const oktaAuth = new OktaAuth(oktaConfig);
 
 const App = ({ jwt, selectedMemberId }) => {
