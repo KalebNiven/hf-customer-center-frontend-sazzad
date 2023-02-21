@@ -21,20 +21,22 @@ const defaultChunkLimit = 100;
 const distDir = path.join(__dirname, "build");
 
 const config = {
-  // entry:{
-  //   reactApp: './src/index.js',
-  //   navMenu: './src/App.js',
-  //   sideNavMenu: './src/indexSideNavMenu.js',
-  //   moreTools: './src/moreTools.js',
-  //   myHealthPage: './src/components/myHealth/myHealthPage.js',
-  //   preferredContactInfo: './src/preferredContactInfo.js'
-  // },
   entry: "./src/index.js",
   output: {
     path: distDir,
     filename: "[name].js",
     sourceMapFilename: "[name].js.map",
     chunkFilename: "[id].[chunkhash].js",
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
+  performance:{
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
   },
   devServer: {
     open: true,
@@ -46,6 +48,11 @@ const config = {
     port: devPort,
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: __dirname + '/src/index.html',
+      filename: 'index.html',
+      inject: 'body'
+    }),
     new InterpolateHtmlPlugin({
       JENKINS_JOB_NAME: process.env.JOB_NAME || 'Customer-center-Frontend',
       JENKINS_BUILD_NUMBER: process.env.BUILD_NUMBER || '0000',
@@ -53,10 +60,6 @@ const config = {
       JENKINS_NODE_NAME: process.env.NODE_NAME || '0000',
       JENKINS_BUILD_ID: process.env.BUILD_ID || '0000',
     }),
-    // new HtmlWebpackPlugin({
-    //   template: "./public/index.html",
-    //   filename: "./build/index.html",
-    // }),
     new webpack.DefinePlugin({
       "process.env": getEnvVars(dotenv.config({ path: envDir }).parsed),
     }),
@@ -71,19 +74,21 @@ const config = {
       // maxChunks: !isProduction ? 1 : defaultChunkLimit,
       maxChunks: defaultChunkLimit,
     }),
+
   ].filter((i) => i),
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/i,
-        loader: "babel-loader",
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: "babel-loader",
       },
       {
-        test: /\.(css|scss)$/i,
+        test: /\.(css|scss)$/,
         use: [stylesHandler, "css-loader", "postcss-loader", "sass-loader"],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
+        test: /\.(eot|svg|ttf|otf|woff|woff2|png|jpg|jpeg|gif)$/i,
         type: "asset",
       },
       // Add your rules for custom modules here

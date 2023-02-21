@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../cc-react-surveys"
+		},
+		{
+			"path": "../lofl"
+		},
+		{
+			"path": "../my-project"
+		}
+	],
+	"settings": {}
+}
