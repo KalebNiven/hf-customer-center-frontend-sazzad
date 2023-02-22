@@ -28,7 +28,7 @@ const App = ({ jwt, selectedMemberId }) => {
   };
 
   return (
-    <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri} onAuthRequired={onAuthRequired} data-testid="appcomponent">
+    <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri} onAuthRequired={onAuthRequired}>
       <AppWrapper jwt={jwt} selectedMemberId={selectedMemberId} />
     </Security>
   );

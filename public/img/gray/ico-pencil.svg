@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ico-pencil</title>
+    <defs>
+        <path d="M0,7.98815918 L4.17724609,12 L0,12 L0,7.98815918 Z M9.98159616,1.37484736 L10.5615549,1.94486184 C11.3493281,2.71912744 11.3602781,3.98541005 10.5860126,4.77318322 L10.5741632,4.7851382 L10.5741632,4.7851382 L5.1315918,10.2302246 L1.640625,6.79296875 L7.18089226,1.37174856 C7.9595088,0.609862622 9.20466747,0.61124031 9.98159616,1.37484736 Z" id="path-1"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Gray" transform="translate(-74.000000, -425.000000)">
+            <g id="ico-pencil" transform="translate(74.000000, 425.000000)">
+                <rect id="background" fill-opacity="0" fill="#000000" x="0" y="0" width="16" height="16"></rect>
+                <g id="icn_pencil" transform="translate(2.000000, 2.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Combined-Shape" fill="#757575" fill-rule="nonzero" xlink:href="#path-1"></use>
+                    <g id="Group" mask="url(#mask-2)" fill="#A8ABAC">
+                        <g id="colors/03_medium_gray">
+                            <rect id="Rectangle" x="0" y="0" width="12" height="12"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

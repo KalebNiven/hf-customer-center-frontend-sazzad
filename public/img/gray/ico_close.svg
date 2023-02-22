@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ico_close</title>
+    <defs>
+        <path d="M14.7692308,-5.68434189e-14 L16,1.23076923 L9.23,8 L16,14.7692308 L14.7692308,16 L8,9.23 L1.23076923,16 L-2.8643754e-13,14.7692308 L6.769,8 L-1.26032518e-12,1.23076923 L1.23076923,1.03028697e-12 L8,6.77 L14.7692308,-5.68434189e-14 Z" id="path-1"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Gray" transform="translate(-116.000000, -425.000000)">
+            <g id="ico_close" transform="translate(116.000000, 425.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Combined-Shape" fill="#FFFFFF" xlink:href="#path-1"></use>
+                <g id="Group" mask="url(#mask-2)" fill="#A8ABAC">
+                    <g id="colors/03_medium_gray">
+                        <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
