@@ -19,6 +19,7 @@ const getEnvVars = (envVars) => {
 };
 const defaultChunkLimit = 100;
 const distDir = path.join(__dirname, "build");
+const publicDir = path.join(__dirname, "src");
 
 const config = {
   entry: "./src/index.js",
@@ -42,7 +43,7 @@ const config = {
     open: true,
     host: "localhost",
     static: {
-      directory: path.join(__dirname, "build"),
+      directory: publicDir
     },
     hot: true,
     port: devPort,
