@@ -22,7 +22,7 @@ Parameters:
   CNAME:
     Description: CloudFront CNAME 
     Type: String
-    Default: preference-cntr-dev.healthfirst.org
+    Default: customer-centr-frontend-dev.healthfirst.org
  
 Resources:
   Distribution:
