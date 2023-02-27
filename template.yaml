@@ -15,16 +15,30 @@ Parameters:
     Description: S3 bucket name
     Type: String
     Default: hf-cde-cc-frontend-dev
-  OriginAccessIdentity:
-    Description: OAI 
-    Type: String
-    Default: origin-access-identity/cloudfront/E4DT39JQHX44S
   CNAME:
     Description: CloudFront CNAME 
     Type: String
     Default: customer-centr-frontend-dev.healthfirst.org
  
 Resources:
+##########################################################################
+### CLOUDFRONT / ORIGIN ACCESS CONTROL ##################################
+##########################################################################
+  OAC:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties: 
+      OriginAccessControlConfig: 
+        Name: !Join
+          - ""
+          - - "access-identity-"
+            - !Ref S3BucketName
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+        
+##########################################################################
+### CLOUDFRONT / DISTRIBUTION ############################################
+##########################################################################
   Distribution:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -33,7 +47,8 @@ Resources:
         - DomainName: !Join [ ., [ !Ref S3BucketName, s3.amazonaws.com ] ]
           Id: !Join [ -, [ S3, !Ref S3BucketName ] ]
           S3OriginConfig: 
-            OriginAccessIdentity: !Ref OriginAccessIdentity
+            OriginAccessIdentity: ''
+          OriginAccessControlId: !GetAtt OAC.Id
         Enabled: true
         Comment: !Join [ -, [ S3, !Ref S3BucketName ] ]
         Logging: 
