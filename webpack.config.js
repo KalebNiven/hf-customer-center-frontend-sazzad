@@ -34,7 +34,7 @@ const config = {
       chunks: 'all',
     },
   },
-  performance:{
+  performance: {
     hints: false,
     maxEntrypointSize: 512000,
     maxAssetSize: 512000
@@ -64,7 +64,7 @@ const config = {
     new webpack.DefinePlugin({
       "process.env": getEnvVars(dotenv.config({ path: envDir }).parsed),
     }),
-    new CopyPlugin({ patterns: [{ from: "public", to: "." }] }),
+    new CopyPlugin({ patterns: [{ from: "public", to: "." }, { from: "src/react/images", to: "react/images" }] }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
