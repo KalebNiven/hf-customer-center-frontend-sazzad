@@ -71,11 +71,6 @@ const config = {
       filename: !isProduction ? "[name].css" : "[name].[hash].css",
       chunkFilename: !isProduction ? "[id].css" : "[id].[hash].css",
     }),
-    new webpack.optimize.LimitChunkCountPlugin({
-      // maxChunks: !isProduction ? 1 : defaultChunkLimit,
-      maxChunks: defaultChunkLimit,
-    }),
-
   ].filter((i) => i),
   module: {
     rules: [
