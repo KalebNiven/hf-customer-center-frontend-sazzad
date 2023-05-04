@@ -9,6 +9,7 @@ import { SINGLE_SELECT, MULTY_SELECT, MATRIX, FREE_TEXT } from '../../constants/
 import { useHistory } from "react-router-dom";
 import { getHraPartials, saveHraSurveyResponseToDB } from '../../store/saga/apis'
 import { MainContentContainer } from '../common/styles';
+import { getHraStatus } from '../../store/saga/apis'
 
 const HRACard = () => {
     const { data, form: { active, selected, pending, visited } } = useSelector((state) => state.hra);
@@ -22,6 +23,16 @@ const HRACard = () => {
     const [stepInProgress, setStepInProgress] = useState(false);
     const [loading, setLoading] = useState(true);
     const [memberId, setMemberId] = useState(null);
+    const [surveyStatus, setSurveyStatus] = useState(null);
+
+    useEffect(() => {
+        if(!memberId) return;
+        getHraStatus(memberId)
+        .then(data => {
+            setSurveyStatus({ status: data.status, days_from_completion: data.days_from_completion})
+        })
+        .catch(err => console.log("Error caught: ", err.message)) 
+    }, [memberId])
     
     useEffect(() => {
         setMemberId(history.location.pathname.slice(5))
@@ -42,14 +53,18 @@ const HRACard = () => {
     }, [active])
 
     useEffect(() => {
-        if(!memberId) return;
+        if(!memberId || !surveyStatus) return;
+        if(surveyStatus.status === "COMPLETE") return setSurveySuccess(true);
+        if(Number(surveyStatus.days_from_completion) > 365) return; // we don't need to pull partials at this point
+
+        console.log('surveyStatus: ', surveyStatus)
         setLoading(true);
         getHraPartials(memberId)
         .then((data) => {
             if(data.status === 'Completed') {
                 setSurveySuccess(true)
             }
-            if(data.status === 'In Progress') {
+            if(data.status === 'In Progress' && Number(surveyStatus.days_from_completion) < 365) {
                 // update selected, pending, visited, active
                 const selected = JSON.parse(data.current_answers);
                 const pending = JSON.parse(data.pending_questions);
@@ -64,7 +79,7 @@ const HRACard = () => {
         })
         setLoading(false);
         
-    }, [memberId])
+    }, [memberId, surveyStatus])
 
     // send partials
     useEffect(() => {
@@ -320,14 +335,16 @@ const HRACard = () => {
         <HRAWrapper>
             <Breadcrumbs>
                 <BreadcrumsbLink href="/communityResources">My Health</BreadcrumsbLink>
-                <ArrowIcon src="/react/images/icn-arrow-right.svg" />
+                <ArrowIcon alt = "" src="/react/images/icn-arrow-right.svg" />
                 <BreadcrumsbLink active>Annual Health Assessment</BreadcrumsbLink>
             </Breadcrumbs>
             <CardWrapper visible={visible}>
-                { data.list.length > 0 &&
+                { 
                     <Card>
                         {
-                            surveySuccess ? <SurveySuccess /> : <>
+                            (surveyStatus?.status === "COMPLETE" || surveySuccess) ? <SurveySuccess /> : 
+                            (surveyStatus?.status === "NOT COMPLETE" && data.list.length > 0) ?
+                            <>
                                 <ProgressBar style={{ width: active === "q01" ? `0%` : `${100 / data.list.length * Number(active.slice(1))}%` }} />
                                 <CardQuestion isSelected={isSelected} setIsSelected={setIsSelected} setVisible={setVisible} />
                                 <Controls>
@@ -336,8 +353,7 @@ const HRACard = () => {
                                     </div>
                                     <ChangeStepBtn onClick={() => handleNextQuestionBtn()}>{isLastQuestion() ? 'Submit' : 'Continue'}</ChangeStepBtn>
                                 </Controls>
-                            </>
-                            
+                            </> : null
                         }
                     </Card>
                 }

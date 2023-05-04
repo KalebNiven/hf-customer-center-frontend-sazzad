@@ -8,6 +8,7 @@ import { StyledButton } from '../common/styles';
 import { reportError as reportErrorAction } from "../../store/actions/index";
 import { AnalyticsTrack } from "../../components/common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
+import { useLogout } from '../../hooks/useLogout'
 
 
 const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
@@ -22,31 +23,12 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
   const [reportErrorConfirmation, setReportErrorConfirmation] = useState({ value: false, error: false })
   const [finalReportingModal, setFinalReportingModal] = useState(false)
   const reportErrorSuccess = useSelector(state => state.settingsReducer.reportErrorSuccess)
-  const [reportingError, setReportingError] = useState(false) 
+  const [reportingError, setReportingError] = useState(false)
+  const logoutApi = useLogout();
 
   useEffect(() => {
     splitPlans();
   }, []);
-
-  const logoutApi = () => {
-    fetch(`${MIX_REACT_OKTA_API_URL}/sessions/me`, {
-      method: 'DELETE',
-      headers: {
-        cookie: document.cookie
-      },
-      credentials: 'include',
-    })
-    fetch(`${window.location.origin}/soft-logout`, {
-      method: 'GET',
-      headers: {
-        cookie: document.cookie
-      },
-      credentials: 'include',
-    })
-    setTimeout(() => {
-      window.location.href = `${window.location.origin}/login`;
-    }, 1000 * 30)
-  }
 
   useEffect(() => {
     if (reportErrorSuccess) {
@@ -110,7 +92,7 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
       <FormModalWrapper visible={reportErrorModal}>
         <ModalInnerWrapper>
           <FormModalContent>
-            <CloseIcon src="react/images/icn-close.svg" onClick={closeReportErrorModal} />
+            <CloseIcon alt = "" src="/react/images/icn-close.svg" onClick={closeReportErrorModal} />
             <div>
               <Header>
                 Report an Error
@@ -193,7 +175,7 @@ const finalReportingModalTemplete = () => {
     <GreyFormModalWrapper visible={finalReportingModal}>
       <AppBar position="sticky" className="no-print" style={{ color: 'black', zIndex: 500 }}>
         <Toolbar style={{ justifyContent: 'space-between', backgroundColor: 'white' }}>
-          <img src={`${window.location.origin}/react/images/icn-hf-logo.svg`} />
+          <img alt = "" src={`${window.location.origin}/react/images/icn-hf-logo.svg`} />
         </Toolbar>
       </AppBar>
       <ModalInnerWrapper>
@@ -256,7 +238,7 @@ const displayMainComponent = () => (
           return (
             <PlanCard>
               <ImgBlock><PlanName>{plan.planName}</PlanName>
-                <LinkIcon src="/img/ico-linked-account.svg" />
+                <LinkIcon alt = "" src="/img/ico-linked-account.svg" />
               </ImgBlock>
               <MemberName>{plan.firstName?.toLowerCase()}  {plan.lastName?.toLowerCase()}</MemberName>
               <Member>
@@ -313,7 +295,7 @@ const displayMainComponent = () => (
           return (
             <PlanCard>
               <ImgBlock><PlanName>{plan.planName}</PlanName>
-                <LinkIcon src="/img/ico-linked-account.svg" />
+                <LinkIcon alt = "" src="/img/ico-linked-account.svg" />
               </ImgBlock>
               <MemberName>{plan.firstName?.toLowerCase()}  {plan.lastName?.toLowerCase()}</MemberName>
               <Member>

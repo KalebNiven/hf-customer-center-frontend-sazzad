@@ -5,12 +5,21 @@ import { useSelector } from "react-redux";
 import { useHomeContext } from './homeContext';
 import { FeatureTreatment } from "../../libs/featureFlags";
 import { SHOW_PAYMENTS } from "../../constants/splits";
+import { handleSegmentClick } from "../../libs/segment";
+import { useHistory } from "react-router-dom";
+
 
 const MakePayment = () => {
 
-  
+  const customerInfoData = useSelector((state) => state.customerInfo);
   const customerInfo = useSelector((state) => state.customerInfo.data);
+  const history = useHistory();
   const { showPayment, setShowPayment } = useHomeContext();
+
+  const MakePremiumPaymentClick = () =>{
+    handleSegmentClick("/payment","Make Premium Payment","Make Premium Payment","button", "bottom",customerInfoData, "payment");
+    history.push('/payments');
+  }
 
   const splitAttributes = {
     lob: customerInfo.sessLobCode,
@@ -30,7 +39,7 @@ const MakePayment = () => {
     >
     <GlobalStyle />
       <Card>
-        <CloseIcon src="react/images/valid-close.svg" onClick={() => setShowPayment(false)} />
+        <CloseIcon alt = "" src="/react/images/valid-close.svg" onClick={() => setShowPayment(false)} />
         <NeedPayment>
           Need to Make a Payment?
         </NeedPayment>
@@ -38,8 +47,8 @@ const MakePayment = () => {
           If you’ve recently enrolled in <b>Leaf & Leaf Premier Plans, Essential Plans,
             or Child Health Plus—and have a premium obligation</b>, make your first premium payment to start your coverage.
         </PlanEnrolled>
-        <Section onClick = {() => {window.location.href =  customerInfo.paymentsUrl }}>
-          <PaymentImage src="react/images/icn-payment.svg" />
+        <Section onClick = {() => MakePremiumPaymentClick()}>
+          <PaymentImage alt = "" src="/react/images/icn-payment.svg" />
           <MakePremiumPayment>
             Make Premium Payment
           </MakePremiumPayment></Section>

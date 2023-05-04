@@ -3,10 +3,13 @@ import { useLocation } from "react-router";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { requestPcpDetails } from '../../store/actions/index';
+import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';
 import Spinner from "../common/spinner";
 import styled from "styled-components";
 import moment from "moment"; 
 import GlobalError from "../common/globalErrors/globalErrors";
+import Cookies from 'js-cookie';
+import { requestPCPDetails } from "../../store/actions/index";
 
 const FindCareDetails = (props) => {
     const history = useHistory();
@@ -75,9 +78,18 @@ const FindCareDetails = (props) => {
         }
     }
 
+    useQualtrics(qualtricsAction.CHANGE_PCP)
+    
     useEffect(() => {
         if (callbackState && (updateStatus === "Success" || updateStatus === undefined || (!!updateStatus) )) {
-            updateStatus === "Success" ? callbackState("success", SUCCESS) : callbackState("error", SYS_FAILURE)
+
+            if(updateStatus === "Success") {
+                callbackState("success", SUCCESS)
+                dispatch(requestPCPDetails(customerInfo.memberId, customerInfo.membershipEffectiveDate));
+                Cookies.set('ChangeYourPCP','true',{expires:1}) 
+            } else {
+                callbackState("error", SYS_FAILURE)
+            }
         }
     }, [updateStatus]);
 
@@ -98,7 +110,7 @@ const FindCareDetails = (props) => {
             token: jwt_token,
             apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
             locationId: result,
-            lang: customerInfo.language,
+            lang: customerInfo.language || "en",
             onOtherLocClicked: handleOtherLocClicked,
             onBackClicked: handleBackClicked,
             onMakePCP: handleChangePCP,

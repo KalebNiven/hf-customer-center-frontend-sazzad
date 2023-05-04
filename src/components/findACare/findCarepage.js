@@ -68,7 +68,7 @@ const FindCare = (props) => {
       year: customerInfo.memberYear,
       memberDetails: memberDetails,
       groupNumber: customerInfo.groupNumber,
-      lang: customerInfo.language,
+      lang: customerInfo.language || "en",
       token: jwt_token,
       apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
       onSearchClicked: handleSearchClicked,

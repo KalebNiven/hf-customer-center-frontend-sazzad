@@ -93,7 +93,7 @@ const PhysicalIdCard = (props) => {
                 </LinkToMobile>
                 <PrintAndEmailContainer className="py-2 no-print">
                     <PrintContainer>
-                        <PrintIcon src={`${window.location.origin}/react/images/iconography-icn-print.svg`} />
+                        <PrintIcon alt="" src={`${window.location.origin}/react/images/iconography-icn-print.svg`} />
                         <PrintButton
                             onClick={
                                 (event)=>{

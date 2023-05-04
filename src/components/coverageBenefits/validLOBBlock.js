@@ -10,9 +10,7 @@ import { CardContainer, CardBlock, Icon, ButtonsWrapper, DownloadButton, ButtonT
 import { SHOW_FORMS_AND_DOCS, SHOW_BENEFIT_GRID } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import Spinner from "../common/spinner";
-import DependentBlock from './dependentBlock'
-import { AnalyticsTrack } from "../common/segment/analytics";
-import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
+import DependentBlock from './dependentBlock' 
 import { useHistory } from 'react-router-dom'
 
 const ValidLOBBlock = ({ memberSelection, setMemberSelection }) => {
@@ -52,11 +50,11 @@ const ValidLOBBlock = ({ memberSelection, setMemberSelection }) => {
             >
             <ButtonsWrapper hasDependents={dependents.length > 0}>
               {/* <DownloadButton href="#" firstItem>
-                <Icon src="react/images/icn-download-blue.svg" />
+                <Icon src="/react/images/icn-download-blue.svg" />
                 <ButtonText>Download Summary of Benefits</ButtonText>
               </DownloadButton> */}
               <DownloadButton onClick={handleFormAndDocsAchorButton} firstItem>
-                <Icon src="react/images/icn-outline-document.svg" />
+                <Icon alt="" src="/react/images/icn-outline-document.svg" />
                 <ButtonText>Forms & Documents</ButtonText>
               </DownloadButton>
             </ButtonsWrapper>

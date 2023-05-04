@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components';
-import { CardHeader, CardBody, CardFooter, Card, FooterActions } from './styles.js'
+import { CardHeader, CardBody, CardFooter, Card, FooterActions,TooltipIcon } from './styles.js'
 import { usePopperTooltip } from 'react-popper-tooltip';
 import '../../../../styles/tooltipStyles.css';
 import OTCBenefitsCenterButton from './otcBenefitsCenterButton'
 import LearnMoreButton from './learnMoreButton'
+import OTCReimbursementButton from './otcReimbursementButton.js';
 
 const ActivatingCard = ({ handleLearnMore }) => {
   const {
@@ -17,24 +18,21 @@ const ActivatingCard = ({ handleLearnMore }) => {
 
   return (
     <Card>
-        <OTCIcon src="react/images/otc-icon.svg" />
+        <OTCIcon alt = "" src="/react/images/otc-icon.svg" />
         <CardHeader>
         <BalanceTitle>Account Status</BalanceTitle>
         </CardHeader>
         <CardBody>
         <BalanceWrapper>
           <BalanceTitleWrapper>
-            <Balance>Activating</Balance>
+            <Balance>Activate Your OTC Card</Balance>
           </BalanceTitleWrapper>
           {visible && <div ref={setTooltipRef} {...getTooltipProps({ className: 'tooltip-container' })}>
               <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-              An Activating status means that you card is activation is currently processing. 
-          </div>}
-          <IconWrapper>
+              Click “Activate Card” below to activate your card. For any questions please call Member Services at 1 (888) 260-1010.          </div>}
             <TooltipIcon ref={setTriggerRef} />
-          </IconWrapper>
         </BalanceWrapper>
-        <Paragraph>Please, call Member Services at <b>1 (888) 260-1010</b> if you have any questions.</Paragraph>
+        <Paragraph>Activate your Healthfirst OTC card to start using your allowance.</Paragraph>
         </CardBody>
         <CardFooter>
           <FooterActions>
@@ -90,8 +88,8 @@ export const BalanceTitle = styled.h4`
 export const Balance = styled.div`
   flex-grow: 0;
   margin: 8px 0 4px 0;
-  font-size: 32px;
-  font-weight: 900;
+  font-size: 18px;
+  font-weight: 600;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
@@ -164,6 +162,7 @@ export const ShopOnlineIcon = styled.img`
 export const Paragraph = styled.div`
   font-size: 12px;
   font-weight: 500;
+  margin-bottom:8px;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.33;
@@ -178,25 +177,6 @@ export const BalanceWrapper = styled.div`
 `;
 
 export const BalanceTitleWrapper = styled.div`
-`;
-
-export const IconWrapper = styled.div`
-  margin-left: 8px;
-  position: relative;
-`;
-
-export const TooltipIcon = styled.div`
-  content: "";
-  background-image: url("react/images/info-circle-icon.svg");
-  background-position: center;
-  background-size: cover;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-
-  &:hover {
-    background-image: url("react/images/info-circle-icon-blue.svg");
-  }
 `;
 
 export const TooltipCloud = styled.div`

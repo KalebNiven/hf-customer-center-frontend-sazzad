@@ -9,7 +9,7 @@ import ExternalSiteLink from '../common/externalSiteLink';
 
 const PrimaryCareProvider = () => {
 
-  const pcpDetails = useSelector((state) => state.homeDetails.pcpDetails);
+  const pcpDetails = useSelector((state) => state.pcp.pcpDetails);
   const customerInfo = useSelector(state => state.customerInfo) 
 
  
@@ -150,32 +150,32 @@ const PrimaryCareProvider = () => {
     );
   };
 
-  return ((pcpDetails !== {} && pcpDetails.Name !== null) &&
+  return (Object.keys(pcpDetails).length > 0 &&
     <> <GlobalStyle />
       <PcpTxt>
         Primary Care Provider
       </PcpTxt>
       <Card className="pcp-coachmark">
         <PcpProvider>
-          <ProviderImage src="react/images/icon_care_providers.svg" />
+          <ProviderImage alt = "" src="/react/images/icon_care_providers.svg" />
           <PcpDetails>
-            <ProviderName>{pcpDetails.Name !== undefined && pcpDetails.Name.toLowerCase()}</ProviderName>
+            <ProviderName>{pcpDetails.name !== undefined && pcpDetails.name.toLowerCase()}</ProviderName>
             <Practice>
-              {pcpDetails.Practice !== undefined && pcpDetails.Practice.toLowerCase()}
+              {pcpDetails.practice !== undefined && pcpDetails.practice.toLowerCase()}
             </Practice>
           </PcpDetails>
         </PcpProvider>
-        {workdays(pcpDetails.WorkDays)}
-        <ExternalSiteLink link={`https://www.google.com/maps?saddr=Current+Location&daddr= ${pcpDetails.Address}`} label = "GoogleMaps" target="_blank" styles={{cursor: "pointer"}}>
+        {workdays(pcpDetails.workDays)}
+        <ExternalSiteLink link={`https://www.google.com/maps?saddr=Current+Location&daddr= ${pcpDetails.address}`} label = "GoogleMaps" target="_blank" styles={{cursor: "pointer"}}>
         <Section>
-          <LocationIcon src="react/images/icn-map-blue.svg" />
+          <LocationIcon alt = "" src="/react/images/icn-map-blue.svg" />
           <AddressTxt onClick={() =>   handleClick('External Link Clicked')}>
-              {pcpDetails.Address !== undefined && pcpDetails.Address.toLowerCase()}
+              {pcpDetails.address !== undefined && pcpDetails.address.toLowerCase()}
           </AddressTxt>
         </Section>
         </ExternalSiteLink>
         <Section  onClick={() =>   handleClick('View or Change Primary Care Provider')}>
-          <PcpIcon src="react/images/icn-pcpuser.svg" />
+          <PcpIcon alt = "" src="/react/images/icn-pcpuser.svg" />
           <ViewChangePcp>View or Change Primary Care Provider</ViewChangePcp>
         </Section>
       </Card>

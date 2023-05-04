@@ -11,7 +11,7 @@ const DentalBlock = () => {
         coverage.dentalEligible &&
         <MainCard>
           <InnerCard>
-            <Icon src="react/images/icn-dentistry.svg" />
+            <Icon alt="" src="/react/images/icn-dentistry.svg" />
             <BlueHeader>Dental Coverage</BlueHeader>
             <Row extra>
               <DataBlock>

@@ -7,11 +7,16 @@ import ActivateOTCCardLink from '../components/activateOTCCardLink'
 import ExternalSiteLink from '../../../common/externalSiteLink'
 import ExternalSiteLinkSSO from '../../../common/externalSiteLinkSSO'
 import { participatingLocationsURL, evidenceOfCoverageURL, reimbursementFormsURL } from '../../config'
+import { cardTypes } from "../../const"
+import { useSelector } from 'react-redux';
+import { handleSegmentClick } from '../../../../libs/segment';
 const { cvs, duanereade, walmart, familyDollar, shopShop, riteAid, dollarGeneral, nations, momsMeals, growNYC, otcNetwork } = participatingLocationsURL;
 const planName = "Connection Plan (HMO D-SNP)"
 
 const ConnectionHMOPage = () => {
     const [modal, setModal] = useState({ isVisible: false, info: null })
+
+    const customerInfo = useSelector((state) => state.customerInfo);
 
     const closeModal = () => {
       setModal({ ...modal, isVisible: false, info: null })
@@ -23,10 +28,10 @@ const ConnectionHMOPage = () => {
 
     const modals = { 
       OTCAndHealthRelatedItems: { 
-        title: "OTC and Health-Related Items",
+        title: "OTC Plus and Health-Related Items",
         content: () => (
           <>
-            <ModalParagraph><b>Buy OTC items online with no-cost delivery at NationsOTC.</b></ModalParagraph>
+            <ModalParagraph><b>Buy OTC Plus items online with no-cost delivery at NationsOTC.</b></ModalParagraph>
             <ModalParagraph><ExternalSiteLinkSSO link={nations.url} label="Nations OTC" target="_blank" styles={{color: "#008bbf", cursor: "pointer", fontWeight: 700}}>Click here</ExternalSiteLinkSSO> to go to your NationsOTC to place an order online or call <PhoneBold>1-877-236-7027 (TTY 711)</PhoneBold>. 24 hours per day, 7 days a week.</ModalParagraph>
           </>
         )
@@ -41,12 +46,12 @@ const ConnectionHMOPage = () => {
             <ModalParagraph>Go to the administrative tent at these locations and the GrowNYC attendant will show you how to use your OTC Plus card.</ModalParagraph>
             <ModalParagraph>Depending on the GrowNYC location, you will either be able to:</ModalParagraph>
             <LimitationsList>
-              <LimitationsListItem>Swipe your card to receive fresh produce, meats, seafood, dairy, and more or;</LimitationsListItem>
+              <LimitationsListItem>Swipe your card to purchase fresh produce, meats, seafood, dairy, and more or;</LimitationsListItem>
               <LimitationsListItem>You will receive <b>“Healthfirst-GrowNYC Greenmarket Bucks”</b>, which can then be exchanged for healthy foods.</LimitationsListItem>
             </LimitationsList>
             <br/>
             <ModalParagraph><b>Buy Healthy foods online with no-cost delivery at NationsOTC</b></ModalParagraph>
-            <ModalParagraph><ExternalSiteLinkSSO link={nations.url} label="Nations OTC" target="_blank" styles={{color: "#008bbf", cursor: "pointer", fontWeight: 700}}>Click here</ExternalSiteLinkSSO> to go to your NationsOTC account or call <PhoneBold>1-877-236-7027 (TTY 711)</PhoneBold>. 24 hours per day, 7 days a week.</ModalParagraph>
+            <ModalParagraph><ExternalSiteLinkSSO link={nations.url} label="Nations OTC" target="_blank" styles={{color: "#008bbf", cursor: "pointer", fontWeight: 700}}>Click here</ExternalSiteLinkSSO> to go to NationsOTC to place an order online or call <PhoneBold>1-877-236-7027 (TTY 711)</PhoneBold>. 24 hours per day, 7 days a week.</ModalParagraph>
             <ModalParagraph>Order convenient fresh produce or pantry boxes and stock up on approved food items such as fruits, vegetables, meats, poultry, seafood, eggs, dairy, dried pasta, rice, beans, and more.</ModalParagraph>
             <br/>
             <ModalParagraph><b>Have freshly prepared meals delivered to your home with Mom’s meals</b></ModalParagraph>
@@ -88,30 +93,38 @@ const ConnectionHMOPage = () => {
         <>
           <WaysToSpendCard>
             <WaysToSpendCardIcon src="/react/images/otc-bottles-icon.svg" />
-            <WaysToSpendCardTitle>OTC and Health-Related Items</WaysToSpendCardTitle>
+            <WaysToSpendCardTitle>OTC Plus and Health-Related Items</WaysToSpendCardTitle>
             <WaysToSpendCardDescription>Purchase non-prescription drugs and health-related items such as aspirin, vitamins, eye drops, laxatives, and more at participating pharmacies and other retailers.</WaysToSpendCardDescription>
+            <Wrapper onClick={() => handleSegmentClick("/learn-more","Learn More","OTC Plus and Health-Related Items","Button","/learn-more",customerInfo,"otc")}>
             <WaysToSpendCardButton onClick={() => openModal(modals.OTCAndHealthRelatedItems)}>Learn more</WaysToSpendCardButton>
+            </Wrapper>
           </WaysToSpendCard>
 
           <WaysToSpendCard>
             <WaysToSpendCardIcon src="/react/images/healthy-foods-icon.svg" />
             <WaysToSpendCardTitle>Healthy Foods</WaysToSpendCardTitle>
             <WaysToSpendCardDescription>Purchase healthy foods from participating retailers and farmers’ markets. Examples of approved food items are fruits, vegetables, meats, poultry, seafood, eggs, dairy, rice, pasta, beans, and much more.</WaysToSpendCardDescription>
+            <Wrapper onClick={() => handleSegmentClick("/learn-more","Learn More","Healthy Foods","Button","/learn-more",customerInfo,"otc")}>
             <WaysToSpendCardButton onClick={() => openModal(modals.HealthyFoods)}>Learn more</WaysToSpendCardButton>
+            </Wrapper>
           </WaysToSpendCard>
 
           <WaysToSpendCard>
             <WaysToSpendCardIcon src="/react/images/exercise-icon.svg" />
             <WaysToSpendCardTitle>Exercise Equipment and Activity Trackers</WaysToSpendCardTitle>
             <WaysToSpendCardDescription>Purchase exercise equipment and activity trackers (such as Apple® Watches, pedometers, and other fitness watches) at participating retailers and through <ExternalSiteLinkSSO link={nations.url} label="Nations OTC" target="_blank" styles={{color: "#008bbf", cursor: "pointer", fontWeight: 700}}>NationsOTC.</ExternalSiteLinkSSO></WaysToSpendCardDescription>
+            <Wrapper onClick={() => handleSegmentClick("/learn-more","Learn More","Exercise Equipment and Activity Trackers","Button","/learn-more",customerInfo,"otc")}>
             <WaysToSpendCardButton onClick={() => openModal(modals.ExerciseEquipmentAndActivityTrackers)}>Learn more</WaysToSpendCardButton>
+            </Wrapper>
           </WaysToSpendCard>
 
           <WaysToSpendCard>
             <WaysToSpendCardIcon src="/react/images/internet-icon.svg" />
             <WaysToSpendCardTitle>Home Utilities</WaysToSpendCardTitle>
             <WaysToSpendCardDescription>Use your OTC Plus card to pay for your home utilites including gas, electric, water, and internet service.</WaysToSpendCardDescription>
+            <Wrapper onClick={() => handleSegmentClick("/learn-more","Learn More","Home Utilities","Button","/learn-more",customerInfo,"otc")}>
             <WaysToSpendCardButton onClick={() => openModal(modals.HomeInternetService)}>Learn more</WaysToSpendCardButton>
+            </Wrapper>
           </WaysToSpendCard>
         </>
       )
@@ -222,7 +235,7 @@ const ConnectionHMOPage = () => {
                       <LimitationsListItem>Home Utilities</LimitationsListItem>
                       <LimitationsListItem>Exercise equipment and activity trackers</LimitationsListItem>
                     </LimitationsList>
-                    <Paragraph>For more information, view your <a href={evidenceOfCoverageURL.ConnectionHMO.url} target="_blank">Evidence of Coverage</a> or contact Member Services.</Paragraph>
+                    <Paragraph>For more information, view your <a onClick={() =>handleSegmentClick("/learn-more","Evidence of Coverage","Evidence of Coverage","Button","/learn-more",customerInfo,"otc") } href={evidenceOfCoverageURL.ConnectionHMO.url} target="_blank">Evidence of Coverage</a> or contact Member Services.</Paragraph>
                     <Paragraph><b>Some items can be purchased only after a discussion with your provider.</b></Paragraph>
                     <Paragraph>While no prescription is needed before purchasing approved OTC non-prescription drugs and health-related items, some dual-purpose items* can be purchased only after a discussion with your provider, who will recommend the right OTC items for a specific diagnosis/condition.</Paragraph>
                     <StepsToActiveListItemNote>*Dual-purpose items may include vitamins, minerals, supplements, herbal and Chinese medicines, hormone replacements, and diagnostic tools like blood pressure monitors.</StepsToActiveListItemNote>
@@ -239,7 +252,7 @@ const ConnectionHMOPage = () => {
                     </LimitationsList>
                   </LimitationsContent>
                 </LimitationSectionWrapper>
-                <CoverageNote cardType = "OTC Plus" resetPeriod="quarter" />
+                <CoverageNote cardType={cardTypes.otcPlus} resetPeriod="quarter" />
               </Body>
         </Wrapper>
     )

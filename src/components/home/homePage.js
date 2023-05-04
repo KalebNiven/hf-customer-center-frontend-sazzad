@@ -118,7 +118,7 @@ const HomePage = () => {
           <GreetingContainer>
             <GreetingInnerContainer>
               <LeftContainer>
-              <LeafIcon type = {customerInfo.data.accountStatus === "MEMBER"} src="react/images/leaf-icon@3x.png"></LeafIcon>
+              <LeafIcon alt = "" type = {customerInfo.data.accountStatus === "MEMBER"} src="/react/images/leaf-icon@3x.png"></LeafIcon>
               <Div type = {customerInfo.data.accountStatus === "MEMBER"}>
             <Greeting>{greetingTxt}</Greeting> <br />
             <Title>{customerInfo.data.firstName}&nbsp;{customerInfo.data.lastName}</Title>
@@ -136,7 +136,7 @@ const HomePage = () => {
               onTimedout={() => {}}
               attributes={splitAttributes}>
           <ViewMemberId className="myHealthPlan-coachmark" onClick={() =>  history.push(`/idcard`)}>
-          <MemberIcon src = "react/images/icn-card.svg"/>
+          <MemberIcon alt = "" src = "/react/images/icn-card.svg"/>
           <MemberTxt  onClick={() =>handleClickEvent('View Member ID Card')}>View Member ID Card</MemberTxt>
           </ViewMemberId>
           </FeatureTreatment>

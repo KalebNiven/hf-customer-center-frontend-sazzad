@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import ShopOnlineCard from './cards/shopOnlineCard'
 import { AnalyticsTrack } from "../../common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../../constants/segment";
+import { generateCardType } from '../../overTheCounter/utils'
 
 const OTC = () => {
   const dispatch = useDispatch();
@@ -66,6 +67,7 @@ const OTC = () => {
       customerInfo,
       {
           "raw_text": e.target.textContent, 
+          "description": e.target.textContent + 'OTC', 
           "destination_url": "/otc/activate-card", 
           "category": ANALYTICS_TRACK_CATEGORY.otc, 
           "type": ANALYTICS_TRACK_TYPE.buttonClicked, 
@@ -165,7 +167,7 @@ const OTC = () => {
             }}
           >
             <Wrapper>
-              <Title>OTC</Title>
+              <Title>{(generateCardType(customerInfo?.data?.hohPlans)) =="Flex"? "FLEX": generateCardType(customerInfo?.data?.hohPlans)}</Title>
               { otcProfile.data === undefined ?  <UnknownCard handleLearnMore={handleLearnMore} handleOTCRetryButton={handleOTCRetryButton} /> : otcProfile?.data?.statusId ? getOTCTileByStatus(otcProfile?.data?.statusId) : <Spinner /> }
             </Wrapper>
           </FeatureTreatment>
@@ -183,7 +185,7 @@ const OTC = () => {
             }}
           >
             <Wrapper>
-              <ShopOnlineCard />
+              <ShopOnlineCard cardType={generateCardType(customerInfo?.data?.hohPlans)} />
             </Wrapper>
           </FeatureTreatment> }
         </>

@@ -6,8 +6,9 @@ import { Provider, useSelector, useDispatch } from "react-redux";
 import store from "../../store/store";
 import { requestCustomerInfo, requestPreferenceCenterInfo, requestPreferredContactInfoSubmit } from "../../store/actions";
 import ErrorModal from "./errorModal";
-import { requestMFACode, requestMFAVerify } from "../../store/actions";
+import { requestUserMFACode, requestUserMFAVerify } from "../../store/actions";
 import Toaster from "../common/toaster";
+import Spinner from "../common/spinner";
 
 const MFAModal = (props) => {
 
@@ -24,8 +25,8 @@ const MFAModal = (props) => {
     const { mfaStatus, targetEmail, targetPhone } = props;
     const isComponentMounted = useComponentDidMount();
     const customerInfo = useSelector((state) => state.customerInfo.data);
-    const mfaCode = useSelector((state) => state.mfaCode);
-    const mfaVerify = useSelector((state) => state.mfaVerify);
+    const mfaCode = useSelector((state) => state.userMfaCode);
+    const mfaVerify = useSelector((state) => state.userMfaVerify);
     const [step, setStep] = useState(null);
     const [selectedTarget, setSelectedTarget] = useState(null);
     const [selectContactError, setSelectContactError] = useState("");
@@ -39,12 +40,12 @@ const MFAModal = (props) => {
         notificationType: ''
     });
     useEffect(() => {
-        setStep(getInitialScreenStep());
+        getInitialScreenStep();
     }, []);
 
     useEffect(() => {
         if (isComponentMounted && !mfaCode?.loading) {
-            if (mfaCode?.error === "" && mfaCode?.data?.data?.verifyCode == 'true') {
+            if (mfaCode?.error === "" && mfaCode?.data?.data?.status == 'Success') {
                 setStep("VerifyStep");
                 if(!initialCodeSent){
                     setInitialCodeSent(true);
@@ -68,34 +69,30 @@ const MFAModal = (props) => {
     useEffect(() => {
         if (isComponentMounted && !mfaVerify?.loading) {
             setVerificationAttemptsCount(verificationAttemptsCount+1);
-            if (mfaVerify?.error === "") {
-                if(mfaVerify?.data?.data?.status == 'valid'){
-                    mfaStatus("Success");
-                }
-                if(mfaVerify?.data?.data?.status == 'invalid'){
-                    if(verificationAttemptsCount >= 3){
-                        mfaStatus("Invalid");
-                    }
-                    setVerificationCodeInputError('The value entered is invalid, please ensure the correct value is entered and try again.');
-                    
-                }
-                if(mfaVerify?.data?.data?.status == 'expired'){
-                    if(verificationAttemptsCount >= 3){
-                        mfaStatus("Expired");
-                    }
-                    setVerificationCodeInputError('The value entered is invalid, please ensure the correct value is entered and try again.');
-                }
+
+            if(mfaVerify?.data?.data?.status == 'Success'){ //Success
+                mfaStatus("Success");
             }
-            else {
-                mfaStatus("Error");
+            if(mfaVerify?.error?.data?.status == 'Failure'){ //Invalid
+                if(verificationAttemptsCount >= 3){
+                    mfaStatus("Invalid");
+                }
+                setVerificationCodeInputError('The value entered is invalid, please ensure the correct value is entered and try again.');
+                
+            }
+            if(mfaVerify?.error?.data?.status == 'Failure'){ //Expired
+                if(verificationAttemptsCount >= 3){
+                    mfaStatus("Expired");
+                }
+                setVerificationCodeInputError('The value entered is invalid, please ensure the correct value is entered and try again.');
             }
         }
     }, [mfaVerify]);
 
     const handleSendCode = (data, type) => {
         try {
-            let reqData = {val: data, type: type};
-            dispatch(requestMFACode(reqData, customerInfo.csrf));
+            let reqData = {channelValue: data, channelType: type};
+            dispatch(requestUserMFACode(reqData, customerInfo.csrf));
         } catch (err) {
             console.log(err.response);
             setStep('Error');
@@ -123,18 +120,21 @@ const MFAModal = (props) => {
             return null;
         }
         try {
-            let reqData = {code: data, type: type};
-            dispatch(requestMFAVerify(reqData, customerInfo.csrf));
+            let reqData = {verificationCode: data, channelType: type};
+            dispatch(requestUserMFAVerify(reqData, customerInfo.csrf));
         } catch (err) {
             console.log(err.response);
             setStep('Error');
         }
     }
 
-    const getInitialScreenStep = () => {
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
+    const getInitialScreenStep = async () => {
         if(targetEmail && targetPhone){
             setSelectedTarget({text: targetEmail, type: 'email'});
-            return 'SelectStep';
+            setStep('SelectStep');
+            return;
         }
         if(targetEmail || targetPhone){
             if(targetEmail){
@@ -142,13 +142,16 @@ const MFAModal = (props) => {
                 handleSendCode(targetEmail, "email");
             }
             else if(targetPhone){
+                setStep('Loading');
+                await delay(3000);
                 setSelectedTarget({text: targetPhone, type: 'phone'});
                 handleSendCode(targetPhone, "sms");
             }
 
-            return 'VerifyStep';
+            setStep('VerifyStep');
+            return;
         }
-        return 'unknown';
+        setStep('unknown');
     }
 
     const formatPhone = (phone, format) => {
@@ -187,7 +190,7 @@ const MFAModal = (props) => {
     };
 
     const renderSwitch = (step) => {
-		switch (step) {
+        switch (step) {
 			case 'SelectStep':
 				return (
                     <div>
@@ -201,8 +204,8 @@ const MFAModal = (props) => {
                                 <RadioButtonContainer>
                                     {
                                         selectedTarget && selectedTarget.text === targetEmail ?
-                                            <RadioImg src="react/images/icn-radio-active.svg" /> :
-                                            <RadioImg src="react/images/icn-radio-inactive.svg" />
+                                            <RadioImg src="/react/images/icn-radio-active.svg" /> :
+                                            <RadioImg src="/react/images/icn-radio-inactive.svg" />
                                     }
                                     <ContactValueWrapper>
                                         <ContactValue className="mt-0">
@@ -217,8 +220,8 @@ const MFAModal = (props) => {
                                 <RadioButtonContainer>
                                     {
                                         selectedTarget && selectedTarget.text === targetPhone ?
-                                            <RadioImg src="react/images/icn-radio-active.svg" /> :
-                                            <RadioImg src="react/images/icn-radio-inactive.svg" />
+                                            <RadioImg src="/react/images/icn-radio-active.svg" /> :
+                                            <RadioImg src="/react/images/icn-radio-inactive.svg" />
                                     }
                                     <ContactValueWrapper>
                                         <ContactValue className="mt-0">
@@ -254,38 +257,53 @@ const MFAModal = (props) => {
                         <SubHeader>
                             Please provide the six digit verification code we sent to <VerifyTargetAddress>{selectedTarget?.text ? selectedTarget.text : (targetEmail ? targetEmail : targetPhone)}</VerifyTargetAddress>
                         </SubHeader>
-                        <InputWrapper>
-                            <Input maxLength={6} onChange={(e) => handleCodeInput(e)} />
-                            {verificationCodeInputError && <ErrorLabel>{verificationCodeInputError}</ErrorLabel>}
-                        </InputWrapper>
-                        <br />
-                        <ResendCodeText>
-                            Didn't get the code? <ResendCodeButton onClick={() => handleSendCode(selectedTarget?.text, selectedTarget?.type == 'email' ? 'email' : (selectedTarget?.type == 'phone' ? 'sms' : 'unknown'))}>Send code again</ResendCodeButton>
-                        </ResendCodeText>
-                        {/*
-                        <AlternateVerifyText>
-                            Prefer a {alternateAddressType ? alternateAddressType : alternateAddressTypeTemp}? <AlternateVerifyButton>Send code via {alternateAddressType ? alternateAddressType : alternateAddressTypeTemp}</AlternateVerifyButton>
-                        </AlternateVerifyText>
-                        */}
-                        <br />
-                        <br />
-                        <br />
-                        <FormButtonWrapper>
-                            { !mfaVerify.loading ?
-                            <FormButton green={true} onClick={() => handleVerify(verificationCodeInput, selectedTarget?.type == 'email' ? 'email' : (selectedTarget?.type == 'phone' ? 'sms' : 'unknown'))}>
-                                Verify
-                            </FormButton>
+                        {
+                            mfaCode.loading ?
+                                <ProgressWrapper>
+                                    <Spinner />
+                                </ProgressWrapper> 
                             :
-                            <FormButton green={true}>
-                                <ProgressSpinner></ProgressSpinner>
-                            </FormButton>
-                            }
-                        </FormButtonWrapper>
+                            <>
+                            <InputWrapper>
+                                <Input maxLength={6} onChange={(e) => handleCodeInput(e)} />
+                            {verificationCodeInputError && <ErrorLabel>{verificationCodeInputError}</ErrorLabel>}
+                            </InputWrapper>
+                            <br />
+                            <ResendCodeText>
+                                Didn't get the code? <ResendCodeButton onClick={() => handleSendCode(selectedTarget?.text, selectedTarget?.type == 'email' ? 'email' : (selectedTarget?.type == 'phone' ? 'sms' : 'unknown'))}>Send code again</ResendCodeButton>
+                            </ResendCodeText>
+                            {/*
+                            <AlternateVerifyText>
+                                Prefer a {alternateAddressType ? alternateAddressType : alternateAddressTypeTemp}? <AlternateVerifyButton>Send code via {alternateAddressType ? alternateAddressType : alternateAddressTypeTemp}</AlternateVerifyButton>
+                            </AlternateVerifyText>
+                            */}
+                            <br />
+                            <br />
+                            <br />
+                            <FormButtonWrapper>
+                                { !mfaVerify.loading ?
+                                <FormButton green={true} onClick={() => handleVerify(verificationCodeInput, selectedTarget?.type == 'email' ? 'email' : (selectedTarget?.type == 'phone' ? 'sms' : 'unknown'))}>
+                                    Verify
+                                </FormButton>
+                                :
+                                <FormButton green={true}>
+                                    <ProgressSpinner></ProgressSpinner>
+                                </FormButton>
+                                }
+                            </FormButtonWrapper>
+                            </>
+                        }
                     </div>
 				);
             case "Error":
                 return (
                     <ErrorModal closeButtonClick={() => mfaStatus('Error')} />
+                );
+            case "Loading":
+                return (
+                    <ProgressWrapper>
+                        <Spinner />
+                    </ProgressWrapper> 
                 );
 			default:
 				return (
@@ -461,4 +479,8 @@ const ProgressSpinner = styled.div`
     margin-left: auto;
     margin-right: auto;
   }
+`;
+
+const ProgressWrapper = styled.div`
+  width:100%;
 `;

@@ -31,3 +31,22 @@ export const FooterActions = styled.div`
 export const FooterBody = styled.div`
   margin-bottom: 12px;
 `;
+
+export const TooltipIcon = styled.div`
+  display: block;
+  margin-left: 8px;
+  content: "";
+  background-image: url("/react/images/info-circle-icon.svg");
+  background-position: center;
+  background-size: cover;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  right:0em;
+  margin-top:7.33px;
+  margin-right:13.33px;
+
+  &:hover {
+    background-image: url("/react/images/info-circle-icon-blue.svg");
+  }
+`;

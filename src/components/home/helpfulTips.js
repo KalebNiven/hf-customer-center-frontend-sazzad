@@ -1,28 +1,51 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GlobalStyle from "../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
 import { useHomeContext } from './homeContext';
+import { useHistory } from "react-router-dom";
+import { useClient } from "@splitsoftware/splitio-react";
+import { PAYMENTS_ACL } from "../../constants/splits";
 
 const HelpfulTips = () => {
 
+  const history = useHistory();
   const customerInfo = useSelector((state) => state.customerInfo.data);
+  const splitHookClient = useClient(customerInfo?.customerId);
   const { showhelpfulTips, setShowHelpfulTips } = useHomeContext();
+  const [paymentsEnabled, setPaymentsEnabled] = useState(false);
+
+  const splitAttributes = {
+    memberId: customerInfo?.memberId,
+    lob: customerInfo?.sessLobCode,
+    membershipStatus: customerInfo?.membershipStatus,
+    benefitPackage: customerInfo?.benefitPackage,
+    accountStatus: customerInfo?.accountStatus,
+    companyCode: customerInfo?.companyCode
+  };
+
+  useEffect(() => {
+    if(!splitHookClient) return;
+      const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, splitAttributes)
+      if(paymentsEnabledTreatment.treatment === "on"){
+        setPaymentsEnabled(true);
+      }
+  }, [splitHookClient])
 
   return (
-    (showhelpfulTips && (customerInfo.companyCode === "42" || customerInfo.companyCode === "45" || customerInfo.companyCode === "20")
+    (showhelpfulTips && paymentsEnabled
         // customerInfo.accessMatrix.payments
         ) &&
     <><GlobalStyle />
       <Card>
-        <CloseIcon src="react/images/valid-close.svg" onClick={() => setShowHelpfulTips(false)} />
+        <CloseIcon alt = "" src="/react/images/valid-close.svg" onClick={() => setShowHelpfulTips(false)} />
         <HelpFullTips>
           Helpful Tips
         </HelpFullTips>
         <HelpFullTipsDesc>
           Never miss your monthly payments by setting up AutoPay
         </HelpFullTipsDesc>
-          <MakeAutomaticPayment onClick = {() => {window.location.href =  customerInfo.paymentsUrl }}>
+          <MakeAutomaticPayment onClick = {() => {history.push('/payments')}}>
             Set Up Automatic Payments
           </MakeAutomaticPayment>
 

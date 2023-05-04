@@ -11,7 +11,7 @@ const VisionBlock = () => {
         (coverage.showVisionCC && coverage.visionEligible) &&
         <MainCard>  
             <InnerCard>
-            <Icon src="react/images/icn-eye-care.svg" />
+            <Icon alt="" src="/react/images/icn-eye-care.svg" />
             <BlueHeader>Vision Coverage</BlueHeader>
             <Row extra>
                 <DataBlock>

@@ -11,7 +11,7 @@ const PrescriptionBlock = () => {
         coverage.prescriptionEligible &&
         <MainCard>
           <InnerCard>
-            <Icon src="react/images/icn-pharmacy.svg" />
+            <Icon alt="" src="/react/images/icn-pharmacy.svg" />
             <BlueHeader>Prescription Drugs</BlueHeader>
             {coverage.showPrescriptionTier1CC && <>
               <Row extra>

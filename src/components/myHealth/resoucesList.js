@@ -40,9 +40,9 @@ const ResoucesList = ({ content, withBorder }) => {
                 content?.length > 0 && content.map((item, idx) => {
                     return (
                         <ExternalSiteLink key={idx} link={item.resource_url} label={item.title} styles={resourceItemStyles} withBorder={withBorder} segmentPageCategory={ANALYTICS_TRACK_CATEGORY.myHealth} segmentTitle={item.title + " Health Resource Clicked"}>
-                            <ResourceIcon src="react/images/icn-article.svg"  />
+                            <ResourceIcon alt = "" src="/react/images/icn-article.svg"  />
                             <ResourceTitle>{item.title}</ResourceTitle>
-                            <ResourceChevronIcon src="react/images/icn-arrow-right.svg" />
+                            <ResourceChevronIcon alt = "" src="/react/images/icn-arrow-right.svg" />
                         </ExternalSiteLink>
                     )
                 })

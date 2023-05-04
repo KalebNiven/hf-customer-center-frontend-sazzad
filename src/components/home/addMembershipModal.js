@@ -200,16 +200,16 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
 
                         <ModalInnerWrapperCustom>
                             <Toastr open={toastr} error={addMembership.error !== ""}>
-                                <ToastrIconBox error={addMembership.error !== ""}><ToastrIcon src={addMembership.error !== "" ? "react/images/icn-alert.svg" : "react/images/valid-check.svg"}></ToastrIcon></ToastrIconBox>
+                                <ToastrIconBox error={addMembership.error !== ""}><ToastrIcon alt = "toastMsgIcon" src={addMembership.error !== "" ? "/react/images/icn-alert.svg" : "/react/images/valid-check.svg"}></ToastrIcon></ToastrIconBox>
                                 <ToastrInfo>
                                     {addMembership.error !== "" ? getMsg(addMembership.error) :
                                         <ToastrText>Membership Attached!</ToastrText>}
-                                    <ToastrCloseIcon src="react/images/valid-close.svg" onClick={() => setToastr(false)}></ToastrCloseIcon>
+                                    <ToastrCloseIcon alt = "" src="/react/images/valid-close.svg" onClick={() => setToastr(false)}></ToastrCloseIcon>
                                 </ToastrInfo>
                             </Toastr>
                             <FormModalContent>
 
-                                <CloseIcon src="react/images/icn-close.svg" onClick={() => closeModal()} />
+                                <CloseIcon alt = "" src="/react/images/icn-close.svg" onClick={() => closeModal()} />
 
                                 <div>
                                     <Header>
@@ -263,9 +263,9 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                                                     error={membershipInfo["memberId"].error}
                                                 />
                                                 {membershipInfo["memberId"].error && <InputErrorMsg>{membershipInfo["memberId"].error}</InputErrorMsg>}
-                                                <InfoIcon onMouseOver={() => setShowMemberIdImg(true)} onMouseOut={() => setShowMemberIdImg(false)} src="react/images/ico-info.png"></InfoIcon>
+                                                <InfoIcon alt = "" onMouseOver={() => setShowMemberIdImg(true)} onMouseOut={() => setShowMemberIdImg(false)} src="/react/images/ico-info.png"></InfoIcon>
                                                 {showMemberIdImg &&
-                                                    <MemberIdImg src="react/images/mem_id.png"></MemberIdImg>
+                                                    <MemberIdImg alt = "" src="/react/images/mem_id.png"></MemberIdImg>
                                                 }
                                             </MemberIdInput>
                                             {/* {showMemberIdImg */}
@@ -481,8 +481,8 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                         </ModalInnerWrapperCustom>
                     </FormModalWrapper>
                      :(showSuccessModal ? <SuccessModalWrapper><SuccessModalInnerWrapper>
-                        <CloseIcon src="react/images/icn-close.svg" onClick={() => onContinue()} />
-                       <CheckIcon src = "react/images/icn-green-tick.svg"/>
+                        <CloseIcon alt = "" src="/react/images/icn-close.svg" onClick={() => onContinue()} />
+                       <CheckIcon alt = "" src = "/react/images/icn-green-tick.svg"/>
                        <SuccessMsg>Your Membership has been added successfully!</SuccessMsg>
                        <Continue onClick = {() => onContinue()} >Continue</Continue>
                        </SuccessModalInnerWrapper></SuccessModalWrapper> : null )}

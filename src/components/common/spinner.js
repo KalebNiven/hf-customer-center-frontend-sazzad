@@ -20,7 +20,7 @@ const ProgressSpinner = styled.div`
   margin: auto;
   margin-top: 10em;
   margin-bottom: 10em;
-  border: 3px solid #e6e6e6;
+  border: .4em solid #e6e6e6;
   border-top: .5em solid #4b6f32;
   border-radius: 50%;
   width: 4em;

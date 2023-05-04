@@ -52,7 +52,7 @@ const HOHDependents = () => {
                   </StatusTxt>
                 </Status>
                 {dependent.Status === 'active' &&
-                  <MemberIcon src="react/images/icn-household.svg" />}
+                  <MemberIcon alt = "" src="/react/images/icn-household.svg" />}
               </Card>))}
               
         </HOHDependent>

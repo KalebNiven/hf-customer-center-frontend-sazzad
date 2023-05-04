@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components';
-import { CardHeader, CardBody, CardFooter, Card, FooterActions } from './styles.js'
+import { CardHeader, CardBody, CardFooter, Card, FooterActions,TooltipIcon} from './styles.js'
 import { usePopperTooltip } from 'react-popper-tooltip';
 import '../../../../styles/tooltipStyles.css';
-import OTCBenefitsCenterButton from './otcBenefitsCenterButton'
-import LearnMoreButton from './learnMoreButton'
+import OTCBenefitsCenterButton from './otcBenefitsCenterButton';
+import LearnMoreButton from './learnMoreButton';
 
 const HoldCard = ({ handleLearnMore, statusId }) => {
   const {
@@ -28,7 +28,7 @@ const HoldCard = ({ handleLearnMore, statusId }) => {
 
   return (
     <Card>
-        <OTCIcon src="react/images/otc-icon.svg" />
+        <OTCIcon alt = "" src="/react/images/otc-icon.svg" />
         <CardHeader>
         <BalanceTitle>Account Status</BalanceTitle>
         </CardHeader>
@@ -41,9 +41,7 @@ const HoldCard = ({ handleLearnMore, statusId }) => {
               <div {...getArrowProps({ className: 'tooltip-arrow' })} />
               {generateTooltipMessage(statusId)}
           </div>}
-          <IconWrapper>
             <TooltipIcon ref={setTriggerRef} />
-          </IconWrapper>
         </BalanceWrapper>
         <Paragraph>Please, call Member Services at <b>1 (888) 260-1010</b> to reactivate your card.</Paragraph>
         </CardBody>
@@ -175,6 +173,7 @@ export const ShopOnlineIcon = styled.img`
 export const Paragraph = styled.div`
   font-size: 12px;
   font-weight: 500;
+  margin-bottom:8px;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.33;
@@ -191,23 +190,5 @@ export const BalanceWrapper = styled.div`
 export const BalanceTitleWrapper = styled.div`
 `;
 
-export const IconWrapper = styled.div`
-  margin-left: 8px;
-  position: relative;
-`;
-
-export const TooltipIcon = styled.div`
-  content: "";
-  background-image: url("react/images/info-circle-icon.svg");
-  background-position: center;
-  background-size: cover;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-
-  &:hover {
-    background-image: url("react/images/info-circle-icon-blue.svg");
-  }
-`;
 
 export default HoldCard;

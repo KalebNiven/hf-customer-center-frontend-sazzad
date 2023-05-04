@@ -1,10 +1,11 @@
 export const SSO = "SSO";
+export const NOTICE = "NOTICE";
 
 export const reimbursementFormsURL = {
-    CompleteCare: {url: "https://assets.healthfirst.org/pdf_7f2956a74f57e86c481ce2ea717d545b?_ga=2.5043187.1558038111.1646059431-92844328.1607556910&v=1024220202"},
-    ConnectionHMO: {url: "https://assets.healthfirst.org/pdf_7f2956a74f57e86c481ce2ea717d545b?_ga=2.5043187.1558038111.1646059431-92844328.1607556910&v=1024220202"},
-    LifeImprovements: {url: "https://assets.healthfirst.org/pdf_7f2956a74f57e86c481ce2ea717d545b?_ga=2.5043187.1558038111.1646059431-92844328.1607556910&v=1024220202"},
-    IncreasedBenefits: {url: "https://assets.healthfirst.org/pdf_7f2956a74f57e86c481ce2ea717d545b?_ga=2.5043187.1558038111.1646059431-92844328.1607556910&v=1024220202"},
+    CompleteCare: {url: "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540"},
+    ConnectionHMO: {url: "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540"},
+    LifeImprovements: {url: "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540"},
+    IncreasedBenefits: {url: "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540"},
     SignatureHMO: {url: ""}
 }
 

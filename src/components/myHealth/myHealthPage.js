@@ -54,7 +54,7 @@ const MyHealthPage = () => {
     .then(data => {
       const statuses = {};
       data.forEach(item => {
-        const data = JSON.parse(item.data)
+        const data = item.data;
         statuses[data.memberId] = data.status
       })
       setSurveyStatuses(statuses)
@@ -154,7 +154,7 @@ const MyHealthPage = () => {
                 <CardMain>
                   <CardNav>
                     <IconContainer>
-                      <ImgIcon src="react/images/icn-hra.svg" />
+                      <ImgIcon src="/react/images/icn-hra.svg" />
                     </IconContainer>
                     <InlineInnerContainer>
                       <InnerHeader>Take your Annual Health Assessment!</InnerHeader>
@@ -167,7 +167,7 @@ const MyHealthPage = () => {
                     <HorizontalDivider />
                     {atleastOneMemberValid(customerInfo) && <HealthResources customerInfo={customerInfo} />}
                     <Main>
-                      {surveyStatuses[customerInfo?.memberId] === "COMPLETE" ? <StatusImg src="react/images/icn-green-tick.svg" /> : <StatusImg src="react/images/icn-grey-checkmark.svg" />}
+                      {surveyStatuses[customerInfo?.memberId] === "COMPLETE" ? <StatusImg src="/react/images/icn-green-tick.svg" /> : <StatusImg src="/react/images/icn-grey-checkmark.svg" />}
                       <Name>{customerInfo?.firstName} {customerInfo?.lastName}</Name>
                       {surveyStatuses[customerInfo.memberId] === "COMPLETE" ? <Complete>COMPLETE</Complete> : <Assessment onClick={(e) => handleTakeAssessmentBtn(e, getAssessmentLink(), customerInfo.memberId)}>Take Assessment</Assessment>}
                       <HealthResourcesChevron currentMemberInfo={customerInfo} />
@@ -179,7 +179,7 @@ const MyHealthPage = () => {
                         <Fragment key={idx}>
                           <HorizontalDivider />
                           <Main>
-                            {surveyStatuses[eachDependent.memberId] === "COMPLETE" ? <StatusImg src="react/images/icn-green-tick.svg" /> : <StatusImg src="react/images/icn-grey-checkmark.svg" />}
+                            {surveyStatuses[eachDependent.memberId] === "COMPLETE" ? <StatusImg src="/react/images/icn-green-tick.svg" /> : <StatusImg src="/react/images/icn-grey-checkmark.svg" />}
                             <Name>{eachDependent?.firstName} {eachDependent?.lastName}</Name>
                             {surveyStatuses[eachDependent.memberId] === "COMPLETE" ? <Complete>COMPLETE</Complete> : <Assessment onClick={(e) => handleTakeAssessmentBtn(e, getAssessmentLink(eachDependent), eachDependent.memberId)}>Take Assessment</Assessment>}
                             <HealthResourcesChevron currentMemberInfo={eachDependent} />

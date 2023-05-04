@@ -14,6 +14,11 @@ export const initialState = {
     loading: false,
     data: null
   },
+  reimbursementForm : {
+    error: "",
+    loading: false,
+    data: null
+  }
 };
 
 export default function otcCard(state = initialState, action) {
@@ -34,6 +39,12 @@ export default function otcCard(state = initialState, action) {
       return {
         ...state,
         profile: { ...initialState.profile, loading: true }
+      };
+    }
+    case actionTypes.REQUEST_OTC_CLAIM_REIMBURSEMENT_DATA: {
+      return {
+        ...state,
+        reimbursementForm: { ...initialState.reimbursementForm, loading: true }
       };
     }
     case actionTypes.RECEIVE_OTC_CARD_STATUS: {
@@ -70,6 +81,23 @@ export default function otcCard(state = initialState, action) {
         }
       }
     }
+    case actionTypes.RECEIVE_OTC_CLAIM_REIMBURSEMENT_DATA: {
+      switch (action.payload.status) {
+        case 'ERROR':
+        {
+          return {
+            ...state,
+            reimbursementForm: { error: action.payload.errorData, loading: false }
+          };
+        }
+        default: {
+          return {
+            ...state,
+            reimbursementForm : { ...state.reimbursementForm, ...action.payload, loading: false }
+          };
+        }
+      }
+    }
     case actionTypes.RECEIVE_OTC_CARD_BALANCE: {
       switch (action.payload.status) {
         case 'ERROR':
@@ -88,7 +116,7 @@ export default function otcCard(state = initialState, action) {
       }
     }
     default:
-      return state;s
+      return state;
   }
 };
     

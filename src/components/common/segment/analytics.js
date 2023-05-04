@@ -98,7 +98,6 @@ const compileFullPropsObj = (customerInfo, props) => {
         "appVersion": (customerInfo?.appVersion !== undefined ? customerInfo.appVersion : "unknown"),
         "language": (customerInfo?.language !== undefined ? customerInfo.language : "unknown"),
         "meta": (props?.meta !== undefined ? props.meta : {}),
-
     };
     return fullProps;
 };

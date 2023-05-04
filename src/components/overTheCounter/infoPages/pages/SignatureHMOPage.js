@@ -6,6 +6,7 @@ import ParticipatingLocations from '../components/participatingLocations.js'
 import ActivateOTCCardLink from '../components/activateOTCCardLink'
 import ExternalSiteLinkSSO from '../../../common/externalSiteLinkSSO'
 import { participatingLocationsURL, evidenceOfCoverageURL } from '../../config'
+import { cardTypes } from '../../const';
 const { cvs, duanereade, walmart, familyDollar, walgreens, riteAid, dollarGeneral, nations, otcNetwork } = participatingLocationsURL;
 const planName = "Signature (HMO)"
 
@@ -52,7 +53,7 @@ const SignatureHMOPage = () => {
                 <HeroContentWrapper>
                     <HeroLeftSection>
                         <HeroTitle>Understanding Your OTC Card</HeroTitle>
-                        <HeroDescription>As a <b>Healthfirst {planName}</b> member, staying healthy is easier with your OTC card. Save on items you use every day, such as toothpaste, eye drops, aspirin, and more, when you shop at participating neighborhood and online retailers, with free home-delivery options available.</HeroDescription>
+                        <HeroDescription>As a <b>Healthfirst {planName}</b> member, staying healthy is easier with your OTC card. Save on items you use every day, such as toothpaste, eye drops, aspirin, and more, when you shop at participating neighborhood and online retailers, with no-cost home-delivery options available.</HeroDescription>
                     </HeroLeftSection>
                     <HeroRightSection>
                         <HeroCard>
@@ -79,7 +80,7 @@ const SignatureHMOPage = () => {
                         <StepsToActiveListItemHeading>Activate Your Card</StepsToActiveListItemHeading>
                         <Paragraph>Activate your OTC card and bring it with you to participating pharmacies and other retailers.</Paragraph>
                         <ActivateOTCCardLink />
-                        <StepsToActiveListItemNote margin="8px 0 0 0">You can also activate your OTC card by calling Card Services at <b>1-833-684-8472</b> (24 hours a day, 7 days a week).</StepsToActiveListItemNote>
+                        <StepsToActiveListItemNote margin="8px 0 0 0">You can also activate your OTC card by calling <b>1-833-684-8472</b> (24 hours a day, 7 days a week).</StepsToActiveListItemNote>
                       </StepsToActiveListItemContent>
                     </StepsToActiveListItem>
 
@@ -135,7 +136,7 @@ const SignatureHMOPage = () => {
                       <LimitationsListItem>OTC non-prescription drugs</LimitationsListItem>
                       <LimitationsListItem>Health-related items</LimitationsListItem>
                     </LimitationsList>
-                    <Paragraph>For more information, view your <a href={evidenceOfCoverageURL.SignatureHMO.url} target="_blank">Evidence of Coverage</a> or contact your dedicated Member Services team.</Paragraph>
+                    <Paragraph>For more information, view your <a onClick={() =>segment("/learn-more","Evidence of Coverage","Evidence of Coverage","Button","/learn-more",customerInfo,"otc") } href={evidenceOfCoverageURL.SignatureHMO.url} target="_blank">Evidence of Coverage</a> or contact your dedicated Member Services team.</Paragraph>
                     <Paragraph><b>Some items can be purchased only after a discussion with your provider.</b></Paragraph>
                     <Paragraph>While no prescription is needed before purchasing approved OTC non-prescription drugs and health-related items, some dual-purpose items* can be purchased only after a discussion with your provider, who will recommend the right OTC items for a specific diagnosis/condition.</Paragraph>
                     <StepsToActiveListItemNote>*Dual-purpose items may include vitamins, minerals, supplements, herbal and Chinese medicines, hormone replacements, and diagnostic tools like blood pressure monitors.</StepsToActiveListItemNote>
@@ -152,7 +153,7 @@ const SignatureHMOPage = () => {
                     </LimitationsList>
                   </LimitationsContent>
                 </LimitationSectionWrapper>
-                <CoverageNote cardType = "OTC Plus" resetPeriod="quarter" />
+                <CoverageNote cardType={cardTypes.otc} resetPeriod="quarter" />
               </Body>
         </Wrapper>
     )

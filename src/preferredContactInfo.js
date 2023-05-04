@@ -14,7 +14,7 @@ import Spinner from "./components/common/spinner";
 const targetElement = document.getElementById("preferredContactInfo");
 
 const PreferredContactInfo = (props) => {
-    let contactTypeFromDOM = targetElement.getAttribute('type') ? targetElement.getAttribute('type') : null;
+    let contactType = (props.type ? props.type : null);
 
     const useComponentDidMount = () => {
         const ref = useRef();
@@ -31,16 +31,12 @@ const PreferredContactInfo = (props) => {
     const isComponentMounted = useComponentDidMount();
     const preferenceCenterInfo = useSelector((state) => state.preferenceCenterInfo);
     const submitPreferredContactInfoResponse = useSelector((state) => state.preferredContactInfoSubmit);
-    const [step, setStep] = useState(contactTypeFromDOM);
+    const [step, setStep] = useState(contactType);
     const [selectedPhone, setSelectedPhone] = useState(null);
     const [selectedEmail, setSelectedEmail] = useState(null);
     const [customPhoneVal, setCustomPhoneVal] = useState(''); // This will need to be used for the custom field... we'll need to set onclicks for the toggle to check this value and then to copy it to selectedContact... otherwise we may miss the value if clicking outside of the text input box
     const [customEmailVal, setCustomEmailVal] = useState(''); // This will need to be used for the custom field... we'll need to set onclicks for the toggle to check this value and then to copy it to selectedContact... otherwise we may miss the value if clicking outside of the text input box
 	const [selectContactError, setSelectContactError] = useState("");
-
-    useEffect(() => {
-        dispatch(requestCustomerInfo());
-    }, []);
 
     useEffect(() => {
         dispatch(requestPreferenceCenterInfo());
@@ -261,8 +257,8 @@ const PreferredContactInfo = (props) => {
                                             <RadioButtonContainer>
                                                 {
                                                     selectedPhone && selectedPhone.number === contact.number ?
-                                                        <RadioImg src="react/images/icn-radio-active.svg" /> :
-                                                        <RadioImg src="react/images/icn-radio-inactive.svg" />
+                                                        <RadioImg src="/react/images/icn-radio-active.svg" /> :
+                                                        <RadioImg src="/react/images/icn-radio-inactive.svg" />
                                                 }
                                                 <ContactValueWrapper>
                                                     <ContactValue className="mt-0">
@@ -280,8 +276,8 @@ const PreferredContactInfo = (props) => {
                                     <RadioButtonContainer>
                                         {
                                             selectedPhone && selectedPhone.sourceType === 'custom' ?
-                                                <RadioImg src="react/images/icn-radio-active.svg" /> :
-                                                <RadioImg src="react/images/icn-radio-inactive.svg" />
+                                                <RadioImg src="/react/images/icn-radio-active.svg" /> :
+                                                <RadioImg src="/react/images/icn-radio-inactive.svg" />
                                         }
                                         <ContactValueWrapper>
                                             <ContactInputValue className="mt-0">
@@ -344,8 +340,8 @@ const PreferredContactInfo = (props) => {
                                             <RadioButtonContainer>
                                                 {
                                                     selectedEmail && selectedEmail.email === contact.email ?
-                                                        <RadioImg src="react/images/icn-radio-active.svg" /> :
-                                                        <RadioImg src="react/images/icn-radio-inactive.svg" />
+                                                        <RadioImg src="/react/images/icn-radio-active.svg" /> :
+                                                        <RadioImg src="/react/images/icn-radio-inactive.svg" />
                                                 }
                                                 <ContactValueWrapper>
                                                     <ContactValue className="mt-0">
@@ -363,8 +359,8 @@ const PreferredContactInfo = (props) => {
                                     <RadioButtonContainer>
                                         {
                                             selectedEmail && selectedEmail.sourceType === 'custom' ?
-                                                <RadioImg src="react/images/icn-radio-active.svg" /> :
-                                                <RadioImg src="react/images/icn-radio-inactive.svg" />
+                                                <RadioImg src="/react/images/icn-radio-active.svg" /> :
+                                                <RadioImg src="/react/images/icn-radio-inactive.svg" />
                                         }
                                         <ContactValueWrapper>
                                             <ContactInputValue className="mt-0">
@@ -646,12 +642,4 @@ const ProgressSpinner = styled.div`
   }
 `;
 
-ReactDOM.render(<React.StrictMode>
-
-    <Provider store={store}>
-      <PreferredContactInfo />
-    </Provider>
-  </React.StrictMode>, targetElement);
-  
-  export default ReactDOM.render;
-  
+export default PreferredContactInfo;

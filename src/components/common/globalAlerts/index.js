@@ -43,7 +43,7 @@ const GlobalAlerts = ({ alertsList }) => {
                         return (
                             <Banner className="no-print" id="bannerContent" key={id}>
                                 <BannerContent bgColor={styles.bgColor}>
-                                    <BannerIcon src={styles.icon} />
+                                    <BannerIcon alt = "" src={styles.icon} />
                                     <BannerText textColor={styles.textColor}>{alert_message}{alert_links.map(link => 
                                         generateLinkComponent(link, styles)
                                     )}</BannerText>

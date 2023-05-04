@@ -17,7 +17,7 @@ const SuccessModalV2 = (props) => {
             <br />
             <br />
             <br />
-            <SuccessImg src = "react/images/icons-solid-checkmark-circle.svg" />
+            <SuccessImg alt = "" src = "/react/images/icons-solid-checkmark-circle.svg" />
             <Header>
               {modalHeaderText}
             </Header>

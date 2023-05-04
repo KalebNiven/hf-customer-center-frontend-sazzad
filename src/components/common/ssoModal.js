@@ -1,21 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from "react-redux";
 import { ModalWrapper, ModalInnerWrapper, ModalContent, CloseIcon, ButtonWrapper } from "../../styles/commonStyles";
 import { StyledButton } from './styles';
 import { useSSOModalContext } from '../../context/ssoModalContext';
+import { useAppContext } from '../../AppContext';
+import { useClient } from '@splitsoftware/splitio-react';
 
 const SSOModal = () => {
     const customerInfo = useSelector((state) => state.customerInfo.data);
     const { ssoModalState, setSsoModalState, resetSsoModal } = useSSOModalContext()
-    const { showMemberModal, routeLink, externalLinkName } = ssoModalState;
+    const { showMemberModal, routeLink, externalLinkName, membershipSplit } = ssoModalState;
+    const { setAcknowledgmentModal } = useAppContext();
 
-    const handleClick = (membershipKey, routeLink, externalLinkName) => {
-        setSsoModalState({ ...ssoModalState, showMemberModal: false, routeLink, externalLinkName, membershipKey })
+    const handleClick = (membershipKey, routeLink, externalLinkName, splitTreatment) => {
+        if(splitTreatment === 'notice'){
+            switch(externalLinkName){
+                case 'Manage Prescriptions':        
+                    resetSsoModal();
+                    setAcknowledgmentModal({isVisible: true, label: externalLinkName, callback});
+                    return;
+                default: 
+                    return;
+            }
+        }
+        else setSsoModalState({ ...ssoModalState, showMemberModal: false, routeLink, externalLinkName, membershipKey })
     }
+    const splitHookClient = useClient(customerInfo.customerId === null ? 'Anonymous' : customerInfo.customerId)
 
     const closeModal = () => {
         resetSsoModal()
+    }
+
+
+    const checkMemberForTreatment = (plan, membershipSplit) => {
+        const splitAttributes = {
+            memberId: plan.MemberId,
+            lob: plan.LOBCode,
+            benefitPackage: plan.BenefitPackage,
+            membershipStatus: plan.MembershipStatus,
+            accountStatus:customerInfo.accountStatus,
+            companyNumber: plan.CompanyNumber,
+          }
+        const showManagePrescriptionsOverride = splitHookClient.getTreatmentWithConfig(membershipSplit, splitAttributes);
+        return showManagePrescriptionsOverride.treatment;
     }
 
     return (
@@ -26,7 +54,7 @@ const SSOModal = () => {
                     <FormModalWrapper visible={showMemberModal}>
                         <ModalInnerWrapperCustom>
                             <FormModalContent>
-                                <CloseIcon src="react/images/icn-close.svg" onClick={() => closeModal()} />
+                                <CloseIcon alt = "" src="/react/images/icn-close.svg" onClick={() => closeModal()} />
                                 <div>
                                     <Header>
                                         Select a plan to continue
@@ -39,13 +67,13 @@ const SSOModal = () => {
                                             customerInfo.hohPlans.map((row, index) => {
                                                 return (
                                                     row.MembershipStatus === "active" &&
-                                                        <Card key={index} onClick={() => handleClick(row.MembershipKey, routeLink, externalLinkName)}>
-                                                            <UserIcon src="/react/images/icons-solid-user-dark-grey.svg"></UserIcon>
+                                                        <Card key={index} onClick={() => handleClick(row.MembershipKey, routeLink, externalLinkName, checkMemberForTreatment(row, membershipSplit))}>
+                                                            <UserIcon alt="" src="/react/images/icons-solid-user-dark-grey.svg"></UserIcon>
                                                             <MemberDetails>
                                                                 <MemberName>{row.FirstName.toLowerCase()}&nbsp;{row.LastName.toLowerCase()}</MemberName>
                                                                 <PlanName>{row.PlanName}</PlanName>
                                                             </MemberDetails>
-                                                            <ArrowIcon src="/react/images/icn-arrow-right.svg"></ArrowIcon>
+                                                            <ArrowIcon alt = "" src="/react/images/icn-arrow-right.svg"></ArrowIcon>
                                                         </Card>
                                                 )
                                             }
@@ -54,13 +82,13 @@ const SSOModal = () => {
                                         {
                                             customerInfo.dependents.map((row, index) => {
                                                 return (row.Status === "active" &&
-                                                    <Card key={index} onClick={() => handleClick(row.MembershipKey, routeLink, externalLinkName)}>
-                                                        <UserIcon src="/react/images/icons-solid-user-dark-grey.svg"></UserIcon>
+                                                    <Card key={index} onClick={() => handleClick(row.MembershipKey, routeLink, externalLinkName, checkMemberForTreatment(row, membershipSplit))}>
+                                                        <UserIcon src="/react/images/icons-solid-user-dark-grey.svg" alt="" ></UserIcon>
                                                         <MemberDetails>
                                                             <MemberName>{row.firstName}&nbsp;{row.lastName}</MemberName>
                                                             <PlanName>{row.planName}</PlanName>
                                                         </MemberDetails>
-                                                        <ArrowIcon src="/react/images/icn-arrow-right.svg"></ArrowIcon>
+                                                        <ArrowIcon alt = "" src="/react/images/icn-arrow-right.svg"></ArrowIcon>
                                                     </Card>
                                                 )
                                             }

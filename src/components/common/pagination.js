@@ -113,7 +113,7 @@ return (
           disabled={currentPage === 1}
         >
         <ArrowButton>
-          <IconImg disable = {currentPage === 1} src = "react/images/icn-arrow-left.svg"/></ArrowButton>
+          <IconImg disable = {currentPage === 1} src = "/react/images/icn-arrow-left.svg"/></ArrowButton>
         </Button>
         {visiblePages.length <=4 && visiblePages.map((page) => {
           return (
@@ -149,7 +149,7 @@ return (
           disabled={currentPage === totalPages}
         >
         <ArrowButton>
-          <IconImg disable ={currentPage === totalPages} src = "react/images/icn-arrow-right.svg"/></ArrowButton>
+          <IconImg disable ={currentPage === totalPages} alt = "" src = "/react/images/icn-arrow-right.svg"/></ArrowButton>
         </Button>
       </PageList>
       <Hidden only = {["xl","lg","md","sm"]}>

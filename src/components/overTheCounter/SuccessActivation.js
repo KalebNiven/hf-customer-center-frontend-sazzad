@@ -5,9 +5,9 @@ const SuccessActivation = () => {
     return (
         <Wrapper>
             <Card>
-                <CheckmarkIcon src="/react/images/icons-solid-checkmark-circle.svg" />
+                <CheckmarkIcon alt = "" src="/react/images/icons-solid-checkmark-circle.svg" />
                 <Heading>Your Card Has Been Activated Successfully</Heading>
-                <Content>You will now be able to access your balance. If you do not see your allowance in 2 business days, please call Member Services.</Content>
+                <Content>You will now be able to access your balance.</Content>
                 <Button href="/">Back to Home</Button>
             </Card>
         </Wrapper>

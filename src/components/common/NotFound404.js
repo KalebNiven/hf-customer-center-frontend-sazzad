@@ -8,13 +8,26 @@ const NotFound404 = ({ isAuthenticated }) => {
     const history = useHistory();
     const location = useLocation();
 
-    const saveRequestedURL = () => {
-        sessionStorage.setItem("from", MIX_APP_DOMAIN + location.pathname)
+    const saveRequestedURL = (location) => {
+
+        let pathname = location.pathname;
+
+        const queryParams = location.search.split('&');
+        queryParams.forEach((d, i) => {
+            if(i === 0){
+                pathname = `${pathname}${d}`;
+            }else{
+                pathname = `${pathname}&${d}`;
+            }
+        });
+
+        sessionStorage.setItem("from", MIX_APP_DOMAIN + pathname);
+        
     }
 
     // Unauthenticated user handling
     if(isAuthenticated === false) {
-        saveRequestedURL();
+        saveRequestedURL(location);
         history.push('/login');
         return <LoadingOverlay />
     }

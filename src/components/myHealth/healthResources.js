@@ -36,7 +36,7 @@ const HealthResources = ({ customerInfo }) => {
         .then(data => {
             const statuses = {};
             data.forEach(item => {
-                const data = JSON.parse(item.data)
+                const data = item.data
                 statuses[data.memberId] = data.status
             })
           setSurveyLocalStatuses(statuses)

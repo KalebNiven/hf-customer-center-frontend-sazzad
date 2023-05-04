@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom'
 import styled, {keyframes} from 'styled-components'
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { requestSubmitMailMemberIDCardForm } from '../../store/actions/index';
-import store from "../../store/store";
+import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';
 import { useHistory } from "react-router-dom";
+import Cookies from 'js-cookie'
 import { ModalWrapper, ModalInnerWrapper, ModalContent, Header, Text, CloseIcon,
     Button, ButtonWrapper } from "../../styles/commonStyles";
 import DropdownSelect from "../common/dropdownSelect";
@@ -53,6 +54,8 @@ const MailMemberIDCardForm = (props) => {
     const [zipCodeError, setZipCodeError] = useState(null);
 
     const [timesSubmitted, setTimesSubmitted] = useState(0);
+
+    useQualtrics(qualtricsAction.MAIL_ME_ID_CARD)
 
     useEffect (() => {
         
@@ -144,6 +147,10 @@ const MailMemberIDCardForm = (props) => {
         goToFirstStep();
         resetFormFields();
         unmountMe();
+        Cookies.set('MailMeIdCard','true',{expires:1}) 
+        setTimeout(() => {
+            history.push('/idcard?survey=true')
+        }, 1000);
     }
 
     const submitForm = () => {
@@ -357,7 +364,7 @@ const MailMemberIDCardForm = (props) => {
                                             customerInfo, 
                                             { 
                                                 "raw_text": "Confirm Address", 
-                                                "destination_url": "N/A", 
+                                                "destination_url": null, 
                                                 "category": ANALYTICS_TRACK_CATEGORY.memberIdCard, 
                                                 "type": ANALYTICS_TRACK_TYPE.linkClicked,
                                                 "location": {
@@ -412,7 +419,7 @@ const MailMemberIDCardForm = (props) => {
                 <FormModalWrapper visible={visible}>
                     <ModalInnerWrapper>
                         <FormModalContent>
-                        <CloseIcon src = "react/images/icn-close.svg" onClick={closeForm} />
+                        <CloseIcon src = "/react/images/icn-close.svg" onClick={closeForm} />
                             {renderSwitch(step)}
                         </FormModalContent>
                     </ModalInnerWrapper>

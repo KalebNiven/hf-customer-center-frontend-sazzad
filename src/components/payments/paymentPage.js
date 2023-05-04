@@ -1,25 +1,75 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import styled from "styled-components";
-import GlobalStyle from "../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
+import { useClient } from "@splitsoftware/splitio-react";
+import GlobalStyle from "../../styles/GlobalStyle";
 import { AnalyticsPage, AnalyticsTrack } from "../common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import PaymentPortal from "./paymentPortal";
-import {SHOW_PAYMENTS_REACT_APP} from '../../constants/splits';
-import {FeatureTreatment} from '../../libs/featureFlags';
+import { PAYMENTS_ACL, BINDER_ACL, SHOW_PAYMENTS_REACT_APP } from '../../constants/splits';
 import GlobalError from "../common/globalErrors/globalErrors";
+import Spinner from "../common/spinner";
 
 const PaymentPage = () => {
 
   const { MIX_REACT_APP_BINDER_SITE_HREF } = process.env;
   const { MIX_REACT_APP_PAYMENT_SITE_HREF } = process.env;
-  const customerInfo = useSelector(state => state.customerInfo)
 
-  const [showPortal, setShowPortal]=useState(false);
+  const [showPortal, setShowPortal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  const customerInfo = useSelector((state) => state.customerInfo);
+  const {
+    memberId,
+    companyCode,
+    customerId,
+    benefitPackage,
+    sessLobCode,
+    membershipStatus,
+    accountStatus
+  } = customerInfo?.data ?? {};
+
+  const splitAttributes = {
+    memberId: memberId,
+    lob: sessLobCode,
+    membershipStatus,
+    benefitPackage,
+    accountStatus,
+    companyCode,
+  };
+
+  const splitHookClient = useClient(customerId);
+  const { treatment } = splitHookClient.getTreatmentWithConfig(SHOW_PAYMENTS_REACT_APP, splitAttributes); //defaults to 'control'
+  const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, splitAttributes)
+  const binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes)
   useEffect(() => {
     sessionStorage.setItem("longLoad", false);
   }, []);
+
+  const showNewPaymentsApp = useMemo(() => {
+    if (!(splitHookClient && splitHookClient.Event.SDK_READY)) return false;
+    return treatment === "on";
+  }, [splitHookClient, treatment]);
+
+  // ACL Redirect
+  useEffect(() => {
+    if(!splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control") return;
+      let isRedirecting = false;
+      if(paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off"){
+        if(showNewPaymentsApp){
+          setShowPortal(showNewPaymentsApp);
+        }
+        else{
+          isRedirecting = true;
+          window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
+        }
+      }
+      if(paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "on"){
+        isRedirecting = true;
+        window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
+      }
+      setLoading(isRedirecting);
+  }, [splitHookClient, paymentsEnabledTreatment, binderEnabledTreatment])
 
   const handleSegmentBtn = (label,link) => {
     AnalyticsPage();
@@ -32,7 +82,7 @@ const PaymentPage = () => {
     "description": `${label} button clicked`,
     "category": ANALYTICS_TRACK_CATEGORY.payments,
     "type": ANALYTICS_TRACK_TYPE.buttonClicked,
-    "targetMemberId": customerInfo?.data?.memberId,
+    "targetMemberId": memberId,
     "location": {
     "desktop": {
     "width": 960,
@@ -52,9 +102,15 @@ const PaymentPage = () => {
     if(link) window.location.href = link;
   }
 
+  const handleMonthlyPaymentBtnClick = () => {
+    handleSegmentBtn("Monthly premium payment", !showNewPaymentsApp && MIX_REACT_APP_PAYMENT_SITE_HREF);
+    setShowPortal(showNewPaymentsApp);
+  };
+  if(paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "off") return (<GlobalError />);
+
 if(showPortal) return (<PaymentPortalWrapper>
     <BrandingContainer>
-      <BrandingImage src="/img/payments-branding.jpg" alt="payments branding header" />
+      <BrandingImage src="/img/payments-branding.jpg" alt="" />
       <BrandingTitleWrapper>
         <BrandingTitle>Payments</BrandingTitle>
       </BrandingTitleWrapper>
@@ -63,8 +119,14 @@ if(showPortal) return (<PaymentPortalWrapper>
   </PaymentPortalWrapper>);
 
   return(
+    (loading) ?
     <Container>
-      {(["45","42", "20", "30"].some( x => x === customerInfo.data.companyCode)) ?
+        <ProgressWrapper>
+            <Spinner />
+        </ProgressWrapper>
+    </Container>
+    :
+    <Container>
       <>
     <GlobalStyle />
     <PaymentTypeTxt>What type of payment would you like to make?</PaymentTypeTxt>
@@ -73,13 +135,7 @@ if(showPortal) return (<PaymentPortalWrapper>
           <Card>
           <Heading>Monthly premium payment</Heading>
           <Description>Make ongoing monthly payments towards your premium plan.</Description>
-          {/* if enabled, show new portal app onclick, else redirect to old portal */}
-          <FeatureTreatment treatmentName={SHOW_PAYMENTS_REACT_APP}>
-            <PaymentButton onClick={() => { handleSegmentBtn("Monthly premium payment"); setShowPortal(true); }}>Monthly Premium Payment</PaymentButton>
-          </FeatureTreatment>
-          <FeatureTreatment treatmentName={SHOW_PAYMENTS_REACT_APP} invertBehavior>
-            <PaymentButton onClick={() => handleSegmentBtn("Monthly premium payment", MIX_REACT_APP_PAYMENT_SITE_HREF)}>Monthly Premium Payment</PaymentButton>
-          </FeatureTreatment>
+          <PaymentButton onClick={handleMonthlyPaymentBtnClick}>Monthly Premium Payment</PaymentButton>
           </Card>
         </LeftContainer>
         <RightContainer>
@@ -90,9 +146,9 @@ if(showPortal) return (<PaymentPortalWrapper>
             </Card>
         </RightContainer>
       </InnerContainer>
-      </> : <GlobalError/>
-}
-    </Container>)
+      </>
+    </Container>
+  )
 };
 
 const Container = styled.div`
@@ -246,6 +302,8 @@ const PaymentPortalWrapper = styled.div`
   font-weight: 400;
   font-size: 16px;
   line-height: normal;
+  position:relative;
+  height:100%;
 `;
 
 const BrandingContainer = styled.div`
@@ -288,5 +346,11 @@ const BrandingTitle = styled.h1`
     text-align: center;
   }
 `;
+
+const ProgressWrapper = styled.div`
+  width:100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`
 
 export default PaymentPage;

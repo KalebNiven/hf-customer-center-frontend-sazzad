@@ -22,7 +22,7 @@ const GlobalError = () => {
 
         <> <GlobalStyle />
         <Card >
-            <LockIcon src = "react/images/icn-lock.svg"/>
+            <LockIcon src = "/react/images/icn-lock.svg"/>
             <PermissionDenied>
           Permission Denied</PermissionDenied>
           <Description>

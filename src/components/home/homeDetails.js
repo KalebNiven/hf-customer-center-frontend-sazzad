@@ -22,7 +22,7 @@ import { requestPCPDetails, requestCarouselItems} from "../../store/actions";
 import OTC from './otc/index'
 
 const HomeDetails = () => {
-  const pcpLoading = useSelector((state) => state.homeDetails.pcpLoading);
+  const pcpLoading = useSelector((state) => state.pcp.pcpLoading);
   const carouselLoading = useSelector((state) => state.homeDetails.carouselLoading);
   const customerInfo = useSelector((state) => state.customerInfo);
 

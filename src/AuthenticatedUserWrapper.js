@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { requestCustomerInfo, requestGlobalAlerts } from './store/actions';
+import { requestCustomerInfo, requestGlobalAlerts, requestPreferenceCenterInfo } from './store/actions';
 import { AppContextProvider } from './AppContext'
 import { CoachMarksContextProvider } from './components/coachMarks/homePageCoachMarks/coachMarksContext'
 import ExternalSiteModal from './components/common/externalSiteModal'
@@ -14,14 +14,18 @@ import GlobalAlerts from './components/common/globalAlerts';
 import LoadingOverlay from './components/common/loadingOverlay';
 import SessionTimeoutModal from './components/common/sessionTimeoutModal';
 import { AnalyticsIdentifyNonMember, AnalyticsIdentifyMember } from "./components/common/segment/analytics";
-import { useQualtrics } from './hooks/useQualtrics';
+import { useQualtrics ,qualtricsAction} from './hooks/useQualtrics';
 import { SSOModalContextProvider } from './context/ssoModalContext'
 import SSOModal from './components/common/ssoModal'
 import AppBar from './AppBarComponent'
 import Footer from './footer';
 import ScrollToTop from './components/common/scrollToTop'
 import GlobalErrorPage from './components/unrecoverableError/GlobalErrorPage';
+import { ToastProvider } from './hooks/useToaster';
+import { useLocation, useHistory } from "react-router-dom";
+import { useProviderDirectory } from './hooks/useProviderDirectory';
 
+const { MIX_REACT_APP_MPSR_LOGIN_URL } = process.env;
 const { MIX_SPLITIO_KEY } = process.env;
 const featureFlagList = getFeatureFlagList();
 
@@ -37,11 +41,20 @@ const featureFlagOptions = {
   },
 };
 
-const AuthenticatedUserWrapper = ({ children, jwt_token }) => {
+const AuthenticatedUserWrapper = ({ children }) => {
   const dispatch = useDispatch();
   const customerInfo = useSelector((state) => state.customerInfo);
-  const { memberId, customerId, accountStatus, lastName, email, firstName, oktaId } = customerInfo.data;
+  const location = useLocation();
+  const history = useHistory();
+  const { memberId, customerId, accountStatus, lastName, email, firstName, oktaId, id_token, nonce, wantsMedicare } = customerInfo.data;
   const { alertsList } = useSelector(state => state.globalAlerts);
+  const preferenceCenterInfo = useSelector((state) => state.preferenceCenterInfo);
+  const [isLoading, setIsLoading] = useState(true);
+  const endpointsStrippedOfWrapper = [
+    '/selectPreferredContacts',
+    '/addMembership'
+  ];
+ 
 
   // Make the identify call here...
   useEffect(() => {
@@ -59,12 +72,13 @@ const AuthenticatedUserWrapper = ({ children, jwt_token }) => {
     }
   }, [oktaId]);
 
-  useQualtrics(); // launch qualtrics resources
+  useQualtrics(qualtricsAction.NO_ACTION); // launch qualtrics resources
+  useProviderDirectory(); // launch Findcare Widget
 
-  // Request customer info from the endpoint
+  // Request customer info from the endpoint  
   useEffect(() => {
-    const localStorageData = localStorage.getItem('myCat');
     dispatch(requestCustomerInfo());
+    dispatch(requestPreferenceCenterInfo());
   }, []);
   
   // Request global alerts from the endpoint
@@ -72,28 +86,61 @@ const AuthenticatedUserWrapper = ({ children, jwt_token }) => {
     if(!customerInfo.data?.access_token || !customerInfo.data?.id_token) return;
     dispatch(requestGlobalAlerts());
   }, [customerInfo?.data]);
+
+  useEffect(() => {
+    //redirect to the addMembership page unless they skip for the session.
+    if(accountStatus === 'NON-MEMBER' && !sessionStorage.getItem('skipAddMembership')){
+      history.push('/addMembership');
+    }
+  }, [accountStatus])
+
+  useEffect(() => {
+    if(!sessionStorage.getItem('visitedPrefCenterSync') && (preferenceCenterInfo?.data?.email?.is_different || preferenceCenterInfo?.data?.phones?.is_different)){
+      sessionStorage.setItem('visitedPrefCenterSync', 'true')
+      history.push('/selectPreferredContacts');
+      //useRedirect('/selectPreferredContacts');
+    }
+  }, [preferenceCenterInfo?.data]);
   
   const { isRedirecting } = useRedirect(sessionStorage.getItem('from'), () => sessionStorage.removeItem('from')) // Redirect After Login (if user requested a specific URL before he was authenticated).
 
+  useEffect(() => {
+    const visitedPrefCenterSync = sessionStorage.getItem('visitedPrefCenterSync');
+    if (!isRedirecting && (visitedPrefCenterSync || (preferenceCenterInfo?.data != null && !preferenceCenterInfo?.data?.email?.is_different && !preferenceCenterInfo?.data?.phones?.is_different))) {
+      setIsLoading(false);
+    }
+  }, [preferenceCenterInfo?.data, isRedirecting])
+
+
   return (
     <>
-   {customerInfo.loading == false > 0 ?
+   {customerInfo.loading == false ?
     (customerInfo.error === "" ?
+      wantsMedicare ? window.location.href = MIX_REACT_APP_MPSR_LOGIN_URL :
       <FeatureFactory splitKey={MIX_SPLITIO_KEY} options={featureFlagOptions} uniqueId={customerId === null ? 'Anonymous' : customerInfo.data.customerId}>
-          <AppContextProvider jwt_token={jwt_token}>
+          <AppContextProvider>
             <SSOModalContextProvider>
-              { isRedirecting ? <LoadingOverlay isLoading={isRedirecting} /> : <>
+              { isLoading ? <LoadingOverlay isLoading={isLoading} /> : <>
               <ExternalSiteModal />
               <SSOModal />
               <ScrollToTop />
-              {(memberId && customerId) && <ChatWidget memberId={memberId} customerId={customerId} />}
-              {(alertsList?.length > 0) && <GlobalAlerts alertsList={alertsList} />}
+              {(memberId && customerId && id_token && nonce && !endpointsStrippedOfWrapper.includes(location.pathname)) && <ChatWidget memberId={memberId} jwt={id_token} nonce={nonce} customerId={customerId} />}
+              {(alertsList?.length > 0 && !endpointsStrippedOfWrapper.includes(location.pathname)) && <GlobalAlerts alertsList={alertsList} />}
               <CoachMarksContextProvider>
                 <HealthResourcesContextProvider>
                   <HomeContextProvider>
-                    <AppBar />
-                    {children}
-                    <Footer/>
+                    <ToastProvider>
+                    {!endpointsStrippedOfWrapper.includes(location.pathname) ? (
+                    <>
+                      <AppBar />
+                      { children }
+                      <Footer/>
+                    </>
+                    )
+                    :
+                      children
+                    }
+                    </ToastProvider>
                   </HomeContextProvider>
                 </HealthResourcesContextProvider>
               </CoachMarksContextProvider>

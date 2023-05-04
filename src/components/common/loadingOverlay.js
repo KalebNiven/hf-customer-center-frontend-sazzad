@@ -10,6 +10,9 @@ const LoadingOverlay = ({ isLoading }) => {
         } else {
             document.querySelector("body").style.overflow = null;
         }
+        return () => {
+            document.querySelector("body").style.overflow = null;
+        }
     }, [isLoading])
 
     return (

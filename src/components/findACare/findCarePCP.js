@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router"; 
-import { requestCustomerInfo, requestSelectedMember } from '../../store/actions'; 
+import { requestSelectedMember } from '../../store/actions'; 
 import GlobalError from "../common/globalErrors/globalErrors";
+import { requestPCPDetails } from "../../store/actions/index";
+import Spinner from "../common/spinner";
+import styled from 'styled-components';
 
 const FindCarePCP = (props) => {
   const dispatch = useDispatch();
@@ -13,9 +16,17 @@ const FindCarePCP = (props) => {
   const { MIX_REACT_APP_PROVIDER_API_KEY } = process.env; 
   const jwt_token = customerInfo.id_token 
   const [isGlobalError,setGlobalError] = useState(false); 
+  const pcp = useSelector((state) => state.pcp);
+
   useEffect(() => {
     // dispatch(requestCustomerInfo());
     sessionStorage.setItem("longLoad", false)
+  }, []);
+
+  useEffect(() => {
+    if(customerInfo.customerId && customerInfo.membershipStatus === "active"){
+      dispatch(requestPCPDetails(customerInfo.memberId, customerInfo.membershipEffectiveDate));
+    }
   }, []);
 
   const handleChangePCP = () => {
@@ -31,49 +42,49 @@ const FindCarePCP = (props) => {
     })
   };
 
-  const custDependents = () => {
-    if (customerInfo.dependents != null) {
-      let dependents = customerInfo.dependents.map((info) => ({
-        memberId: info.memberId,
-        age: info.Age,
-        benefitPackage: info.benefitPackage,
-        groupNumber: info.groupNumber,
-        year: info.year,
-        firstName: info.firstName,
-        lastName: info.lastName,
-        pcpId: info.pcpId,
-        disablePcpUpdate: info.Status === "active" ? false : true,
-      }))
-      return dependents
-    }
-    return []
-  }
-
-  const memberDependents = custDependents();
-
-  const memberDetails = [
-    {
-      memberId: customerInfo.memberId,
-      age: customerInfo.age,
-      benefitPackage: customerInfo.benefitPackage,
-      groupNumber: customerInfo.groupNumber,
-      year: customerInfo.memberYear,
-      firstName: customerInfo.firstName,
-      lastName: customerInfo.lastName,
-      pcpId: customerInfo.pcpId,
-      disablePcpUpdate : customerInfo.membershipStatus === "active" ? false: true,
-    },
-    ...memberDependents
-  ];
-
   const handleMemberChanged = (id, details) => {
     dispatch(requestSelectedMember(id));
     sessionStorage.setItem("currentMemberId", id)
   };
   
   useEffect(() => {
+    if(!Object.keys(pcp.pcpDetails).length) return;
+    const custDependents = () => {
+      if (customerInfo.dependents != null) {
+        let dependents = customerInfo.dependents.map((info) => ({
+          memberId: info.memberId,
+          age: info.Age,
+          benefitPackage: info.benefitPackage,
+          groupNumber: info.groupNumber,
+          year: info.year,
+          firstName: info.firstName,
+          lastName: info.lastName,
+          pcpId: info.pcpId,
+          disablePcpUpdate: info.Status === "active" ? false : true,
+        }))
+        return dependents
+      }
+      return []
+    }
+  
+    const memberDependents = custDependents();
+    const memberDetails = [
+      {
+        memberId: customerInfo.memberId,
+        age: customerInfo.age,
+        benefitPackage: customerInfo.benefitPackage,
+        groupNumber: customerInfo.groupNumber,
+        year: customerInfo.memberYear,
+        firstName: customerInfo.firstName,
+        lastName: customerInfo.lastName,
+        pcpId: pcp.pcpDetails.id,
+        disablePcpUpdate : customerInfo.membershipStatus === "active" ? false: true,
+      },
+      ...memberDependents
+    ];
+    let mountProps;
     if(customerInfo.accountStatus !=="NON-MEMBER" && customerInfo.membershipStatus !=="inactive"){
-    const mountProps = {
+    mountProps = {
       parentElement: "#findcarePCPWrapper",
       widget: "PRIMARY_CARE_PROVIDER",
       memberId: customerInfo.memberId,
@@ -81,7 +92,7 @@ const FindCarePCP = (props) => {
       memberDetails: memberDetails,
       token: jwt_token,
       apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
-      lang: customerInfo.language,
+      lang: customerInfo.language || "en",
       onOtherLocClicked: handleOtherLocClicked,
       onMemberChanged: handleMemberChanged,
       onChangePCP: handleChangePCP,
@@ -107,14 +118,24 @@ const FindCarePCP = (props) => {
   else{
     setGlobalError(true);
   }
-  }, [customerInfo])
+
+  // return () => {
+  //   ProviderDirectoryWidget?.unmount(mountProps.widget);
+  // }
+  }, [customerInfo, pcp])
 
   return (
-    <>
-    <div id="findcarePCPWrapper" />
-    {isGlobalError && <GlobalError/>}
-    </>
+    <Wrapper>
+      { pcp.pcpLoading ? <Spinner /> : <>
+          <div id="findcarePCPWrapper" />
+          {isGlobalError && <GlobalError/>}
+        </> }
+    </Wrapper>
   );
 };
+
+export const Wrapper = styled.div`
+  height: 100%;
+`;
 
 export default FindCarePCP;

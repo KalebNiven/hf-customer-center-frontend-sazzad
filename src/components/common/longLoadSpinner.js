@@ -12,7 +12,7 @@ const LongLoadSpinner = ({ show }) => {
 
       <Overlay>
         <Container>
-          <LeafImg src="react/images/ico-leaf-green.svg" >
+          <LeafImg src="/react/images/ico-leaf-green.svg" >
           </LeafImg>
           <LongLoadSpin>
 

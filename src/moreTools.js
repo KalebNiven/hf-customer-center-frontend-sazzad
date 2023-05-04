@@ -98,7 +98,7 @@ const MoreTools = () => {
           <Message>
            Click <b>More Tools</b> if you need to submit a general question or form. 
           </Message>
-          <ButtonIcon src="react/images/buttons-medium-primary-green.svg"
+          <ButtonIcon src="/react/images/buttons-medium-primary-green.svg"
             href={MIX_REACT_OKTA_HEALTHX_SAML_LINK}
             target="_blank"
             segment-track="External Service Launched"

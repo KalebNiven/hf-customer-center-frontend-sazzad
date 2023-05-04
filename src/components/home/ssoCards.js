@@ -5,9 +5,10 @@ import { useAppContext } from '../../AppContext';
 import { useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import {
+  SHOW_DOC,
   SHOW_MANAGE_PRESCRIPTIONS, SHOW_VISION_BENEFITS, SHOW_LAUNCH_TELEDOC, SHOW_SILVER_SNEAKERS,
   SHOW_HEALTH_HSA, SHOW_NATIONSHEARING, SHOW_DENTAQUEST, SHOW_OTCNETWORK, SHOW_NATIONSOTC, SHOW_PRIMARY_CARE_PROVIDER,
-  SHOW_COVERAGE_AND_BENEFITS, SHOW_CLAIMS, SHOW_AUTHS, SHOW_MYHEALTH, SHOW_ESTIMATECOST, SHOW_SUGGESTION_CARDS, SHOW_EXTERNAL_LINK_CARDS, SHOW_COST_ESTIMATOR_WIDGET
+  SHOW_COVERAGE_AND_BENEFITS, SHOW_CLAIMS, SHOW_AUTHS, SHOW_MYHEALTH, SHOW_ESTIMATECOST, SHOW_SUGGESTION_CARDS, SHOW_EXTERNAL_LINK_CARDS, SHOW_COST_ESTIMATOR_WIDGET, SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS
 } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import ExternalSiteLink from '../common/externalSiteLink';
@@ -15,14 +16,18 @@ import ExternalSiteLinkSSO from '../common/externalSiteLinkSSO';
 import { AnalyticsPage, AnalyticsTrack } from "../../components/common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import { useClient } from "@splitsoftware/splitio-react";
-import { SSO } from '../overTheCounter/config'
+import { useSSOModalContext } from '../../context/ssoModalContext'
+import { NOTICE, SSO } from '../overTheCounter/config'
+import NoticeLink from "../common/noticeLink";
+import AcknowledgmentModal from "../common/acknowledgmentModal";
 
 const SSOCards = () => {
 
   const history = useHistory();
 
   const { innerWidth } = useAppContext();
-  const customerInfo = useSelector((state) => state.customerInfo?.data);
+  const customerInfo = useSelector((state) => state.customerInfo);    
+  
 
   const { MIX_REACT_APP_OTC_NETWORK_HREF } = process.env;
   const { MIX_REACT_APP_TELADOC_HREF } = process.env;
@@ -35,46 +40,61 @@ const SSOCards = () => {
   const { MIX_REACT_APP_NATIONS_HEARING_HREF } = process.env;
 
   const [costEstimatorWidgetEnabled, setCostEstimatorWidgetEnabledEnabled] = useState(false);
+  const [managePrescriptionNoticeEnabled, setManagePrescriptionNoticeEnabled] = useState(false);
 
   const splitAttributes = {
-    lob: customerInfo.sessLobCode,
-    companyCode: customerInfo.companyCode,
-    benefitPackage: customerInfo.benefitPackage,
-    membershipStatus: customerInfo.membershipStatus,
-    accountStatus: customerInfo.accountStatus,
+    memberId: customerInfo?.data?.memberId,
+    customerId: customerInfo?.data?.customerId,
+    lob: customerInfo?.data?.sessLobCode,
+    companyCode: customerInfo?.data?.hohPlans?.map(plan => plan.CompanyNumber),
+    benefitPackage: customerInfo?.data?.hohPlans?.map(plan => plan.BenefitPackage),
+    membershipStatus: customerInfo?.data?.membershipStatus,
+    accountStatus: customerInfo?.data?.accountStatus,
   }
 
-  const splitHookClient = useClient(customerInfo.customerId === null ? 'Anonymous' : customerInfo.customerId)
+  const splitHookClient = useClient(customerInfo?.data?.customerId === null ? 'Anonymous' : customerInfo?.data?.customerId)
 
   useEffect(() => {
       if(!splitHookClient) return;
           const showCostEstimatorWidgetTreatment = splitHookClient.getTreatmentWithConfig(SHOW_COST_ESTIMATOR_WIDGET, splitAttributes)
+          const showManagePrescriptionNoticeTreatment = splitHookClient.getTreatmentWithConfig(SHOW_MANAGE_PRESCRIPTIONS, splitAttributes)
           setCostEstimatorWidgetEnabledEnabled(showCostEstimatorWidgetTreatment.treatment === "off" ? false : showCostEstimatorWidgetTreatment.treatment === "on" ? true : false)
-  }, [splitHookClient])
+          setManagePrescriptionNoticeEnabled(showManagePrescriptionNoticeTreatment.treatment === 'notice' ? true : false)
+  })
 
-  const SuggestionData = [{ featureName: SHOW_PRIMARY_CARE_PROVIDER, name: "Find a Doctor", img: "react/images/icon_care_providers.svg", routeLink: "findcare" },
-  { featureName: SHOW_COVERAGE_AND_BENEFITS, name: "View Benefits", img: "react/images/icon_benefits.svg", routeLink: "coverage-and-benefits" },
-  { featureName: SHOW_CLAIMS, name: "View Claims", img: "react/images/icon_claims.svg", routeLink: "claims" },
-  { featureName: SHOW_AUTHS, name: "View Authorizations", img: "react/images/icon_authorizations.svg", routeLink: "authorizations" },
-  { featureName: SHOW_MYHEALTH, name: "Manage Your Health", img: "react/images/icon_health.svg", routeLink: "communityResources" },
-  { featureName: SHOW_ESTIMATECOST, name: "Estimate Cost", img: "react/images/icon_calculator.svg", routeLink: "payments" }];
+  const SuggestionData = [{ featureName: SHOW_PRIMARY_CARE_PROVIDER, name: "Find a Doctor", img: "/react/images/icon_care_providers.svg", routeLink: "findcare" },
+  { featureName: SHOW_COVERAGE_AND_BENEFITS, name: "View Benefits", img: "/react/images/icon_benefits.svg", routeLink: "coverage-and-benefits" },
+  { featureName: SHOW_CLAIMS, name: "View Claims", img: "/react/images/icon_claims.svg", routeLink: "claims" },
+  { featureName: SHOW_AUTHS, name: "View Authorizations", img: "/react/images/icon_authorizations.svg", routeLink: "authorizations" },
+  { featureName: SHOW_MYHEALTH, name: "Manage Your Health", img: "/react/images/icon_health.svg", routeLink: "communityResources" },
+  { featureName: SHOW_ESTIMATECOST, name: "Estimate Cost", img: "/react/images/icon_calculator.svg", routeLink: "payments" },
+  { featureName: SHOW_DOC, name: "View Document Center", img: "/react/images/icon_claims.svg", routeLink: "document-center", className: "documentCenter-coachmark",
+    splitAttributes : {
+      lob: customerInfo?.data?.sessLobCode,    
+      companyCode: customerInfo?.data?.hohPlans?.map(plan => plan.CompanyNumber),                    
+      benefitPackage: customerInfo?.data?.hohPlans?.map(plan => plan.BenefitPackage),
+      accountStatus: customerInfo?.data?.accountStatus,
+      membershipStatus: customerInfo?.data?.membershipStatus,
+    } 
+  }
+  ];
 
-  const externalLinksData = [{ name: "Manage Prescriptions", desc: "View and manage your prescriptions", img: "react/images/icn-gray-pharmacy.svg", featureName: SHOW_MANAGE_PRESCRIPTIONS, routeLink: MIX_REACT_APP_CVS_HREF, type: SSO },
-  { name: "Vision Benefits", desc: "View specialists in your plan's network ", img: "react/images/icn-vision-benefits.svg", featureName: SHOW_VISION_BENEFITS, routeLink: MIX_REACT_APP_DAVIS_VISION_HREF, type: SSO },
-  { name: "Launch Teladoc", desc: "24/7 access to care by phone or video chat", img: "react/images/icn-teledoc.svg", featureName: SHOW_LAUNCH_TELEDOC, routeLink: MIX_REACT_APP_TELADOC_HREF, type: SSO },
-  { name: "SilverSneakers®", desc: "Fitness programs to keep you active", img: "react/images/icn-silver-sneakers.svg", featureName: SHOW_SILVER_SNEAKERS, routeLink: MIX_REACT_APP_SILVER_SNEAKERS_HREF, type: SSO },
-  { name: "HealthEquity HSA", desc: "Discover ways to get more from your benefits  ", img: "react/images/icn-health-equity.svg", featureName: SHOW_HEALTH_HSA, routeLink: MIX_REACT_APP_HEALTH_EQUITY_HREF, type: SSO },
-  { name: "Nations Hearing", desc: "Access hearing benefits and affordable hearing aids ", img: "react/images/icn-nations-hearing.svg", featureName: SHOW_NATIONSHEARING, routeLink: MIX_REACT_APP_NATIONS_HEARING_HREF, type: SSO },
-  { name: "DentaQuest", desc: "Resources for oral health and wellness", img: "react/images/icn-denta-quest.svg", featureName: SHOW_DENTAQUEST, routeLink: MIX_REACT_APP_DENTAQUEST_HREF, type: SSO },
-  { name: "OTC Network", desc: "Activate or check your Healthfirst OTC card balance", img: "react/images/icn-otc-network.svg", featureName: SHOW_OTCNETWORK, routeLink: MIX_REACT_APP_OTC_NETWORK_HREF, type: SSO },
-  { name: "NationsOTC", desc: "Use your OTC card to order health/wellness products", img: "react/images/icn-nation-otc.svg", featureName: SHOW_NATIONSOTC, routeLink: MIX_REACT_APP_NATIONS_OTC_HREF, type: SSO }];
+  const externalLinksData = [{ name: "Manage Prescriptions", desc: "View and manage your prescriptions", img: "/react/images/icn-gray-pharmacy.svg", featureName: SHOW_MANAGE_PRESCRIPTIONS, routeLink: MIX_REACT_APP_CVS_HREF, type: managePrescriptionNoticeEnabled ? NOTICE : SSO, membershipSplit: SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS},
+  { name: "Vision Benefits", desc: "View specialists in your plan's network ", img: "/react/images/icn-vision-benefits.svg", featureName: SHOW_VISION_BENEFITS, routeLink: MIX_REACT_APP_DAVIS_VISION_HREF, type: SSO },
+  { name: "Launch Teladoc", desc: "24/7 access to care by phone or video chat", img: "/react/images/icn-teledoc.svg", featureName: SHOW_LAUNCH_TELEDOC, routeLink: MIX_REACT_APP_TELADOC_HREF, type: SSO },
+  { name: "SilverSneakers®", desc: "Fitness programs to keep you active", img: "/react/images/icn-silver-sneakers.svg", featureName: SHOW_SILVER_SNEAKERS, routeLink: MIX_REACT_APP_SILVER_SNEAKERS_HREF, type: SSO },
+  { name: "HealthEquity HSA", desc: "Discover ways to get more from your benefits  ", img: "/react/images/icn-health-equity.svg", featureName: SHOW_HEALTH_HSA, routeLink: MIX_REACT_APP_HEALTH_EQUITY_HREF, type: SSO },
+  { name: "Nations Hearing", desc: "Access hearing benefits and affordable hearing aids ", img: "/react/images/icn-nations-hearing.svg", featureName: SHOW_NATIONSHEARING, routeLink: MIX_REACT_APP_NATIONS_HEARING_HREF, type: SSO },
+  { name: "DentaQuest", desc: "Resources for oral health and wellness", img: "/react/images/icn-denta-quest.svg", featureName: SHOW_DENTAQUEST, routeLink: MIX_REACT_APP_DENTAQUEST_HREF, type: SSO },
+  { name: "OTC Network", desc: "Activate or check your Healthfirst OTC card balance", img: "/react/images/icn-otc-network.svg", featureName: SHOW_OTCNETWORK, routeLink: MIX_REACT_APP_OTC_NETWORK_HREF, type: SSO },
+  { name: "NationsOTC", desc: "Use your OTC card to order health/wellness products", img: "/react/images/icn-nation-otc.svg", featureName: SHOW_NATIONSOTC, routeLink: MIX_REACT_APP_NATIONS_OTC_HREF, type: SSO }];
 
 
-  const handleSegmentBtn = (label, routeLink, rawtext) => {
+  const handleSegmentBtn = (label, routeLink, rawtext, row) => {
     AnalyticsPage();
     AnalyticsTrack(
       label + " " + "link clicked",
-      customerInfo,
+      customerInfo,  
       {
         "raw_text": rawtext,
         "destination_url": window.location.pathname,
@@ -98,8 +118,12 @@ const SSOCards = () => {
         }
       }
     );
-    (routeLink === 'payments' || routeLink === 'findcare') ? routeLink === 'payments' && costEstimatorWidgetEnabled == true ? window.location.href = "/costEstimator" : window.location.href = "/findcare" : history.push(`/${routeLink}`)
-    window.location.href = row?.routeLink
+    
+    if(routeLink === 'payments' && costEstimatorWidgetEnabled == true){
+      return window.location.href = "/costEstimator";
+    }else{
+      return history.push(`/${routeLink}`)
+    }
   }
 
   const displaySuggestionCards = () => {
@@ -113,27 +137,65 @@ const SSOCards = () => {
               treatmentName={row?.featureName}
               onLoad={() => { }}
               onTimedout={() => { }}
-              attributes={splitAttributes}>
+              attributes={row.splitAttributes ? row.splitAttributes : splitAttributes}>
 
                 {row?.routeLink === 'payments' && costEstimatorWidgetEnabled !== true? 
-                  <Card innerWidth={innerWidth} > 
-                  <ExternalSiteLink  link= "https://hfcostlookup.org/" label ="hfcostlookup" target="_blank" styles={{display: "flex"}}>
-                      <SuggestionImage src={row?.img}></SuggestionImage>
-                    <SuggestionVerbiage>{row?.name}</SuggestionVerbiage></ExternalSiteLink>
+             
+             <ExternalSiteLink  link= "https://hfcostlookup.org/" label ="hfcostlookup" target="_blank" styles={{display: "flex"}}>
+              <Card >
+                      <SuggestionImage alt = "" src={row?.img}></SuggestionImage>
+                    <SuggestionVerbiage>{row?.name}</SuggestionVerbiage>
+                    <SizedBox></SizedBox>
                   </Card>
+                  </ExternalSiteLink>
                 :
-                <Card onClick={() => handleSegmentBtn(row?.name, row?.routeLink, row?.name, row)} innerWidth={innerWidth}
-
+                <Card className={row?.className} onClick={() => handleSegmentBtn(row?.name, row?.routeLink, row?.name, row)} innerWidth={innerWidth}
                 >
-                  <SuggestionImage src={row?.img}></SuggestionImage>
+                  <SuggestionImage alt = "" src={row?.img}></SuggestionImage>
                   <SuggestionVerbiage>{row?.name}</SuggestionVerbiage>
                 </Card>}
             </FeatureTreatment>)
         })
 
       }
+        <AcknowledgmentModal />
     </CardRow>
     return SuggestionCards;
+  }
+
+  const getExternalCard = (row) => {
+    switch(row?.type){
+      case SSO:
+        return(
+          <LinkCard innerWidth={innerWidth}>
+            <ExternalSiteLinkSSO link={row?.routeLink} label={row?.name} membershipSplit={row?.membershipSplit} target="_blank">
+              <LinkIcon alt = "" src={row?.img}></LinkIcon>
+              <LinkVerbiage>{row?.name}</LinkVerbiage>
+              <LinkDescription>{row?.desc}</LinkDescription>
+            </ExternalSiteLinkSSO>
+          </LinkCard>
+        );
+      case NOTICE:
+        return(
+          <LinkCard innerWidth={innerWidth}>
+            <NoticeLink label={row?.name}>
+              <LinkIcon alt = "" src={row?.img}></LinkIcon>
+              <LinkVerbiage>{row?.name}</LinkVerbiage>
+              <LinkDescription>{row?.desc}</LinkDescription>
+            </NoticeLink>
+          </LinkCard>
+        );
+      default:
+        return(
+          <LinkCard innerWidth={innerWidth}>
+            <ExternalSiteLink link={row?.routeLink} label={row?.name} target="_blank" membershipKey={customerInfo?.data?.hohPlans[0]?.MembershipKey} >
+              <LinkIcon alt = "" src={row?.img}></LinkIcon>
+              <LinkVerbiage>{row?.name}</LinkVerbiage>
+              <LinkDescription>{row?.desc}</LinkDescription>
+            </ExternalSiteLink>
+          </LinkCard>
+        );
+    }
   }
 
   const displayExternalLinkCards = () => {
@@ -149,24 +211,10 @@ const SSOCards = () => {
                 treatmentName={row?.featureName}
                 onLoad={() => { }}
                 onTimedout={() => { }}
-                attributes={splitAttributes}>
+                attributes={splitAttributes}
+                showUnlessOff={true}>
                 {
-                  row?.type === SSO ?
-                    <LinkCard innerWidth={innerWidth}>
-                      <ExternalSiteLinkSSO link={row?.routeLink} label={row?.name} target="_blank">
-                        <LinkIcon src={row?.img}></LinkIcon>
-                        <LinkVerbiage>{row?.name}</LinkVerbiage>
-                        <LinkDescription>{row?.desc}</LinkDescription>
-                      </ExternalSiteLinkSSO>
-                    </LinkCard>
-                  :
-                  <LinkCard innerWidth={innerWidth}>
-                    <ExternalSiteLink link={row?.routeLink} label={row?.name} target="_blank" membershipKey={customerInfo?.hohPlans[0]?.MembershipKey} >
-                      <LinkIcon src={row?.img}></LinkIcon>
-                      <LinkVerbiage>{row?.name}</LinkVerbiage>
-                      <LinkDescription>{row?.desc}</LinkDescription>
-                    </ExternalSiteLink>
-                  </LinkCard>
+                  getExternalCard(row)
                 }
               </FeatureTreatment>)
           })}
@@ -215,7 +263,32 @@ const ExternalLinkCardRow = styled.div`
   gap:8px;
 `;
 
-const Card = styled.div`
+const SizedBox = styled.div`
+width:143px;
+heigth:56px;
+border-radius: 4px;
+box-shadow: 0 2px 8px 0 #d8d8d8;
+background-color: #ffffff;
+ &:hover{
+    cursor:pointer;
+    background-color: #f3f3f3;
+  }
+  &:focus {
+    cursor:pointer;
+    background-color: #e6e6e6;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    width:95px;
+  }
+  @media only screen and (max-width: 768px) {
+    width:115px;
+  }
+  @media only screen and (max-width: 425px) {
+    width:222px;
+  }
+`
+export const Card = styled.div`
   padding: 16px;
   border-radius: 4px;
   box-shadow: 0 2px 8px 0 #d8d8d8;
@@ -322,7 +395,7 @@ const LinkDescription = styled.div`
 `;
 
 const SuggestionImage = styled.img`
-  filter : ${props => props.src === "react/images/icon_calculator.svg" && 'opacity(0.3) drop-shadow(0 0 0 #474b55)'};
+  filter : ${props => props.src === "/react/images/icon_calculator.svg" && 'opacity(0.3) drop-shadow(0 0 0 #474b55)'};
   width: 24px;
   height: 24px;
   flex-grow: 0;

@@ -7,11 +7,17 @@ import ActivateOTCCardLink from '../components/activateOTCCardLink'
 import ExternalSiteLink from '../../../common/externalSiteLink'
 import ExternalSiteLinkSSO from '../../../common/externalSiteLinkSSO'
 import { participatingLocationsURL, evidenceOfCoverageURL, reimbursementFormsURL } from '../../config'
+import { cardTypes } from '../../const';
+import { handleSegmentClick } from '../../../../libs/segment';
+import { useSelector } from 'react-redux';
 const { cvs, duanereade, walmart, familyDollar, shopShop, riteAid, dollarGeneral, nations, otcNetwork, growNYC } = participatingLocationsURL;
 const planName = "Increased Benefits Plan (HMO)"
 
 const IncreasedBenefitsHMOPage = () => {
     const [modal, setModal] = useState({ isVisible: false, info: null })
+
+
+    const customerInfo = useSelector((state) => state.customerInfo);
 
     const closeModal = () => {
       setModal({ ...modal, isVisible: false, info: null })
@@ -23,10 +29,10 @@ const IncreasedBenefitsHMOPage = () => {
 
     const modals = { 
       OTCAndHealthRelatedItems: { 
-        title: "OTC and Health-Related Items",
+        title: "OTC Plus and Health-Related Items",
         content: () => (
           <>
-            <ModalParagraph><b>Buy OTC items online with no-cost delivery at NationsOTC.</b></ModalParagraph>
+            <ModalParagraph><b>Buy OTC Plus items online with no-cost delivery at NationsOTC.</b></ModalParagraph>
             <ModalParagraph><ExternalSiteLinkSSO link={nations.url} label="Nations OTC" target="_blank" styles={{color: "#008bbf", cursor: "pointer", fontWeight: 700}}>Click here</ExternalSiteLinkSSO> to go to your NationsOTC to place an order online or call <PhoneBold>1-877-236-7027 (TTY 711)</PhoneBold>. 24 hours per day, 7 days a week.</ModalParagraph>
           </>
         )
@@ -41,12 +47,12 @@ const IncreasedBenefitsHMOPage = () => {
             <ModalParagraph>Go to the administrative tent at these locations and the GrowNYC attendant will show you how to use your OTC Plus card.</ModalParagraph>
             <ModalParagraph>Depending on the GrowNYC location, you will either be able to:</ModalParagraph>
             <LimitationsList>
-              <LimitationsListItem>Swipe your card to receive fresh produce, meats, seafood, dairy, and more or;</LimitationsListItem>
+              <LimitationsListItem>Swipe your card to purchase fresh produce, meats, seafood, dairy, and more or;</LimitationsListItem>
               <LimitationsListItem>You will receive <b>“Healthfirst-GrowNYC Greenmarket Bucks”</b>, which can then be exchanged for healthy foods.</LimitationsListItem>
             </LimitationsList>
             <br/>
             <ModalParagraph><b>Buy Healthy foods online with no-cost delivery at NationsOTC</b></ModalParagraph>
-            <ModalParagraph><ExternalSiteLinkSSO link={nations.url} label="Nations OTC" target="_blank" styles={{color: "#008bbf", cursor: "pointer", fontWeight: 700}}>Click here</ExternalSiteLinkSSO> to go to your NationsOTC account or call <PhoneBold>1-877-236-7027 (TTY 711)</PhoneBold>. 24 hours per day, 7 days a week.</ModalParagraph>
+            <ModalParagraph><ExternalSiteLinkSSO link={nations.url} label="Nations OTC" target="_blank" styles={{color: "#008bbf", cursor: "pointer", fontWeight: 700}}>Click here</ExternalSiteLinkSSO> to go to NationsOTC to place an order online or call <PhoneBold>1-877-236-7027 (TTY 711)</PhoneBold>. 24 hours per day, 7 days a week.</ModalParagraph>
             <ModalParagraph>Order convenient fresh produce or pantry boxes and stock up on approved food items such as fruits, vegetables, meats, poultry, seafood, eggs, dairy, dried pasta, rice, beans, and more.</ModalParagraph>
             <br/>
             <ModalParagraph><b>Have freshly prepared meals delivered to your home with Mom’s meals</b></ModalParagraph>
@@ -69,7 +75,7 @@ const IncreasedBenefitsHMOPage = () => {
           <ModalParagraph>4. A pop-up will appear listing services/items that you can use your OTC Plus card to pay for; including your home utilities and internet service, please select "Bill Pay."</ModalParagraph>
           <ModalParagraph>*mybenefitscenter.com allows you to view and manage all of your OTC Plus card benefits conveniently in one portal.</ModalParagraph> 
           <ModalParagraph>Please be sure to have your utility account number available as you will need to enter it.</ModalParagraph>  
-          <ModalParagraph>If your utility provider is not listed, you may still pay your utility bill using your OTC Plus allowance. Just download and fill out the <a href={reimbursementFormsURL.ConnectionHMO.url} target="_blank">OTC Reimbursement Claim Form </a> and mail it to us.</ModalParagraph> 
+          <ModalParagraph>If your utility provider is not listed, you may still pay your utility bill using your OTC Plus allowance. Just download and fill out the <a href={reimbursementFormsURL.ConnectionHMO.url} target="_blank">OTC Plus Reimbursement Claim Form</a> and mail it to us.</ModalParagraph> 
           <ModalParagraph isExtraMargin = "35px 0px 13px">*For members with Extra Help; members without Extra Help can use their OTC Plus card for OTC and health-related items only.</ModalParagraph>  
           </>
         )
@@ -81,23 +87,29 @@ const IncreasedBenefitsHMOPage = () => {
         <>
           <WaysToSpendCard>
             <WaysToSpendCardIcon src="/react/images/otc-bottles-icon.svg" />
-            <WaysToSpendCardTitle>OTC and Health-Related Items</WaysToSpendCardTitle>
+            <WaysToSpendCardTitle>OTC Plus and Health-Related Items</WaysToSpendCardTitle>
             <WaysToSpendCardDescription>Purchase non-prescription drugs and health-related items such as aspirin, vitamins, eye drops, laxatives, and more at participating pharmacies and other retailers.</WaysToSpendCardDescription>
+            <Wrapper onClick={() => handleSegmentClick("/learn-more","Learn More","OTC Plus and Health-Related Items","Button","/learn-more",customerInfo,"otc")}>
             <WaysToSpendCardButton onClick={() => openModal(modals.OTCAndHealthRelatedItems)}>Learn more</WaysToSpendCardButton>
+            </Wrapper>
           </WaysToSpendCard>
 
           <WaysToSpendCard>
             <WaysToSpendCardIcon src="/react/images/healthy-foods-icon.svg" />
             <WaysToSpendCardTitle>Healthy Foods (if you have Extra Help)</WaysToSpendCardTitle>
             <WaysToSpendCardDescription>Purchase healthy foods from participating retailers and farmers’ markets. Examples of approved food items are fruits, vegetables, meats, poultry, seafood, eggs, dairy, rice, pasta, beans, and much more.</WaysToSpendCardDescription>
+            <Wrapper onClick={() => handleSegmentClick("/learn-more","Learn More","Healthy Foods (if you have Extra Help","Button","/learn-more",customerInfo,"otc")}>
             <WaysToSpendCardButton onClick={() => openModal(modals.HealthyFoods)}>Learn more</WaysToSpendCardButton>
+            </Wrapper>
           </WaysToSpendCard>
 
           <WaysToSpendCard>
             <WaysToSpendCardIcon src="/react/images/internet-icon.svg" />
             <WaysToSpendCardTitle>Home Utilities (if you have Extra Help)</WaysToSpendCardTitle>
             <WaysToSpendCardDescription>Use your OTC Plus card to pay for most home utilities, including gas, electric, water and internet service.</WaysToSpendCardDescription>
+            <Wrapper onClick={() => handleSegmentClick("/learn-more","Learn More","Home Utilities (if you have Extra Help)","Button","/learn-more",customerInfo,"otc")}>
             <WaysToSpendCardButton onClick={() => openModal(modals.HomeInternetService)}>Learn more</WaysToSpendCardButton>
+            </Wrapper>
           </WaysToSpendCard>
 
         </>
@@ -111,7 +123,7 @@ const IncreasedBenefitsHMOPage = () => {
                 <HeroContentWrapper>
                     <HeroLeftSection>
                         <HeroTitle>Understanding Your OTC Plus Card</HeroTitle>
-                        <HeroDescription>As a <b>Healthfirst {planName}</b> member, staying healthy is easier with your OTC card. Save on items you use every day, such as toothpaste, eye drops, aspirin, and more, when you shop at participating neighborhood and online stores, with no-cost home-delivery options available. Plus, if you have Extra Help 
+                        <HeroDescription>As a <b>Healthfirst {planName}</b> member, staying healthy is easier with your OTC Plus card. Save on items you use every day, such as toothpaste, eye drops, aspirin, and more, when you shop at participating neighborhood and online stores, with no-cost home-delivery options available. Plus, if you have Extra Help 
                         (Low Income Subsidy), you can also use your OTC Plus card for health foods and home utilites.*
                         </HeroDescription>
                         <HeroDescription>
@@ -143,7 +155,7 @@ const IncreasedBenefitsHMOPage = () => {
                         <StepsToActiveListItemHeading>Activate Your Card</StepsToActiveListItemHeading>
                         <Paragraph>Activate your OTC Plus card and bring it with you to participating pharmacies and other stores.</Paragraph>
                         <ActivateOTCCardLink />
-                        <StepsToActiveListItemNote margin="8px 0 0 0">You can also activate your OTC card by calling Card Services at <b>1-833-684-8472</b> (24 hours a day, 7 days a week).</StepsToActiveListItemNote>
+                        <StepsToActiveListItemNote margin="8px 0 0 0">You can also activate your OTC Plus card by calling Card Services at <b>1-833-684-8472</b> (24 hours a day, 7 days a week).</StepsToActiveListItemNote>
                       </StepsToActiveListItemContent>
                     </StepsToActiveListItem>
 
@@ -153,7 +165,7 @@ const IncreasedBenefitsHMOPage = () => {
                       </StepsToActiveListItemItemNumberWrapper>
                       <StepsToActiveListItemContent>
                         <StepsToActiveListItemHeading>Visit a Participating Location</StepsToActiveListItemHeading>
-                        <Paragraph>Take your activated Healthfirst OTC card to a participating store and select the approved items you want to purchase.</Paragraph>
+                        <Paragraph>Take your activated Healthfirst OTC Plus card to a participating store and select the approved items you want to purchase.</Paragraph>
                         <StepsToActiveListItemNote>For a complete list of participating pharmacies and stores, <ExternalSiteLinkSSO link={otcNetwork.url} label="OTC Network" target="_blank" styles={{color: "#008bbf", cursor: "pointer", fontWeight: 700}}>click here</ExternalSiteLinkSSO> or call your Member Services team at <PhoneBold>1-888-260-1010</PhoneBold> (TTY 1-888-542-3821), 7 days a week, 8am–8pm (October through March), and Monday to Friday, 8am–8pm (April through September).</StepsToActiveListItemNote>
                       </StepsToActiveListItemContent>
                     </StepsToActiveListItem>
@@ -165,8 +177,8 @@ const IncreasedBenefitsHMOPage = () => {
                       <StepsToActiveListItemContent>
                         <StepsToActiveListItemHeading>Pay For Your Items</StepsToActiveListItemHeading>
                         <Paragraph>At local stores, take your items to the checkout lanes. When you check out, swipe your OTC Plus card for payment. Purchases of approved items are automatically deducted from your card balance.</Paragraph>
-                        <Paragraph>Bring your OTC Plus card with you, as you cannot use your Healthfirst Member ID card or Medicare card to purchase approved OTC items.</Paragraph>
-                        <Paragraph>When you shop online, remember to enter your OTC card’s 19-digit number.</Paragraph>
+                        <Paragraph>Bring your OTC Plus card with you, as you cannot use your Healthfirst Member ID card or Medicare card to purchase approved OTC Plus items.</Paragraph>
+                        <Paragraph>When you shop online, remember to enter your OTC Plus card’s 19-digit number.</Paragraph>
                         <StepsToActiveListItemNote>*OTC items are subject to the plan’s list of eligible items and the plan’s participating network of retail and online providers.</StepsToActiveListItemNote>
                       </StepsToActiveListItemContent>
                     </StepsToActiveListItem>
@@ -201,7 +213,7 @@ const IncreasedBenefitsHMOPage = () => {
                       <LimitationsListItem>Healthy foods (if you have Extra Help)</LimitationsListItem>
                       <LimitationsListItem>Home Utilities (if you have Extra Help)</LimitationsListItem>
                     </LimitationsList>
-                    <Paragraph>For more information, view your <a href={evidenceOfCoverageURL.IncreasedBenefits.url} target="_blank">Evidence of Coverage</a> or contact Member Services.</Paragraph>
+                    <Paragraph>For more information, view your <a onClick={() =>handleSegmentClick("/learn-more","Evidence of Coverage","Evidence of Coverage","Button","/learn-more",customerInfo,"otc")  } href={evidenceOfCoverageURL.IncreasedBenefits.url} target="_blank">Evidence of Coverage</a> or contact Member Services.</Paragraph>
                     <Paragraph><b>Some items can be purchased only after a discussion with your provider.</b></Paragraph>
                     <Paragraph>While no prescription is needed before purchasing approved OTC non-prescription drugs and health-related items, some dual-purpose items* can be purchased only after a discussion with your provider, who will recommend the right OTC items for a specific diagnosis/condition.</Paragraph>
                     <StepsToActiveListItemNote>*Dual-purpose items may include vitamins, minerals, supplements, herbal and Chinese medicines, hormone replacements, and diagnostic tools like blood pressure monitors.</StepsToActiveListItemNote>
@@ -211,14 +223,14 @@ const IncreasedBenefitsHMOPage = () => {
                     <LimitationsList>
                       <LimitationsListItem>Please activate your card before using to receive your allowance.</LimitationsListItem>
                       <LimitationsListItem>Eligible items may be purchased only for the enrollee, not for family members or friends.</LimitationsListItem>
-                      <LimitationsListItem>The OTC card cannot be converted to cash.</LimitationsListItem>
-                      <LimitationsListItem>The OTC card cannot be used to purchase Part B or Part D prescription drugs.</LimitationsListItem>
+                      <LimitationsListItem>The OTC Plus card cannot be converted to cash.</LimitationsListItem>
+                      <LimitationsListItem>The OTC Plus card cannot be used to purchase Part B or Part D prescription drugs.</LimitationsListItem>
                       <LimitationsListItem>Any unused balances will automatically expire at the end of each quarter or upon disenrollment or transfer to another Healthfirst plan.</LimitationsListItem>
-                      <LimitationsListItem>You cannot use your Healthfirst Member ID card or Medicare card to pay eligible OTC Plus card items.</LimitationsListItem>
+                      <LimitationsListItem>You cannot use your Healthfirst Member ID card or Medicare card to pay for eligible OTC Plus card items.</LimitationsListItem>
                     </LimitationsList>
                   </LimitationsContent>
                 </LimitationSectionWrapper>
-                <CoverageNote cardType = "OTC Plus" resetPeriod="quarter" />
+                <CoverageNote cardType={cardTypes.otcPlus} resetPeriod="quarter" />
               </Body>
         </Wrapper>
     )

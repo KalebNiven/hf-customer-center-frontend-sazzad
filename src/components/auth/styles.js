@@ -99,7 +99,7 @@ export const InputErrorMsg = styled.div`
     line-height: 1.33;
     letter-spacing: normal;
     color: #ad122a;
-    padding-top: 4px;
+   // padding-top: 4px;
 `;
 
 export const InfoIcon = styled.img`
@@ -127,7 +127,7 @@ export const MemberCardsContainer = styled.div`
     border-radius: 4px;
     margin: auto;
     margin-bottom: 59px;
-    margin-top: 15px;
+    margin-top: 3px;
     font-family: "museo-sans" !important;
 `;
 
@@ -145,6 +145,34 @@ export const FormButtonWrapper = styled(ButtonWrapper)`
             width: 100%;
             margin: 0;
         }
+    }
+`;
+
+
+export const VerifyButton = styled.button`
+    margin-top: 13px;
+    height: 40px;
+    border-radius: 4px;
+    padding: 8px 16px;
+    white-space: nowrap;
+    width: 100%;
+    background-color: ${({ variant }) =>
+        variant === "primary" ? "#3e7128" : "#D3D3D3"};
+    font-family: "museo-sans";
+    font-size: 18px;
+    font-weight: ${({ variant }) => (variant === "primary" ? "600" : "400")};
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: -0.08px;
+    text-align: center;
+    border: ${({ variant }) =>
+        variant === "secondary" ? `1px solid #3e7128` : "0px"};
+    color: ${({ variant }) => (variant === "primary" ? "#ffffff" : "#757575")};
+    &:hover {
+        
+        background-color: ${({ variant }) =>
+            variant === "primary" ? "#517f3d" : "#D3D3D3"};
     }
 `;
 
@@ -181,7 +209,6 @@ export const AdditionalInfo = styled.div`
     font-size: 14px;
     color: #474b55;
     margin-top: 10px;
-    margin-bottom: 10px;
 `;
 export const CenterInfo = styled.div`
     text-align: center;
@@ -239,6 +266,7 @@ export const BackIcon = styled.img`
     }
 `;
 export const BackText = styled.p`
+    width:20px; 
     margin-left: 19px;
     margin-top: -3px;
     font-size: 14px;
@@ -299,8 +327,7 @@ export const  Span = styled.span`
     font-size: 14px;
     line-height: 18px;
     text-align: center;
-    color:${({ variant }) =>
-    variant === "primary" ? "#3788BC" : "#474b55"};
+    color:${({ variant }) => variant  ? "#3788BC" : "#474b55"};
     margin-bottom: 8px;
     cursor:pointer;
 `;

@@ -61,7 +61,7 @@ const DigitalId = (props) => {
                                     <div className="col-6">
                                         <img
                                             src="/img/Healthfirst Logo@2x.svg"
-                                            alt="Healthfirst Logo"
+                                            alt=""
                                             width="100px"
                                         />
                                     </div>
@@ -103,22 +103,12 @@ const DigitalId = (props) => {
                                 {digitalIdCard["individualDeductible"] !==
                                 null ? (
                                     <div className="row no-gutters">
-                                        <div className="col-6 text-left caption-normal light-bold">
-                                            INDIVIDUAL DEDUCTIBLE
+                                        <div className="col-6 text-left caption-normal light-bold pr-4">
+                                            INDIVIDUAL {(digitalIdCard["isIndividualOnly"] !== true && digitalIdCard["familyDeductible"] !== null) ? "/FAMILY " : ""} DEDUCTIBLE
                                         </div>
                                         <div className="col-6 text-left caption-bold">
-                                            {"$" +
-                                                digitalIdCard[
-                                                    "individualDeductible"
-                                                ] +
-                                                (digitalIdCard[
-                                                    "familyDeductible"
-                                                ] !== null
-                                                    ? "/$" +
-                                                      digitalIdCard[
-                                                          "familyDeductible"
-                                                      ]
-                                                    : "")}
+                                            {"$" + digitalIdCard["individualDeductible"]
+                                                + ((digitalIdCard["isIndividualOnly"] !== true && digitalIdCard["familyDeductible"] !== null) ? "/$" + digitalIdCard["familyDeductible"]: "")}
                                             {checkBenefitPackPPOM() && (
                                                 <sup>*</sup>
                                             )}
@@ -178,9 +168,9 @@ const DigitalId = (props) => {
                                                 </div>
                                             </div>
                                         ) : null}
+                                        <hr />
                                     </div>
                                 ) : null}
-                                <hr />
 
                                 {digitalIdCard["showProviderBlock"] == true ? (
                                     <div>
@@ -257,9 +247,10 @@ const DigitalId = (props) => {
                                         ) : (
                                             <div>PCP Info Unavailable</div>
                                         )}
+                                        <hr />
                                     </div>
                                 ) : null}
-                                <hr />
+                                
 
                                 {digitalIdCard["showOutOfPocketBlock"] ==
                                 true ? (

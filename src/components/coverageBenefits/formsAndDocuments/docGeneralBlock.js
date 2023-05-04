@@ -19,7 +19,7 @@ const DocGeneralBlock = ({ showLangMenu, menuOpen, genBtnIndex }) => {
                 <DocView key={index}>
                   <DocRow>
                     <DataDocBlock>
-                      <Icon right src="react/images/icn-pdf.svg" />
+                      <Icon right alt = "" src="/react/images/icn-pdf.svg" />
                       <DocText>{doc.name}</DocText>
                       <IconRight selected={ index === genBtnIndex ? true : false} onClick={() => showLangMenu(0, index)}>
                         <LangSelectMenu btnIndex={genBtnIndex} index={index} urls={doc.assetUrl} count={docsCount} menuOpen={menuOpen} docName={doc.name} />

@@ -87,8 +87,8 @@ const NowPowCategoryListPage = () => {
           arrows: true,
           draggable: false,
           // variableWidth: true,
-          nextArrow: <NextArrow src="react/images/icn-arrow-right.svg" />,
-          prevArrow: <PrevArrow src="react/images/icn-arrow-left.svg" />,
+          nextArrow: <NextArrow alt = "" src="/react/images/icn-arrow-right.svg" />,
+          prevArrow: <PrevArrow alt = "" src="/react/images/icn-arrow-left.svg" />,
           responsive: [
             { breakpoint: 769, settings: { arrows: false, slidesToShow: 1, slidesToScroll: 1 } },
             { breakpoint: 1024, settings: { arrows: false, slidesToShow: 2, slidesToScroll: 1 } }
@@ -203,7 +203,7 @@ const NowPowCategoryListPage = () => {
                             src={`data:image/svg;base64,${icon}`}
                             width="50"
                             height="50"
-                            alt="image"
+                            alt=""
                             />
                         </ProviderIconContainer>
                         </InlineInnerFixedContainer>
@@ -219,7 +219,7 @@ const NowPowCategoryListPage = () => {
                                       src="/react/images/icn-blue-call.svg"
                                       width="13px"
                                       height="12px"
-                                      alt="image"
+                                      alt=""
                                   />
                                   <PhoneNumberText>{data.phoneNumber}</PhoneNumberText>
                                 </PhoneNumberWrapper>
@@ -283,6 +283,7 @@ function NextArrow(props) {
   const { className, style, onClick } = props;
   return (
     <NextArrowImg
+      alt = ""
       className={className}
       onClick={onClick}
       src="/react/images/icn-arrow-right.svg"

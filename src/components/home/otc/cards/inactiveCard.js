@@ -1,36 +1,76 @@
-import React from 'react'
-import styled from 'styled-components';
-import { CardHeader, CardBody, CardFooter, Card, FooterActions, FooterBody } from './styles.js'
-import ActivateButton from './activateButton'
-import LearnMoreButton from './learnMoreButton'
+import React from "react";
+import styled from "styled-components";
+import {
+    CardFooter,
+    Card,
+    FooterActions,
+    FooterBody,
+    TooltipIcon,
+} from "./styles.js";
+import ActivateButton from "./activateButton";
+import LearnMoreButton from "./learnMoreButton";
+import { usePopperTooltip } from "react-popper-tooltip";
 
 const InactiveCard = ({ handleActivate, handleLearnMore }) => {
-  return (
-    <Card>
-        <OTCIcon src="react/images/otc-icon.svg" />
-        <CardHeader>
-        <BalanceTitle>Account Status</BalanceTitle>
-        </CardHeader>
-        <CardBody>
-        <Balance>Inactive</Balance>
-        <Paragraph>Please, call Member Services at <b>1 (888) 260-1010</b> if you have any questions.</Paragraph>
-        </CardBody>
-        <CardFooter>
-          <FooterBody>
-            <ActivateCTATitle>Activate Your OTC Card</ActivateCTATitle>
-            <ActivateCTADesc>Activate your Healthfirst OTC card to view your account balance.</ActivateCTADesc>
-          </FooterBody>
-          <FooterActions>
-            <LearnMoreButton handleLearnMore={handleLearnMore} />
-            <ActivateButton handleActivate={handleActivate} />
-          </FooterActions>
-        </CardFooter>
-    </Card>
-  )
-}
+    const {
+        getArrowProps,
+        getTooltipProps,
+        setTooltipRef,
+        setTriggerRef,
+        visible,
+    } = usePopperTooltip({ placement: "top" });
+
+    return (
+        <Card>
+            <CardFooter>
+                <FooterBody>
+                    <ActivateCTATitleWrapper>
+                        <ActivateCTATitle>
+                            Activate Your OTC Card
+                        </ActivateCTATitle>
+                        {visible && (
+                            <Align
+                                ref={setTooltipRef}
+                                {...getTooltipProps({
+                                    className: "tooltip-container",
+                                })}
+                            >
+                                <div
+                                    {...getArrowProps({
+                                        className: "tooltip-arrow",
+                                    })}
+                                />
+                                Click “Activate Card” below to activate your card. For any questions please call Member Services at 1 (888) 260-1010.
+                            </Align>
+                        )}
+                        <CustomTooltipIcon ref={setTriggerRef} />
+                    </ActivateCTATitleWrapper>
+                    <ActivateCTADesc>
+                        Activate your Healthfirst OTC card to start using your
+                        allowance.
+                    </ActivateCTADesc>
+                </FooterBody>
+                <FooterActions>
+                    <LearnMoreButton handleLearnMore={handleLearnMore} />
+                    <ActivateButton handleActivate={handleActivate} />
+                </FooterActions>
+            </CardFooter>
+        </Card>
+    );
+};
 
 export const Wrapper = styled.div`
-  margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+`;
+
+export const ActivateCTATitleWrapper = styled.div`
+    position: relative;
+    display: flex;
+`;
+
+
+const Align = styled.div`
+text-align:left;
 `;
 
 export const Title = styled.h3`
@@ -52,11 +92,13 @@ export const OTCIcon = styled.img`
   right: 16px;
 `;
 
-export const HeaderLeft = styled.div`
-`;
+export const CustomTooltipIcon = styled(TooltipIcon)`
+margin :0px 0px 0px 9.33px;
+`
 
-export const HeaderRight = styled.div`
-`;
+export const HeaderLeft = styled.div``;
+
+export const HeaderRight = styled.div``;
 
 export const BalanceTitle = styled.h4`
   flex-grow: 0;
@@ -147,6 +189,7 @@ export const ShopOnlineIcon = styled.img`
 export const Paragraph = styled.div`
   font-size: 12px;
   font-weight: 500;
+  margin-bottom:8px;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.33;

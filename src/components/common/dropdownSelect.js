@@ -89,7 +89,7 @@ function DropdownSelect(props) {
             {selection || placeholder}
           </DropdownFieldText>
           <DropdownIconContainer>
-            <DropdownIcon src={!isOpen ? "react/images/icn-dropdown.svg" : "react/images/icn-dropdown-up.svg"} />
+            <DropdownIcon alt = "" src={!isOpen ? "/react/images/icn-dropdown.svg" : "/react/images/icn-dropdown-up.svg"} />
           </DropdownIconContainer>
         </DropdownFieldTextContainer>
         <DropdownList className="hf-preference-center-dropdown-content" isOpen={isOpen} heightPixels={heightPixels}>

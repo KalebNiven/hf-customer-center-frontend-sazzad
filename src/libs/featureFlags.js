@@ -128,6 +128,7 @@ export class FeatureTreatment extends PureComponent {
       children,
       onLoad,
       onTimedout,
+      showUnlessOff,
     } = this.props;
     return (
       <SplitTreatments names={[treatmentName]} attributes={attributes}>
@@ -195,7 +196,9 @@ export class FeatureTreatment extends PureComponent {
           else if (treatment === "control" && invertBehavior) {
             return clonedChild;
           }
-
+          else if(showUnlessOff) {
+            return clonedChild;
+          }
           return <></>;
         }}
       </SplitTreatments>

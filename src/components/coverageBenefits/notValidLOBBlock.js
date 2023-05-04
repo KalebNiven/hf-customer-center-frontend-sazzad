@@ -25,7 +25,7 @@ const NotValidLOBBlock = ({ memberSelection, setMemberSelection }) => {
           <InnerCard>
             <CardHeader>
               <CardTitle>
-                <Icon src="react/images/icn-benefits.svg" />
+                <Icon alt="" src="/react/images/icn-benefits.svg" />
                 <BlueHeader>Benefits</BlueHeader>
               </CardTitle>
             </CardHeader>
@@ -38,7 +38,7 @@ const NotValidLOBBlock = ({ memberSelection, setMemberSelection }) => {
                 attributes = {splitAttributes}
               >
                 <DownloadBtn href="#">
-                  <BtnIcon right src="react/images/icn-download-blue.svg" />
+                  <BtnIcon right src="/react/images/icn-download-blue.svg" />
                   <BtnText>Download Summary of Benefits</BtnText>
                 </DownloadBtn>
               </FeatureTreatment>
