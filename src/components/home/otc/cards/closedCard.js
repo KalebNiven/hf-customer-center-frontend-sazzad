@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components';
-import { CardHeader, CardBody, CardFooter, Card, FooterActions, FooterBody } from './styles.js'
+import { CardHeader, CardBody, CardFooter, Card, FooterActions, FooterBody,TooltipIcon } from './styles.js'
 import { usePopperTooltip } from 'react-popper-tooltip';
 import '../../../../styles/tooltipStyles.css';
-import ActivateButton from './activateButton'
-import LearnMoreButton from './learnMoreButton'
+import ActivateButton from './activateButton';
+import LearnMoreButton from './learnMoreButton';
 
 const ClosedCard = ({ handleLearnMore, handleActivate }) => {
   const {
@@ -17,7 +17,7 @@ const ClosedCard = ({ handleLearnMore, handleActivate }) => {
 
   return (
     <Card>
-        <OTCIcon src="react/images/otc-icon.svg" />
+        <OTCIcon alt = "" src="/react/images/otc-icon.svg" />
         <CardHeader>
         <BalanceTitle>Account Status</BalanceTitle>
         </CardHeader>
@@ -30,9 +30,7 @@ const ClosedCard = ({ handleLearnMore, handleActivate }) => {
               <div {...getArrowProps({ className: 'tooltip-arrow' })} />
               Your OTC Card has been automatically closed. This happens when your card has been on hold for more than 30 days. 
           </div>}
-          <IconWrapper>
             <TooltipIcon ref={setTriggerRef} />
-          </IconWrapper>
         </BalanceWrapper>
         <Paragraph>Please, call Member Services at <b>1 (888) 260-1010</b> to request a new card.</Paragraph>
         </CardBody>
@@ -167,6 +165,7 @@ export const ShopOnlineIcon = styled.img`
 
 export const Paragraph = styled.div`
   font-size: 12px;
+  margin-bottom:8px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -184,24 +183,6 @@ export const BalanceWrapper = styled.div`
 export const BalanceTitleWrapper = styled.div`
 `;
 
-export const IconWrapper = styled.div`
-  margin-left: 8px;
-  position: relative;
-`;
-
-export const TooltipIcon = styled.div`
-  content: "";
-  background-image: url("react/images/info-circle-icon.svg");
-  background-position: center;
-  background-size: cover;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-
-  &:hover {
-    background-image: url("react/images/info-circle-icon-blue.svg");
-  }
-`;
 
 export const TooltipCloud = styled.div`
   padding: 12px 16px;

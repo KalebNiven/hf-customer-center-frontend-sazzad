@@ -148,7 +148,7 @@ const Details = ({ historyState }) => {
                         src="/react/images/icn-blue-call.svg"
                         width="13px"
                         height="12px"
-                        alt="image"
+                        alt=""
                       />
                       <ContactText href={`tel:${details.phone}`} onclick={handleSegmentBtn("Phone Number",details.phone)}>{details.phone}</ContactText>
                     </ContactTextWrapper>
@@ -159,7 +159,7 @@ const Details = ({ historyState }) => {
                         src="/react/images/icn-blue-email.svg"
                         width="13px"
                         height="12px"
-                        alt="image"
+                        alt=""
                       />
                       <ContactText>{details.emailAddress}</ContactText>
                     </ContactTextWrapper>
@@ -171,7 +171,7 @@ const Details = ({ historyState }) => {
                           src="/react/images/icn-blue-web.svg"
                           width="13px"
                           height="12px"
-                          alt="image"
+                          alt=""
                         />
                         <ContactText>{details.website}</ContactText>
                       </ContactTextWrapper>

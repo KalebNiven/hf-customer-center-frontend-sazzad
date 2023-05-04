@@ -18,7 +18,7 @@ const PlanDetailsBlock = ({ memberSelection }) => {
           {
             (coverage.deductibleFamily || coverage.deductibleIndividual) &&
             <>
-              <Icon margin src="react/images/icn-dollar.svg" />
+              <Icon alt="" margin src="/react/images/icn-dollar.svg" />
               <BlueHeader margin>Cost</BlueHeader>
             </>
           }

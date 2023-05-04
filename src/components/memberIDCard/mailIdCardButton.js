@@ -8,7 +8,6 @@ import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/
 import { AnalyticsTrack } from "../common/segment/analytics";
 
 const MailIdCardButton = ({ handleClick, disableBtn, memberId}) => {
-      console.log('disableBtn', disableBtn);
       const dispatch = useDispatch();
 
       const { MIX_SPLITIO_KEY } = process.env; 
@@ -38,6 +37,7 @@ const MailIdCardButton = ({ handleClick, disableBtn, memberId}) => {
           customerInfo, 
           {
               "raw_text": "Mail Me a New ID Card", 
+              "description": "Mail Me a New ID Card", 
               "destination_url": "N/A", 
               "category": ANALYTICS_TRACK_CATEGORY.memberIdCard, 
               "type": ANALYTICS_TRACK_TYPE.buttonClicked, 

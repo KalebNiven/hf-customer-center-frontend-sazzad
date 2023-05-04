@@ -79,14 +79,14 @@ function DependentDropdown(props) {
       >
         <DropdownFieldTextContainer>
           <UserIconContainer>
-            <UserCircleIcon src="react/images/icons-solid-user-dark-grey.svg" />
+            <UserCircleIcon alt="" src="/react/images/icons-solid-user-dark-grey.svg" />
           </UserIconContainer>
           <DropdownFieldText className={`${selection && "selected"} ${error && "error"}`}>
               {selection || placeholder}
             <DropdownSecondFieldText>{props.selected.planName}</DropdownSecondFieldText>
           </DropdownFieldText>
           <DropdownIconContainer>
-            <DropdownIcon src={!isOpen ? "react/images/icn-dropdown.svg" : "react/images/icn-dropdown-up.svg"} />
+            <DropdownIcon alt="" src={!isOpen ? "/react/images/icn-dropdown.svg" : "/react/images/icn-dropdown-up.svg"} />
           </DropdownIconContainer>
         </DropdownFieldTextContainer>
         <DropdownList className="hf-preference-center-dropdown-content" isOpen={isOpen}>
@@ -98,7 +98,7 @@ function DependentDropdown(props) {
                 value={item.value}
               >
                 <UserIconContainer>
-                  <UserCircleIcon src="react/images/icons-solid-user-dark-grey.svg" />
+                  <UserCircleIcon alt = "" src="/react/images/icons-solid-user-dark-grey.svg" />
                 </UserIconContainer>
                 <UserInfoContainer>
                   {item.planName === "" ?

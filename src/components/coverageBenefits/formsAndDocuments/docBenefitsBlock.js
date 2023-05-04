@@ -19,7 +19,7 @@ const DocBenefitsBlock = ({ showLangMenu, menuOpen, benfBtnIndex }) => {
                 <DocView key={index}>
                   <DocRow>
                     <DataDocBlock>
-                      <Icon right src="react/images/icn-pdf.svg" />
+                      <Icon alt="" right src="/react/images/icn-pdf.svg" />
                       <DocText>{doc.name}</DocText>
                       <IconRight selected={ index === benfBtnIndex ? true : false} onClick={() => showLangMenu(1, index)}>
                         <LangSelectMenu btnIndex={benfBtnIndex} index={index} urls={doc.assetUrl} count={0} menuOpen={menuOpen} docName={doc.name} />

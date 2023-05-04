@@ -13,6 +13,7 @@ const ExternalSiteModal = () => {
     const customerInfo = useSelector((state) => state.customerInfo);
     const homeDetails = useSelector((state) => state.homeDetails);
     const [membership, setMembership] = useState({})
+    const [externalWindow, setExternalWindow] = useState();
 
     const dispatch = useDispatch();
 
@@ -31,7 +32,7 @@ const ExternalSiteModal = () => {
         } else {
             setMembership({ ...membership, loading: false });
             if(homeDetails.externalLinkError === undefined) {
-                window.open(membership.link);
+                externalWindow.location = membership.link;
                 resetExternalModal();
             }
         }
@@ -74,6 +75,7 @@ const ExternalSiteModal = () => {
         if(isSSOLink){ // handle SSO Links
             setMembership({ membershipKey, link })
             dispatch(requestSelectPlan(membershipKey));
+            setExternalWindow(window.open("", "_blank"));
         } else { // handle regular links
             window.open(link);
             resetExternalModal()

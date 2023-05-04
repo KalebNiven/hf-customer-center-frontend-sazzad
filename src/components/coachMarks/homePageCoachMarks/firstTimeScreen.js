@@ -1,7 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useSelector } from "react-redux";
+ import { handleSegmentClick } from "../../../libs/segment";
+
 
 const FirstTimeScreen = ({ visible, handleStart, handleEndTour, firstName }) => {
+
+    const customerInfo = useSelector((state) => state.customerInfo);
+
+    const handleSegmentBtn  = (label) => {
+        handleSegmentClick("/home",label, label,"button", "bottom", customerInfo ,"home")
+        handleStart()
+      }
 
     return (
         <FirstTimeScreenWrapper visible={visible}>
@@ -12,7 +22,7 @@ const FirstTimeScreen = ({ visible, handleStart, handleEndTour, firstName }) => 
                     <Description>Healthfirst has been working hard to provide it’s members the best user experience. Take a tour to see what’s new.</Description>
                     <ButtonsWrapper>
                         <Button outlined={true} onClick={handleEndTour}>No Thanks</Button>
-                        <Button onClick={handleStart}>Let's Go</Button>
+                        <Button onClick={() =>handleSegmentBtn("Lets Go")}>Let's Go</Button>
                     </ButtonsWrapper>
                 </ModalWrapper>
             </Overlay> 

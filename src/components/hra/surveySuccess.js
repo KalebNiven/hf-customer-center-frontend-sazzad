@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const SurveySuccess = () => {
     return (
         <Wrapper>
-            <CheckmarkIcon src="/react/images/icons-solid-checkmark-circle.svg" />
+            <CheckmarkIcon alt = "" src="/react/images/icons-solid-checkmark-circle.svg" />
             <Heading>Annual Health Assessment Completed!</Heading>
             <Content>Based on your responses to the survey, we've provided links below to help you with your health goals. If you have any questions, please call the Member Services phone number on your Member ID card.</Content>
             <Button href="/communityResources">Continue</Button>

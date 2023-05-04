@@ -6,15 +6,12 @@ const { MIX_REACT_SESSION_LIFETIME_SECONDS } = process.env;
 const { MIX_REACT_SESSION_WARNING_COUNTDOWN_SECONDS } = process.env;
 const { MIX_REACT_OKTA_API_URL } = process.env;
 
-const logout = () => {
-    useLogout();
-}
-
 const SessionTimeoutModal = (props) => {
     const [timeoutVisible, setTimeoutVisible] = useState(false);
     const [warningTimerId, setWarningTimerId] = useState(undefined);
     const [countDownSecondsLeft, setCountdownSecondsLeft] = useState(MIX_REACT_SESSION_WARNING_COUNTDOWN_SECONDS);
     const [startCounter, setStartCounter] = useState(false);
+    const logout = useLogout();
 
     let countDownId;
 

@@ -17,7 +17,7 @@ import DropdownSelect from "../common/dropdownSelect";
 import * as CONSTANTS from '../../constants/common';
 import Toaster from '../common/toaster';
 import { verifyContactInfo, resendCodeContactInfo, verifyPhoneContactInfo, verifyEmailContactInfo } from '../../store/saga/apis';
-const ContactInformation = ({ }) => {
+const ContactInformation = () => {
 	const customerInfo = useSelector(state => state.customerInfo.data)
 	const submitContactInfoPayload = useSelector(state => state.submitContactInfoPayload)
 	const [loadingSpinner, setLoadingSpinner] = useState(false);
@@ -30,8 +30,8 @@ const ContactInformation = ({ }) => {
 	const [verificationModalData, setVerificationModalData] = useState(false);
 	const [emailAddress, setEmailAddress] = useState(customerInfo?.email);
 	const [currentModal, setCurrentModal] = useState('');
-	const {toastOpen,setToastOpen} = useAppContext()
-	const {toastState,setToastState} = useAppContext()
+	const { toastOpen, setToastOpen } = useAppContext()
+	const { toastState, setToastState } = useAppContext()
 	const [phoneNumber, setPhoneNumber] = useState({
 		value: '',
 		type: CONSTANTS.PhoneTypeValues[0]?.value,
@@ -55,12 +55,19 @@ const ContactInformation = ({ }) => {
 		error: false,
 		message: ''
 	})
+
+	useEffect(() => {
+		if (window.localStorage.getItem("contactInfoNavIndex") !== null) {
+			window.localStorage.removeItem("contactInfoNavIndex")
+		}
+	}, [])
+
 	const dispatch = useDispatch();
 	useEffect(() => {
 		const { loading, error, submitEmailDetails, submitPhoneDetails } = submitContactInfoPayload;
 		setLoadingSpinnerSave(loading);
 		if (!loading && error === '' && (submitEmailDetails || submitPhoneDetails)) {
-		
+
 			if (emailAddressEditing || emailAddressVerifying) {
 				setVerificationModalData(emailAddress)
 			}
@@ -82,7 +89,7 @@ const ContactInformation = ({ }) => {
 		}, 5000);
 	}, [toastrPop])
 	useEffect(() => {
- 		if (verificationModalData) {
+		if (verificationModalData) {
 			setTimeout(() => {
 				setResendCodeState(true)
 			}, 30000)
@@ -99,7 +106,10 @@ const ContactInformation = ({ }) => {
 			...phoneNumberCopy,
 			value: customerInfo?.mobilePhone
 		})
+
 	}, [customerInfo])
+
+
 
 	const validateEmail = () => {
 		if (emailAddress === '') {
@@ -119,7 +129,7 @@ const ContactInformation = ({ }) => {
 	}
 
 	const validatePhone = () => {
-		
+
 		if (!phoneNumber.value) {
 			setPhoneNumber((phoneNumber) => ({ ...phoneNumber, error: 'A phone number is required' }))
 		} else if (phoneNumber.value.length !== 10) {
@@ -127,10 +137,10 @@ const ContactInformation = ({ }) => {
 		} else if (customerInfo?.mobilePhone === phoneNumber.value && !phoneVerifying) {
 			setPhoneNumber((phoneNumber) => ({ ...phoneNumber, error: 'This phone number already exists' }))
 		}
-		else if(phoneNumber.value.match(/(\d)\1{9}/g)){
+		else if (phoneNumber.value.match(/(\d)\1{9}/g)) {
 			setPhoneNumber((phoneNumber) => ({ ...phoneNumber, error: 'Invalid Phone Number.' }))
 		}
-		 else {
+		else {
 			setPhoneNumber(() => ({ ...phoneNumber, error: '' }))
 			//setVerificationModalData(phoneNumberHashed)
 			setCurrentModal('sms')
@@ -146,8 +156,6 @@ const ContactInformation = ({ }) => {
 		setLoadingSpinner(true)
 		const postVerifyErrorCopy = { ...postVerifyError }
 		await verifyContactInfo(payload).then((res) => {
-			dispatch(requestCustomerInfo());
-			
 			toastrPopCopy.toastrMsg = res.message
 			toastrPopCopy.toastrState = res.status
 			toastrPopCopy.toastrOpen = true
@@ -162,38 +170,27 @@ const ContactInformation = ({ }) => {
 			postVerifyErrorCopy.error = false;
 			postVerifyErrorCopy.message = '';
 			setPostVerifyError(postVerifyErrorCopy)
-		 
+
 		}).catch(err => {
 			if (err.response) {
 				setLoadingSpinner(false)
-				console.log(err.response.data, 'err')
-				
-				// toastrPopCopy.toastrMsg = err.response.data.message
-				// toastrPopCopy.toastrState = err.response.data.status
-				// toastrPopCopy.toastrOpen = true
 				postVerifyErrorCopy.error = true
 				postVerifyErrorCopy.message = err.response.data.message
 				setPostVerifyError(postVerifyErrorCopy)
-				//setVerificationModalData(false)
-				//setToastrPop(toastrPopCopy)
 				setLoadingSpinner(false);
 				setEmailAddressEditing(false);
 				setPhoneEditing(false);
-				//setVerificationCode('');
 			}
-
 		})
-
-
-
 	}
 	const verifyEmailLink = async () => {
 		const payload = {
+			channelType: "email",
 			email: emailAddress
 		}
 
 		setEmailAddressVerifying(true)
-		await verifyEmailContactInfo(payload).then(res => {
+		await verifyEmailContactInfo(payload, true).then(res => {
 			setVerificationModalData(emailAddress)
 			setCurrentModal('email')
 		}).catch(err => console.log(err)).finally(() => {
@@ -202,10 +199,11 @@ const ContactInformation = ({ }) => {
 	}
 	const verifyPhoneLink = async () => {
 		const payload = {
+			channelType: "sms",
 			phone: phoneNumber?.value
 		}
 		setPhoneVerifying(true);
-		await verifyPhoneContactInfo(payload).then(res => {
+		await verifyPhoneContactInfo(payload, true).then(res => {
 			setVerificationModalData(phoneNumberHashed)
 			setCurrentModal('sms')
 		}).catch(err => {
@@ -219,7 +217,6 @@ const ContactInformation = ({ }) => {
 			channelType: currentModal
 		}
 		const responseData = await resendCodeContactInfo(payload, customerInfo.csrf).then(res => {
-			console.log(res, 'verifyApi')
 			setResendVerificationCodeRes(responseData)
 		}).catch(err => console.log(err))
 
@@ -230,7 +227,7 @@ const ContactInformation = ({ }) => {
 			<FormModalWrapper visible={verificationModalData}>
 				<ModalInnerWrapperCustom>
 					<FormModalContent>
-						<CloseIcon src="react/images/icn-close.svg" onClick={() => setVerificationModalData(false)} />
+						<CloseIcon src="/react/images/icn-close.svg" onClick={() => setVerificationModalData(false)} />
 						<>
 							<HeaderCustom>
 								Enter Verification Code
@@ -249,9 +246,9 @@ const ContactInformation = ({ }) => {
 									placeholder="Code (6 digits)"
 								/>
 							</TextBox>
-							<Tip 
-							emailErrorCheck={postVerifyError?.error}>{postVerifyError?.message} &nbsp;</Tip>
-							
+							<Tip
+								emailErrorCheck={postVerifyError?.error}>{postVerifyError?.message} &nbsp;</Tip>
+
 							<SendCodeText>Didn’t get the code? <LinkText resendCodeState={resendCodeState} onClick={() => {
 								setResendCodeState(false);
 								resendVerificationCode()
@@ -259,6 +256,7 @@ const ContactInformation = ({ }) => {
 							<ContactUsext>If you are still unable to verify, <LinkText resendCodeState={true} onClick={() => window.open("https://healthfirst.org/contact", "_blank")}>please contact us</LinkText></ContactUsext>
 							<FormButtonWrapper>
 								<StyledButtonCustom onClick={() => {
+									window.localStorage.setItem("contactInfoNavIndex", JSON.stringify("1"))
 									const postVerifyErrorCopy = { ...postVerifyError }
 									setVerificationCode('')
 									setVerificationModalData(false)
@@ -268,7 +266,7 @@ const ContactInformation = ({ }) => {
 									postVerifyErrorCopy.message = '';
 									setPostVerifyError(postVerifyErrorCopy)
 									dispatch(requestCustomerInfo());
-									}} variant="secondary" >
+								}} variant="secondary" >
 									Cancel
 								</StyledButtonCustom>
 								<Spacer></Spacer>
@@ -305,20 +303,15 @@ const ContactInformation = ({ }) => {
 	const { emailStatus, phoneStatus } = customerInfo;
 	return (
 		<>
-			{/* <Toastr open={toastrOpen} toastrState={toastrState}>
-				<ToastrIconBox toastrState={toastrState}><ToastrIcon src={toastrState === 'Success' ? "react/images/valid-check.svg" : "react/images/icon-exclamation.svg"} ></ToastrIcon></ToastrIconBox>
-				<ToastrInfo>
-					<ToastrText>{toastrMsg}</ToastrText>
-					<ToastrCloseIcon src="react/images/valid-close.svg" onClick={() => setToastrPop(toastrPopInit)}></ToastrCloseIcon>
-				</ToastrInfo>
-			</Toastr> */}
 
-{toastOpen === true &&
+			{toastOpen === true &&
 				<>
 					<Toaster
 						unmountMe={() => {
+							window.localStorage.setItem("contactInfoNavIndex", JSON.stringify("1"))
 							setToastOpen(false)
 							setToastState("")
+							dispatch(requestCustomerInfo())
 						}}
 						timeout={5000}
 						notificationText={toastState}
@@ -326,7 +319,7 @@ const ContactInformation = ({ }) => {
 					/>
 				</>}
 			{verificationModalData && verificationModal()}
-			<RightHeader>Contact Information</RightHeader>
+			<RightHeader>Personal Information</RightHeader>
 			<SubHeader>Control what information and methods Healthfirst will use to contact you.</SubHeader>
 			<Card>
 				<Title>Email Address</Title>
@@ -338,24 +331,25 @@ const ContactInformation = ({ }) => {
 							<TextBox error={emailErrorCheck} >
 								<InputBox error={emailErrorCheck} value={emailAddress} onChange={(e) => setEmailAddress(e.target.value)}
 								/>
-								<UserImg src="react/images/Close.svg" onClick={() => setEmailAddress('')} />
+								<UserImg alt = "sd" src="/react/images/Close.svg" onClick={() => setEmailAddress('')} />
 							</TextBox>
 							<Tip emailErrorCheck={emailErrorCheck}>{emailErrorCheck ? emailError : 'Your email address must be verified before the change takes effect.'}</Tip>
 							<FormButtonWrapper>
-								
-								
+
+
 								<StyledButtonCustom onClick={() => {
 									setEmailError('')
 									setPhoneEditing(false)
 									setEmailAddressEditing(!emailAddressEditing)
 									setEmailAddress(customerInfo.email)
 									setEmailError('')
-									}} variant="secondary" >
-										Cancel
+
+								}} variant="secondary" >
+									Cancel
 								</StyledButtonCustom>
 								<Spacer></Spacer>
 								<StyledButtonCustomSave variant={"primary"} onClick={validateEmail}>
-										{loadingSpinnerSave ? <ProgressWrapperCustomSave><ProgressSpinnerCustom /></ProgressWrapperCustomSave> : 'Save'}</StyledButtonCustomSave>
+									{loadingSpinnerSave ? <ProgressWrapperCustomSave><ProgressSpinnerCustom /></ProgressWrapperCustomSave> : 'Save'}</StyledButtonCustomSave>
 							</FormButtonWrapper>
 						</>
 						: (
@@ -366,8 +360,8 @@ const ContactInformation = ({ }) => {
 								<EmailReadFlexColVerify>
 									{/* <SubTitle></SubTitle> */}
 									<RowBlockVerify>
-										<UserImg src={emailStatus ? "react/images/Checkmark-Circle.svg" : "react/images/Unverified.svg"} />
-										<VerfiedLabel emailStatus={emailStatus}>{emailStatus ? 'Verified' : 'Unverified'}</VerfiedLabel>
+										<UserImg alt = "" src={emailStatus ? "/react/images/Checkmark-Circle.svg" : "/react/images/Unverified.svg"} />
+										<VerfiedLabel alt = "" emailStatus={emailStatus}>{emailStatus ? 'Verified' : 'Unverified'}</VerfiedLabel>
 									</RowBlockVerify>
 								</EmailReadFlexColVerify>
 
@@ -375,7 +369,7 @@ const ContactInformation = ({ }) => {
 									{/* <SubTitle></SubTitle> */}
 									<RowBlockVerify>
 										{emailAddressVerifying ? <ProgressWrapperCustomSave><ProgressSpinnerCustom /></ProgressWrapperCustomSave> :
-											<><UserImg src={"react/images/Verify-circle.svg"} />
+											<><UserImg alt = "" src={"/react/images/Verify-circle.svg"} />
 												<VerifyLink onClick={() => {
 
 													verifyEmailLink();
@@ -415,11 +409,10 @@ const ContactInformation = ({ }) => {
 										<InputBox value={phoneNumberHashed} error={phoneNumber.error}
 											onChange={(e) => {
 												let currentValue = e.target.value.replaceAll('-', '');
-												
-										
+
+
 												if (currentValue && !currentValue.match(/^[0-9]+$/)) return;
 												const length = currentValue.length
-												console.log(!e.target.value.match(/(\d)\1{9}/g),"matches")
 												if (length <= 10) {
 													setPhoneNumber({
 														...phoneNumberCopy,
@@ -440,8 +433,8 @@ const ContactInformation = ({ }) => {
 
 											}}
 										/>
-										
-										<UserImg src="react/images/Close.svg" onClick={() => {
+
+										<UserImg alt = "" src="/react/images/Close.svg" onClick={() => {
 											setPhoneNumber({
 												...phoneNumberCopy,
 												value: ''
@@ -477,8 +470,8 @@ const ContactInformation = ({ }) => {
 								<PhoneReadFlexColVerify>
 									{/* <SubTitle></SubTitle> */}
 									<PhoneRowBlockVerify phoneStatus={phoneStatus}>
-										<UserImg src={phoneStatus ? "react/images/Checkmark-Circle.svg" : "react/images/Unverified.svg"} />
-										<VerfiedLabel phoneStatus={phoneStatus}>{phoneStatus ? 'Verified' : 'Unverified'}</VerfiedLabel>
+										<UserImg alt = "" src={phoneStatus ? "/react/images/Checkmark-Circle.svg" : "/react/images/Unverified.svg"} />
+										<VerfiedLabel alt = "" phoneStatus={phoneStatus}>{phoneStatus ? 'Verified' : 'Unverified'}</VerfiedLabel>
 									</PhoneRowBlockVerify>
 								</PhoneReadFlexColVerify>
 								{!phoneStatus && <PhoneFlexColUnverified>
@@ -486,7 +479,7 @@ const ContactInformation = ({ }) => {
 									<PhoneRowBlockVerify>
 										{phoneVerifying ?
 											<ProgressWrapperCustomSave><ProgressSpinnerCustom /></ProgressWrapperCustomSave> :
-											(<><UserImgVerifyCircle src={"react/images/Verify-circle.svg"} />
+											(<><UserImgVerifyCircle alt = "" src={"/react/images/Verify-circle.svg"} />
 												<VerifyLink onClick={() => {
 
 													verifyPhoneLink();
@@ -509,9 +502,9 @@ const ContactInformation = ({ }) => {
 								</PhoneReadFlexCol>
 							</PhoneReadFlex>
 						)
-						
+
 				}
-				
+
 
 			</Card>
 		</>

@@ -1,3 +1,4 @@
+import { flush } from "redux-saga/effects";
 import * as actionTypes from "../actions/actionTypes";
 
   export const initialState = {
@@ -12,6 +13,14 @@ import * as actionTypes from "../actions/actionTypes";
         return {
           ...state,
           loading:true,
+          error:""
+        };
+      }
+      case actionTypes.RESET_MFA_FACTORS: {
+        return {
+          ...state,
+          data:null,
+          loading:false,
           error:""
         };
       }

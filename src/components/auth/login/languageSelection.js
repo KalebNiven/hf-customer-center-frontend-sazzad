@@ -1,6 +1,69 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components';
+import useQuery from '../../../hooks/useQuery';
 const { MIX_APP_DOMAIN } = process.env;
+
+const setLoginLang = (langCode) => {
+    let isSupportedLang = false;
+    switch(langCode) {
+        case "en": 
+            isSupportedLang = true;
+            break;
+        case "es": 
+            isSupportedLang = true;
+            break;
+        case "zh": 
+            isSupportedLang = true;
+    }
+    if(isSupportedLang){
+        localStorage.setItem('loginLang', langCode);
+    }
+}
+
+const setSelectedLang = (langCode) => {
+    let isSupportedLang = false;
+    switch(langCode) {
+        case "en": 
+            isSupportedLang = true;
+            break;
+        case "es": 
+            isSupportedLang = true;
+            break;
+        case "zh": 
+            isSupportedLang = true;
+    }
+    console.log('selectedLang' + langCode);
+    if(isSupportedLang){
+        localStorage.setItem('selectedLang', langCode);
+    }
+}
+
+export const HandleLanguageSelection = () => {
+    const loginLang = useQuery().get("loginLang");
+    const selectedLang = useQuery().get("selectedLang");
+    const domainURLObject = new URL(MIX_APP_DOMAIN);
+    const generateURL = (langCode) => {
+        switch(langCode) {
+            case "es": 
+                return `https://` + `es.` + domainURLObject.hostname + `/home`;
+            case "zh": 
+                return `https://` + `zh.` + domainURLObject.hostname + `/home`;
+            default: // Defaults to English
+                return `https://` + domainURLObject.hostname + `/home`;
+        }
+    }
+
+    if(loginLang){
+        setLoginLang(loginLang);
+    }
+    if(selectedLang){
+        setSelectedLang(selectedLang);
+    }
+
+    location.href = generateURL(selectedLang);
+    
+    return null;
+}
 
 const LanguageSelection = () => {
     const domainURLObject = new URL(MIX_APP_DOMAIN);

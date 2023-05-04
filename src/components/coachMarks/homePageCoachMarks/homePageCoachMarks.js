@@ -142,10 +142,12 @@ const HomePageCoachMarks = () => {
       }
       if(steps.type === MOBILE && action === ACTIONS.NEXT && steps.list[stepIndex]?.delayed) {
         if(steps.list[stepIndex]?.hideMobileMenu) setMenuIsOpen(false)
-        setRun(false)
-        setTimeout(() => {
-          setRun(true)
-        }, 400)
+        if(EVENTS.TARGET_NOT_FOUND !== type){
+          setRun(false)
+          setTimeout(() => {
+            setRun(true)
+          }, 400)
+        }
       }
       setCurrentStep(stepIndex)
       setIsStart(false)

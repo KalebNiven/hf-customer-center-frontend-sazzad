@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ExternalSiteLinkSSO from '../../../common/externalSiteLinkSSO'
 const { MIX_REACT_APP_NATIONS_OTC_HREF_V2 } = process.env;
 
-const ShopOnlineCard = () => {
+const ShopOnlineCard = ({ cardType }) => {
   return (
     <>
       {
@@ -11,10 +11,10 @@ const ShopOnlineCard = () => {
           <ShopOnlineCardWrapper>
               <ShopOnlineCardLeft>
                   <ShopOnlineTitle>NationsOTC</ShopOnlineTitle>
-                  <ShopOnlineDescription>Use your OTC card to order health and wellness products online.</ShopOnlineDescription>
+                  <ShopOnlineDescription>Use your {cardType} card to order health and wellness products online.</ShopOnlineDescription>
               </ShopOnlineCardLeft>
               <ShopOnlineCardRight>
-                  <ShopOnlineIcon src="react/images/icon-chevron-right.svg" />
+                  <ShopOnlineIcon alt = "" src="/react/images/icon-chevron-right.svg" />
               </ShopOnlineCardRight>
           </ShopOnlineCardWrapper>
         </ExternalSiteLinkSSO>

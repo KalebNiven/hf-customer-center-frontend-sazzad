@@ -60,6 +60,16 @@ export const desktopStepsState = [
       placement: "top"
     },
     {
+      target: '.documentCenter-coachmark',
+      title: 'Document Center',
+      content: 'Access your digital documents as they become available.',
+      isFixed: true,
+      disableBeacon: true,
+      offset: 0,
+      stepType: "desktop",
+      placement: "top"
+    },
+    {
       target: '.servicesDeck-checkmark',
       title: 'More Access To Care',
       content: 'Explore other health benefits and resources available to you.',
@@ -152,6 +162,17 @@ export const desktopStepsState = [
       target: '.pcp-coachmark',
       title: 'Your Primary Care Provider (PCP)',
       content: 'View or change your PCP.',
+      isFixed: true,
+      disableBeacon: true,
+      offset: 0,
+      hideMobileMenu: true,
+      spotlightClicks: false,
+      placement: "top"
+    },
+    {
+      target: '.documentCenter-coachmark',
+      title: 'Document Center',
+      content: 'Access your digital documents as they become available.',
       isFixed: true,
       disableBeacon: true,
       offset: 0,

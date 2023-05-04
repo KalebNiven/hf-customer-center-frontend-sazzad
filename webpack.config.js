@@ -52,7 +52,8 @@ const config = {
     new HtmlWebpackPlugin({
       template: __dirname + '/src/index.html',
       filename: 'index.html',
-      inject: 'body'
+      inject: 'body',
+      publicPath: '/'
     }),
     new InterpolateHtmlPlugin({
       JENKINS_JOB_NAME: process.env.JOB_NAME || 'Customer-center-Frontend',
@@ -64,7 +65,8 @@ const config = {
     new webpack.DefinePlugin({
       "process.env": getEnvVars(dotenv.config({ path: envDir }).parsed),
     }),
-    new CopyPlugin({ patterns: [{ from: "public", to: "." }, { from: "src/react/images", to: "react/images" }] }),
+    new CopyPlugin({ patterns: [{ from: "public", to: "." }, { from: "src/images", to: "react/images" }] }),
+    new CopyPlugin({ patterns: [{ from: "public", to: "." }, { from: "src/css", to: "css" }] }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional

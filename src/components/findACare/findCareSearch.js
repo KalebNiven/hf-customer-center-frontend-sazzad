@@ -89,7 +89,7 @@ const FindCareSearch = (props) => {
       memberDetails: [...memberDetails],
       token: jwt_token,
       apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
-      lang: customerInfo.language,
+      lang: customerInfo.language || "en",
       pcpId: customerInfo.pcpId,
       onMemberChanged: handleMemberChanged,
       onResultClicked: handleResultClicked,

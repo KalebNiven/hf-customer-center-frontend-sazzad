@@ -1,14 +1,19 @@
 import React, { useState } from 'react'
+import { useSelector } from "react-redux";
 import { Wrapper, Hero, HeroContentWrapper, HeroLeftSection, HeroTitle, HeroDescription, HeroRightSection, HeroCard, HeroCardHeading, HeroCardBalanceWrapper, HeroCardBalance, HeroCardBalanceFrequency, HeroCardPlanName, HeroCardNote, ModalParagraph, Body, Heading, BodyDescription, HowItWorksContentWrapper, StepsToActiveList, StepsToActiveListItem, StepsToActiveListItemItemNumberWrapper, StepsToActiveListItemItemNumber, StepsToActiveListItemHeading, Paragraph, StepsToActiveListItemNote, WaysToSpendWrapper, WaysToSpendCards, WaysToSpendCard, WaysToSpendCardIcon, WaysToSpendCardTitle, WaysToSpendCardDescription, WaysToSpendCardButton, LimitationSectionWrapper, LimitationSectionTitle, StepsToActiveListItemContent, LimitationsContent, LimitationsListItem, LimitationsList, PhoneBold, WaysToSpendOutOfPocket } from '../styles';
 import Modal from '../components/modal'
 import CoverageNote from '../components/coverageNote'
 import ActivateOTCCardLink from '../components/activateOTCCardLink'
 import { evidenceOfCoverageURL } from '../../config'
+import { cardTypes } from '../../const';
+import { handleSegmentClick } from '../../../../libs/segment';
+
 const planName = "Signature (PPO)"
 
 const SignaturePPOPage = () => {
     const [modal, setModal] = useState({ isVisible: false, info: null })
 
+    const customerInfo = useSelector((state) => state.customerInfo);
     const closeModal = () => {
       setModal({ ...modal, isVisible: false, info: null })
     }
@@ -121,7 +126,9 @@ const SignaturePPOPage = () => {
                     <LimitationsList>
                       <LimitationsListItem>Dental, vision, and hearing out-of-pocket costs</LimitationsListItem>
                     </LimitationsList>
-                    <Paragraph>For more information, view your <a href={evidenceOfCoverageURL.SignaturePPO.url} target="_blank">Evidence of Coverage</a> or contact your dedicated Member Services team.</Paragraph>
+                    <Paragraph>For more information, view your <a href={evidenceOfCoverageURL.SignaturePPO.url}
+                    onClick={() => handleSegmentClick("/otc/learn-more","Evidence of Coverage","Evidence of Coverage", "link", "center", customerInfo,"otc")}
+                       target="_blank">Evidence of Coverage</a> or contact your dedicated Member Services team.</Paragraph>
                   </LimitationsContent>
                   <LimitationSectionTitle>Important Points to Remember</LimitationSectionTitle>
                   <LimitationsContent>
@@ -134,7 +141,7 @@ const SignaturePPOPage = () => {
                     </LimitationsList>
                   </LimitationsContent>
                 </LimitationSectionWrapper>
-                <CoverageNote cardType = "Flex" resetPeriod="year" />
+                <CoverageNote cardType={cardTypes.flex} resetPeriod="year" />
               </Body>
         </Wrapper>
     )

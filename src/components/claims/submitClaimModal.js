@@ -4,7 +4,7 @@ import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/high-res.css'
 
 import { Provider, useSelector, useDispatch } from "react-redux";
-
+import { useHistory } from "react-router";
 import {
 	ModalWrapper, ModalInnerWrapper, ModalContent, Header, CloseIcon,
 	Button, ButtonWrapper
@@ -13,10 +13,12 @@ import DropdownSelect from "../common/dropdownSelect";
 import * as CONSTANTS from '../../constants/common';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-
+import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';
 import { makeStyles } from '@material-ui/core/styles';
 import { StyledButton, MemberDropDownSelect, MemberDropDownSelectWrapper } from '../common/styles';
 import { requestSubmitClaimDetails, submitAttestationAgreement } from '../../store/actions';
+import Cookies from 'js-cookie'
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		"& .MuiOutlinedInput-root": {
@@ -129,6 +131,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 		}
 	})
 	const [countryData, setCountryData] = useState({})
+	const history = useHistory();
 
 
 	const [datePickerActive, setDatePickerActive] = useState(false);
@@ -150,6 +153,8 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 	const [loadingSpinner, setLoadingSpinner] = useState(false);
 	let { dependents = [], hohPlans } = customerInfo;
 	const { hoh, dependents: dependentsAddresses } = customerDemographicsInfo
+
+	useQualtrics(qualtricsAction.SUBMIT_CLAIM)
  
 	const hohAddressObj = Array.isArray(hoh) ? hoh[0].info.addresses[0] : {};
 	const getAddressString = (addressObj) => {
@@ -358,8 +363,12 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 	const postDispatchFunc = () => {
 		const { error, submittedClaimDetails } = submitClaimDetails;
 		if (error === '' && submittedClaimDetails && Object.keys(submittedClaimDetails).length > 0) {
+			Cookies.set('SubmitAClaim','true',{expires:1}) 
 			closeForm()
 			setToastr(true)
+			setTimeout(() => {
+				history.push('/claims?survey=true')
+			}, 1000);
 		}
 		else if (error !== '' && retryCount === 0) {
 			setStep(step + 1);
@@ -396,7 +405,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 	const handleStyles = (claimInformationCopy) => {
 		return {
 			style: datePickerStyles(datePickerActive, claimInformationCopy),
-			startAdornment: <img src={claimInformationCopy["dateOfService"].error ? "react/images/icn-calendar-error.svg" : "react/images/icn-calendar.svg"} />,
+			startAdornment: <img alt = "" src={claimInformationCopy["dateOfService"].error ? "/react/images/icn-calendar-error.svg" : "/react/images/icn-calendar.svg"} />,
 		}
 	}
 	useEffect(() => {
@@ -497,13 +506,13 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 	const getActionIcon = (status) => {
 		let iconPath = ''
 		if (status !== 'loadend' && status !== 'error') {
-			iconPath = "react/images/Icons _ Outline _ PDF Copy 5.svg"
+			iconPath = "/react/images/Icons _ Outline _ PDF Copy 5.svg"
 		}
 		else if (status === 'abort') {
-			iconPath = "react/images/ReUpload.svg"
+			iconPath = "/react/images/ReUpload.svg"
 		}
 		else if (status === 'error' || status === 'loadend') {
-			iconPath = "react/images/Trash.svg"
+			iconPath = "/react/images/Trash.svg"
 		}
 		return iconPath;
 	}
@@ -549,8 +558,8 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 												<RadioButtonContainer>
 													{
 														selectedMember && selectedMember.memberId === member.memberId ?
-															<RadioImg src="react/images/icn-radio-active.svg" /> :
-															<RadioImg src="react/images/icn-radio-inactive.svg" />
+															<RadioImg alt = "" src="/react/images/icn-radio-active.svg" /> :
+															<RadioImg alt = "" src="/react/images/icn-radio-inactive.svg" />
 													}
 													<div>
 														<Header className="mt-0">
@@ -558,13 +567,13 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 														</Header>
 														<div className="pt-2">
 															<MemeberDetailFieldWrapper>
-																<MemeberDetailFieldImg src="react/images/icn-solid-card.svg" />
+																<MemeberDetailFieldImg alt = "" src="/react/images/icn-solid-card.svg" />
 																<MemeberDetailField>{member.memberId}</MemeberDetailField>
 															</MemeberDetailFieldWrapper>
 															{
 																member.address && (
 																	<MemeberDetailFieldWrapper>
-																		<MemeberDetailFieldImg src="react/images/icn-solid-location.svg" />
+																		<MemeberDetailFieldImg alt = "" src="/react/images/icn-solid-location.svg" />
 																		<MemeberDetailField>{member.address || ""}</MemeberDetailField>
 																	</MemeberDetailFieldWrapper>
 																)
@@ -573,7 +582,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 															{
 																member.phoneNumber && (
 																	<MemeberDetailFieldWrapper>
-																		<MemeberDetailFieldImg src="react/images/icn-solid-telephone.svg" />
+																		<MemeberDetailFieldImg alt = "" src="/react/images/icn-solid-telephone.svg" />
 																		<MemeberDetailField>{member.phoneNumber}</MemeberDetailField>
 																	</MemeberDetailFieldWrapper>
 																)
@@ -594,15 +603,15 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 									</Header>
 									<div className="pt-2">
 										<MemeberDetailFieldWrapper>
-											<MemeberDetailFieldImg src="react/images/icn-solid-card.svg" />
+											<MemeberDetailFieldImg alt = "" src="/react/images/icn-solid-card.svg" />
 											<MemeberDetailField>{memberDetails[0]?.memberId}</MemeberDetailField>
 										</MemeberDetailFieldWrapper>
 										<MemeberDetailFieldWrapper>
-											<MemeberDetailFieldImg src="react/images/icn-solid-location.svg" />
+											<MemeberDetailFieldImg alt = "" src="/react/images/icn-solid-location.svg" />
 											<MemeberDetailField>{memberDetails[0]?.address || ""}</MemeberDetailField>
 										</MemeberDetailFieldWrapper>
 										<MemeberDetailFieldWrapper>
-											<MemeberDetailFieldImg src="react/images/icn-solid-telephone.svg" />
+											<MemeberDetailFieldImg alt = "" src="/react/images/icn-solid-telephone.svg" />
 											<MemeberDetailField>{memberDetails[0]?.phoneNumber || ""}</MemeberDetailField>
 										</MemeberDetailFieldWrapper>
 									</div>
@@ -788,7 +797,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 								})}
 						</FileUploadListContainer>
 						<FileUploader htmlFor="claim-upload" fileLengthError={fileLengthError}>
-							<FileUploadIcon src={"react/images/Icons _ Solid _ Download.svg"} />
+							<FileUploadIcon alt = "" src={"/react/images/Icons _ Solid _ Download.svg"} />
 							<DragDropTxt fileLengthError={fileLengthError}>Add your <FileUploadSubTip>PDF or JPEG</FileUploadSubTip> files here</DragDropTxt>
 							<BrowseFiles>Browse Files</BrowseFiles>
 							<input id="claim-upload" type="file" accept="image/*,.pdf" multiple hidden onChange={(e) => {
@@ -800,7 +809,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 						{claimUploadedFiles.length > 0 && <UploadedFileText>Uploaded Files</UploadedFileText>}
 						{claimUploadedFiles.map((x, ind) => {
 							return (<UploadedFileContainer key={ind}>
-								<UploadedFileIcon src={x?.fileType.includes("pdf") ? "react/images/PDF.svg" : "react/images/ImageIcon.svg"} />
+								<UploadedFileIcon alt = "" src={x?.fileType.includes("pdf") ? "/react/images/PDF.svg" : "/react/images/ImageIcon.svg"} />
 								<div style={{
 									width: '100%'
 								}}>
@@ -812,7 +821,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 										<FileNameText uploadStatus={x?.status}>{x?.fileName}</FileNameText><div>{`${x?.value * 100}%`}</div></div>
 									<FileUploadProgressBar bgColor={getFileUploadProgressBgColor(x)} animationTime={x?.executionTime}></FileUploadProgressBar>
 								</div>
-								<UploadedFileActionIcon src={getActionIcon(x?.status)} onClick={() => {
+								<UploadedFileActionIcon alt = "" src={getActionIcon(x?.status)} onClick={() => {
 
 									const claimUploadedFilesCopy = [...claimUploadedFiles]
 									claimUploadedFilesCopy.splice(ind, 1)
@@ -877,10 +886,10 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 	return (
 		<div>
 			<Toastr open={toastr}>
-				<ToastrIconBox><ToastrIcon src="react/images/valid-check.svg"></ToastrIcon></ToastrIconBox>
+				<ToastrIconBox><ToastrIcon alt = "" src="/react/images/valid-check.svg"></ToastrIcon></ToastrIconBox>
 				<ToastrInfo>
 					<ToastrText>Claim submitted successfully!</ToastrText>
-					<ToastrCloseIcon src="react/images/valid-close.svg" onClick={() => setToastr(false)}></ToastrCloseIcon>
+					<ToastrCloseIcon alt = "" src="/react/images/valid-close.svg" onClick={() => setToastr(false)}></ToastrCloseIcon>
 				</ToastrInfo>
 			</Toastr>
 			{visible === true ?
@@ -888,7 +897,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 				<FormModalWrapper visible={visible}>
 					<ModalInnerWrapperCustom>
 						<FormModalContent>
-							<CloseIcon src="react/images/icn-close.svg" onClick={closeForm} />
+							<CloseIcon alt = "" src="/react/images/icn-close.svg" onClick={closeForm} />
 							<div>
 								<Header>
 									Submit a Claim

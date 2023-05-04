@@ -31,6 +31,11 @@ const AccountSettings = () => {
   };
   const location = useLocation();
 
+ useEffect(()=>{
+  if(window.localStorage.getItem("contactInfoNavIndex")!==null){
+     handleNavClick(1) 
+  }
+ })
   useEffect(() => {
     setSelectIndex(location?.state?.sideBarIndex || 0)
     if(location?.state?.sideBarIndex === 3){
@@ -43,30 +48,31 @@ const AccountSettings = () => {
     leafTitle: "Account",
     items: [
       {
+        
         label: "Login & Security",
-        imgContentSrc: "react/images/SecurityIcon.svg",
-        imgIconSrc: "react/images/icn-arrow-right.svg",
+        imgContentSrc: "/react/images/SecurityIcon.svg",
+        imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#eaeaea",
         destination_url: null
       },
       {
-        label: "Contact Information",
-        imgContentSrc: "react/images/iconography__nav_user.svg",
-        imgIconSrc: "react/images/icn-arrow-right.svg",
+        label: "Personal Information",
+        imgContentSrc: "/react/images/iconography__nav_user.svg",
+        imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#eaeaea",
         destination_url: null
       },
       {
         label: "Paperless",
-        imgContentSrc: "react/images/paperless.svg",
-        imgIconSrc: "react/images/icn-arrow-right.svg",
+        imgContentSrc: "/react/images/paperless.svg",
+        imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#eaeaea",
         destination_url: null
       },
       {
         label: "Your Healthfirst Plans",
         imgContentSrc: "/img/dark/ico-id.svg",
-        imgIconSrc: "react/images/icn-arrow-right.svg",
+        imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#eaeaea",
         destination_url: null
       }
@@ -77,14 +83,14 @@ const AccountSettings = () => {
       {
         label: "About Healthfirst",
         imgContentSrc: "/img/light/ico-leaf.svg",
-        imgIconSrc: "react/images/icn-arrow-right.svg",
+        imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#529535",
         destination_url: "https://healthfirst.org/about-us/"
       },
       {
         label: "Understand Your Health Data",
         imgContentSrc: "/img/other/ico-medical-shield.svg",
-        imgIconSrc: "react/images/icn-arrow-right.svg",
+        imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#ab3291",
         backgroundPosition: "0",
         destination_url: "https://healthfirst.org/faqs#tab1-7"
@@ -92,19 +98,19 @@ const AccountSettings = () => {
       {
         label: "Terms & Conditions",
         imgContentSrc: "/img/light/ico-check.svg",
-        imgIconSrc: "react/images/icn-arrow-right.svg",
+        imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#002a4a",
         destination_url: process.env.MIX_TERMS_CONDITIONS,
       }, {
         label: "Privacy Statements",
         imgContentSrc: "/img/light/ico-lock.svg",
-        imgIconSrc: "react/images/icn-arrow-right.svg",
+        imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#f7911d",
         destination_url: process.env.MIX_PRIVACY_STMTS
       }, {
         label: "Contact Us",
         imgContentSrc: "/img/light/ico-phone.svg",
-        imgIconSrc: "react/images/icn-arrow-right.svg",
+        imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#008bbf",
         destination_url: "https://healthfirst.org/contact"
       }
@@ -233,19 +239,19 @@ const AccountSettings = () => {
                             attributes={splitAttributes}
                           >
                              <NavWrapper borderRadius={itemIndex === 0 ? "4px 4px 0 0" : itemIndex === items.length - 1 ? "0 0 4px 4px" : ""} onClick={() => navItemClick(eachItem, itemIndex, leafindex)} active={selectIndex === itemIndex && selectedLeafIndex === leafindex}>
-                            <ImgBlock><ImgContent src={eachItem.imgContentSrc} background={eachItem.backgroundColor} backgroundPosition={eachItem.backgroundPosition} /></ImgBlock>
+                            <ImgBlock><ImgContent  src={eachItem.imgContentSrc} background={eachItem.backgroundColor} backgroundPosition={eachItem.backgroundPosition} /></ImgBlock>
                             <Option>{eachItem.label}</Option>
                             <InlineInnerFixedContainer>
-                              <IconImg src={eachItem.imgIconSrc} />
+                              <IconImg alt = "" src={eachItem.imgIconSrc} />
                             </InlineInnerFixedContainer>
                           </NavWrapper>                          
                           </FeatureTreatment>
                           ):(
                           <NavWrapper borderRadius={itemIndex === 0 ? "4px 4px 0 0" : itemIndex === items.length - 1 ? "0 0 4px 4px" : ""} onClick={() => navItemClick(eachItem, itemIndex, leafindex)} active={selectIndex === itemIndex && selectedLeafIndex === leafindex}>
-                            <ImgBlock><ImgContent src={eachItem.imgContentSrc} background={eachItem.backgroundColor} backgroundPosition={eachItem.backgroundPosition} /></ImgBlock>
+                            <ImgBlock><ImgContent  src={eachItem.imgContentSrc} background={eachItem.backgroundColor} backgroundPosition={eachItem.backgroundPosition} /></ImgBlock>
                             <Option>{eachItem.label}</Option>
                             <InlineInnerFixedContainer>
-                              <IconImg src={eachItem.imgIconSrc} />
+                              <IconImg alt = "" src={eachItem.imgIconSrc} />
                             </InlineInnerFixedContainer>
                           </NavWrapper>
                           )

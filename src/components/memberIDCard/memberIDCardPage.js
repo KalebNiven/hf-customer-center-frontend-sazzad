@@ -191,7 +191,7 @@ const  checkSelectedDependent  = () =>{
         <IDCardText className="no-print">This section contains all necessary information for your membership that may not exist on your physical ID card.</IDCardText>
         {memberSelection.memberId != null && memberSelection.memberId != undefined &&
           <>
-            <DependentBlockWrapper className="no-print">{<DependentBlock memberSelection={memberSelection} setMemberSelection={setMemberSelection} halfWidth activeOnly={true} />}
+            <DependentBlockWrapper className="no-print">{<DependentBlock memberSelection={memberSelection} setMemberSelection={setMemberSelection} halfWidth activeOnly={true} activeDepsOnly={true}/>}
             </DependentBlockWrapper>
             {
               physicalIdCardLoading ?

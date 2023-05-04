@@ -10,7 +10,7 @@ const BenefitsBlock = () => {
     return (
         <MainCard>
         <InnerCard>
-          <Icon src="react/images/icn-benefits.svg" />
+          <Icon alt="" src="/react/images/icn-benefits.svg" />
           <BlueHeader>Benefits</BlueHeader>
           {
             (coverage.preventativeCareEligible && coverage.preventativeCareEligible) &&

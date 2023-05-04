@@ -43,7 +43,7 @@ const HealthFirstPlan = () => {
           planDetails.hohPlans.slice(1,planDetails.hohPlans.length).map((plan, index) => (
             <Card key={index}>
               <HealthPlan>
-                <PlanImage src="react/images/ico-leaf-green.svg" />
+                <PlanImage alt = "" src="/react/images/ico-leaf-green.svg" />
                 <PlanDetails>
                   <PlanName>{plan.PlanName.toLowerCase()}</PlanName>
                   <MemberDetails>
@@ -61,7 +61,7 @@ const HealthFirstPlan = () => {
               </Status>
               {planDetails.membershipStatus === "active" &&
                 <ViewMemberId className="myHealthPlan-coachmark" onClick={() => handleButton(plan.PlanName.toLowerCase()) }>
-                  <MemberIcon src="react/images/icn-card.svg" />
+                  <MemberIcon alt = "" src="/react/images/icn-card.svg" />
                   <MemberTxt>View Member ID Card</MemberTxt>
                 </ViewMemberId>}
             </Card>

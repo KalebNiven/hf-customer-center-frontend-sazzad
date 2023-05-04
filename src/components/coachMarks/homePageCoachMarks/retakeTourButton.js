@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const RetakeTourButton = ({ handleRetakeTour }) => {
     return (
         <Button onClick={handleRetakeTour}>
-          {/* <Icon src="react/images/icons-outline-info-circle-blue.svg" /> */}
+          {/* <Icon src="/react/images/icons-outline-info-circle-blue.svg" /> */}
           <RetakeTourButtonText>Take a Tour</RetakeTourButtonText>
         </Button>
     )
@@ -35,7 +35,7 @@ export const Button =  styled.button`
 
   &:before {
     content: " ";
-    background-image: url('react/images/icons-outline-info-circle-blue.svg');
+    background-image: url('/react/images/icons-outline-info-circle-blue.svg');
     display: block;
     background-size: 24px 24px;
     height: 24px;
@@ -47,7 +47,7 @@ export const Button =  styled.button`
     color: #fff;
 
     &:before {
-      background-image: url('react/images/icons-outline-info-circle-white.svg');
+      background-image: url('/react/images/icons-outline-info-circle-white.svg');
     }
   }
 `;

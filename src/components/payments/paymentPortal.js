@@ -10,16 +10,18 @@ const PaymentPortal = () => {
   const oktaToken = memberData?.data?.id_token?.length>0?memberData.data.id_token.split(' ')[1] : '' ;
 
   useEffect(()=>{
+    const uniqueHash = (+new Date).toString(16); //to prevent caching
+
     const appLink = document.createElement('link');
     appLink.className='hf--payments--bundle';
-    appLink.href = `https://${MIX_REACT_PAYMENTS_BASE_URL}/dist/payments-bundle.css`;
+    appLink.href = `https://${MIX_REACT_PAYMENTS_BASE_URL}/dist/payments-bundle.css?h=${uniqueHash}`;
     appLink.rel= 'stylesheet';
-    document.head.insertBefore(appLink, document.head.childNodes[0]); //prevent app styles from overriding host's
+    document.head.appendChild(appLink);
 
     const script = document.createElement('script');
     script.className='hf--payments--bundle';
-    script.src = `https://${MIX_REACT_PAYMENTS_BASE_URL}/dist/payments-bundle.js`;
-    script.defer = true;
+    script.src = `https://${MIX_REACT_PAYMENTS_BASE_URL}/dist/payments-bundle.js?h=${uniqueHash}`;
+    script.setAttribute('defer','defer'); //adding a value to defer to ensure it registers
     document.head.appendChild(script);
 
     //onUnmount ~~> casting html collection into array

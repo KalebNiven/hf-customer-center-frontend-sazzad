@@ -664,14 +664,15 @@ export const CoverageNoteHeading = styled.p`
 `;
 
 export const CoverageNoteDesc = styled.p`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.5;
   letter-spacing: normal;
   text-align: left;
-  color: #003863;
+  color: #474b55;
+  margin-top: 16px;
 `;
 
 export const ParticipatingLocationsLogoItem = styled.div`

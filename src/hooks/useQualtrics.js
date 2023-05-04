@@ -6,7 +6,9 @@ import {createScriptTag } from "../utils/qualtrics.js"
 
 export const qualtricsAction = {
     NO_ACTION : 'No Action', //default ~~> used for timed intercept
-   SUBMIT_CLAIM: 'Submit Claim',
+    SUBMIT_CLAIM: 'Submit Claim',
+    MAIL_ME_ID_CARD: 'Mail Me ID Card',
+    CHANGE_PCP: 'Change your Primary Care Provider',
    //TODO: add 1 entry per trigger use case
 }
 
@@ -27,11 +29,8 @@ const setQualtricsData = (field, value) => {
 if(!window.getQualtricsData) window.getQualtricsData = getQualtricsData;
 if(!window.setQualtricsData) window.setQualtricsData = setQualtricsData;
 
-export const useQualtrics = () => {
-
-    const [didQualtricsLoad, setDidQualtricsLoad] = useState(false);
-    const [wasInterceptTriggered, setWasInterceptTriggered] = useState(false);
-
+export const useQualtrics = (qualtricsAction) => { 
+    const [didQualtricsLoad, setDidQualtricsLoad] = useState(false); 
     const {data} = useSelector((state) => state.customerInfo);
 
     //fetch qualtrics resources
@@ -54,19 +53,10 @@ export const useQualtrics = () => {
             lob: data.sessLobCode,
             companyCode: data.companyCode,
             zipcode: data.zipcode,
-            action: qualtricsAction.NO_ACTION,
+            action: qualtricsAction,
             page:location.pathname
         }
         qualtricsData = Object.assign({}, qualtricsData, customerData);
     },[data]);
 
-    return (action /* @See qualtricsAction */) => {
-        window.setQualtricsData('action', action);
-        window.setQualtricsData('page', window.location.pathname);
-        setWasInterceptTriggered(true);
-        if(data.accountStatus ==="MEMBER" && data.membershipStatus ==="active")
-            { 
-                 window?.QSI?.API?.run();
-            } 
-    };
 };

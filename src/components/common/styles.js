@@ -784,3 +784,19 @@ font-family: "museo-sans";
 export const MainContentContainer = styled.div`
   height: 100%;
 `
+
+export const MinorText=styled.div`
+
+display: flex;
+flex-direction: row;
+align-items: center;
+gap: 5px;
+margin-top: 10px;
+
+span{
+  font-family: 'Museo Sans',sans-serif;
+font-weight: 600;
+font-size: 14px;
+color: #474B55;
+line-height: 16px} 
+` 

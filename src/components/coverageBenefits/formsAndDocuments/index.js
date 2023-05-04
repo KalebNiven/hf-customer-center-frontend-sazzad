@@ -60,6 +60,7 @@ const FormsAndDocuments = ({ selectedMemberId }) => {
                 "raw_text": target.textContent, 
                 "destination_url": doc, 
                 "category": ANALYTICS_TRACK_CATEGORY.coverageAndBenefits, 
+                "description": target.textContent,
                 "type": ANALYTICS_TRACK_TYPE.linkClicked, 
                 "targetMemberId": selectedMemberId,
                 "location": {

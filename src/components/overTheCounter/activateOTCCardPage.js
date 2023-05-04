@@ -10,6 +10,7 @@ import { FeatureTreatment } from "../../libs/featureFlags";
 import { VALID_STATUS_CODE_FOR_ACTIVATION } from './config'
 import { AnalyticsTrack } from "../common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
+import { generateCardType } from './utils'
 
 const ActivateOTCCardPage = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const ActivateOTCCardPage = () => {
 
   const otcProfile = useSelector((state) => state.otcCard.profile.data);
   const customerInfo = useSelector((state) => state.customerInfo);
-  const { benefitPackage } = customerInfo?.data;
+  const { hohPlans } = customerInfo?.data;
 
   useEffect(() => {
     dispatch(requestOTCProfile())
@@ -85,12 +86,6 @@ const ActivateOTCCardPage = () => {
     })
   }
 
-  const generateCardType = (benefitPackage) => {
-    if(["LIP1", "IBP1", "DMCR", "CC01", "CC02"].includes(benefitPackage)) return "OTC Plus";
-    if(["PPOM"].includes(benefitPackage)) return "Flex";
-    return "OTC";
-  }
-
   return (
     <>
       { customerInfo?.data && <FeatureTreatment
@@ -106,14 +101,14 @@ const ActivateOTCCardPage = () => {
           >
         <PageWrapper>
           { !otcProfile?.statusId ? <Spinner /> : (!VALID_STATUS_CODE_FOR_ACTIVATION.includes(otcProfile?.statusId) || activationSubmitted) ? <SuccessActivation /> : <CardWrapper>
-            <Title>{generateCardType(benefitPackage)} Card Activation</Title>
-            <Subtitle>Enter Your {generateCardType(benefitPackage)} Card Number</Subtitle>
-            <Description>Enter your {generateCardType(benefitPackage)} Card number below to start receiving your allowance.</Description>
+            <Title>{generateCardType(hohPlans)} Card Activation</Title>
+            <Subtitle>Enter Your {generateCardType(hohPlans)} Card Number</Subtitle>
+            <Description>Enter your {generateCardType(hohPlans)} Card number below to start receiving your allowance.</Description>
             { cardMeta?.data && <VirtualCard>
               <CardImage src={cardMeta?.data[0]?.card_image?.url} />
             </VirtualCard> }
             <ActivationSection onSubmit={handleSubmit}>
-                <ActivationSectionTitle>Last 4 Digits of {generateCardType(benefitPackage)} Card Number</ActivationSectionTitle>
+                <ActivationSectionTitle>Last 4 Digits of {generateCardType(hohPlans)} Card Number</ActivationSectionTitle>
                 <ActivationSectionInputWrapper cardError={cardError}>
                     <ActivationSectionInputImg src={`/react/images/credit-card-icon${cardError && "-red"}.svg`} />
                     <ActivationSectionInput disabled={isActivating} maxLength="4" type="text" placeholder="Enter Last 4 Digits" onChange={handleCardInputChange} value={cardInputValue} cardError={cardError} />

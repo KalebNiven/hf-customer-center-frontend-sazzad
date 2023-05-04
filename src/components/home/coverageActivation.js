@@ -1,20 +1,84 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useState, useEffect} from "react";
 import GlobalStyle from "../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
 import { useHomeContext } from './homeContext';
+import { handleSegmentClick } from "../../libs/segment";
+import { useHistory } from "react-router-dom";
+import { useClient } from "@splitsoftware/splitio-react";
+import { PAYMENTS_ACL, BINDER_ACL, SHOW_PAYMENTS_REACT_APP } from '../../constants/splits';
 
 const CoverageActivation = () => {
 
   
   const customerInfo = useSelector((state) => state.customerInfo.data);
+  const customerInfoData = useSelector((state) => state.customerInfo);
+  const history = useHistory();
   const { showCoverageActivation, setShowCoverageActivation } = useHomeContext();
+  const { MIX_REACT_PAYMENTS_BASE_URL } = process.env;
+  const { MIX_REACT_BINDER_BASE_URL } = process.env;
+  const [paymentsEnabled, setPaymentsEnabled] = useState(false);
+  const [binderEnabled, setBinderEnabled] = useState(false);
+  const [reactPaymentsPortalEnabled, setReactPaymentsPortalEnabled] = useState(false);
+
+  const splitAttributes = {
+    memberId: customerInfo.memberId,
+    customerId: customerInfo.customerId,
+    lob: customerInfo.sessLobCode,
+    companyCode: customerInfo.companyCode,
+    benefitPackage: customerInfo.benefitPackage,
+    membershipStatus:customerInfo.membershipStatus,
+    accountStatus:customerInfo.accountStatus,
+  }
+
+  const splitHookClient = useClient(customerInfo.customerId === null ? 'Anonymous' : customerInfo.customerId)
+
+  const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, splitAttributes)
+  const binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes)
+  const showReactPaymentsPortal = splitHookClient.getTreatmentWithConfig(SHOW_PAYMENTS_REACT_APP, splitAttributes)
+
+  useEffect(() => {
+    if(!splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control" || showReactPaymentsPortal.treatment === "control") return;
+    setPaymentsEnabled(paymentsEnabledTreatment.treatment === "off" ? false : paymentsEnabledTreatment.treatment === "on" ? true : false)
+    setBinderEnabled(binderEnabledTreatment.treatment === "off" ? false : binderEnabledTreatment.treatment === "on" ? true : false)
+    setReactPaymentsPortalEnabled(showReactPaymentsPortal.treatment === "off" ? false : showReactPaymentsPortal.treatment === "on" ? true : false)
+  }, [splitHookClient, paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal])
+
+  const getLangURLPrefix = (lang) => {
+    switch (lang) {
+      case 'es':
+        return 'https://es.';
+      case 'zh':
+        return 'https://zh.';
+    }
+    return 'https://';
+  }
+
+  const MakePremiumPaymentClick = () =>{
+    handleSegmentClick("/payment","Make Premium Payment","Make Premium Payment","button", "bottom", customerInfoData ,"payment");
+    if(paymentsEnabled === true && binderEnabled === true){
+      history.push('/payments');
+    }
+    else if(paymentsEnabled === true){
+      //console.log('redirect to payments');
+      if(reactPaymentsPortalEnabled){
+        history.push('/payments');
+      }
+      else{
+        window.location.href = getLangURLPrefix(customerInfo.loginLanguage)+MIX_REACT_PAYMENTS_BASE_URL+'/sso?loginLang='+customerInfo.loginLanguage+'&selectedLang='+customerInfo.language;
+      }
+    }
+    else{ 
+      //console.log('redirect to binder');
+      window.location.href = getLangURLPrefix(customerInfo.loginLanguage)+MIX_REACT_BINDER_BASE_URL+'/sso?loginLang='+customerInfo.loginLanguage+'&selectedLang='+customerInfo.language;
+    }
+  }
 
   return (
     showCoverageActivation &&
     <><GlobalStyle />
       <Card>
-        <CloseIcon src="react/images/valid-close.svg" onClick={() => setShowCoverageActivation(false)} />
+        <CloseIcon alt = "" src="/react/images/valid-close.svg" onClick={() => setShowCoverageActivation(false)} />
         <ActivateCoverage>
           Activate your coverage
         </ActivateCoverage>
@@ -22,8 +86,8 @@ const CoverageActivation = () => {
           If your Healthfirst plan has a monthly premium, make your first premium payment
           (also called a binder payment) to activate your plan. This will confirm your enrollment, and a benefits packet will be mailed to you. You will be notified when your benefits are active.
         </PremiumPaymentTxt>
-        <Section onClick = {() => {window.location.href =  customerInfo.paymentsUrl }}>
-          <PaymentImage src="react/images/icn-payment.svg" />
+        <Section onClick = {() => MakePremiumPaymentClick()}>
+          <PaymentImage alt = "" src="/react/images/icn-payment.svg" />
           <MakePremiumPayment>
             Make Premium Payment
           </MakePremiumPayment>

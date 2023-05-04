@@ -40,12 +40,20 @@ import {
   submitPreferredContactInfo,
   getPreferenceCenterInfo,
   requestMFACode,
+  requestUserMFACode,
   requestMFAFactors,
   requestRegister,
   verifyMFACode,
+  verifyUserMFACode,
   reportErrorService,
   getOTCProfile,
-  createUsernamePassword
+  getDocuments,
+  getDocumentFile,
+  getOTCClaimReimbursementData,
+  createUsernamePassword,
+  forgotUsername,
+  forgotPassword,
+  setPassword
 } from "./apis";
 
 const formatNameCapitalize = (name) => {
@@ -73,6 +81,7 @@ export function* getClaimList() {
           }
 
           claimsList.push({
+            id: claim.ClaimNo,
             claimId: claim.ClaimNo,
             memberId: claim.Member.MemberId,
             firstName: formatNameCapitalize(claim.Member.FirstName),
@@ -495,6 +504,10 @@ function* watchRequestMFACode() {
   yield takeLatest(actionTypes.REQUEST_MFA_CODE, requestMFACodea);
 }
 
+function* watchRequestUserMFACode() {
+  yield takeLatest(actionTypes.REQUEST_USER_MFA_CODE, requestUserMFACodea);
+}
+
 function* watchRequestMFAFactors() {
   yield takeLatest(actionTypes.REQUEST_MFA_FACTORS, requestMFAFactor);
 }
@@ -510,6 +523,10 @@ function* watchCreateUserNamePassword(){
 
 function* watchVerifyMFACode() {
   yield takeLatest(actionTypes.REQUEST_MFA_VERIFY, verifyTheMFACode);
+}
+
+function* watchVerifyUserMFACode() {
+  yield takeLatest(actionTypes.REQUEST_USER_MFA_VERIFY, verifyTheUserMFACode);
 }
 
 export function* submitHraSurveys(action) {
@@ -660,6 +677,7 @@ function* watchGetCategDetailsDataSaga() {
   yield takeLatest(actionTypes.GET_CATEGORY_DETAILS, getCategDetailsData);
 }
 
+
 export function* getCategDetailsData(action) {
   try {
     const data = yield call(getCategDetails, action.payload);
@@ -737,6 +755,20 @@ export function* requestMFACodea(action) {
   }
 }
 
+export function* requestUserMFACodea(action) {
+  try {
+    const res = yield call(requestUserMFACode, action.payload.data, action.payload.mfaToken);
+    if (res.status != 200) {
+      yield put(actions.errorUserMFACode(res));
+    }
+    else {
+      yield put(actions.receiveUserMFACode(res));
+    }
+  } catch (e) {
+    yield put(actions.errorUserMFACode(e));
+  }
+}
+
 
 export function* requestMFAFactor(action) { 
   try {
@@ -770,11 +802,16 @@ export function* requestCreateUserNamePassword(action) {
 export function* registerMember(action){
   try {
     const res = yield call(requestRegister,action.payload.data,action.payload.mfaToken);
-    if (res.status != 200) {   
-      yield put(actions.errorRegister(res));
+    if (res.status === 500) {   
+      yield put(actions.errorRegister(res.data));
+    }else if(res.status === 400){
+      yield put(actions.errorRegister(res.data));
+    }
+    else if(res.status === 401){
+      yield put(actions.receiveRegister(res.data.data.errorData));
     }
     else {
-      yield put(actions.receiveRegister(res));
+      yield put(actions.receiveRegister(res.data));
     }
   } catch (e) {
     yield put(actions.errorRegister(e));
@@ -815,6 +852,19 @@ export function* verifyTheMFACode(action) {
     }
   } catch (e) {
     yield put(actions.errorMFAVerify(e));
+  }
+}
+export function* verifyTheUserMFACode(action) {
+  try {
+    const res = yield call(verifyUserMFACode, action.payload.data, action.payload.mfaToken);
+    if (res.status != 200) {
+      yield put(actions.errorUserMFAVerify(res));
+    }
+    else {
+      yield put(actions.receiveUserMFAVerify(res));
+    }
+  } catch (e) {
+    yield put(actions.errorUserMFAVerify(e));
   }
 }
 
@@ -872,6 +922,20 @@ export function* getAllGlobalAlerts(action) {
   }
 }
 
+function* watchGetOTCClaimReimbursementData(){
+  yield takeLatest(actionTypes.REQUEST_OTC_CLAIM_REIMBURSEMENT_DATA,getAllOTCClaimReimbursementData)
+}
+
+export function* getAllOTCClaimReimbursementData(action){
+  try{
+    const data = yield call(getOTCClaimReimbursementData,action.payload);
+    yield put (actions.receiveOTCClaimReimbursementData(data));
+  }catch(e){
+    yield put(actions.errorOTCClaimReimbursementData(e));
+  }
+}
+
+
 function* watchAddMembershipSaga() {
   yield takeLatest(actionTypes.REQUEST_ADD_MEMBERSHIP, addMembershipDetails);
 }
@@ -922,6 +986,91 @@ export function* getOTCProfileData() {
   }
 }
 
+export function* requestForgotUsername(action) {
+  try {
+    const res = yield call(forgotUsername, action.payload.data, action.payload.mfaToken);
+    if (res.status === 200) {
+      yield put(actions.receiveForgotUsername(res));
+    }
+    else {
+      yield put(actions.errorForgotUsername(res));
+    }
+  } catch (e) {
+    yield put(actions.errorForgotUsername(e));
+  }
+}
+
+function* watchForgotUsernameSaga() {
+  yield takeLatest(actionTypes.REQUEST_FORGOT_USERNAME, requestForgotUsername);
+}
+
+export function* requestForgotPassword(action) {
+  try {
+    const res = yield call(forgotPassword, action.payload.data, action.payload.mfaToken);
+    if (res.status === 200) {
+      yield put(actions.receiveForgotPassword(res));
+    }
+    else {
+      yield put(actions.errorForgotPassword(res));
+    }
+  } catch (e) {
+    yield put(actions.errorForgotPassword(e));
+  }
+}
+
+function* watchForgotPasswordSaga() {
+  yield takeLatest(actionTypes.REQUEST_FORGOT_PASSWORD, requestForgotPassword);
+}
+
+export function* requestSetPassword(action) {
+  try {
+    const res = yield call(setPassword, action.payload.data, action.payload.mfaToken);
+    if (res.status === 200) {
+      yield put(actions.receiveSetPassword(res));
+    }
+    else {
+      yield put(actions.errorSetPassword(res));
+    }
+  } catch (e) {
+    yield put(actions.errorSetPassword(e));
+  }
+}
+
+function* watchSetPasswordSaga() {
+  yield takeLatest(actionTypes.REQUEST_SET_PASSWORD, requestSetPassword);
+}
+// GET DOCUMENTS
+function* watchDocumentsSaga() {
+  yield takeLatest(actionTypes.GET_DOCUMENT_LIST, getDocumentsData);
+}
+
+export function* getDocumentsData(payload) {  
+  try {
+    const data = yield call(getDocuments, payload);
+    yield put(actions.receiveDocumentsList(data));
+  } catch (e) {
+    yield put(actions.errorDocumentsList(e));
+  }
+}
+
+// GET DOCUMENT FILE
+function* watchDocumentFileSaga() {
+  yield takeLatest(actionTypes.GET_DOCUMENT, getDocumentFileData);
+}
+
+
+export function* getDocumentFileData(payload) {  
+
+  console.log('getDocumentFileData', payload);
+  
+  try {
+    const data = yield call(getDocumentFile, payload);
+    yield put(actions.receivedDocumentFile(data));
+  } catch (e) {
+    yield put(actions.errorDocumentFile(e));
+  }
+}
+
 
 export default function* rootSaga() {
   yield all([
@@ -962,13 +1111,21 @@ export default function* rootSaga() {
     watchSubmitPreferredContactInfo(),
     watchGetPreferenceCenterInfo(),
     watchRequestMFACode(),
+    watchRequestUserMFACode(),
     watchRequestMFAFactors(),
     watchRequestRegister(),
     watchCreateUserNamePassword(),
     watchVerifyMFACode(),
+    watchVerifyUserMFACode(),
     watchGetGlobalAlertsSaga(), 
     watchSelectPlanSaga(),
     watchReportError(),
-    watchGetOTCProfileSaga()
+    watchGetOTCProfileSaga(),
+    watchForgotUsernameSaga(),
+    watchForgotPasswordSaga(),
+    watchSetPasswordSaga(),
+    watchDocumentsSaga(),
+    watchDocumentFileSaga(),
+    watchGetOTCClaimReimbursementData(),
   ]);
 }

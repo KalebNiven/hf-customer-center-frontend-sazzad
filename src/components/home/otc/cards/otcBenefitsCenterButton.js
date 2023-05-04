@@ -5,9 +5,11 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux'
 const { MIX_REACT_APP_OTC_NETWORK_HREF_V2 } = process.env;
 import ExternalSiteLinkSSO from '../../../common/externalSiteLinkSSO'
+import { generateCardType } from '../../../overTheCounter/utils';
 
 const OTCBenefitsCenterButton = () => {
     const customerInfo = useSelector((state) => state.customerInfo);
+    const { hohPlans } = customerInfo?.data;
 
     return (
         <>
@@ -24,7 +26,7 @@ const OTCBenefitsCenterButton = () => {
             >
                 {
                     <ExternalSiteLinkSSO link={MIX_REACT_APP_OTC_NETWORK_HREF_V2} label="OTC Benefits Center" target="_blank">
-                        <ActiveButton>OTC Benefits Center</ActiveButton>
+                        <ActiveButton>{generateCardType(hohPlans)} Benefits Center</ActiveButton>
                     </ExternalSiteLinkSSO>
                 }
             </FeatureTreatment>

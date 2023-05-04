@@ -29,7 +29,9 @@ const ClaimDetailsPage = () => {
   const claimEOB = useSelector((state) => state.claimDetails.eob);
   const customerInfo = useSelector((state) => state.customerInfo);
 
-  const splitAttributes = {
+  const splitAttributes = { 
+    memberId: customerInfo.data.memberId,
+    customerId: customerInfo.data.customerId,
     lob: customerInfo.data.sessLobCode,
     companyCode: customerInfo.data.companyCode,
     benefitPackage: customerInfo.data.benefitPackage,
@@ -51,11 +53,11 @@ const ClaimDetailsPage = () => {
   const handleSegmentBtn  = (row) => {
     // Segment Track
     AnalyticsTrack( 
-      'View Explanation Of Benefits', 
+      row, 
       customerInfo,
       {
-          "raw_text": 'View Explanation Of Benefits',
-          "description": 'View Explanation Of Benefits',
+          "raw_text": row,
+          "description": row,
           "destination_url":  window.location.origin + '/claimsDetail', 
           "category": ANALYTICS_TRACK_CATEGORY.claims, 
           "type": ANALYTICS_TRACK_TYPE.linkClicked, 
@@ -90,7 +92,7 @@ const ClaimDetailsPage = () => {
     >
         <GlobalStyle />
         <BreadcrumbNavigation>
-        <Breadcrumbs separator={<NavigationIcon src = "react/images/icn-arrow-right.svg" />} >
+        <Breadcrumbs separator={<NavigationIcon alt = "" src = "/react/images/icn-arrow-right.svg" />} >
           <BreadcrumbsClaim onClick = {() => history.push({
             pathname: "/claims"})}>Claims</BreadcrumbsClaim>
           <ClaimDetailsText>Claim #: {claimDetails.claimHeader.claimId}</ClaimDetailsText>
@@ -148,8 +150,8 @@ const ClaimDetailsPage = () => {
                       onLoad={() => { }}
                       onTimedout={() => { }}
                       attributes={splitAttributes}
-                    > 
-                    <ViewEOB href={`/documents/${claimEOB.Documents[0].DocumentID}?isNodeId=false`} target='_blank' onClick={handleSegmentBtn}>View Explanation Of Benefits</ViewEOB> 
+                    >
+                    <ViewEOB href={`/documents/${claimEOB.Documents[0].NodeID ? claimEOB.Documents[0].NodeID : claimEOB.Documents[0].DocumentID }?isNodeId=${claimEOB.Documents[0].NodeID ? 'true' : 'false' }`} target='_blank' onClick={handleSegmentBtn( 'View Explanation Of Benefits')}>View Explanation Of Benefits</ViewEOB> 
                     </FeatureTreatment>
                     : null }
                     </Paper>
@@ -171,7 +173,7 @@ const ClaimDetailsPage = () => {
                       <ExternalSiteLink link={`https://www.google.com/maps?saddr=Current+Location&daddr= ${claimDetails.address.mailingAddress}`} target="_blank"  label = "GoogleMaps" styles={{cursor: "pointer"}}>
                         <Address>
                         <span>
-                        <LocationIcon src = "react/images/icn-map-blue.svg">
+                        <LocationIcon alt = "" src = "/react/images/icn-map-blue.svg">
                           </LocationIcon></span>
                           <AddressTxt>
                           {claimDetails.address.mailingAddress}
@@ -182,11 +184,11 @@ const ClaimDetailsPage = () => {
                         null
                         }
                         {claimDetails.phonenumber !== null ? 
-                        <Section>
+                        <Section onClick={()=> handleSegmentBtn("Mobile Icon")}>
                           <span>
-                          <PhoneIcon src = "react/images/icn-call.svg">
+                          <PhoneIcon  alt = "" src = "/react/images/icn-call.svg">
                             </PhoneIcon></span>
-                            <PhoneNumber href={`tel:${claimDetails.phonenumber}`}>{claimDetails.phonenumber}
+                            <PhoneNumber  href={`tel:${claimDetails.phonenumber}`}>{claimDetails.phonenumber}
                             </PhoneNumber>
                           </Section>
                           :

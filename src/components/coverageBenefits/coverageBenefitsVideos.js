@@ -16,20 +16,18 @@ const CoverageBenefitsVideoCards = (props) => {
 
     useEffect(() => {
         let language;
-        if(customerInfo?.data?.language != null){
-            switch(customerInfo.data.language){
-                case 'es':
-                    language = 'Spanish';
-                    break;
-                case 'zh':
-                    language = 'Chinese';
-                    break;
-                default:
-                    language = 'English'
-            }
-            getCoverageBenefitsVideos(language, props.companyCode, props.benefitPackage, props.membershipStatus)
-            .then( data => setVideoData(data));
+        switch(customerInfo.data.language){
+            case 'es':
+                language = 'Spanish';
+                break;
+            case 'zh':
+                language = 'Chinese';
+                break;
+            default:
+                language = 'English'
         }
+        getCoverageBenefitsVideos(language, props.companyCode, props.benefitPackage, props.membershipStatus)
+        .then( data => setVideoData(data));
     }, [customerInfo.data.language, props.companyCode, props.membershipStatus, props.benefitPackage]);
 
     const handleVideoCardClick = (videoName, embedUrl) => {
@@ -39,7 +37,8 @@ const CoverageBenefitsVideoCards = (props) => {
             customerInfo,
             {
                 "raw_text": videoName, 
-                "destination_url": "N/A", 
+                "destination_url": null, 
+                "description": videoName,
                 "category": ANALYTICS_TRACK_CATEGORY.coverageAndBenefits, 
                 "type": ANALYTICS_TRACK_TYPE.videoClicked, 
                 "targetMemberId": customerInfo.memberId,
@@ -86,7 +85,7 @@ const CoverageBenefitsVideoCards = (props) => {
             customerInfo,
             {
                 "raw_text": "video close icon", 
-                "destination_url": "N/A", 
+                "destination_url": null, 
                 "category": ANALYTICS_TRACK_CATEGORY.coverageAndBenefits, 
                 "type": ANALYTICS_TRACK_TYPE.buttonClicked, 
                 "targetMemberId": customerInfo.memberId,

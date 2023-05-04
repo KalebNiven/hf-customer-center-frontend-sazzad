@@ -1,36 +1,39 @@
 import axios from "axios";
 
-// store
-import store from '../../store/store'
-store.subscribe(listener)
+const { MIX_LOFL_API_BASE_URL } = process.env;
+const BASE_URL = MIX_LOFL_API_BASE_URL+'/api/v2/';
+const HEADERS = { 
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+};
 
-const LOFL_API_BASE_URL= process.env.LOFL_API_BASE_URL
+export const LOFLv2 = (authenticated = false) => {
+    let LOFLv2Request = axios.create({
+        baseURL: BASE_URL,
+        headers: HEADERS
+    })
 
-// configuration
-const LOFLv2 = axios.create({
-    baseURL: LOFL_API_BASE_URL + '/api/v2/',
-    headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+    if(authenticated){
+        try{
+            const localStorageOKTA = JSON.parse(localStorage.getItem('okta-token-storage'));
+            const accessToken = 'Bearer ' + localStorageOKTA.accessToken.accessToken;
+            const idToken = 'Bearer ' + localStorageOKTA.idToken.idToken;
+
+            LOFLv2Request.interceptors.request.use(
+                
+                config => {
+                config.headers['Authorization'] = accessToken;
+                config.headers['id-token'] = idToken;
+                    return config;
+                },
+                error => {
+                    return Promise.reject(error);
+                }
+            );
+        }
+        catch(e){
+            console.log(e);
+        }
     }
-});
-
-
-function getCustomerInfoData(state) {
-    return state.customerInfo.data
-}
-
-function listener() {
-    // let customerInfo = getCustomerInfoData(store.getState())
-    const authFlag = (localStorage.getItem("authFlag")!==null)
-
-    if(!authFlag){
-    const localStorageOKTA = JSON.parse(localStorage.getItem('okta-token-storage'));
-    const accessToken = 'Bearer ' + localStorageOKTA.accessToken.accessToken;
-    const idToken = 'Bearer ' + localStorageOKTA.idToken.idToken;
-    LOFLv2.defaults.headers.common['Authorization'] = accessToken;
-    LOFLv2.defaults.headers.common['id-token'] = idToken;
-    }
-}
-
-export default LOFLv2
+    return LOFLv2Request;
+};

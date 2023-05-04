@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const Toaster = (props) => {
 
-    const { unmountMe, timeout, notificationText, notificationType } = props;
+    const { unmountMe, timeout, notificationText, notificationType, notificationLink, notificationLinkText } = props;
 
     const [fade, setFade] = useState('');
 
@@ -15,13 +15,13 @@ const Toaster = (props) => {
     const getNotificationTypeParams = (type) => {
         switch(type){
             case 'success':
-                return { label: 'success', color: '#4a6f32', accent: '#3b5828', svg: 'react/images/icon_notification_success.svg'};
+                return { label: 'success', color: '#4a6f32', accent: '#3b5828', svg: '/react/images/icon_notification_success.svg'};
             case 'warning':
-                return { label: 'warning', color: '#c44620', accent: '#9d3617', svg: 'react/images/icon_notification_warning.svg' };
+                return { label: 'warning', color: '#c44620', accent: '#9d3617', svg: '/react/images/icon_notification_warning.svg' };
             case 'error':
-                return { label: 'error', color: '#9f262e', accent: '#7e1e26', svg: 'react/images/icon_notification_error.svg' };
+                return { label: 'error', color: '#9f262e', accent: '#7e1e26', svg: '/react/images/icon_notification_error.svg' };
             default:
-                return { label: 'default', color: '#4a6f32', accent: '#3b5828', svg: 'react/images/icon_notification_success.svg' };
+                return { label: 'default', color: '#4a6f32', accent: '#3b5828', svg: '/react/images/icon_notification_success.svg' };
         }
     }
 
@@ -46,12 +46,20 @@ const Toaster = (props) => {
         }
     }, [notificationText])
 
+    const setNotificationContent = () => {
+        if(notificationLink && notificationLink != null) {
+            let textNodes = notificationText.split(notificationLinkText);
+            return <span>{textNodes[0]}<ToastLink href={notificationLink} target="_blank">{notificationLinkText}</ToastLink>{textNodes[1]}</span>;
+        }
+        else return notificationText;
+    }
+
     return (
         <ToasterContainer toasterTop={props.toasterTop} className={fade} notificationTypeParams={getNotificationTypeParams(notificationType)}>
             <ToasterIcon notificationTypeParams={getNotificationTypeParams(notificationType)}>
                 <img src={getNotificationTypeParams(notificationType).svg} width={24} height={24}/>
             </ToasterIcon>
-            <ToasterText>{notificationText}</ToasterText>
+            <ToasterText>{setNotificationContent()}</ToasterText>
             <ToasterClose onClick={dismiss}>
                 <svg xmlns="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink" width="12" height="12" viewBox="0 0 16 16">
                     <defs>
@@ -102,7 +110,7 @@ const ToasterContainer = styled.div`
     min-height: .5in;
     border-radius: 5px;
     opacity:0;
-    width: 360px;
+    width: 460px;
     z-index: 9999;
     &.hf-customer-center-fadeOut{
         opacity:0;
@@ -147,3 +155,11 @@ const ToasterClose = styled.div`
     margin-left: auto;
     cursor: pointer;
 `;
+
+const ToastLink = styled.a`
+    color: #fff;
+    font-weight: 500;
+    &:hover{
+        color: #fff;
+    }
+`; 

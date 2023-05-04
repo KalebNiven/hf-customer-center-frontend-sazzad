@@ -33,6 +33,8 @@ const ClaimsPage = () => {
   const { membershipStatus } = customerInfo.data;
 
   const splitAttributes = {
+    memberId: customerInfo.data.memberId,
+    customerId: customerInfo.data.customerId,
     lob: customerInfo.data.sessLobCode,
     companyCode: customerInfo.data.companyCode,
     benefitPackage: customerInfo.data.benefitPackage,
@@ -82,7 +84,7 @@ const ClaimsPage = () => {
     },
     , {
       id: "claimDetailsBtn",
-      cell: (row) => <img src="react/images/icn-arrow-right.svg" onClick={() =>
+      cell: (row) => <img alt = "" src="/react/images/icn-arrow-right.svg" onClick={() =>
         history.push({
           pathname: "/claimDetails",
           state: row
@@ -102,13 +104,13 @@ const ClaimsPage = () => {
   }
 
   const Mobilecolumns = [{
-    cell: (row) => <Paper onClick={() => history.push({
+    cell: (row) => <Paper id = {row.claimId} onClick={() => history.push({
       pathname: "/claimDetails",
       state: row
     })}>
       <Content>
         <ClaimTxt>CLAIM </ClaimTxt> <Claim>{row.claimId}</Claim>
-        <span style={{ float: "right" }}><img src="react/images/icn-arrow-right.svg" style={{ float: 'right', marginRight: '15px' }} onClick={() =>
+        <span style={{ float: "right" }}><img alt = "" src="/react/images/icn-arrow-right.svg" style={{ float: 'right', marginRight: '15px' }} onClick={() =>
           history.push({
             pathname: "/claimDetails",
             state: row

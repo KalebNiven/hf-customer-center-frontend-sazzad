@@ -11,7 +11,7 @@ import { useHomeContext } from './homeContext';
 import { Tooltip } from "@material-ui/core";
 import ReactMarkdown from 'react-markdown';
 import ExternalSiteLink from '../common/externalSiteLink';
-
+import { handleSegmentClick } from "../../libs/segment";
 const Carousel = () => {
 
   const history = useHistory();
@@ -32,6 +32,7 @@ const Carousel = () => {
   };
 
   const getAssessmentLink = () => {
+    handleSegmentClick("/home","Take Assessment","Take Assessment", "button", "top", customerInfo ,"home") 
     let hrefLink;
     if (customerInfo.companyCode == "30" && ["SIGD", "SIGO", "SIGT"].some(x => x == customerInfo.benefitPackage)) {
       hrefLink = { type: LINK_TYPE.external, link: "https://myhfsignaturesurvey.com/healthfirst/hralogin/" }
@@ -67,8 +68,8 @@ const Carousel = () => {
                   {
                     (item.slideImage.length > 0 ) ?
                       ((innerWidth > 480 ) ?
-                      <Images src={item.slideImage.length > 0 ? item.slideImage[0].url : ""} />
-                       : <Images src={item.slideImage.length > 1 ? item.slideImage[1].url : ""} />
+                      <Images alt = "" src={item.slideImage.length > 0 ? item.slideImage[0].url : ""} />
+                       : <Images alt = "" src={item.slideImage.length > 1 ? item.slideImage[1].url : ""} />
                       )
                       : null
                   }
@@ -99,7 +100,9 @@ const Carousel = () => {
                         {item.linkVerbiage}
                       </SlideLink>
                       : item.linkType === 'External' ?
-                      <ExternalSiteLink link={item.slideLink} label={item.linkVerbiage} target="_blank" >
+                      <ExternalSiteLink onClick={()=> 
+                        handleSegmentClick("/home",item.linkVerbiageitem.slideTitle, "button", "top",customerInfo ,"home") }
+                        link={item.slideLink} label={item.linkVerbiage} target="_blank" >
                         <SlideLink>
                           {item.linkVerbiage}
                         </SlideLink>  
@@ -114,7 +117,7 @@ const Carousel = () => {
               </div>
             ))}
         </Slider>
-        <CloseIcon src="react/images/icn-close.svg" onClick={() => setShowSlides(false)} />
+        <CloseIcon alt = "" src="/react/images/icn-close.svg" onClick={() => setShowSlides(false)} />
       </Card>
     </FeatureTreatment>
   );
@@ -124,7 +127,8 @@ function NextArrow(props) {
   const { style, onClick } = props;
   return (
     <NextArrowImg
-      src="react/images/arrow-right.svg"
+      alt = ""
+      src="/react/images/arrow-right.svg"
       style={props.currentSlide + 1 === props.slideCount ? { ...style, display: "block", pointerEvents: "none", filter: "opacity(0.4) drop-shadow(0 0 0 #474b55)" } : { ...style, display: "block",cursor:"pointer" }}
       onClick={onClick}
     />
@@ -135,7 +139,8 @@ function PrevArrow(props) {
   const { style, onClick } = props;
   return (
     <PrevArrowImg
-      src="react/images/arrow-left.svg"
+      alt = ""
+      src="/react/images/arrow-left.svg"
       style={props.currentSlide === 0 ? { ...style, display: "block", pointerEvents: "none", filter: "opacity(0.4) drop-shadow(0 0 0 #474b55)" } : { ...style, display: "block",cursor:"pointer"}}
       onClick={onClick}
     />

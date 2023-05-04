@@ -15,6 +15,14 @@ import * as actionTypes from "../actions/actionTypes";
           error:""
         };
       }
+      case actionTypes.RESET_MFA_VERIFY: {
+        return {
+          ...state,
+          data: null,
+          loading:false,
+          error:""
+        };
+      }
       case actionTypes.RECEIVE_MFA_VERIFY: {
         switch (action.payload.status) {
           case 'ERROR':

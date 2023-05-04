@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 
 export const AppContext = createContext()
 
-export const AppContextProvider = ({ children, jwt_token }) => {
+export const AppContextProvider = ({ children }) => {
 
 
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -13,11 +13,15 @@ export const AppContextProvider = ({ children, jwt_token }) => {
     const [planName,setPlanName] = useState("")
     const [openPaperLess,setOpenPaperLess] = useState(false)
     const [globalError,setGlobalError] = useState(false);
+    const [acknowledgmentModal, setAcknowledgmentModal] = useState({isVisible: false});
 
     const resetExternalModal = () => {
         setExternalSiteModal({ isVisible: false, link: null, target: null, pageCategory: null, segmentPageCategory: null, segmentTitle: null, segmentTargetMemberId: null, membershipKey: null, label: null  })
     }
 
+    const resetAcknowledgmentModal = () => {
+        setAcknowledgmentModal({isVisible: false});
+    }
     /* Window Resize Listener */
     const onWindowResize = () => {
         const innerWidth = window.innerWidth;
@@ -35,7 +39,7 @@ export const AppContextProvider = ({ children, jwt_token }) => {
     }, [])
 
     return (
-        <AppContext.Provider value={{externalSiteModal, setExternalSiteModal,openPaperLess,setOpenPaperLess,toastState,setToastState, planName,setPlanName,toastOpen,setToastOpen,drawerOpen, setDrawerOpen, externalSiteModal, setExternalSiteModal, resetExternalModal, innerWidth, setInnerWidth, jwt_token, globalError, setGlobalError }}>{children}</AppContext.Provider>
+        <AppContext.Provider value={{externalSiteModal, setExternalSiteModal,openPaperLess,setOpenPaperLess,toastState,setToastState, planName,setPlanName,toastOpen,setToastOpen,drawerOpen, setDrawerOpen, externalSiteModal, setExternalSiteModal, resetExternalModal, innerWidth, setInnerWidth, globalError, setGlobalError, acknowledgmentModal, setAcknowledgmentModal, resetAcknowledgmentModal}}>{children}</AppContext.Provider>
     )
 }
 

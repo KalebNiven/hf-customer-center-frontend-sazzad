@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components';
-import { CardHeader, CardBody, CardFooter, Card, FooterActions, FooterBody } from './styles.js'
+import { CardHeader, CardBody, CardFooter, Card, FooterActions, FooterBody,TooltipIcon } from './styles.js'
 import { usePopperTooltip } from 'react-popper-tooltip';
 import '../../../../styles/tooltipStyles.css';
-import ActivateButton from './activateButton'
-import LearnMoreButton from './learnMoreButton'
+import ActivateButton from './activateButton';
+import LearnMoreButton from './learnMoreButton';
 
 const LostCard = ({ handleLearnMore, handleActivate }) => {
   const {
@@ -17,29 +17,27 @@ const LostCard = ({ handleLearnMore, handleActivate }) => {
 
   return (
     <Card>
-        <OTCIcon src="react/images/otc-icon.svg" />
+        <OTCIcon alt = "" src="/react/images/otc-icon.svg" />
         <CardHeader>
         <BalanceTitle>Account Status</BalanceTitle>
         </CardHeader>
         <CardBody>
         <BalanceWrapper>
           <BalanceTitleWrapper>
-            <Balance>Lost/Stolen</Balance>
+            <Balance>New Card is on its Way</Balance>
           </BalanceTitleWrapper>
           {visible && <div ref={setTooltipRef} {...getTooltipProps({ className: 'tooltip-container' })}>
               <div {...getArrowProps({ className: 'tooltip-arrow' })} />
               A new card is being sent to you. You can activate you new OTC Card once it arrives.
           </div>}
-          <IconWrapper>
-            <TooltipIcon ref={setTriggerRef} />
-          </IconWrapper>
+            <CustomTooltipIcon ref={setTriggerRef} />
         </BalanceWrapper>
         <Paragraph>Please, call Member Services at <b>1 (888) 260-1010</b> if you have any questions.</Paragraph>
         </CardBody>
         <CardFooter>
           <FooterBody>
             <ActivateCTATitle>Activate Your OTC Card</ActivateCTATitle>
-            <ActivateCTADesc>Activate your Healthfirst OTC card to view your account balance.</ActivateCTADesc>
+            <ActivateCTADesc>Once you receive your new OTC Card you can activate your card below.</ActivateCTADesc>
           </FooterBody>
           <FooterActions>
             <LearnMoreButton handleLearnMore={handleLearnMore} />
@@ -52,6 +50,14 @@ const LostCard = ({ handleLearnMore, handleActivate }) => {
 
 export const Wrapper = styled.div`
   margin-bottom: 1.5rem;
+`;
+
+const CustomTooltipIcon = styled(TooltipIcon)`
+margin : 3px 30px 0px 0px;
+
+@media only screen and (max-width: 480px) {
+  margin : 3px 50px 0px 0px;
+}
 `;
 
 export const Title = styled.h3`
@@ -168,6 +174,7 @@ export const ShopOnlineIcon = styled.img`
 export const Paragraph = styled.div`
   font-size: 12px;
   font-weight: 500;
+  margin-bottom:8px;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.33;
@@ -184,24 +191,6 @@ export const BalanceWrapper = styled.div`
 export const BalanceTitleWrapper = styled.div`
 `;
 
-export const IconWrapper = styled.div`
-  margin-left: 8px;
-  position: relative;
-`;
-
-export const TooltipIcon = styled.div`
-  content: "";
-  background-image: url("react/images/info-circle-icon.svg");
-  background-position: center;
-  background-size: cover;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-
-  &:hover {
-    background-image: url("react/images/info-circle-icon-blue.svg");
-  }
-`;
 
 export const TooltipCloud = styled.div`
   padding: 12px 16px;

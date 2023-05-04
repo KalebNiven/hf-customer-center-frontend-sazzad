@@ -7,7 +7,7 @@ const VideoPopupPlayer = (props) => {
         <VideoModalWrapper>
             <VideoModalInnerWrapper>
                 <VideoModalContent>
-                    <VideoPlayerCloseButton src={'react/images/icn-close-white.svg'} onClick={props.toggleVideo} />
+                    <VideoPlayerCloseButton src={'/react/images/icn-close-white.svg'} onClick={props.toggleVideo} />
                     <VideoContainer>
                         <iframe src={props.embedLink} allowFullScreen/>
                     </VideoContainer>

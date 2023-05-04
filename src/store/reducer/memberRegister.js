@@ -15,6 +15,9 @@ import * as actionTypes from "../actions/actionTypes";
           error:""
         };
       }
+      case actionTypes.RESET_REGISTER:{
+        return initialState;
+      }
       case actionTypes.RECEIVE_REGISTER: {
         switch (action.payload.status) {
           case 'ERROR':

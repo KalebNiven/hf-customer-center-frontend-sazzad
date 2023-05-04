@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { requestCoverageDetails } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import GlobalStyle from "../../styles/GlobalStyle";
-import Spinner from "../common/spinner";
-import NotValidLOBBlock from "./notValidLOBBlock";
+import Spinner from "../common/spinner"; 
 import {
     Container,
     MainHeader,

@@ -14,7 +14,7 @@ const PlanDetails = () => {
         Your Plan is No Longer Active
       </PlanStsMsg>
       <Card>
-        <AlertIcon src="react/images/icn-alert.svg" />
+        <AlertIcon alt = "" src="/react/images/icn-alert.svg" />
         <AlertMsg>
           <PlanTxt>Your {customerInfo.planName.toLowerCase()}</PlanTxt>{` plan is inactive as of ${moment(customerInfo.membershipExpirationDate).format('L')}. For any other questions,`}
           <ContactTxt href="https://healthfirst.org/contact" target="_blank">contact us</ContactTxt>.

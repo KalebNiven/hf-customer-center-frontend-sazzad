@@ -131,7 +131,7 @@ const PaperlessModal = () => {
 
                             </DocumentWrapper>
                         }
-                        <Image src="react/images/icn-close.svg" onClick={handleMaybeLater}></Image>
+                        <Image src="/react/images/icn-close.svg" onClick={handleMaybeLater}></Image>
                         <Header>
                             Enroll in Paperless
                         </Header>
