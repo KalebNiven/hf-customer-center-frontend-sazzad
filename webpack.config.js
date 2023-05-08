@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
-const envDir = path.join(__dirname, "/.env");
+const envDir = path.join(__dirname, "/.env.client");
 const isProduction = process.env.NODE_ENV == "production";
 const dotenv = require("dotenv");
 const stylesHandler = "style-loader";
