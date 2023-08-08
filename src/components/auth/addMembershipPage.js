@@ -27,7 +27,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import {useToaster} from "../../hooks/useToaster";
 import FormSuccessCard from "./registration/formSuccess";
-import { useOktaAuth } from "@okta/okta-react";
+import { useRefreshOktaToken } from "../../hooks/useRefreshOktaToken";
 
 const NO_MATCHES_FOUND_ERROR = "We didn't find any matches. Please check your entries and try again, or contact us for assistance."
 const MEMBER_TAKEN_ERROR = "This membership is already associated with another account. Please contact us for assistance."
@@ -65,7 +65,7 @@ const AddMemberPage = () => {
     const [disableSubmit, setDisableSubmit] = useState(true);
     const history = useHistory();
     const {addToast} = useToaster();
-    const {oktaAuth} = useOktaAuth();
+    const refreshOktaToken = useRefreshOktaToken();
 
     useEffect(() => {
         if(accountStatus === 'MEMBER'){
@@ -94,7 +94,6 @@ const AddMemberPage = () => {
                 });
             }
             else if(addMembership.success === "success"){
-                
                 setStep("success");
             }
         }
@@ -110,17 +109,6 @@ const AddMemberPage = () => {
             setDisableSubmit(false);
         }else setDisableSubmit(true);
     }, [accountInfo]);
-
-    const handleAccessTokenRefresh = async () => {
-        try{
-            const renewToken = await oktaAuth.token.renewTokens();
-            await oktaAuth.tokenManager.setTokens(renewToken);
-            dispatch(requestCustomerInfo()); 
-            setTimeout(() => { history.push('/home')}, 3000)
-        }catch(e){
-            console.log(e);
-        }
-    };
 
     const handleAccountInfo = (key, label, value) => {
         accountInfo[key] = {
@@ -275,6 +263,13 @@ const AddMemberPage = () => {
         }
     };
 
+    const handleSuccess = () => {
+        refreshOktaToken(() => {
+            dispatch(requestCustomerInfo()); 
+            history.push('/home');
+        });
+    };
+    
     const renderStep = (step) => {
         switch(step){
             case 'addMember': 
@@ -471,7 +466,7 @@ const AddMemberPage = () => {
                     </FormWrapper>
                 )
             case 'success': 
-                return <FormSuccessCard message="Membership added successfully!" callback={() => {handleAccessTokenRefresh();}}/>;
+                return <FormSuccessCard message="Membership added successfully!" delayedCallback={handleSuccess}/>;
         }
     };
 
@@ -515,7 +510,7 @@ right: 14px;
 top: 9px;
 z-index: 3;
 display: inline-block;
-background: url(/img/ico-info.png) no-repeat center;
+background: url(/react/images/ico-info.png) no-repeat center;
 min-width: 25px;
 min-height: 25px;
 &:hover .addMembershipToolTip {

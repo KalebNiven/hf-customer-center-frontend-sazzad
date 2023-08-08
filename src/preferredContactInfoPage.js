@@ -29,10 +29,8 @@ const PreferredContactInfoPage = () => {
             }
             else if(preferenceCenterInfo?.data?.phones?.is_different){
                 setStep('Phone');
-            //useRedirect('/selectPreferredContacts');
             }
             else{
-                //useRedirect('/home');
                 history.push('/home');
             }
         }

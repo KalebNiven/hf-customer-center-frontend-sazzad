@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { useSSOModalContext } from '../../context/ssoModalContext'
 
-const ExternalSiteLinkSSO = ({ link, target, children, segmentTrack, segmentProps, styles, segmentPageCategory, segmentTitle, segmentTargetMemberId, membershipKey ,label, membershipSplit }) => {
+const ExternalSiteLinkSSO = ({ link, target, children, segmentTrack, segmentProps, styles, segmentPageCategory, segmentTitle, segmentTargetMemberId, membershipKey ,label, membershipSplit, featureNameSplit }) => {
     const customerInfo = useSelector((state) => state.customerInfo);
     const { externalSiteModal, setExternalSiteModal } = useAppContext()
     const { ssoModalState, setSsoModalState, resetSsoModal } = useSSOModalContext();
@@ -17,10 +17,11 @@ const ExternalSiteLinkSSO = ({ link, target, children, segmentTrack, segmentProp
     }, [showMemberModal])
 
     const displayMembersModal = (routeLink, externalLinkName) => {
-        setSsoModalState({ ...ssoModalState, showMemberModal: true, routeLink, externalLinkName, membershipSplit })
+        setSsoModalState({ ...ssoModalState, showMemberModal: true, routeLink, externalLinkName, membershipSplit, featureNameSplit })
     }
 
     const handleClick = ({ membershipKey, link }) => { 
+        label = ssoModalState.externalLinkName? ssoModalState.externalLinkName: label
         setExternalSiteModal({ ...externalSiteModal, isVisible: true, link, target, segmentPageCategory, segmentTitle, segmentTargetMemberId, membershipKey ,label })
         resetSsoModal()
     }

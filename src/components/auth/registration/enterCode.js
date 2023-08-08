@@ -27,15 +27,18 @@ import { useToaster } from "../../../hooks/useToaster";
 const SEND_CODE_VIA_TEXT= 'send code via text';   
 const SEND_CODE_VIA_EMAIL= 'send code via email';  
 const SEND_CODE_AGAIN = 'send code again';
-const VERIFY_ENTERED_CODE = 'verify entered code';
-const VERIFY = 'verify';
+const VERIFY_ENTERED_CODE = 'Verify entered code';
+const VERIFY = 'Verify';
 const ERROR = "error"
+//update these later, need to refactor selection proccessing for readability.
+const SEND_TO_EMAIL = 'text';
+const SEND_TO_SMS = 'email'
 
 const EnterCode = (props) => {
     const {addToast} = useToaster();
     const [blockSelection,setBlockSelection] = useState(false)
     const [submitClicked, setSubmitClicked] = useState(false);
-    const [code, setCode] = useState();
+    const [code, setCode] = useState('');
     const [selection, setSelection] = useState(props.selectionMode);
     const [data, setData] = useState(props.info);
     const [isSendCodeClickEnable, setSendCodeClickEnable] = useState(false);
@@ -89,12 +92,12 @@ const EnterCode = (props) => {
     const handleSubmitClick = (trigger) => {
        if(trigger){
         handleSegmentClick(null, VERIFY, VERIFY_ENTERED_CODE, "button", "bottom",  "", "registration");
-        if (selection === "text") {
+        if (selection === SEND_TO_EMAIL) {
             let data = {
                 code: code,
             };
             dispatch(requestMFAVerify(data, mfaUnverifiedToken, "email"));
-        } else if (selection === "email") {
+        } else if (selection === SEND_TO_SMS) {
             let data = {
                 code: code,
             };
@@ -172,7 +175,6 @@ const EnterCode = (props) => {
                                         value={code}
                                         autoFocus
                                         onChange={(e) => {
-                                            console.log('length',e.target.value.length)
                                             if(e.target.value.toString().length <= 6){
                                                 setCode(e.target.value);
                                                 setVerifyVariant("")

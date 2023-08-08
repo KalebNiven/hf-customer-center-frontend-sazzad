@@ -97,11 +97,12 @@ const compileFullPropsObj = (customerInfo, props) => {
         "windowHeight": window.innerHeight,
         "appVersion": (customerInfo?.appVersion !== undefined ? customerInfo.appVersion : "unknown"),
         "language": (customerInfo?.language !== undefined ? customerInfo.language : "unknown"),
+        "relationshipType": (props?.relationshipType !== undefined ? props?.relationshipType : "unknown"),
         "meta": (props?.meta !== undefined ? props.meta : {}),
     };
     return fullProps;
 };
 
 export const AnalyticsTrack = (action, customerInfo, props=null) => {
-    window.analytics.track(action, compileFullPropsObj(customerInfo.data, props));
+    window.analytics.track(action, compileFullPropsObj(customerInfo?.data, props));
 };

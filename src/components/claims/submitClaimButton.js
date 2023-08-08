@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { SHOW_SUBMIT_CLAIM_BUTTON } from "../../constants/splits";
-import { FeatureTreatment, FeatureFactory } from "../../libs/featureFlags";
-import { getFeatureFlagList } from "../../constants/splits";
+import { FeatureTreatment } from "../../libs/featureFlags";
 import {StyledButton} from "../../components/common/styles"
 import {AnalyticsPage, AnalyticsTrack } from "../../components/common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
@@ -44,8 +43,6 @@ const SubmitClaimButton = ({ handleClick,isMobile }) => {
     
   }
 
-
-  const { MIX_SPLITIO_KEY } = process.env;
   const customerInfo = useSelector((state) => state.customerInfo);
   const splitAttributes = {
     lob: customerInfo.data.sessLobCode,
@@ -54,35 +51,22 @@ const SubmitClaimButton = ({ handleClick,isMobile }) => {
     membershipStatus: customerInfo.data.membershipStatus,
     accountStatus: customerInfo.data.accountStatus,
   }
-  const featureFlagList = getFeatureFlagList();
-  const featureFlagOptions = {
-    scheduler: { featuresRefreshRate: 300, metricsRefreshRate: 30 },
-    sync: {
-      splitFilters: [
-        {
-          type: "byName",
-          values: featureFlagList,
-        },
-      ],
-    },
-  };
+
   return (
     <>
-      <FeatureFactory splitKey={MIX_SPLITIO_KEY} options={featureFlagOptions}>
-                <FeatureTreatment
-                    treatmentName={SHOW_SUBMIT_CLAIM_BUTTON}
-                    onLoad={() => { }}
-                    onTimedout={() => { }}
-                    attributes={splitAttributes}
-                >
-                  <StyledButton variant="primary" isMobile={isMobile} onClick={() =>handleSegmentBtn("Submit a Claim")}>Submit a Claim</StyledButton>
-      {/* <SubmitClaim onClick={handleClick}>
-        <BtnText>
-          Submit a Claim
-        </BtnText>
-      </SubmitClaim> */}
+      <FeatureTreatment
+          treatmentName={SHOW_SUBMIT_CLAIM_BUTTON}
+          onLoad={() => { }}
+          onTimedout={() => { }}
+          attributes={splitAttributes}
+      >
+        <StyledButton variant="primary" isMobile={isMobile} onClick={() =>handleSegmentBtn("Submit a Claim")}>Submit a Claim</StyledButton>
+        {/* <SubmitClaim onClick={handleClick}>
+          <BtnText>
+            Submit a Claim
+          </BtnText>
+        </SubmitClaim> */}
       </FeatureTreatment>
-            </FeatureFactory >
     </>
   )
 }

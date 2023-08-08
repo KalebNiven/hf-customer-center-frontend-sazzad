@@ -16,6 +16,14 @@ export default function customerInfo(state = initialState, action) {
         error:""
       };
     }
+    case actionTypes.UPDATE_CUSTOMER_INFO: {
+      return {
+        ...state,
+        data: { ...state.data, ...action.payload.data},
+        loading:false,
+        error:""
+      };
+    }
     case actionTypes.RECEIVE_CUSTOMER_INFO: {
       switch (action?.payload?.status) {
         case 'ERROR':

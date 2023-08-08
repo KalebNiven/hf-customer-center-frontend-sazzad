@@ -48,8 +48,8 @@ export const dobIsValid = (dateOfBirth) => {
  }
 
 export const passwordIsValid = (value) => {
-    return /^[a-zA-Z0-9!@#$%\^&*)(+=._-]*$/.test(value) // consists of only these
-        && /[A-Z]/.test(value) // has a uppercase letter
+    return /[A-Z]/.test(value) // has a uppercase letter
+        && /^(?=.{9,})/.test(value) // has 9 digits
         && /[a-z]/.test(value) // has a lowercase letter
         && /\d/.test(value)    // has a digit
         && /[!@#$%^&*]/.test(value)   // has an allowed special character

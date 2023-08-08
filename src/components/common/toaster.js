@@ -55,28 +55,30 @@ const Toaster = (props) => {
     }
 
     return (
-        <ToasterContainer toasterTop={props.toasterTop} className={fade} notificationTypeParams={getNotificationTypeParams(notificationType)}>
-            <ToasterIcon notificationTypeParams={getNotificationTypeParams(notificationType)}>
-                <img src={getNotificationTypeParams(notificationType).svg} width={24} height={24}/>
-            </ToasterIcon>
-            <ToasterText>{setNotificationContent()}</ToasterText>
-            <ToasterClose onClick={dismiss}>
-                <svg xmlns="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink" width="12" height="12" viewBox="0 0 16 16">
-                    <defs>
-                        <path id="pbuxsaep9a" d="M14.77 0L16 1.23 9.23 8 16 14.77 14.77 16 8 9.23 1.23 16 0 14.77 6.769 8 0 1.23 1.23 0 8 6.77 14.77 0z" />
-                    </defs>
-                    <g fill="none" fillRule="evenodd">
-                        <mask id="x52m408yrb" fill="#fff">
-                            <use xlinkHref="#pbuxsaep9a" />
-                        </mask>
-                        <use fill="#FFF" xlinkHref="#pbuxsaep9a" />
-                        <g fill="#FFF" mask="url(#x52m408yrb)">
-                            <path d="M0 0H16V16H0z" />
+        <ToasterHolder toasterTop={props.toasterTop}>
+            <ToasterContainer className={fade} notificationTypeParams={getNotificationTypeParams(notificationType)}>
+                <ToasterIcon notificationTypeParams={getNotificationTypeParams(notificationType)}>
+                    <img src={getNotificationTypeParams(notificationType).svg} width={24} height={24}/>
+                </ToasterIcon>
+                <ToasterText>{setNotificationContent()}</ToasterText>
+                <ToasterClose onClick={dismiss}>
+                    <svg xmlns="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink" width="12" height="12" viewBox="0 0 16 16">
+                        <defs>
+                            <path id="pbuxsaep9a" d="M14.77 0L16 1.23 9.23 8 16 14.77 14.77 16 8 9.23 1.23 16 0 14.77 6.769 8 0 1.23 1.23 0 8 6.77 14.77 0z" />
+                        </defs>
+                        <g fill="none" fillRule="evenodd">
+                            <mask id="x52m408yrb" fill="#fff">
+                                <use xlinkHref="#pbuxsaep9a" />
+                            </mask>
+                            <use fill="#FFF" xlinkHref="#pbuxsaep9a" />
+                            <g fill="#FFF" mask="url(#x52m408yrb)">
+                                <path d="M0 0H16V16H0z" />
+                            </g>
                         </g>
-                    </g>
-                </svg>
-            </ToasterClose>
-        </ToasterContainer>
+                    </svg>
+                </ToasterClose>
+            </ToasterContainer>
+        </ToasterHolder>
     );
 };
 
@@ -97,21 +99,31 @@ Toaster.defaultProps = {
     toasterTop: '1in',
 };
 
-
-const ToasterContainer = styled.div`
+const ToasterHolder = styled.div`
+    width: 100%;
     display: flex;
     flex-wrap: nowrap;
-    background: ${props => props.notificationTypeParams.color ? props.notificationTypeParams.color : "#4a6f32" };
-    color: white;
     position:fixed;
     top: ${props => props.toasterTop};
     left: 50%;
     transform: translate(-50%, 0);
     min-height: .5in;
     border-radius: 5px;
-    opacity:0;
-    width: 460px;
     z-index: 9999;
+`;
+
+const ToasterContainer = styled.div`
+    display: flex;
+    flex-wrap: nowrap;
+    background: ${props => props.notificationTypeParams.color ? props.notificationTypeParams.color : "#4a6f32" };
+    color: white;
+    min-height: .5in;
+    border-radius: 5px;
+    opacity:0;
+    width: 100%;
+    max-width: 460px;
+    margin-left: 1rem;
+    margin-right: 1rem;
     &.hf-customer-center-fadeOut{
         opacity:0;
         transition: opacity 0.6s;
@@ -121,6 +133,9 @@ const ToasterContainer = styled.div`
         opacity:1;
         transition: opacity 0.6s;
     }
+    @media only screen and (min-width: 460px) {
+        margin: auto;
+    };
 `;
 
 const ToasterIcon = styled.div`

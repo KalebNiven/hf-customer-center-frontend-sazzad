@@ -418,7 +418,7 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
 
                     <FormGrid>
                         <InputWrapper>
-                            <InputHeader for="memberid">Member ID</InputHeader>
+                            <InputHeader htmlFor="memberid">Member ID</InputHeader>
                             <MemberIdInput>
                                 <Input
                                     type="text"
@@ -427,7 +427,11 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                                     autocomplete='custom-memberid'
                                     onClick={() => checkValues()}
                                     value={membershipInfo["memberId"].value}
+                                    onSelect={(e) =>{
+                                        checkValues()
+                                    }}
                                     onChange={(e) => {
+                                        checkValues()
                                         handleMemberInfo(e, "memberId");
                                     }}
                                     error={membershipInfo["memberId"].error}
@@ -465,6 +469,9 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                                 placeholder="Enter First Name"
                                 onClick={() => checkValues()}
                                 value={membershipInfo["firstName"].value}
+                                onSelect={(e) =>{
+                                    checkValues()
+                                }}
                                 onChange={(e) => {
                                     setFirstNameCheck(false)
                                     checkValues(false)
@@ -501,7 +508,7 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                             )}
                         </InputWrapper>
                         <InputWrapper>
-                            <InputHeader for="lastName">Last Name</InputHeader>
+                            <InputHeader htmlFor="lastName">Last Name</InputHeader>
                             <Input
                                 type="text"
                                 name="lastName"
@@ -509,6 +516,9 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                                 placeholder="Enter Last Name"
                                 value={membershipInfo["lastName"].value}
                                 onClick={() => checkValues()}
+                                onSelect={(e) =>{
+                                    checkValues()
+                                }}
                                 onChange={(e) => { 
                                     setLastNameCheck(false);
                                     checkValues(false)
@@ -545,7 +555,7 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                             )}
                         </InputWrapper>
                         <InputWrapper>
-                            <InputHeader for="dob">Date of Birth</InputHeader>
+                            <InputHeader htmlFor="dob">Date of Birth</InputHeader>
                             <Input
                                 type="text"
                                 name="dob"
@@ -554,6 +564,9 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                                 autocomplete='bday'
                                 onClick={() => checkValues()}
                                 value={membershipInfo["dateofBirth"].value}
+                                onSelect={(e) =>{
+                                    checkValues()
+                                }}
                                 onChange={(e) => {
                                     checkValues()
                                     if (
@@ -614,7 +627,7 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                             )}
                         </InputWrapper>
                         <InputWrapper>
-                            <InputHeader for="zipcode">Zip Code</InputHeader>
+                            <InputHeader htmlFor="zipcode">Zip Code</InputHeader>
                             <Input
                                 type="text"
                                 placeholder="00000"
@@ -623,6 +636,9 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                                 value={membershipInfo["zipcode"].value}
                                 onClick={() => checkValues()}
                                 maxLength={5}
+                                onSelect={(e) =>{
+                                    checkValues()
+                                }}
                                 onChange={(e) => {
                                     checkValues()
                                     if (!e.target.value.match(/^\d+$/)) {
@@ -652,7 +668,7 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                             </ItalicFont>
                         </AdditionalInfo>
                         <InputWrapper>
-                            <InputHeader for="mobile">Mobile Phone Number</InputHeader>
+                            <InputHeader htmlFor="mobile">Mobile Phone Number</InputHeader>
                             <Input
                                 type="text"
                                 placeholder="000-000-0000"
@@ -663,6 +679,7 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                                 
                                 maxLength={maxlength}
                                 onSelect = {(e) =>{
+                                    checkValues()
                                     setMaxLength(16)
                                     let input = e.target.value.replace(/\s+/g,'');
                                     setMembershipInfo({
@@ -674,7 +691,9 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                                     });
 
                                 }}
+                                
                                 onChange={(e) => {
+                                    checkValues()
                                     setMaxLength(12)
                                    let input = e.target.value.replace(/\s+/g,'');
                                     if (input.length > 0 && input.length<=12) {
@@ -744,6 +763,9 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                                 onClick={() => checkValues()}
                                 placeholder="you@domain.com"
                                 value={membershipInfo["email"].value}
+                                onSelect={(e) =>{
+                                    checkValues()
+                                }}
                                 onChange={(e) => {
                                     checkValues()
                                     handleMemberInfo(e, "email");
@@ -763,6 +785,9 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                                 placeholder="you@domain.com"
                                 onClick={() => checkValues()}
                                 value={membershipInfo["cEmail"].value}
+                                onSelect={(e) =>{
+                                    checkValues()
+                                }}
                                 onChange={(e) => {
                                     checkValues()
                                     handleMemberInfo(e, "cEmail");
@@ -782,6 +807,9 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                                 id="selectCheckbox"
                                 onClick={ ()  => checkValues()}
                                 value={membershipInfo["checked"].value}
+                                onSelect={(e) =>{
+                                    checkValues(e.target.checked)
+                                }}
                                 onChange={(e) => {
                                     checkValues(e.target.checked)
                                     handleMemberInfo(e, "checked");

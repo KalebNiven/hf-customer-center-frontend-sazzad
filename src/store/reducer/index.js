@@ -39,6 +39,8 @@ import documents from "./documentsReducer";
 import userMfaCode from "./userMfaCodeReducer";
 import userMfaVerify from "./userMfaVerifyReducer";
 import pcp from "./pcpReducer";
+import selectPlan from "./selectPlanReducer";
+import verifyAddress from "./verifyAddressReducer";
 
 const appReducer = combineReducers({
   claim,
@@ -79,7 +81,9 @@ const appReducer = combineReducers({
   documents,
   userMfaCode,
   userMfaVerify,
-  pcp
+  pcp,
+  selectPlan,
+  verifyAddress
 });
 
 export default (state, action) => {

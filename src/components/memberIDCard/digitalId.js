@@ -60,11 +60,14 @@ const DigitalId = (props) => {
                                 <div className="row no-gutters">
                                     <div className="col-6">
                                         <img
-                                            src="/img/Healthfirst Logo@2x.svg"
+                                            src="/react/images/Healthfirst Logo@2x.svg"
                                             alt=""
                                             width="100px"
                                         />
                                     </div>
+                                </div>
+                                <br />
+                                <div className="row no-gutters">
                                     <div className="col-6 text-left">
                                         <div className="hf-text-heading-lg">
                                             {digitalIdCard["firstName"] +
@@ -78,202 +81,208 @@ const DigitalId = (props) => {
                                 </div>
 
                                 <hr />
-
                                 <div className="row no-gutters">
-                                    <div className="col-6 text-left caption-normal light-bold">
-                                        MEMBER ID
-                                    </div>
-                                    <div className="col-6 text-left caption-bold">
-                                        {digitalIdCard["memberId"]}
-                                    </div>
-                                </div>
+                                    <div className={window.innerWidth <= 820 ? "col-12" : "col-7"} style={window.innerWidth <= 820 ? {} : {paddingBottom : '1rem'}}>
+                                        <div style={window.innerWidth <= 820 ? {} : {height : '100%', paddingBottom : '1rem'}}>
+                                            <div className="row no-gutters">
+                                                <div className="col-6 text-left caption-normal light-bold">
+                                                    MEMBER ID
+                                                </div>
+                                                <div className="col-6 text-right caption-bold">
+                                                    {digitalIdCard["memberId"]}
+                                                </div>
+                                            </div>
 
-                                {digitalIdCard["shouldShowGroupNumber"] !=
-                                null ? (
-                                    <div className="row no-gutters">
-                                        <div className="col-6 text-left caption-normal light-bold">
-                                            GROUP NUMBER
-                                        </div>
-                                        <div className="col-6 text-left caption-bold">
-                                            {digitalIdCard["planGroupNumber"]}
-                                        </div>
-                                    </div>
-                                ) : null}
+                                            {digitalIdCard["shouldShowGroupNumber"] !=
+                                            null ? (
+                                                <div className="row no-gutters">
+                                                    <div className="col-6 text-left caption-normal light-bold">
+                                                        GROUP NUMBER
+                                                    </div>
+                                                    <div className="col-6 text-right caption-bold">
+                                                        {digitalIdCard["planGroupNumber"]}
+                                                    </div>
+                                                </div>
+                                            ) : null}
 
-                                {digitalIdCard["individualDeductible"] !==
-                                null ? (
-                                    <div className="row no-gutters">
-                                        <div className="col-6 text-left caption-normal light-bold pr-4">
-                                            INDIVIDUAL {(digitalIdCard["isIndividualOnly"] !== true && digitalIdCard["familyDeductible"] !== null) ? "/FAMILY " : ""} DEDUCTIBLE
-                                        </div>
-                                        <div className="col-6 text-left caption-bold">
-                                            {"$" + digitalIdCard["individualDeductible"]
-                                                + ((digitalIdCard["isIndividualOnly"] !== true && digitalIdCard["familyDeductible"] !== null) ? "/$" + digitalIdCard["familyDeductible"]: "")}
-                                            {checkBenefitPackPPOM() && (
-                                                <sup>*</sup>
+                                            {digitalIdCard["individualDeductible"] !==
+                                            null ? (
+                                                <div className="row no-gutters">
+                                                    <div className="col-6 text-left caption-normal light-bold pr-4">
+                                                        INDIVIDUAL {(digitalIdCard["isIndividualOnly"] !== true && digitalIdCard["familyDeductible"] !== null) ? "/FAMILY " : ""} DEDUCTIBLE
+                                                    </div>
+                                                    <div className="col-6 text-right caption-bold">
+                                                        {"$" + digitalIdCard["individualDeductible"]
+                                                            + ((digitalIdCard["isIndividualOnly"] !== true && digitalIdCard["familyDeductible"] !== null) ? "/$" + digitalIdCard["familyDeductible"]: "")}
+                                                        {checkBenefitPackPPOM() && (
+                                                            <sup>*</sup>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="row no-gutters"></div>
                                             )}
                                         </div>
-                                        <hr />
+                                        <BottomDivider />
                                     </div>
-                                ) : (
-                                    <div className="row no-gutters"></div>
-                                )}
+                                    <div className={window.innerWidth <= 820 ? "col-12" : "col-5"} style={window.innerWidth <= 820 ? {} : {paddingLeft : '2rem', paddingBottom : '1rem'}}>
+                                        {digitalIdCard["showPharmacyBlock"] ? (
+                                            <div style={window.innerWidth <= 820 ? {} : {height : '100%', paddingBottom : '1rem'}}>
+                                                {digitalIdCard["pharmacyRXBin"] !=
+                                                null ? (
+                                                    <div className="row no-gutters">
+                                                        <div className="col-6 text-left caption-normal light-bold">
+                                                            RX BIN
+                                                        </div>
+                                                        <div className="col-6 text-right caption-bold">
+                                                            {
+                                                                digitalIdCard[
+                                                                    "pharmacyRXBin"
+                                                                ]
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                ) : null}
 
-                                {digitalIdCard["showPharmacyBlock"] ? (
-                                    <div>
-                                        {digitalIdCard["pharmacyRXBin"] !=
-                                        null ? (
-                                            <div className="row no-gutters">
-                                                <div className="col-6 text-left caption-normal light-bold">
-                                                    RX BIN
-                                                </div>
-                                                <div className="col-6 text-left caption-bold">
-                                                    {
-                                                        digitalIdCard[
-                                                            "pharmacyRXBin"
-                                                        ]
-                                                    }
-                                                </div>
+                                                {digitalIdCard["pharmacyRXPNC"] !=
+                                                null ? (
+                                                    <div className="row no-gutters">
+                                                        <div className="col-6 text-left caption-normal light-bold">
+                                                            RX PCN
+                                                        </div>
+                                                        <div className="col-6 text-right caption-bold">
+                                                            {
+                                                                digitalIdCard[
+                                                                    "pharmacyRXPNC"
+                                                                ]
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                ) : null}
+
+                                                {digitalIdCard["pharmacyGroup"] !=
+                                                null ? (
+                                                    <div className="row no-gutters">
+                                                        <div className="col-6 text-left caption-normal light-bold">
+                                                            RX GROUP
+                                                        </div>
+                                                        <div className="col-6 text-right caption-bold">
+                                                            {
+                                                                digitalIdCard[
+                                                                    "pharmacyGroup"
+                                                                ]
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                ) : null}
                                             </div>
                                         ) : null}
-
-                                        {digitalIdCard["pharmacyRXPNC"] !=
-                                        null ? (
-                                            <div className="row no-gutters">
-                                                <div className="col-6 text-left caption-normal light-bold">
-                                                    RX PCN
-                                                </div>
-                                                <div className="col-6 text-left caption-bold">
-                                                    {
-                                                        digitalIdCard[
-                                                            "pharmacyRXPNC"
-                                                        ]
-                                                    }
-                                                </div>
-                                            </div>
-                                        ) : null}
-
-                                        {digitalIdCard["pharmacyGroup"] !=
-                                        null ? (
-                                            <div className="row no-gutters">
-                                                <div className="col-6 text-left caption-normal light-bold">
-                                                    RX GROUP
-                                                </div>
-                                                <div className="col-6 text-left caption-bold">
-                                                    {
-                                                        digitalIdCard[
-                                                            "pharmacyGroup"
-                                                        ]
-                                                    }
-                                                </div>
-                                            </div>
-                                        ) : null}
-                                        <hr />
+                                        <BottomDivider />
                                     </div>
-                                ) : null}
-
+                                </div>
+                                <div className="row no-gutters">
                                 {digitalIdCard["showProviderBlock"] == true ? (
-                                    <div>
-                                        <div className="caption-normal light-bold">
-                                            PRIMARY CARE PROVIDER
-                                        </div>
-                                        {digitalIdCard["providerName"] !=
-                                            null ||
-                                        digitalIdCard["providerName"] != "" ? (
-                                            <div>
-                                                <div className="caption-large mb-3">
-                                                    {digitalIdCard[
-                                                        "providerName"
-                                                    ] +
-                                                        ", " +
-                                                        digitalIdCard[
-                                                            "providerTitle"
-                                                        ]}
-                                                </div>
-
-                                                <IconBulletItem
-                                                    className="icon-bullet-item mb-3"
-                                                    onClick={() =>
-                                                        handleSegment(
-                                                            "GoogleAddress",
-                                                            digitalIdCard[
-                                                                "providerAddress"
-                                                            ]
-                                                        )
-                                                    }
-                                                >
-                                                    <img
-                                                        src="/img/other/ico-pin.svg"
-                                                        height="14"
-                                                        alt=""
-                                                    />
-                                                    <p className="body-text link-blue2">
-                                                        {
-                                                            digitalIdCard[
-                                                                "providerAddress"
-                                                            ]
-                                                        }
-                                                    </p>
-                                                </IconBulletItem>
-
-                                                <IconBulletItem
-                                                    className="icon-bullet-item mb-3"
-                                                    onClick={() =>
-                                                        handleSegment(
-                                                            "PhoneNumber",
-                                                            digitalIdCard[
-                                                                "providerPhone"
-                                                            ]
-                                                        )
-                                                    }
-                                                >
-                                                    <img
-                                                        src="/img/other/ico-phone.svg"
-                                                        height="14"
-                                                        alt=""
-                                                    />
-                                                    <Tel
-                                                        href={`tel:${digitalIdCard["providerPhone"]}`}
-                                                    >
-                                                        {" "}
-                                                        {
-                                                            digitalIdCard[
-                                                                "providerPhone"
-                                                            ]
-                                                        }
-                                                    </Tel>
-                                                </IconBulletItem>
+                                    <div className={window.innerWidth <= 820 ? "col-12" : "col-7"}>
+                                        <div>
+                                            <div className="caption-normal light-bold">
+                                                PRIMARY CARE PROVIDER
                                             </div>
-                                        ) : (
-                                            <div>PCP Info Unavailable</div>
-                                        )}
-                                        <hr />
+                                            {digitalIdCard["providerName"] !=
+                                                null ||
+                                            digitalIdCard["providerName"] != "" ? (
+                                                <div>
+                                                    <div className="caption-large mb-3">
+                                                        {digitalIdCard[
+                                                            "providerName"
+                                                        ] +
+                                                            ", " +
+                                                            digitalIdCard[
+                                                                "providerTitle"
+                                                            ]}
+                                                    </div>
+
+                                                    <IconBulletItem
+                                                        className="icon-bullet-item mb-3"
+                                                        onClick={() =>
+                                                            handleSegment(
+                                                                "GoogleAddress",
+                                                                digitalIdCard[
+                                                                    "providerAddress"
+                                                                ]
+                                                            )
+                                                        }
+                                                    >
+                                                        <img
+                                                            src="/react/images/other/ico-pin.svg"
+                                                            height="14"
+                                                            alt=""
+                                                        />
+                                                        <p className="body-text link-blue2">
+                                                            {
+                                                                digitalIdCard[
+                                                                    "providerAddress"
+                                                                ]
+                                                            }
+                                                        </p>
+                                                    </IconBulletItem>
+
+                                                    <IconBulletItem
+                                                        className="icon-bullet-item mb-3"
+                                                        onClick={() =>
+                                                            handleSegment(
+                                                                "PhoneNumber",
+                                                                digitalIdCard[
+                                                                    "providerPhone"
+                                                                ]
+                                                            )
+                                                        }
+                                                    >
+                                                        <img
+                                                            src="/react/images/other/ico-phone.svg"
+                                                            height="14"
+                                                            alt=""
+                                                        />
+                                                        <Tel
+                                                            href={`tel:${digitalIdCard["providerPhone"]}`}
+                                                        >
+                                                            {" "}
+                                                            {
+                                                                digitalIdCard[
+                                                                    "providerPhone"
+                                                                ]
+                                                            }
+                                                        </Tel>
+                                                    </IconBulletItem>
+                                                </div>
+                                            ) : (
+                                                <div>PCP Info Unavailable</div>
+                                            )}
+                                        </div>
                                     </div>
                                 ) : null}
                                 
-
+                                <div className={window.innerWidth <= 820 ? "col-12" : "col-5"} style={window.innerWidth <= 820 ? {} : {paddingLeft : '2rem'}}>
                                 {digitalIdCard["showOutOfPocketBlock"] ==
                                 true ? (
-                                    <div className="row no-gutters">
-                                        <div className="col-12 caption-small light-bold mb-2">
+                                    <>
+                                        <div className="col-12 caption-small light-bold mb-2" style={{paddingLeft : '0'}}>
                                             OUT OF POCKET COSTS
                                         </div>
 
-                                        <div className="col-6 pr-3">
                                             {digitalIdCard["pcpTotal"] !==
                                             null ? (
                                                 <div className="row no-gutters caption-small light-bold mb-2 digital-card-field">
-                                                    <div className="col-11 text-left">
+                                                    <div className="col-11 text-left" style={{paddingLeft : '0'}}>
                                                         <span>
-                                                            PCP Office Visit
+                                                            PCP Office Visit{' '}
                                                         </span>
                                                         {digitalIdCard[
                                                             "pcpIsAdmitted"
                                                         ] ? (
-                                                            <div className="caption-small">
+                                                            <EmerRoomLabel className="caption-small">
                                                                 (Waived if
                                                                 admitted)
-                                                            </div>
+                                                            </EmerRoomLabel>
                                                         ) : null}
                                                     </div>
                                                     <div className="col-1 text-right">
@@ -303,15 +312,15 @@ const DigitalId = (props) => {
                                                     <div className="col-11 text-left">
                                                         <span>
                                                             Specialist Office
-                                                            Visit
+                                                            Visit{' '}
                                                         </span>
                                                         {digitalIdCard[
                                                             "specialistVisitIsAdmitted"
                                                         ] ? (
-                                                            <div className="caption-small">
+                                                            <EmerRoomLabel className="caption-small">
                                                                 (Waived if
                                                                 admitted)
-                                                            </div>
+                                                            </EmerRoomLabel>
                                                         ) : null}
                                                     </div>
                                                     <div className="col-1 text-right">
@@ -339,14 +348,14 @@ const DigitalId = (props) => {
                                             ] !== null ? (
                                                 <div className="row no-gutters caption-small light-bold mb-2 digital-card-field">
                                                     <div className="col-11 text-left">
-                                                        <span>Urgent Care</span>
+                                                        <span>Urgent Care{' '}</span>
                                                         {digitalIdCard[
                                                             "urgentCareIsAdmitted"
                                                         ] ? (
-                                                            <div className="caption-small">
+                                                            <EmerRoomLabel className="caption-small">
                                                                 (Waived if
                                                                 admitted)
-                                                            </div>
+                                                            </EmerRoomLabel>
                                                         ) : null}
                                                     </div>
                                                     <div className="col-1 text-right">
@@ -365,22 +374,20 @@ const DigitalId = (props) => {
                                                     </div>
                                                 </div>
                                             ) : null}
-                                        </div>
-                                        <div className="col-6 pr-3">
                                             {digitalIdCard["emergencyTotal"] !==
                                             null ? (
                                                 <div className="row no-gutters caption-small light-bold mb-2 digital-card-field">
                                                     <div className="col-11 text-left">
-                                                        <EmerRoomLabel>
-                                                            Emergency Room
-                                                        </EmerRoomLabel>
+                                                        <span>
+                                                            Emergency Room{' '}
+                                                        </span>
                                                         {digitalIdCard[
                                                             "emergencyIsAdmitted"
                                                         ] ? (
-                                                            <div className="caption-small">
+                                                            <EmerRoomLabel className="caption-small">
                                                                 (Waived if
                                                                 admitted)
-                                                            </div>
+                                                            </EmerRoomLabel>
                                                         ) : null}
                                                     </div>
                                                     <div className="col-1 text-right">
@@ -404,14 +411,14 @@ const DigitalId = (props) => {
                                             null ? (
                                                 <div className="row no-gutters caption-small light-bold mb-2 digital-card-field">
                                                     <div className="col-11 text-left">
-                                                        <span>Teladoc</span>
+                                                        <span>Teladoc{' '}</span>
                                                         {digitalIdCard[
                                                             "teladocIsAdmitted"
                                                         ] ? (
-                                                            <div className="caption-small">
+                                                            <EmerRoomLabel className="caption-small">
                                                                 (Waived if
                                                                 admitted)
-                                                            </div>
+                                                            </EmerRoomLabel>
                                                         ) : null}
                                                     </div>
                                                     <div className="col-1 text-right">
@@ -437,15 +444,15 @@ const DigitalId = (props) => {
                                                 <div className="row no-gutters caption-small light-bold mb-2 digital-card-field">
                                                     <div className="col-11 text-left">
                                                         <span>
-                                                            Nurse Help Line
+                                                            Nurse Help Line{' '}
                                                         </span>
                                                         {digitalIdCard[
                                                             "nurseHelplineIsAdmitted"
                                                         ] ? (
-                                                            <div className="caption-small">
+                                                            <EmerRoomLabel className="caption-small">
                                                                 (Waived if
                                                                 admitted)
-                                                            </div>
+                                                            </EmerRoomLabel>
                                                         ) : null}
                                                     </div>
                                                     <div className="col-1 text-right">
@@ -464,25 +471,23 @@ const DigitalId = (props) => {
                                                     </div>
                                                 </div>
                                             ) : null}
-                                        </div>
                                         {checkBenefitPackPPOM() && (
                                             <div className="light-bold col-6 caption-small light-bold mb-2 digital-card-field">
                                                 <sup>*</sup>In network cost
                                                 shares
                                             </div>
                                         )}
-                                    </div>
+                                        </>
                                 ) : null}
 
                                 {digitalIdCard["prescriptionsTierOneTotal"] !==
                                 null ? (
-                                    <div className="col-6 pl-0 pr-3">
                                         <div className="row no-gutters caption-small light-bold mb-2 digital-card-field">
-                                            <div className="col-11 text-left">
+                                            <div className="col-6 text-left">
                                                 <span>Prescriptions Room</span>
                                             </div>
-                                            <div className="col-1 text-right">
-                                                <span className="caption-small light-bold">
+                                            <div className="col-6 text-right">
+                                                <span className="bold">
                                                     {digitalIdCard[
                                                         "prescriptionsTierOneIsPercentage"
                                                     ]
@@ -518,8 +523,8 @@ const DigitalId = (props) => {
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>
                                 ) : null}
+                                </div>
                                 <hr />
 
                                 <div className="row no-gutters">
@@ -530,7 +535,7 @@ const DigitalId = (props) => {
                                             call Healthfirst at least{" "}
                                             <strong>24 hours</strong> in advance
                                             for any services requiring{" "}
-                                            <strong>prior authorization</strong>
+                                            <strong>prior authorization </strong>
                                             and within <strong>
                                                 48 hours
                                             </strong>{" "}
@@ -554,6 +559,7 @@ const DigitalId = (props) => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         </div>
                     </Container>
                 )
@@ -585,34 +591,20 @@ const DigitalIDContainer = styled.div`
 
 const Container = styled.div`
     font-family: museo-sans;
+    > div {
+        @media only screen and (max-width: 480px) {
+            padding: 0;
+        }
+    }
 `;
 
-const IDCardTitle = styled.div`
-    @media only screen and (min-width: 769px) {
+const BottomDivider = styled.div`
+    @media only screen and (max-width: 820px) {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
-    font-size: 24px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.33;
-    padding-top: 2rem;
-    letter-spacing: normal;
-    color: #003863;
-    margin: 0px 15px;
-    margin-bottom: 1.5rem;
-`;
-
-const IDCardText = styled.div`
-    @media only screen and (min-width: 769px) {
-    }
-    font-size: 16px;
-    color: #474b55;
-    line-height: 25px;
-    font-weight: 400;
-    font-stretch: normal;
-    font-style: normal;
-    letter-spacing: normal;
-    margin: 8px 16px 16px;
+    border: 0;
+    border-bottom: 1px solid rgba(0,0,0,.1);
 `;
 
 const ProgressWrapper = styled.div`
@@ -625,42 +617,6 @@ const Tel = styled.a`
     cursor: default;
     text-decoration: none;
     color: #008bbf !important;
-`;
-
-const DependentBlockWrapper = styled.div`
-    max-width: 41.66666667%;
-    @media only screen and (max-width: 768px) {
-        max-width: 100%;
-        margin-right: 15px;
-    }
-    margin-left: 15px;
-`;
-
-const NewCardBtn = styled.div`
-    width: 180px;
-    height: 36px;
-    margin: 16px 0 0 140px;
-    object-fit: contain;
-    box-shadow: 1px 1px 2px 1px #3e7128;
-    border-radius: 5px;
-    background-color: #fff;
-    margin-left: auto;
-    margin-top: 16px;
-`;
-
-const NewCardBtnText = styled.a`
-    width: 148px;
-    height: 28px;
-    font-family: "museo-sans", Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 2;
-    letter-spacing: -0.06px;
-    text-align: center;
-    color: #3e7128;
-    padding: 4px 16px;
 `;
 
 const EmerRoomLabel = styled.span`

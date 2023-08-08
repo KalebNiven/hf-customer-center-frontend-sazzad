@@ -6,27 +6,13 @@ import { FeatureTreatment } from "./libs/featureFlags";
 import store from "./store/store";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { requestCustomerInfo } from './store/actions';
-import { FeatureFactory } from "./libs/featureFlags";
-import { getFeatureFlagList } from "./constants/splits";
 
 
 const MoreTools = () => {
-  const { MIX_SPLITIO_KEY } = process.env;
   const { MIX_REACT_OKTA_HEALTHX_SAML_LINK } = process.env;
   const dispatch = useDispatch();
   const customerInfo = useSelector((state) => state.customerInfo);
-  const featureFlagList = getFeatureFlagList();
-  const featureFlagOptions = {
-    scheduler: { featuresRefreshRate: 300, metricsRefreshRate: 30 },
-    sync: {
-      splitFilters: [
-        {
-          type: "byName",
-          values: featureFlagList,
-        },
-      ],
-    },
-  };
+
   useEffect(() => {
     dispatch(requestCustomerInfo());
   }, []);
@@ -86,7 +72,6 @@ const MoreTools = () => {
         `;
 
   return (
-    <FeatureFactory splitKey={MIX_SPLITIO_KEY} options={featureFlagOptions}>
       <FeatureTreatment
         treatmentName={SHOW_MORE_TOOLS}
         onLoad={() => { }}
@@ -109,7 +94,6 @@ const MoreTools = () => {
         </Card>
         </MoreToolsWrapper>
       </FeatureTreatment>
-    </FeatureFactory>
   )
 };
 

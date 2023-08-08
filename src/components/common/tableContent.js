@@ -85,6 +85,8 @@ const TableContent = ({
     const [endOpen, setEndOpen] = useState(false);
     const history = useHistory();
 
+    
+
     const customStyle = {
         headRow: {
             style: {
@@ -216,7 +218,7 @@ const TableContent = ({
         return dayInCurrentMonth ? (
             isSelected ? (
                 <Highlight>
-                    <Day highlight>
+                    <Day highlight = "true">
                         <span>{format(date, "d")}</span>
                     </Day>
                 </Highlight>
@@ -378,7 +380,7 @@ const TableContent = ({
                     ) : null}
                     <DateContent>
                         <DateComponent>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <MuiPickersUtilsProvider  utils={DateFnsUtils}>
                                 <DatePicker
                                     autoOk
                                     disableToolbar
@@ -632,7 +634,7 @@ const Day = styled(IconButton)`
     margin: 0px 0px !important;
     font-weight: 500;
     color: ${(props) =>
-        props.highlight
+        props.highlight == "true"
             ? "#ffffff !important"
             : "rgba(0, 0, 0, 0.87) !important"};
 `;

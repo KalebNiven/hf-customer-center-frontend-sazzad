@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { requestPcpStatus, requestSelectedMember } from '../../store/actions';
+import { requestPcpStatus, requestSelectedMember , requestPCPDetails} from '../../store/actions';
 import GlobalError from "../common/globalErrors/globalErrors";
+import Spinner from "../common/spinner";
+import { Wrapper } from "./findCarePCP";
 
 
 const FindCareSearch = (props) => {
@@ -14,6 +16,14 @@ const FindCareSearch = (props) => {
   const currentOrigMemberId = customerInfo.memberId;
   const jwt_token = customerInfo.id_token
   const [isGlobalError,setGlobalError] = useState(false); 
+  const pcp = useSelector((state) => state.pcp);
+
+  useEffect(() => {
+    if(customerInfo.customerId && customerInfo.membershipStatus === "active"){
+      dispatch(requestPCPDetails(customerInfo.memberId, customerInfo.membershipEffectiveDate));
+    }
+  }, []);
+
 
   useEffect(() => {
     // Here we will have to check if the member has dependencies, 
@@ -57,22 +67,25 @@ const FindCareSearch = (props) => {
     return []
   }
 
-  const memberDependents = custDependents();
-  const memberDetails = [
-    {
-      memberId: customerInfo.memberId,
-      benefitPackage: customerInfo.benefitPackage,
-      groupNumber: customerInfo.groupNumber,
-      year: customerInfo.memberYear,
-      firstName: customerInfo.firstName,
-      age: customerInfo.age,
-      lastName: customerInfo.lastName,
-      pcpId: customerInfo.pcpId,
-      disablePcpUpdate: customerInfo.membershipStatus === "active" ? false : true,
-    },
-    ...memberDependents
-  ];
+  
   useEffect(() => {
+    if(pcp.pcpLoading) return;
+    const memberDependents = custDependents();
+    const memberDetails = [
+      {
+        memberId: customerInfo.memberId,
+        benefitPackage: customerInfo.benefitPackage,
+        groupNumber: customerInfo.groupNumber,
+        year: customerInfo.memberYear,
+        firstName: customerInfo.firstName,
+        age: customerInfo.age,
+        lastName: customerInfo.lastName,
+        pcpId: pcp.pcpDetails.id || customerInfo.pcpId,
+        disablePcpUpdate: customerInfo.membershipStatus === "active" ? false : true,
+      },
+      ...memberDependents
+    ];
+
     if(customerInfo.accountStatus !=="NON-MEMBER"){
     const mountProps = {
       parentElement: "#findcareSearchWrapper",
@@ -106,7 +119,9 @@ const FindCareSearch = (props) => {
   else{
     setGlobalError(true);
   }
-  }, [customerInfo])
+  }, [customerInfo, pcp])
+
+  if (pcp.pcpLoading) return  <Wrapper><Spinner /></Wrapper>
 
   return (
     <>

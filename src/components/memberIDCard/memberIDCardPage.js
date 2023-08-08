@@ -3,20 +3,19 @@ import Spinner from "../common/spinner";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { requestPhysicalIdCard } from '../../store/actions/index';
-import { requestMailMemberIDCardStatus } from '../../store/actions/index';
+import { requestMailMemberIDCardStatus, requestCustomerDemographicsInfo } from '../../store/actions/index';
 import { useHistory, useLocation } from "react-router-dom";
 import { SHOW_MEMBER_ID_CARD } from "../../constants/splits";
 import DependentBlock from '../common/dependentBlock'
 import DigitalId from "./digitalId";
 import PhysicalIdCard from './physicalIdCard'
-import MailIdCardButton from './mailIdCardButton'
-import MailMemberIDCardForm from './mailMemberIDCardForm'
-import { FeatureTreatment, FeatureFactory } from "../../libs/featureFlags";
+import { FeatureTreatment } from "../../libs/featureFlags";
 import { getFeatureFlagList } from "../../constants/splits";
 import Toaster from "../common/toaster";
 import { useAppContext } from "../../AppContext"
 import { MainContentContainer } from "../common/styles";
 import GlobalError from "../common/globalErrors/globalErrors";
+import MailIdCard from "./mailIdCard";
 
 const MemberIDCardPage = (props) => {
 
@@ -26,14 +25,14 @@ const MemberIDCardPage = (props) => {
 
   const physicalIdCard = useSelector((state) => state.physicalIdCard.idCard);
   const physicalIdCardLoading = useSelector((state) => state.physicalIdCard.loading);
+  const digitalIdCardLoading = useSelector((state) => state.digitalIdCard.loading);
   const mailMemberIDCardStatus = useSelector((state) => state.correspondenceStatus);
   const submitMailMemberIDCardFormResponse = useSelector((state) => state.correspondence);
   const [renderNotification, setRenderNotification] = useState(false);
 
   const customerInfo = useSelector((state) => state.customerInfo);
-
+  const customerDemographicsInfo = useSelector( (state) => state.customerDemographicsInfo.data);
   const [memberSelection, setMemberSelection] = useState({});
-  const [renderIdCardForm, setRenderIdCardForm] = useState(false);
 
   const {planName,setPlanName} = useAppContext()
   const { MIX_SPLITIO_KEY } = process.env;
@@ -48,10 +47,6 @@ const MemberIDCardPage = (props) => {
         },
       ],
     },
-  };
-
-  const openForm = () => {
-    setRenderIdCardForm(true);
   };
 
   const getDependent = (memberId) => {
@@ -78,12 +73,18 @@ const  checkSelectedDependent  = () =>{
       membershipExpirationDate: plan.MembershipExpirationDate,
       companyCode: plan.CompanyNumber,
       firstName: plan.FirstName,
-      lastName: plan.LastName
+      lastName: plan.LastName,
+      groupNumber: plan.GroupNumber
     })
   })
   setPlanName("")
 }
 }
+
+useEffect(() => {
+  dispatch(requestCustomerDemographicsInfo(customerInfo.data.memberId));
+}, []);
+
   // set default memberId on initial load
   useEffect(() => {
     if(planName != ""){
@@ -92,17 +93,17 @@ const  checkSelectedDependent  = () =>{
     else {
       setMemberSelection({
         ...memberSelection,
-        memberId: customerInfo.data.memberId,
-        planName: customerInfo.data.planName,
-        membershipStatus: customerInfo.data.membershipStatus,
-        membershipEffectiveDate: customerInfo.data.membershipEffectiveDate,
-        membershipExpirationDate: customerInfo.data.membershipExpirationDate,
-        companyCode: customerInfo.data.companyCode,
-        lob: customerInfo.data.sessLobCode,
-        groupNumber: customerInfo.data.groupNumber,
-        benefitPackage: customerInfo.data.benefitPackage,
-        firstName: customerInfo.data.firstName,
-        lastName: customerInfo.data.lastName
+        memberId: customerInfo.data.hohPlans[0].MemberId,
+        planName: customerInfo.data.hohPlans[0].PlanName,
+        membershipStatus: customerInfo.data.hohPlans[0].MembershipStatus,
+        membershipEffectiveDate: customerInfo.data.hohPlans[0].MembershipEffectiveDate,
+        membershipExpirationDate: customerInfo.data.hohPlans[0].MembershipExpirationDate,
+        companyCode: customerInfo.data.hohPlans[0].CompanyNumber,
+        lob: customerInfo.data.hohPlans[0].LOBCode,
+        groupNumber: customerInfo.data.hohPlans[0].GroupNumber,
+        benefitPackage: customerInfo.data.hohPlans[0].BenefitPackage,
+        firstName: customerInfo.data.hohPlans[0].FirstName,
+        lastName: customerInfo.data.hohPlans[0].LastName
       })
     }
    
@@ -173,7 +174,6 @@ const  checkSelectedDependent  = () =>{
     benefitPackage: customerInfo.data.benefitPackage,
     membershipStatus: customerInfo.data.membershipStatus,
     accountStatus: customerInfo.data.accountStatus
-
   }
   const backImg = physicalIdCard[memberSelection.memberId] && physicalIdCard[memberSelection.memberId].physicalIdCard.backImage
   return (
@@ -194,7 +194,7 @@ const  checkSelectedDependent  = () =>{
             <DependentBlockWrapper className="no-print">{<DependentBlock memberSelection={memberSelection} setMemberSelection={setMemberSelection} halfWidth activeOnly={true} activeDepsOnly={true}/>}
             </DependentBlockWrapper>
             {
-              physicalIdCardLoading ?
+              (physicalIdCardLoading) ?
                 <Container>
                   <ProgressWrapper>
                     <Spinner />
@@ -207,13 +207,10 @@ const  checkSelectedDependent  = () =>{
                     </DigitalIdCardContainer>
                     <PhysicalIdCardContainer>
                       <PhysicalIdCard memberId={memberSelection.memberId} />
-                      <MailIdCardButton handleClick={openForm} disableBtn={typeof(mailMemberIDCardStatus.data) !== "undefined" && mailMemberIDCardStatus.data !== null && mailMemberIDCardStatus.data.status == true ? true : false} memberId={memberSelection.memberId} />
-                      {(typeof(mailMemberIDCardStatus.data) !== "undefined" && mailMemberIDCardStatus.data !== null && mailMemberIDCardStatus.data.length != 0 ? true : false) ?
-                      <RecentRequestText className="no-print">A physical Member ID Card was recently requested. A new request can be made after 14 days.</RecentRequestText>
-                      :
-                      null}
                     </PhysicalIdCardContainer>
-                    <MailMemberIDCardForm showForm={renderIdCardForm} member={memberSelection} unmountMe={() => setRenderIdCardForm(false)}/>
+                    <MailIdCardContainer>
+                      <MailIdCard memberSelection={memberSelection} />
+                    </MailIdCardContainer>
                   </IDCardContainers>
                   : (
                     null
@@ -237,20 +234,18 @@ const  checkSelectedDependent  = () =>{
 };
 const IDCardContainers = styled.div`
       display:flex;
-      column-gap:10%;
+      column-gap:2%;
       margin-top:24px;
       flex-wrap:wrap;
     `;
 
 const DigitalIdCardContainer = styled.div`
-@media only screen and (max-width: 768px) {
   width:100%;
-}
-  width:50%;
+  margin-bottom:1.5rem;
 `;
 
 const PhysicalIdCardContainer = styled.div`
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 820px) {
   width:100%;
   max-width:100%;
   padding: 16px;
@@ -259,10 +254,24 @@ const PhysicalIdCardContainer = styled.div`
   width:100%;
   max-width:100%;
 }
-  width:40%;
-  max-width:290px;
+  width:49%;
 `;
 
+const MailIdCardContainer = styled.div`
+  @media only screen and (max-width: 820px) {
+    width:100%;
+    max-width:100%;
+    padding: 16px;
+  }
+  @media print {
+    width:100%;
+    max-width:100%;
+  }
+    width:49%;
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+`;
 
 const MemberIDCardPageContainer = styled(MainContentContainer)`
 max-width: 1024px;
@@ -270,6 +279,11 @@ position: relative;
 margin:auto; 
 margin-bottom:1.5rem;
 width:100%;
+@media only screen and (min-width: 480px) and (max-width: 820px) {
+  width:auto;
+  margin-left:3rem;
+  margin-right:3rem;
+}
 `;
 
 const Container = styled.div`
@@ -328,7 +342,7 @@ const ProgressWrapper = styled.div`
 
 const DependentBlockWrapper = styled.div`
 max-width: 48%;
-@media only screen  and (max-width: 768px) {
+@media only screen  and (max-width: 820px) {
   max-width: 100%;
   margin-right: 6px;
 }

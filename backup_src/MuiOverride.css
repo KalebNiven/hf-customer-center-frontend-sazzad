@@ -1,0 +1,131 @@
+.MuiTab-wrapper{
+    flex-direction: row !important;
+    font-family: "museo-sans", sans-serif !important;
+    color: #474b55;
+    
+  }
+  .MuiTab-textColorInherit.tab-active > *:first-child {
+    opacity:1 !important;
+    color: #3e7128;
+     font-weight: bold;
+     font-size: 14px;
+  }
+  
+  .MuiListItemText-root.tab-active > *:first-child {
+    opacity:1 !important;
+    color: #3e7128;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .MuiTab-textColorInherit.tab-inactive > *:first-child {
+    opacity:1 !important;
+    color: #474b55;
+    font-size: 14px;
+    padding:8px;
+  }
+  .MuiTab-textColorInherit.tab-inactive:first-child span:hover {
+    background-color: #ffffff;
+    border-radius: 0px; 
+  }
+  .MuiTab-textColorInherit.tab-inactive span:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px; 
+  }
+  
+  .MuiTab-textColorInherit.child-tab-active > *:first-child {
+    opacity:1 !important;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    height: 28px;
+    margin: 2px 8px 2px 0;
+    border-radius: 16px;
+    box-shadow: 0 2px 4px 0 rgba(62, 113, 40, 0.1);
+    background-color: #3e7128;
+    padding: 12px;
+  }
+  .MuiListItemText-root.child-tab-active > *:first-child {
+    opacity:1 !important;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    height: 28px;
+    margin: 2px 16px 2px 0;
+    padding: 0 16px 0 36px;
+    border-radius: 16px;
+    box-shadow: 0 2px 4px 0 rgba(62, 113, 40, 0.1);
+    background-color: #3e7128;
+    margin-left: -36px;
+    display: flex;
+    align-items: center;
+  }
+  .MuiTab-textColorInherit.child-tab-inactive > *:first-child {
+    opacity:1 !important;
+    color: #474b55;
+     font-size: 14px;
+  }
+  .MuiButtonBase-root.MuiTab-root.MuiTab-textColorInherit.child-tab-inactive>.MuiTab-wrapper {
+    
+    height: 28px;
+    padding: 0px 6px;
+  }
+  .MuiButtonBase-root.MuiTab-root.MuiTab-textColorInherit.child-tab-inactive:hover>.MuiTab-wrapper {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    
+  }
+  
+  .MuiTab-labelIcon .MuiTab-wrapper > *:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px  5px 0px 0px !important;
+    
+  }
+  .MuiTab-textColorInherit{
+    opacity:1 !important;
+    color: #000000;
+  }
+  
+  #subnavbar .MuiButtonBase-root{
+    min-width: unset !important;
+  }
+  .MuiTab-root {
+    padding:6px 8px !important;
+  }
+  .MuiTab-labelIcon{
+    min-height: 64px !important;
+  }
+  @media screen and (min-width: 600px){
+    .MuiTab-root {
+      min-width: 100px !important;
+      text-transform:none !important;
+  }
+  }
+  .MuiDrawer-paper{
+    top:56px !important;
+    width: 312px !important;
+  }
+  @media only screen and (min-width:768px) {
+    .MuiDrawer-paper{
+      top:64px !important;
+      width: 312px !important;
+    }
+  }
+  .MuiListItem-root{
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    
+  }
+  .MuiTypography-body1{
+    font-family: "museo-sans", sans-serif !important;
+  }
+  .MuiList-padding{
+    padding-top: 0px !important;
+    padding-bottom: 4px !important;
+  } 
+  
+  .MuiOutlinedInput-root{
+    margin-top: 0px !important;
+  }

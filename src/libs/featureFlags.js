@@ -50,10 +50,11 @@ import {
       <FeatureTreatment/>
 */
 
-const splitConfig = (uniqueId, splitKey, options) => ({
+const splitConfig = (uniqueId, splitKey, options, trafficType) => ({
   core: {
     authorizationKey: splitKey,
     key: uniqueId,
+    trafficType: trafficType
   },
   ...options,
 });
@@ -69,15 +70,17 @@ export class FeatureFactory extends PureComponent {
   render() {
     const {
       splitKey,
-      uniqueId = "Anonymous",
+      // uniqueId = "Anonymous",
+      uniqueId,
       updateOnSdkUpdate = true,
       updateOnSdkTimedout = true,
       options = {},
       children,
+      trafficType
     } = this.props;
     return (
       <SplitFactory
-        config={splitConfig(uniqueId, splitKey, options)}
+        config={splitConfig(uniqueId, splitKey, options, trafficType)}
         updateOnSdkUpdate={updateOnSdkUpdate}
         updateOnSdkTimedout={updateOnSdkTimedout}
       >

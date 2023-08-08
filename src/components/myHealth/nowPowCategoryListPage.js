@@ -134,7 +134,7 @@ const NowPowCategoryListPage = () => {
         {
             "raw_text": elemName,
             "description": elemName,
-            "destination_url": window.location.origin + "/communityResources/details", 
+            "destination_url": window.location.origin + "/my-health/community-resources/details", 
             "category": ANALYTICS_TRACK_CATEGORY.myHealth, 
             "type": ANALYTICS_TRACK_TYPE.buttonClicked, 
             "targetMemberId": customerInfo?.data?.memberId,
@@ -161,7 +161,7 @@ const NowPowCategoryListPage = () => {
     const showDetails = (resId, id, name) => {
         let state = location.state;
         history.push({
-        pathname: "/communityResources/details",
+        pathname: "/my-health/community-resources/details",
         state: {
             categoryId: state.categoryId,
             iconId: state.iconId,
@@ -185,8 +185,11 @@ const NowPowCategoryListPage = () => {
       setViewData({ resources: categoryDetailsAll });
     }, [categoryDetailsAll])
 
-    
-
+    const handleBack = () => {
+      history.push({
+        pathname: "/my-health/community-resources"
+      })
+    }
     const displayAllDetails = () => {
         let allDetails = viewData.resources;
         return (
@@ -253,7 +256,7 @@ const NowPowCategoryListPage = () => {
             attributes={splitAttributes}
           >
         { loading ? <Spinner /> : <Container>
-              <BackLink href="/communityResources">
+              <BackLink   onClick={handleBack}>
                 <BackImg src="/react/images/icn-full-arrow.svg"/>
                 <BackText>BACK</BackText>
               </BackLink>

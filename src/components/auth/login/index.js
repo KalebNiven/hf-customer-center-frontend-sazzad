@@ -29,6 +29,19 @@ const Login = () => {
         }
         const username = localStorage.getItem('username');
         if(username) setState({ ...state, username, saveUsername: true });
+        let fromUrl = sessionStorage.getItem("from") 
+        if(fromUrl != null){
+            const url  = new URL(fromUrl)
+            const path  =  new URL(window.location.href)
+            const searchParam = new URLSearchParams(window.location.search)
+            if(path.search !=""){
+                window.history.pushState(null,null,path.href);
+                sessionStorage.setItem("from",path.origin+searchParam.get("redirectUrl"))
+            } else{
+                let redirectUrl = window.location.origin+ "/login?redirectUrl=" + url.pathname.replace("/","%2F")
+                window.history.pushState(null,null,redirectUrl);
+            }
+        }
     }, [])
 
     const handleChange = (e) => {
@@ -164,6 +177,7 @@ export const Wrapper = styled.div`
     background-position: center;
     background-repeat: repeat;
     background-size: contain;
+    position: relative;
 `;
 
 export const LanguageSelectionWrapper = styled.div`

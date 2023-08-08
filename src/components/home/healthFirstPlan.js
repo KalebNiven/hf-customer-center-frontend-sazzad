@@ -5,6 +5,7 @@ import moment from 'moment';
 import { useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import { useAppContext } from "../../AppContext"
+import { getRecertificationDate, isEligibleForRecertDate } from '../../utils/misc.js'
 
 const HealthFirstPlan = () => {
 
@@ -59,6 +60,7 @@ const HealthFirstPlan = () => {
                   {plan.MembershipStatus}
                 </StatusTxt>
               </Status>
+              { isEligibleForRecertDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate) && <RenewalDate>{getRecertificationDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate)}</RenewalDate> }
               {planDetails.membershipStatus === "active" &&
                 <ViewMemberId className="myHealthPlan-coachmark" onClick={() => handleButton(plan.PlanName.toLowerCase()) }>
                   <MemberIcon alt = "" src="/react/images/icn-card.svg" />
@@ -152,7 +154,7 @@ const Validity = styled.div`
 const Status = styled.div`
   width: 90px;
   height: 20px;
-  margin: 8px 213px 12px 0;
+  margin: 5px 0;
   padding: 4px 6px;
   background-color: ${props => props.status === 'active' ? '#3e7128' : props.status === 'inactive' ? '#d43900' : '#ffffff'} ;
   border-radius: 5px;
@@ -173,6 +175,7 @@ const StatusTxt = styled.p`
 
 const ViewMemberId = styled.div`
   display:flex;
+  margin-top: 8px;
 `;
 
 const MemberIcon = styled.img`
@@ -203,3 +206,8 @@ const MemberTxt = styled.p`
   
 `;
 
+const RenewalDate = styled.div`
+  color: #474B55;
+  font-size: 14px;
+  font-weight: 400;
+`;

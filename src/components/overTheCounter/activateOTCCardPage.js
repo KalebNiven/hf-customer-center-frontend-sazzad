@@ -74,7 +74,6 @@ const ActivateOTCCardPage = () => {
     activateOTCCard(cardInputValue)
     .then((data) => {
       setIsActivating(false)
-      console.log('data!: ', data)
       if(data.status === 200) return setActivationSubmitted(true);
       let message = data.data.message;
       setCardError(message)
@@ -115,7 +114,7 @@ const ActivateOTCCardPage = () => {
                 </ActivationSectionInputWrapper>
                 {cardError && <CardErrorMessage>{cardError}</CardErrorMessage>}
                 <ActivationSectionButton 
-                  loading={isActivating}
+                  loading={isActivating ? "true":"false"}
                   type={isActivating ? "button" : "submit"}
                 >
                   {isActivating ? <LoadingIcon src="/react/images/spinner-icon-white.svg" /> : "Activate Card"}
@@ -337,7 +336,7 @@ export const ActivationSectionButton = styled.button`
   background-color: #3e7128;
   border: none;
   width: 100%;
-  cursor: ${props => props.loading ? "none" : "pointer"};
+  cursor: ${props => props.loading == "true" ? "none" : "pointer"};
 
   font-size: 18px;
   font-weight: bold;

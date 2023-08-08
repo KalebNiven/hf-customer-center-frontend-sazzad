@@ -18,9 +18,6 @@ export default function documents(state = initialState, action) {
     switch (action.type) {
 
         case actionTypes.DOCUMENT_ERROR: {
-
-            console.log('actionTypes.DOCUMENT_ERROR', actionTypes.DOCUMENT_ERROR);
-
             return {
                 ...state,
                 data: {

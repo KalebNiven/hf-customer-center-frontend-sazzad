@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>linkage</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="assets" transform="translate(-218.000000, -204.000000)">
+            <g id="graphics-/-icons-/-link-account" transform="translate(218.000000, 204.000000)">
+                <path d="M38,16 L42,16 C44.209139,16 46,17.790861 46,20 L46,42 C46,44.209139 44.209139,46 42,46 L20,46 C17.790861,46 16,44.209139 16,42 L16,38 L36,38 C37.1045695,38 38,37.1045695 38,36 L38,16 Z M10,32 L6,32 C3.790861,32 2,30.209139 2,28 L2,6 C2,3.790861 3.790861,2 6,2 L28,2 C30.209139,2 32,3.790861 32,6 L32,10 L12,10 C10.8954305,10 10,10.8954305 10,12 L10,32 Z" id="Combined-Shape" fill="#003863"></path>
+                <path d="M26,22 L32,22 L32,26 L26,26 L26,32 L22,32 L22,26 L16,26 L16,22 L22,22 L22,16 L26,16 L26,22 Z" id="Combined-Shape" fill="#008BBF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

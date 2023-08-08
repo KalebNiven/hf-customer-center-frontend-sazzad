@@ -7,6 +7,7 @@ import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
 import { requestAddMembership } from "../../store/actions";
 import { useHomeContext } from './homeContext';
+import { useRefreshOktaToken } from '../../hooks/useRefreshOktaToken';
 
 
 
@@ -43,6 +44,8 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
     const [submitClicked, setSubmitClicked] = useState(false);
     const [showMemberIdImg, setShowMemberIdImg] = useState(false);
     const { showSuccessModal, setShowSuccessModal } = useHomeContext();
+    const refreshOktaToken = useRefreshOktaToken();
+
     const clearState = () => {
         setMembershipInfo({ ...initialState });
     };
@@ -173,7 +176,7 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
 
     const onContinue = () => {
         setShowSuccessModal(false);
-        window.location.reload();
+        refreshOktaToken(() => window.location.reload());
     }
 
     const getMsg = (msg) => {

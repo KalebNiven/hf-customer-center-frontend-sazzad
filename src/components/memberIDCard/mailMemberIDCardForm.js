@@ -1,49 +1,58 @@
-import React, { useState, useEffect, useRef } from 'react'
-import ReactDOM from 'react-dom'
-import styled, {keyframes} from 'styled-components'
+import React, { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
+import styled, { keyframes } from "styled-components";
 import { Provider, useSelector, useDispatch } from "react-redux";
-import { requestSubmitMailMemberIDCardForm } from '../../store/actions/index';
-import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';
+import { requestSubmitMailMemberIDCardForm, requestVerifyAddress} from "../../store/actions/index";
+import { useQualtrics, qualtricsAction } from "../../hooks/useQualtrics";
 import { useHistory } from "react-router-dom";
-import Cookies from 'js-cookie'
-import { ModalWrapper, ModalInnerWrapper, ModalContent, Header, Text, CloseIcon,
-    Button, ButtonWrapper } from "../../styles/commonStyles";
+import Cookies from "js-cookie";
+import {
+    ModalWrapper,
+    ModalInnerWrapper,
+    ModalContent,
+    Header,
+    Text,
+    CloseIcon,
+    Button,
+    ButtonWrapper,
+} from "../../styles/commonStyles";
 import DropdownSelect from "../common/dropdownSelect";
 import SuccessModal from "../common/successModal";
 import TryAgainModal from "../common/tryAgainModal";
 import ErrorModal from "../common/errorModal";
-import * as CONSTANTS from '../../constants/common';
+import * as CONSTANTS from "../../constants/common";
 import { AnalyticsTrack } from "../common/segment/analytics";
-import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
+import {
+    ANALYTICS_TRACK_TYPE,
+    ANALYTICS_TRACK_CATEGORY,
+} from "../../constants/segment";
 
 const MailMemberIDCardForm = (props) => {
-
     const useComponentDidMount = () => {
         const ref = useRef();
         useEffect(() => {
             ref.current = true;
         }, []);
         return ref.current;
-    };    
+    };
 
-    const { unmountMe, member, showForm } = props;
-
+    const { unmountMe, member, showForm, customerDemographicsInfo} = props;
     const dispatch = useDispatch();
     const history = useHistory();
     const visible = showForm;
     const [isValid, setIsValid] = useState(null);
     const customerInfo = useSelector((state) => state.customerInfo);
-    const submitMailMemberIDCardFormResponse = useSelector((state) => state.correspondence);
+    const submitMailMemberIDCardFormResponse = useSelector(
+        (state) => state.correspondence
+    );
     const isComponentMounted = useComponentDidMount();
-
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [streetAddress, setStreetAddress] = useState("");
     const [streetAddressTwo, setStreetAddressTwo] = useState("");
     const [city, setCity] = useState("");
-    const [stateCd, setStateCd] = useState({label: "", code: ""});
+    const [stateCd, setStateCd] = useState({ label: "", code: "" });
     const [zipCode, setZipCode] = useState("");
-
     const [step, setStep] = useState(0);
     const [firstNameError, setFirstNameError] = useState(null);
     const [lastNameError, setLastNameError] = useState(null);
@@ -52,79 +61,164 @@ const MailMemberIDCardForm = (props) => {
     const [cityError, setCityError] = useState(null);
     const [stateError, setStateError] = useState(null);
     const [zipCodeError, setZipCodeError] = useState(null);
+    const [addressOnFile, setAddressOnFile] = useState(null);
+    const [fullName, setFullName] = useState(null);
+    const [addresses, setAddresses] = useState([]);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [radioSelectAddressError, setRadioSelectAddressError] = useState("");
+    const verifyAddress = useSelector((state) => state.verifyAddress);
 
-    const [timesSubmitted, setTimesSubmitted] = useState(0);
+    const [timesSubmitted, setTimesSubmitted] = useState(0); 
 
-    useQualtrics(qualtricsAction.MAIL_ME_ID_CARD)
+    useQualtrics(qualtricsAction.MAIL_ME_ID_CARD);
 
-    useEffect (() => {
-        
-    }, [step]); 
+    useEffect(() => {}, [step]);
 
-    useEffect (() => {
-        if(isComponentMounted && !submitMailMemberIDCardFormResponse.loading) {
-            if(submitMailMemberIDCardFormResponse.error){
+    useEffect(() => {
+        if (customerDemographicsInfo?.hoh !== undefined) {
+            customerDemographicsInfo?.hoh.forEach((hoh) => {
+                if (member.memberId === hoh.memberId) {
+                    setFullName(hoh.info.contact.fullName);
+                    setAddressValue(hoh.info.addresses);
+                } else {
+                    customerDemographicsInfo?.dependents.forEach(
+                        (dependent) => {
+                            if (member.memberId === dependent.memberId) {
+                                setFullName(dependent.info.contact.fullName);
+                                setAddressValue(dependent.info.addresses);
+                            }
+                        }
+                    );
+                }
+            });
+        }
+    }, [customerDemographicsInfo]);
+
+    useEffect(() => {
+        if (isComponentMounted && !submitMailMemberIDCardFormResponse.loading) {
+            if (submitMailMemberIDCardFormResponse.error) {
                 setStep("SomeError");
-                AnalyticsTrack("Mail Order ID Card Submission Failed", customerInfo, { "raw_text": null, "destination_url": null, "category": ANALYTICS_TRACK_CATEGORY.memberIdCard, "type": ANALYTICS_TRACK_TYPE.eventFail, "targetMemberId": props.member.memberId });
-            }
-            else{
+                AnalyticsTrack(
+                    "Mail Order ID Card Submission Failed",
+                    customerInfo,
+                    {
+                        raw_text: null,
+                        destination_url: null,
+                        category: ANALYTICS_TRACK_CATEGORY.memberIdCard,
+                        type: ANALYTICS_TRACK_TYPE.eventFail,
+                        targetMemberId: props.member.memberId,
+                    }
+                );
+            } else {
                 setStep("Success");
                 resetFormFields();
                 setTimesSubmitted(1);
-                AnalyticsTrack("Mail Order ID Card Submission Successful", customerInfo, { "raw_text": null, "destination_url": null, "category": ANALYTICS_TRACK_CATEGORY.memberIdCard, "type": ANALYTICS_TRACK_TYPE.eventSuccess, "targetMemberId": props.member.memberId });
+                AnalyticsTrack(
+                    "Mail Order ID Card Submission Successful",
+                    customerInfo,
+                    {
+                        raw_text: null,
+                        destination_url: null,
+                        category: ANALYTICS_TRACK_CATEGORY.memberIdCard,
+                        type: ANALYTICS_TRACK_TYPE.eventSuccess,
+                        targetMemberId: props.member.memberId,
+                    }
+                );
             }
         }
-    }, [submitMailMemberIDCardFormResponse]); 
+    }, [submitMailMemberIDCardFormResponse]);
+
+    useEffect(() => {
+        if(!verifyAddress.loading){
+            if(verifyAddress.address){
+                addAddress(firstName, lastName, verifyAddress.address.addr1, verifyAddress.address.addr2, verifyAddress.address.city, verifyAddress.address.state, verifyAddress.address.zip, 'suggested');
+                setStep("Suggested");
+            }
+            else{
+                //console.log('verifyAddress call did not succeed');
+            }
+        }
+    }, [verifyAddress]);
+
+    const setAddressValue = (addresses) => {
+        for(let addressVal of addresses){
+            if(['Home'].some(type => type === addressVal.addressType)){
+                setAddressOnFile(addressVal);
+                setStep(1);
+                return;
+            }
+            else if((['Alternate', 'Responsible Party'].some(type => type === addressVal.addressType))) {
+                setAddressOnFile(addressVal);
+                setStep(1);
+                return;
+            }
+        }
+        setStep(0);
+     }
 
     const handleFirstNameChange = (event) => {
         setFirstName(event.target.value);
-    }
+    };
     const handleFirstNameBlur = (event) => {
-        if(event.target.value !== ''){
+        if (event.target.value !== "") {
             setFirstNameError(null);
         }
-    }
+    };
     const handleLastNameChange = (event) => {
         setLastName(event.target.value);
-    }
+    };
     const handleLastNameBlur = (event) => {
-        if(event.target.value !== ''){
+        if (event.target.value !== "") {
             setLastNameError(null);
         }
-    }
+    };
     const handleStreetAddressChange = (event) => {
         setStreetAddress(event.target.value);
-    }
+    };
     const handleStreetAddressBlur = (event) => {
-        if(event.target.value !== ''){
+        if (event.target.value !== "") {
             setStreetAddressError(null);
         }
-    }
+    };
     const handleStreetAddressTwoChange = (event) => {
         setStreetAddressTwo(event.target.value);
-    }
+    };
     const handleCityChange = (event) => {
         setCity(event.target.value);
-    }
+    };
     const handleCityBlur = (event) => {
-        if(event.target.value !== ''){
+        if (event.target.value !== "") {
             setCityError(null);
         }
-    }
+    };
     const handleStateChange = (event) => {
-        if(event.code !== ''){
+        if (event.code !== "") {
             setStateError(false);
         }
         setStateCd(event);
-    }
+    };
     const handleZipCodeChange = (event) => {
         setZipCode(event.target.value);
-    }
+    };
     const handleZipCodeBlur = (event) => {
-        if(event.target.value !== ''){
+        if (event.target.value !== "") {
             setZipCodeError(null);
         }
-    }
+    };
+
+    const addAddress = (firstName, lastName, streetAddress, streetAddressTwo, city, state, zip, sourceType) => {
+        let address = {
+            firstName: firstName,
+            lastName: lastName,
+            streetAddress: streetAddress,
+            streetAddressTwo: streetAddressTwo,
+            city: city,
+            state: state,
+            zip: zip,
+            sourceType: sourceType
+        };
+        setAddresses([...addresses, address]);
+    };
 
     const resetFormFields = () => {
         setFirstName("");
@@ -136,137 +230,156 @@ const MailMemberIDCardForm = (props) => {
         setStreetAddressTwo("");
         setCity("");
         setCityError(null);
-        setStateCd({label: "", code: ""});
+        setStateCd({ label: "", code: "" });
         setStateError(false);
         setZipCode("");
         setZipCodeError(false);
-    }
+    };
 
     const closeForm = (data) => {
         //setVisible(false);
         goToFirstStep();
         resetFormFields();
+        setAddresses([]);
+        setSelectedAddress(null);
         unmountMe();
-        Cookies.set('MailMeIdCard','true',{expires:1}) 
+        Cookies.set("MailMeIdCard", "true", { expires: 1 });
         setTimeout(() => {
-            history.push('/idcard?survey=true')
+            history.push("/idcard?survey=true");
         }, 1000);
-    }
+    };
 
     const submitForm = () => {
         //submit form and if get back an error, then increment.
-        if(timesSubmitted >= 3){
-            setStep('Error');
-        }
-        else{
+        if (timesSubmitted >= 3) {
+            setStep("Error");
+        } else if(addressOnFile && !selectedAddress){
             let formData = {
-                ZipCode: zipCode,
-                State: stateCd.code,
-                Representative: null,
+                ZipCode: addressOnFile.zip,
+                State: addressOnFile.state,
+                Representative: "CustomerCenter",
                 MemberId: member.memberId,
                 LOB: member.lob,
                 GroupNumber: member.groupNumber,
                 CompanyNumber: member.companyCode,
-                City: city,
+                City: addressOnFile.city,
+                BenefitPackage: member.benefitPackage,
+                ApplicationName: "LOFL", //Not sure what we should be setting here
+                AddressType: "Temporary", //Not sure if this is supposed to be null or Primary
+                Address1: addressOnFile.addressLine1,
+                Address2: addressOnFile.addressLine2,
+                ActionDate: null, //Not sure what this is
+                ActionCode: null, //Not sure what this is
+            };
+
+            let filteredFormData = Object.fromEntries(
+                Object.entries(formData).filter(([_, v]) => v != null)
+            );
+            dispatch(requestSubmitMailMemberIDCardForm(filteredFormData));
+        }
+        else {
+            let formData = {
+                ZipCode: selectedAddress.zip,
+                State: selectedAddress.state,
+                Representative: "CustomerCenter",
+                MemberId: member.memberId,
+                LOB: member.lob,
+                GroupNumber: member.groupNumber,
+                CompanyNumber: member.companyCode,
+                City: selectedAddress.city,
                 BenefitPackage: member.benefitPackage,
                 ApplicationName: 'LOFL', //Not sure what we should be setting here
-                AddressType: null, //Not sure if this is supposed to be null or Primary
-                Address1: streetAddress,
-                Address2: streetAddressTwo,
+                AddressType: "Temporary", //Not sure if this is supposed to be null or Primary
+                Address1: selectedAddress.streetAddress,
+                Address2: selectedAddress.streetAddressTwo,
                 ActionDate: null, //Not sure what this is
                 ActionCode: null //Not sure what this is
             }
-            let filteredFormData = Object.fromEntries(Object.entries(formData).filter(([_, v]) => v != null));
 
+            let filteredFormData = Object.fromEntries(
+                Object.entries(formData).filter(([_, v]) => v != null)
+            );
             dispatch(requestSubmitMailMemberIDCardForm(filteredFormData));
         }
-        setTimesSubmitted(timesSubmitted+1);
-    }
+        setTimesSubmitted(timesSubmitted + 1);
+    };
 
     const validateForm = () => {
-        if(step == "Error"){
+        if (step == "Error") {
             goToFirstStep();
             return false;
         }
         let isValid = true;
-        if(firstName === ""){
+        if (firstName === "") {
             setFirstNameError("This field is required.");
             isValid = false;
-        } else (setFirstNameError(null));
-        if(lastName === ""){
+        } else setFirstNameError(null);
+        if (lastName === "") {
             setLastNameError("This field is required.");
             isValid = false;
-        } else (setLastNameError(null));
-        if(streetAddress === ""){
+        } else setLastNameError(null);
+        if (streetAddress === "") {
             setStreetAddressError("This field is required.");
             isValid = false;
-        } else (setStreetAddressError(null));
+        } else setStreetAddressError(null);
         /* We are not going to require this one currently 
         if(streetAddressTwo === ""){
             setStreetAddressTwoError("This field is required.");
             isValid = false;
         } else (setStreetAddressTwoError(null));
         */
-        if(city === ""){
+        if (city === "") {
             setCityError("This field is required.");
             isValid = false;
-        } else (setCityError(null));
-        if(stateCd.label === "" || stateCd.code === ""){
+        } else setCityError(null);
+        if (stateCd.label === "" || stateCd.code === "") {
             setStateError("This field is required.");
             isValid = false;
-        } else (setStateError(null));
-        if(zipCode === ""){
+        } else setStateError(null);
+        if (zipCode === "") {
             setZipCodeError("This field is required.");
             isValid = false;
-        } else (setZipCodeError(null));
-        
-        if(!isValid) setIsValid(false);
+        } else setZipCodeError(null);
+
+        if (!isValid) setIsValid(false);
         return isValid;
-    }
+    };
 
     const setNotValid = () => {
         setIsValid(false);
-    }
-    
-    const handleNextQuestionBtn = () => {    
-        const isValid = validateForm()
+    };
+
+    const handleManualSubmit = () => {
+        const isValid = validateForm();
 
         // check if the questions is the last one
-        if(isValid) {
-            
+        if (isValid) {
+            addAddress(firstName, lastName, streetAddress, streetAddressTwo, city, stateCd.code, zipCode, 'userInput');
+            setSelectedAddress(addresses[0]);
+            dispatch(requestVerifyAddress(streetAddress, streetAddressTwo, city, stateCd.code, zipCode));
+        } else {
+            //goToFirstStep();
         }
-    }
+    };
 
-    const handleNext = () => {    
-        const isValid = validateForm()
+    const handleBack = () => {
+        const isValid = validateForm();
 
         // check if the questions is the last one
-        if(isValid) {
-            setStep(step+1);
-        }
-        else{
+        if (isValid) {
+            setAddresses([]);
+            setStep(0);
+        } else {
             goToFirstStep();
         }
-    }
+    };
 
-    const handleBack = () => {    
-        const isValid = validateForm()
+    const goToFirstStep = () => {
+        setStep(1);
+    };
 
-        // check if the questions is the last one
-        if(isValid) {
-            setStep(step-1);
-        }
-        else{
-            goToFirstStep();
-        }
-    }
-
-    const goToFirstStep = () => {    
-        setStep(0);
-    }
-
-    const renderSwitch = (step) => { 
-        switch(step) {
+    const renderSwitch = (step) => {
+        switch (step) {
             case 0:
                 return (
                     <div>
@@ -328,9 +441,15 @@ const MailMemberIDCardForm = (props) => {
                             </HalfWrapper>
                         </FormGrid>
                         <FormButtonWrapper>
-                            <FormButton green={true} onClick={handleNext}>
+                            {verifyAddress.loading ?
+                            <FormButton green={true}>
+                                <ProgressSpinner></ProgressSpinner>
+                            </FormButton>
+                            :
+                            <FormButton green={true} onClick={handleManualSubmit}>
                                 Continue
                             </FormButton>
+                            }
                             <FormButton green={false} onClick={closeForm}>
                                 Cancel
                             </FormButton>
@@ -339,115 +458,262 @@ const MailMemberIDCardForm = (props) => {
                 );
             case 1:
                 return (
+                    <>
+                        {
+                            <div>
+                                <FormModalHeader>
+                                    Mail Me a New ID Card
+                                </FormModalHeader> 
+                                {addressOnFile && !streetAddress? (
+                                    <InfoWrapper>
+                                        <MemberDetailsFullName>
+                                            {fullName}
+                                        </MemberDetailsFullName>
+                                        {addressOnFile?
+                                        <AddressField>
+                                        <MemberDetailField>
+                                            {addressOnFile.addressLine1}
+                                        </MemberDetailField>
+                                        <MemberDetailField>
+                                            {addressOnFile.city},{" "}
+                                            {addressOnFile.state},{" "}
+                                            {addressOnFile.zip}
+                                        </MemberDetailField>
+                                        </AddressField> : 
+                                        <MemberDetailField>Currently we do not have your address on file</MemberDetailField>}
+                                    </InfoWrapper>
+                                ) : (
+                                    <InfoWrapper>
+                                        <MemberDetailsFullName>
+                                            {firstName || lastName ? firstName + " " + lastName : ""}
+                                        </MemberDetailsFullName>
+                                        <AddressField>
+                                        <MemberDetailField>
+                                            {streetAddress ? streetAddress : ""}
+                                        </MemberDetailField>
+                                        {streetAddressTwo?
+                                        <MemberDetailField>
+                                            {streetAddressTwo ? streetAddressTwo : ""}
+                                        </MemberDetailField>
+                                        :null}
+                                        <MemberDetailField>
+                                            {city},{" "}
+                                            {stateCd?.label},{" "}
+                                            {zipCode}
+                                        </MemberDetailField>
+                                        </AddressField>
+                                    </InfoWrapper>
+                                )}
+                                <br style={{ clear: "both" }} />
+                                <br />
+                                <EditAddrressButton onClick={()=>setStep(0)}>
+                                    <EditAddrressButtonImg src="/react/images/other/ico-pencil.svg" />
+                                    <EditAddrressButtonTxt>Send to Different Mailing Address</EditAddrressButtonTxt>
+                                </EditAddrressButton>
+                                <br />
+                                {addressOnFile ? (
+                                    <FormButtonWrapper>
+                                        {!submitMailMemberIDCardFormResponse.loading ? (
+                                            <FormButton
+                                                green={true}
+                                                onClick={(event) => {
+                                                    submitForm();
+                                                    AnalyticsTrack(
+                                                        "Mail Order ID Card Submit Button Clicked",
+                                                        customerInfo,
+                                                        {
+                                                            raw_text: "Submit",
+                                                            destination_url: null,
+                                                            category:
+                                                                ANALYTICS_TRACK_CATEGORY.memberIdCard,
+                                                            type:
+                                                                ANALYTICS_TRACK_TYPE.linkClicked,
+                                                            location: {
+                                                                desktop: {
+                                                                    width: 1024,
+                                                                    value:
+                                                                        "center",
+                                                                },
+                                                                tablet: {
+                                                                    width: 768,
+                                                                    value:
+                                                                        "center",
+                                                                },
+                                                                mobile: {
+                                                                    width: 0,
+                                                                    value:
+                                                                        "center",
+                                                                },
+                                                            },
+                                                        }
+                                                    );
+                                                }}
+                                            >
+                                                Submit
+                                            </FormButton>
+                                        ) : (
+                                            <FormButton green={true}>
+                                                <ProgressSpinner></ProgressSpinner>
+                                            </FormButton>
+                                        )}
+                                        <FormButton
+                                            green={false}
+                                            onClick={closeForm}
+                                        >
+                                            Cancel
+                                        </FormButton>
+                                    </FormButtonWrapper>
+                                ) : (
+                                    <FormButtonWrapper>
+                                        <FormButton
+                                            green={true}
+                                            onClick={closeForm}
+                                        >
+                                            Close
+                                        </FormButton>
+                                    </FormButtonWrapper>
+                                )}
+                            </div>
+                        }
+                    </>
+                );
+            case "Suggested":
+                return (
                     <div>
                         <FormModalHeader>
-                            Mail Me a New ID Card
+                            Confirm Mailing Address
                         </FormModalHeader>
-                        <SubHeaderTwo>
-                            Please confirm the address you have provided. The new ID card will be mailed to the address below.
-                        </SubHeaderTwo>
-                        <InfoWrapper>
-                        <FormText style={{whiteSpace: 'pre-line'}}>{firstName || lastName ? firstName + " " + lastName+"\n" : ""}</FormText>
-                        <FormText style={{whiteSpace: 'pre-line'}}>{streetAddress ? streetAddress+"\n" : ""}</FormText>
-                        <FormText style={{whiteSpace: 'pre-line'}}>{streetAddressTwo ? streetAddressTwo+"\n" : ""}</FormText>
-                        <FormText style={{whiteSpace: 'pre-line'}}>{city + ", " + stateCd?.label + ", " + zipCode}</FormText>
-                        </InfoWrapper>
-                        <EditButton onClick={goToFirstStep}>Edit</EditButton>
-                        <br style={{clear:'both'}} />
-                        <FormButtonWrapper>
-                            { !submitMailMemberIDCardFormResponse.loading ?
-                                <FormButton green={true} onClick={
-                                    (event)=>{
-                                        submitForm(); 
-                                        AnalyticsTrack(
-                                            "Mail Order ID Card Submit Button Clicked", 
-                                            customerInfo, 
-                                            { 
-                                                "raw_text": "Confirm Address", 
-                                                "destination_url": null, 
-                                                "category": ANALYTICS_TRACK_CATEGORY.memberIdCard, 
-                                                "type": ANALYTICS_TRACK_TYPE.linkClicked,
-                                                "location": {
-                                                    "desktop":{
-                                                        "width": 1024,
-                                                        "value": "center"
-                                                    },
-                                                    "tablet":{
-                                                        "width": 768,
-                                                        "value": "center"
-                                                    },
-                                                    "mobile":{
-                                                        "width": 0,
-                                                        "value": "center"
-                                                    }
-                                                }
+                        <SubHeader>
+                            We were unable to verify your address. Please select the address you’d like to use to ensure a timely delivery. 
+                        </SubHeader>
+                        <>
+                        {addresses.map(((address) => (
+                            <>
+                            {address?.sourceType === 'userInput' && (
+                            <RadioHeader>You Entered</RadioHeader>
+                            )}
+                            {address?.sourceType === 'suggested' && (
+                            <RadioHeader>We Suggest</RadioHeader>
+                            )}
+                            <AddressCard key={address.streetAddress+address.sourceType}
+                                onClick={() => setSelectedAddress(address)}
+                                status={radioSelectAddressError ? 'error' : selectedAddress && selectedAddress.sourceType === address.sourceType ? 'selected' : ""} >
+                                <RadioButtonContainer>
+                                    <RadioAddressWrapper>
+                                        <MemeberDetailFieldWrapper>
+                                            <MemeberDetailField>{firstName} {" "} {lastName}</MemeberDetailField>
+                                        </MemeberDetailFieldWrapper>
+                                        <div>
+                                            {
+                                                addressOnFile && (
+                                                    <MemeberDetailFieldWrapper>
+                                                        <MemeberDetailField>{address.streetAddress ? address.streetAddress : ""} {address.streetAddressTwo ? address.streetAddressTwo : ""}</MemeberDetailField>
+                                                        <MemeberDetailField>
+                                                            {address.city},{" "}
+                                                            {address.state},{" "}
+                                                            {address.zip}
+                                                        </MemeberDetailField>
+                                                    </MemeberDetailFieldWrapper>
+                                                )
                                             }
-                                        )
+
+                                        </div>
+                                    </RadioAddressWrapper>
+                                    <RadioImgWrapper>
+                                    {
+                                        selectedAddress && selectedAddress.sourceType === address.sourceType ?
+                                            <RadioImg alt = "" src="/react/images/icn-radio-active.svg" /> :
+                                            <RadioImg alt = "" src="/react/images/icn-radio-inactive.svg" />
                                     }
-                                }>
-                                    Confirm Address
-                                </FormButton>
-                            :
-                                <FormButton green={true}>
-                                    <ProgressSpinner></ProgressSpinner>
-                                </FormButton>
-                            }
+                                    </RadioImgWrapper>
+                                </RadioButtonContainer>
+                            </AddressCard>
+                            <br />
+                            </>
+                        )))}
+                        </>
+                        <FormButtonWrapper>
+                            <FormButton green={true} onClick={() => submitForm()}>
+                                Confirm Address
+                            </FormButton>
                             <FormButton green={false} onClick={closeForm}>
                                 Cancel
                             </FormButton>
                         </FormButtonWrapper>
                     </div>
                 );
-          case "Success":
+            case "Success":
                 return (
-                    <SuccessModal closeButtonClick={() => closeForm()} modalHeaderText={"Your new Member ID Card is on its way!"} modalBodyText={"Thank you for your ID Card request. Your new ID card will arrive at your current mailing address in 10-15 days."} />
+                    <SuccessModal
+                        closeButtonClick={() => closeForm()}
+                        modalHeaderText={
+                            "Your new Member ID Card is on its way!"
+                        }
+                        modalBodyText={
+                            "Thank you for your ID Card request. Your new ID card will arrive at your current mailing address in 10-15 days."
+                        }
+                    />
                 );
-          case "Error":
+            case "Error":
+                return <ErrorModal closeButtonClick={() => closeForm()} />;
+            default:
                 return (
-                    <ErrorModal closeButtonClick={() => closeForm()} />
+                    <TryAgainModal
+                        tryAgainButtonClick={() => submitForm()}
+                        backButtonClick={() => handleBack()}
+                    />
                 );
-          default:
-                return (
-                    <TryAgainModal tryAgainButtonClick={() => submitForm()} backButtonClick={() => setStep(1)}/>
-                );
-            
         }
-      }
+    };
     return (
         <MailMemberIDCardFormWrapper>
-            { visible === true ?
+            {visible === true ? (
                 <FormModalWrapper visible={visible}>
                     <ModalInnerWrapper>
                         <FormModalContent>
-                        <CloseIcon src = "/react/images/icn-close.svg" onClick={closeForm} />
+                            <CloseIcon
+                                src="/react/images/icn-close.svg"
+                                onClick={closeForm}
+                            /> 
                             {renderSwitch(step)}
                         </FormModalContent>
                     </ModalInnerWrapper>
                 </FormModalWrapper>
-                :
-                null
-            }
+            ) : null}
         </MailMemberIDCardFormWrapper>
-    )
-}
+    );
+};
 
 const MailMemberIDCardFormWrapper = styled.div`
-`
+    width: 440px;
+    height: 376px;
+`;
+
+const ContactSpan = styled.span`
+    font-size: 14px;
+    cursor: pointer;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    color: #008bbf;
+    font-weight: 600;
+`;
 
 const FormModalWrapper = styled(ModalWrapper)`
     transition: opacity 300ms ease-in-out;
-    opacity: ${props => props.visible ? "1" : "0" };
-`
+    opacity: ${(props) => (props.visible ? "1" : "0")};
+`;
 
 const FormModalContent = styled(ModalContent)`
     transition: opacity 300ms ease-in-out;
-`
+`;
 
 const FormModalHeader = styled(Header)`
-    font-size: 20px;
+    font-size: 24px;
     line-height: 1.4;
+    font-weight: 600;
     margin-bottom: 1rem;
-`
+`;
 
 const SubHeader = styled.h3`
     margin: 4px 4px 8px 0;
@@ -458,18 +724,36 @@ const SubHeader = styled.h3`
     line-height: 24px;
     letter-spacing: normal;
     color: #474b55;
-`
+`;
 
-const SubHeaderTwo = styled.h3`
+const AddressField = styled.div`
+`;
+
+const AddressInfo = styled.div`
+`;
+
+const ContactText = styled.div`
+    font-size: 14px;
+    font-stretch: normal;
+    font-family: "museo-sans", san-serif;
+    font-style: normal;
+    line-height: 20px;
+    letter-spacing: normal;
+    color: #474b55;
+    margin-top: 16px;
+    font-weight: 400;
+`;
+
+const SubHeaderTwo = styled.div`
     margin: 4px 4px 16px 0;
     font-size: 16px;
-    font-weight: 700;
     font-stretch: normal;
     font-style: normal;
     line-height: 24px;
     letter-spacing: normal;
     color: #474b55;
-`
+    font-weight: 400;
+`;
 
 const InputHeader = styled.h3`
     margin: 8px 4px 8px 0;
@@ -480,7 +764,7 @@ const InputHeader = styled.h3`
     line-height: 24px;
     letter-spacing: normal;
     color: #474b55;
-`
+`;
 
 const Input = styled.input`
     min-height: 40px;
@@ -497,10 +781,10 @@ const Input = styled.input`
     border: 1px solid #474b55;
     border-radius: 4px;
     border: solid 1px #a8abac;
-    border-color: ${props => props.error && "#ad122a"};
+    border-color: ${(props) => props.error && "#ad122a"};
 
-    &[type=number]::-webkit-inner-spin-button, 
-    &[type=number]::-webkit-outer-spin-button {  
+    &[type="number"]::-webkit-inner-spin-button,
+    &[type="number"]::-webkit-outer-spin-button {
         display: none;
     }
 
@@ -509,22 +793,22 @@ const Input = styled.input`
     }
     ::placeholder,
     ::-webkit-input-placeholder {
-        color: ${props => props.error ? "#ad122a" : "#a8abac" };
+        color: ${(props) => (props.error ? "#ad122a" : "#a8abac")};
     }
     :-ms-input-placeholder {
-        color: ${props => props.error ? "#ad122a" : "#a8abac" };
+        color: ${(props) => (props.error ? "#ad122a" : "#a8abac")};
     }
-`
+`;
 
 const InputErrorMsg = styled.div`
-  font-size: 12px;
-  font-weight: 300;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.33;
-  letter-spacing: normal;
-  color: #a0252c;
-  padding-top: 4px;
+    font-size: 12px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: #a0252c;
+    padding-top: 4px;
 `;
 
 const FormGrid = styled.div`
@@ -533,24 +817,24 @@ const FormGrid = styled.div`
     grid-column-gap: 2rem;
     grid-row-gap: 1rem;
     margin-right: 2rem;
-`
+`;
 
 const FullWrapper = styled.div`
     grid-column: 1 / 3;
-`
+`;
 
 const HalfWrapper = styled.div`
     @media only screen and (max-width: 768px) {
         grid-column: 1 / 3;
     }
-`
+`;
 
 const FormButtonWrapper = styled(ButtonWrapper)`
-  margin-top: 3.5rem;
-  margin-bottom: 6rem;
-  @media only screen and (max-width: 768px) {
-    margin-bottom: 10rem;
-  }
+    margin-top: 16px;
+    margin-bottom: 48px;
+    @media only screen and (max-width: 768px) {
+        margin-bottom: 10rem;
+    }
 `;
 
 const FormButton = styled(Button)`
@@ -563,10 +847,9 @@ const FormButton = styled(Button)`
 const InfoWrapper = styled.div`
     float: left;
     width: 85%;
-`
+`;
 
-const FormText = styled.div`
-`
+const FormText = styled.div``;
 
 const EditButton = styled.button`
     margin: 0 0 4px 0px;
@@ -587,7 +870,10 @@ const EditButton = styled.button`
         text-decoration: underline;
     }
 
-    &:focus {outline:0; box-shadow: none;}
+    &:focus {
+        outline: 0;
+        box-shadow: none;
+    }
 `;
 const SpinnerRotate = keyframes`
   from {transform: rotate(0deg);}
@@ -595,23 +881,115 @@ const SpinnerRotate = keyframes`
 `;
 
 const ProgressSpinner = styled.div`
-  text-align: center;
-  margin: auto;
-  border: .2rem solid #375225;
-  border-top: .2rem solid white;
-  border-radius: 50%;
-  height: 1.5rem;
-  width: 1.5rem;
-  margin-left: 4rem;
-  margin-right: 4rem;
-  animation-name: ${SpinnerRotate};
-  animation-duration: 2s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  @media only screen and (max-width: 768px) {
-    margin-left: auto;
-    margin-right: auto;
+    text-align: center;
+    margin: auto;
+    border: 0.2rem solid #375225;
+    border-top: 0.2rem solid white;
+    border-radius: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+    margin-left: 4rem;
+    margin-right: 4rem;
+    animation-name: ${SpinnerRotate};
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    @media only screen and (max-width: 768px) {
+        margin-left: auto;
+        margin-right: auto;
+    }
+`;
+
+const MemberDetailsFullName = styled.div`
+    font-family: "museo-sans", san-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #474b55;
+`;
+
+const MemberDetailField = styled.div`
+    font-family: "museo-sans", san-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #474b55;
+`;
+
+const EditAddrressButton = styled.button`
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  // margin-top: 16px;
+  padding: 8px;
+  border-radius: 8px;
+  border: solid 1px #d8d8d8;
+  background-color: #ffffff;
+  display: flex;
+  &:hover {
+    background-color: rgb(242, 249, 252);
+  }
+  &:active {
+    background-color: rgb(230, 244, 249);
   }
 `;
-  
+
+const EditAddrressButtonImg = styled.img`
+  margin-right: 5px;
+`;
+
+const EditAddrressButtonTxt = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.14;
+  letter-spacing: normal;
+  text-align: left;
+  color: #008bbf;
+`;
+const AddressCard = styled.div`
+    overflow:hidden;
+    padding: 16px 16px 16px 16px;
+    border-radius: 6px;
+    border: ${({ status }) => status ? status === "selected" ? "solid 2px #003863" : "solid 2px #ad122a" : "solid 1px #d8d8d8"};
+`
+const RadioButtonContainer = styled.div`
+    display:flex;
+    gap:12px
+`
+const RadioImgWrapper = styled.div`
+    width: 50%;
+    position: relative;
+`
+const RadioImg = styled.img`
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+`
+const RadioHeader = styled.h2`
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.5rem;
+    color: #003863;
+    margin-bottom: .5rem;
+`
+const RadioAddressWrapper = styled.div`
+    width: 50%;
+`
+const MemeberDetailFieldWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+`
+const MemeberDetailFieldImg = styled.img`
+    margin-top:1.5px
+`
+const MemeberDetailField = styled.div`
+    font-family: "museo-sans", san-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    color: #474b55;
+`
 export default MailMemberIDCardForm;

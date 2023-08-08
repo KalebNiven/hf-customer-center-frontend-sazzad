@@ -12,6 +12,7 @@ import { MainContentContainer } from '../common/styles';
 import { getHraStatus } from '../../store/saga/apis'
 
 const HRACard = () => {
+
     const { data, form: { active, selected, pending, visited } } = useSelector((state) => state.hra);
     const hraMemberInfo = useSelector(state => state.hra.data.memberInfo);
     const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const HRACard = () => {
     
     useEffect(() => {
         setMemberId(history.location.pathname.slice(5))
+        sessionStorage.setItem("longLoad", false)
     }, [])
 
     useEffect(() => {
@@ -56,8 +58,6 @@ const HRACard = () => {
         if(!memberId || !surveyStatus) return;
         if(surveyStatus.status === "COMPLETE") return setSurveySuccess(true);
         if(Number(surveyStatus.days_from_completion) > 365) return; // we don't need to pull partials at this point
-
-        console.log('surveyStatus: ', surveyStatus)
         setLoading(true);
         getHraPartials(memberId)
         .then((data) => {
@@ -334,7 +334,7 @@ const HRACard = () => {
     return (
         <HRAWrapper>
             <Breadcrumbs>
-                <BreadcrumsbLink href="/communityResources">My Health</BreadcrumsbLink>
+                <BreadcrumsbLink href="/my-health">My Health</BreadcrumsbLink>
                 <ArrowIcon alt = "" src="/react/images/icn-arrow-right.svg" />
                 <BreadcrumsbLink active>Annual Health Assessment</BreadcrumsbLink>
             </Breadcrumbs>

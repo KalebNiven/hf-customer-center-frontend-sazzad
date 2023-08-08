@@ -9,16 +9,19 @@ import PaymentPortal from "./paymentPortal";
 import { PAYMENTS_ACL, BINDER_ACL, SHOW_PAYMENTS_REACT_APP } from '../../constants/splits';
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner";
+import { PaymentsModalContext, PaymentsModalContextProvider, usePaymentsModalContext } from "../../context/paymentsModalContext";
+import MemberSelectionModal from "./memberSelectionModal";
+import { useHistory } from "react-router-dom";
 
 const PaymentPage = () => {
 
   const { MIX_REACT_APP_BINDER_SITE_HREF } = process.env;
   const { MIX_REACT_APP_PAYMENT_SITE_HREF } = process.env;
-
+  const { paymentsModalState, setPaymentsModalState, resetPaymentsModal } = usePaymentsModalContext();
   const [showPortal, setShowPortal] = useState(false);
   const [loading, setLoading] = useState(true);
-
   const customerInfo = useSelector((state) => state.customerInfo);
+  const selectedPlan = useSelector((state) => state.selectPlan);
   const {
     memberId,
     companyCode,
@@ -28,22 +31,24 @@ const PaymentPage = () => {
     membershipStatus,
     accountStatus
   } = customerInfo?.data ?? {};
-
-  const splitAttributes = {
+  const [splitAttributes, setSplitAttributes] = useState({
     memberId: memberId,
     lob: sessLobCode,
     membershipStatus,
     benefitPackage,
     accountStatus,
     companyCode,
-  };
-
-  const splitHookClient = useClient(customerId);
+  });
+  const history = useHistory();
+  const splitHookClient = useClient();
   const { treatment } = splitHookClient.getTreatmentWithConfig(SHOW_PAYMENTS_REACT_APP, splitAttributes); //defaults to 'control'
-  const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, splitAttributes)
-  const binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes)
+  let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, splitAttributes)
+  let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes)
   useEffect(() => {
     sessionStorage.setItem("longLoad", false);
+    if(customerInfo?.data?.hohPlans.length > 1){
+      displayMembersModal('link', 'Payments');
+    }
   }, []);
 
   const showNewPaymentsApp = useMemo(() => {
@@ -51,9 +56,27 @@ const PaymentPage = () => {
     return treatment === "on";
   }, [splitHookClient, treatment]);
 
+  useEffect(() => {
+    if(paymentsModalState?.membership == null) return;
+    setSplitAttributes({
+      memberId: paymentsModalState?.membership?.MemberId,
+      lob: paymentsModalState?.membership?.LOBCode,
+      membershipStatus: paymentsModalState?.membership?.MembershipStatus,
+      benefitPackage: paymentsModalState?.membership?.BenefitPackage,
+      accountStatus: accountStatus,
+      companyCode: paymentsModalState?.membership?.CompanyNumber,
+    });
+  }, [paymentsModalState]);
+
+  useEffect(() => {
+    paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, splitAttributes)
+    binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes)
+  }, [splitAttributes]);
+
   // ACL Redirect
   useEffect(() => {
-    if(!splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control") return;
+    if(customerInfo.data.hohPlans.length > 1 && (selectedPlan.status === 'init' || paymentsModalState.membership == null)) return;
+    if(null == localStorage.getItem('okta-token-storage') || !splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control") return;
       let isRedirecting = false;
       if(paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off"){
         if(showNewPaymentsApp){
@@ -61,15 +84,21 @@ const PaymentPage = () => {
         }
         else{
           isRedirecting = true;
+          history.goBack();
           window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
         }
       }
       if(paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "on"){
         isRedirecting = true;
+        history.goBack();
         window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
       }
       setLoading(isRedirecting);
-  }, [splitHookClient, paymentsEnabledTreatment, binderEnabledTreatment])
+  }, [splitHookClient, paymentsEnabledTreatment, binderEnabledTreatment, selectedPlan])
+
+  const displayMembersModal = (routeLink, externalLinkName) => {
+    setPaymentsModalState({ ...paymentsModalState, showMemberModal: true, routeLink, externalLinkName })
+  }
 
   const handleSegmentBtn = (label,link) => {
     AnalyticsPage();
@@ -108,18 +137,20 @@ const PaymentPage = () => {
   };
   if(paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "off") return (<GlobalError />);
 
-if(showPortal) return (<PaymentPortalWrapper>
+  if(showPortal) return (
+  <PaymentPortalWrapper>
     <BrandingContainer>
-      <BrandingImage src="/img/payments-branding.jpg" alt="" />
+      <BrandingImage src="react/images/leaf-icon@3x.png" alt="" />
       <BrandingTitleWrapper>
         <BrandingTitle>Payments</BrandingTitle>
       </BrandingTitleWrapper>
     </BrandingContainer>
     <PaymentPortal />
-  </PaymentPortalWrapper>);
+  </PaymentPortalWrapper>
+  );
 
   return(
-    (loading) ?
+    (loading || selectedPlan.loading) ?
     <Container>
         <ProgressWrapper>
             <Spinner />
@@ -307,25 +338,24 @@ const PaymentPortalWrapper = styled.div`
 `;
 
 const BrandingContainer = styled.div`
-  height: 185px;
+  height: 240px;
   overflow: hidden;
   position: relative;
-  background-color: #000;
+  background-image: linear-gradient(to bottom,#003863, rgba(238, 238, 238, 0)),linear-gradient(
+    101deg, #0377a3, #0377a3, #367c19);
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 `;
 
 const BrandingImage = styled.img`
-  position: relative;
-  opacity: 50%;
-  height: auto;
-  margin: auto;
-  width: 100%;
-  top: -223px;
-  @media only screen and (max-width: 768px) {
-    max-width: 120%;
-    top: -22%;
+  width: 240px;
+  padding-top: 20px;
+  @media only screen and (max-width: 960px) {
+    margin-left: auto;
+  }
+  @media only screen and (min-width: 960px) {
+    margin-right: auto;
   }
 `;
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>provider</title>
+    <desc>Created with Sketch.</desc>
+    <g id="provider" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(5.000000, 7.000000)">
+            <path d="M13,0 L15,0 C15.5522847,-1.08250786e-15 16,0.44771525 16,1 L16,11 C16,15.418278 12.418278,19 8,19 L8,19 C3.581722,19 5.41083001e-16,15.418278 0,11 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 L3,0" id="Path" stroke="#008BBF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M16,5 L16,11 C16,15.418278 12.418278,19 8,19 L8,19 C3.581722,19 5.41083001e-16,15.418278 0,11 L0,5" id="Path" stroke="#003863" stroke-width="4"></path>
+            <path d="M8,19.6666667 L8,25.9090909 C8,29.8252919 11.1747081,33 15.0909091,33 L15.0909091,33 C19.00711,33 22.1818182,29.8252919 22.1818182,25.9090909 L22.1818182,17.9090909 C22.1818182,15.1978749 24.379693,13 27.0909091,13 L27.0909091,13 C29.8021251,13 32,15.1978749 32,17.9090909 L32,24.4285714" id="Path-8" stroke="#003863" stroke-width="2"></path>
+            <g id="Group-16" transform="translate(27.000000, 24.000000)">
+                <path d="M5,10 C2.23857625,10 0,7.76142375 0,5 C0,2.23857625 2.23857625,0 5,0 C7.76142375,0 10,2.23857625 10,5 C10,7.76142375 7.76142375,10 5,10 Z M5,8 C6.65685425,8 8,6.65685425 8,5 C8,3.34314575 6.65685425,2 5,2 C3.34314575,2 2,3.34314575 2,5 C2,6.65685425 3.34314575,8 5,8 Z" id="Combined-Shape-Copy" fill="#003863"></path>
+                <circle id="Oval-4" fill="#008BBF" cx="5" cy="5" r="1"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

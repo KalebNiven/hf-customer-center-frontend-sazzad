@@ -495,7 +495,7 @@ export const createUsernamePassword = async (data,mfaVerifiedAuth) => {
 // Global Alerts
 export const getGlobalAlerts = async () => {
   try {
-    const res = await LOFLv2(true).get(`global-alerts`);
+    const res = await LOFLv2(false).get(`global-alerts`);
     return res.data;
   } catch (err) {
   }
@@ -569,7 +569,8 @@ export const reportErrorService = async (membershipKey) => {
 
 //sam to deliver today
 export const submitPlanForExternalLink = async (payload) => {
-  return await axios.get(`/selectPlan/${payload.membershipKey}`)
+  const res = await LOFLv2(true).get(`/select-plan/${payload.membershipKey}`);
+  return res;
 }
 
 export const getCoverageBenefitsVideos = async (language, companyCode, benefitPackage, membershipStatus) => {
@@ -712,3 +713,18 @@ export const getDocumentFile = async (data) => {
   })
 };
 
+export const verifyAddress = async (data) => {
+  try {
+    const res = await LOFLv2(true).get(`/verify-address`, { params: {
+      addr1: data.payload.streetAddress,
+      addr2: data.payload.streetAddressTwo,
+      city: data.payload.city,
+      state: data.payload.state,
+      zip: data.payload.zip
+    }
+    });
+    return res.data;
+  } catch (err) {
+    console.log(err.message)
+  }
+}

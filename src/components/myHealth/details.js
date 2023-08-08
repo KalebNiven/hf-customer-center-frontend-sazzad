@@ -66,7 +66,7 @@ const Details = ({ historyState }) => {
 
   const handleBack = () => {
     history.push({
-      pathname: "/communityResources/category",
+      pathname: "/my-health/community-resources/category",
       state: historyState
     })
   }
@@ -80,7 +80,6 @@ const Details = ({ historyState }) => {
   };
 
   const handleSegmentBtn = (label,data) =>{
-    console.log("click","click")
     AnalyticsTrack(
       label + " " + "link clicked",
       customerInfo,
@@ -183,11 +182,11 @@ const Details = ({ historyState }) => {
                   <>
                     <SubHeader margin="24px 0 0 0">Hours</SubHeader>
                     <HoursList>
-                      {Array.from(Array(8).keys()).map((value) => {
+                      {Array.from(Array(8).keys()).map((value,index) => {
                         if (value >= 1) {
                           value = value === 7 ? 0 : value;
                           return (
-                            <Day>
+                            <Day key={index}>
                               <DayOfTheWeek>{`${daysOfWeek[value]}`}</DayOfTheWeek>
                               <DayHrs>
                                 {parseDayTime(
@@ -252,8 +251,8 @@ const Details = ({ historyState }) => {
                     <>
                       <AboutHeader>LANGUAGES</AboutHeader>
                       {
-                        details.languages.map(lang =>
-                          <AboutText>{lang}</AboutText>
+                        details.languages.map((lang,idx) =>
+                          <AboutText key={idx} >{lang}</AboutText>
                         )
                       }
                     </>
@@ -369,7 +368,7 @@ const SubHeader = styled.div`
   margin: ${props => props.margin && props.margin};
 `;
 
-const ContactHead = styled.p`
+const ContactHead = styled.div`
   width: 100%;
   font-size: 14px;
   font-weight: bold;

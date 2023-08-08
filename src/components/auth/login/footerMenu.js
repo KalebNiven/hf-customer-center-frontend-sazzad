@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'; 
 import { handleSegmentClick } from '../../../libs/segment';
+import Index from '../../documents';
 const { MIX_REACT_APP_FOOTER_WEB_PRIVACY } = process.env;
 const { MIX_REACT_APP_FOOTER_NY_PRIVACY } = process.env;
 const { MIX_REACT_APP_FOOTER_HIPAA } = process.env;
@@ -38,7 +39,7 @@ const FooterMenu = () => {
     return (
         <Wrapper>
             <List>
-                {links.map( link => <ListItem isLink><a onClick={() => handleClick(link)} href={link.href}>{link.label}</a></ListItem>)}
+                {links.map( (link,index) => <ListItem  key={index} isLink><a onClick={() => handleClick(link)} href={link.href}>{link.label}</a></ListItem>)}
             </List>
             <Copyright>© {new Date().getFullYear()} Healthfirst</Copyright>
         </Wrapper>

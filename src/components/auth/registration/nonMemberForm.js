@@ -295,6 +295,9 @@ const nonMemberForm = ({
                         placeholder="Enter First Name"
                         onClick={() => checkValues()}
                         value={membershipInfo["firstName"].value}
+                        onSelect={(e) =>{
+                            checkValues()
+                        }}
                         onChange={(e) => {
                             checkValues();
                             if (e.target.value.length > 0) {
@@ -355,6 +358,9 @@ const nonMemberForm = ({
                         placeholder="MM/DD"
                         onClick={() => checkValues()}
                         value={membershipInfo["dateofBirth"].value}
+                        onSelect={(e) =>{
+                            checkValues()
+                        }}
                         onChange={(e) => {
                             checkValues();
                             if (
@@ -432,7 +438,7 @@ const nonMemberForm = ({
                     </ItalicFont>
                 </AdditionalInfo>
                 <InputWrapper>
-                    <InputHeader for="mobile">Mobile Phone Number</InputHeader>
+                    <InputHeader htmlFor="mobile">Mobile Phone Number</InputHeader>
                     <Input
                         type="text"
                         name="mobile"
@@ -445,6 +451,7 @@ const nonMemberForm = ({
                         onPaste={ (e) => handleMobileTextPaste(e.clipboardData.getData('text/plain'))}
                         maxLength={maxlength}
                         onSelect = {(e) =>{
+                            checkValues();
                             setMaxLength(16)
                             let input = e.target.value.replace(/\s+/g,'');
                             setMembershipInfo({
@@ -572,6 +579,9 @@ const nonMemberForm = ({
                         placeholder="you@domain.com"
                         onClick={() => checkValues()}
                         value={membershipInfo["email"].value}
+                        onSelect={(e) =>{
+                            checkValues()
+                        }}
                         onChange={(e) => {
                             checkValues();
                             if (submitClicked) {
@@ -608,6 +618,9 @@ const nonMemberForm = ({
                         placeholder="you@domain.com"
                         onClick={() => checkValues()}
                         value={membershipInfo["cEmail"].value}
+                        onSelect={(e) =>{
+                            checkValues()
+                        }}
                         onChange={(e) => {
                             checkValues();
                            
@@ -645,6 +658,9 @@ const nonMemberForm = ({
                         id="selectCheckbox"
                         onClick={ () => setIsChecked(!(membershipInfo["checked"].value))}
                         value={membershipInfo["checked"].value}
+                        onSelect={(e) =>{
+                            checkValues()
+                        }}
                         onChange={(e) => {
                             
                            // setIsChecked(e.target.checked);

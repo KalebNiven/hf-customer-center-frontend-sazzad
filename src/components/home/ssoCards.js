@@ -8,7 +8,7 @@ import {
   SHOW_DOC,
   SHOW_MANAGE_PRESCRIPTIONS, SHOW_VISION_BENEFITS, SHOW_LAUNCH_TELEDOC, SHOW_SILVER_SNEAKERS,
   SHOW_HEALTH_HSA, SHOW_NATIONSHEARING, SHOW_DENTAQUEST, SHOW_OTCNETWORK, SHOW_NATIONSOTC, SHOW_PRIMARY_CARE_PROVIDER,
-  SHOW_COVERAGE_AND_BENEFITS, SHOW_CLAIMS, SHOW_AUTHS, SHOW_MYHEALTH, SHOW_ESTIMATECOST, SHOW_SUGGESTION_CARDS, SHOW_EXTERNAL_LINK_CARDS, SHOW_COST_ESTIMATOR_WIDGET, SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS
+  SHOW_COVERAGE_AND_BENEFITS, SHOW_CLAIMS, SHOW_AUTHS, SHOW_MYHEALTH, SHOW_ESTIMATECOST, SHOW_SUGGESTION_CARDS, SHOW_EXTERNAL_LINK_CARDS, SHOW_COST_ESTIMATOR_WIDGET, SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS, SHOW_MY_REWARDS
 } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import ExternalSiteLink from '../common/externalSiteLink';
@@ -34,13 +34,17 @@ const SSOCards = () => {
   const { MIX_REACT_APP_DAVIS_VISION_HREF } = process.env;
   const { MIX_REACT_APP_DENTAQUEST_HREF } = process.env;
   const { MIX_REACT_APP_CVS_HREF } = process.env;
+  const { MIX_APP_DOMAIN } = process.env;
   const { MIX_REACT_APP_NATIONS_OTC_HREF } = process.env;
   const { MIX_REACT_APP_SILVER_SNEAKERS_HREF } = process.env;
   const { MIX_REACT_APP_HEALTH_EQUITY_HREF } = process.env;
   const { MIX_REACT_APP_NATIONS_HEARING_HREF } = process.env;
-
   const [costEstimatorWidgetEnabled, setCostEstimatorWidgetEnabledEnabled] = useState(false);
   const [managePrescriptionNoticeEnabled, setManagePrescriptionNoticeEnabled] = useState(false);
+
+  //To be removed in next sprint - Want to keep zero dependency with any service as we will remove this in coming sprints
+  const MIX_REACT_EYE_MED_BASE_URL =  "https://identity-st.healthfirst.org/app/st-healthfirst_eyemed_1/exk1pjapaxtuCJjIX0h8/sso/saml"
+  const ST_URL = "https://member-st.healthfirst.org"
 
   const splitAttributes = {
     memberId: customerInfo?.data?.memberId,
@@ -66,7 +70,7 @@ const SSOCards = () => {
   { featureName: SHOW_COVERAGE_AND_BENEFITS, name: "View Benefits", img: "/react/images/icon_benefits.svg", routeLink: "coverage-and-benefits" },
   { featureName: SHOW_CLAIMS, name: "View Claims", img: "/react/images/icon_claims.svg", routeLink: "claims" },
   { featureName: SHOW_AUTHS, name: "View Authorizations", img: "/react/images/icon_authorizations.svg", routeLink: "authorizations" },
-  { featureName: SHOW_MYHEALTH, name: "Manage Your Health", img: "/react/images/icon_health.svg", routeLink: "communityResources" },
+  { featureName: SHOW_MYHEALTH, name: "Manage Your Health", img: "/react/images/icon_health.svg", routeLink: "my-health" },
   { featureName: SHOW_ESTIMATECOST, name: "Estimate Cost", img: "/react/images/icon_calculator.svg", routeLink: "payments" },
   { featureName: SHOW_DOC, name: "View Document Center", img: "/react/images/icon_claims.svg", routeLink: "document-center", className: "documentCenter-coachmark",
     splitAttributes : {
@@ -76,7 +80,8 @@ const SSOCards = () => {
       accountStatus: customerInfo?.data?.accountStatus,
       membershipStatus: customerInfo?.data?.membershipStatus,
     } 
-  }
+  },
+  { featureName: SHOW_MY_REWARDS, name: "View My Rewards", img: "/react/images/icn-coin-grey.svg", routeLink: "my-rewards"},
   ];
 
   const externalLinksData = [{ name: "Manage Prescriptions", desc: "View and manage your prescriptions", img: "/react/images/icn-gray-pharmacy.svg", featureName: SHOW_MANAGE_PRESCRIPTIONS, routeLink: MIX_REACT_APP_CVS_HREF, type: managePrescriptionNoticeEnabled ? NOTICE : SSO, membershipSplit: SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS},
@@ -90,6 +95,12 @@ const SSOCards = () => {
   { name: "NationsOTC", desc: "Use your OTC card to order health/wellness products", img: "/react/images/icn-nation-otc.svg", featureName: SHOW_NATIONSOTC, routeLink: MIX_REACT_APP_NATIONS_OTC_HREF, type: SSO }];
 
 
+  const checkEyeMedAvailability = () => {
+    if(MIX_APP_DOMAIN === ST_URL){
+      externalLinksData.push({ name: "Eye Med", desc: "Eye Med Sample", img: "/react/images/icn-vision-benefits.svg", featureName: SHOW_VISION_BENEFITS, routeLink: MIX_REACT_EYE_MED_BASE_URL, type: SSO })
+    }
+  }
+  
   const handleSegmentBtn = (label, routeLink, rawtext, row) => {
     AnalyticsPage();
     AnalyticsTrack(
@@ -164,11 +175,13 @@ const SSOCards = () => {
   }
 
   const getExternalCard = (row) => {
+    checkEyeMedAvailability()
     switch(row?.type){
       case SSO:
         return(
+          //Keep If loop check here...  
           <LinkCard innerWidth={innerWidth}>
-            <ExternalSiteLinkSSO link={row?.routeLink} label={row?.name} membershipSplit={row?.membershipSplit} target="_blank">
+            <ExternalSiteLinkSSO link={row?.routeLink} label={row?.name} membershipSplit={row?.membershipSplit} featureNameSplit={row?.featureName} target="_blank">
               <LinkIcon alt = "" src={row?.img}></LinkIcon>
               <LinkVerbiage>{row?.name}</LinkVerbiage>
               <LinkDescription>{row?.desc}</LinkDescription>
@@ -200,12 +213,13 @@ const SSOCards = () => {
 
   const displayExternalLinkCards = () => {
 
+    checkEyeMedAvailability();
+
     let externalLinkCards =
       <ExternalLinkCardRow className="servicesDeck-checkmark">
         {
           externalLinksData?.map((row, index) => {
             return (
-
               <FeatureTreatment
                 key={index}
                 treatmentName={row?.featureName}
@@ -237,7 +251,7 @@ const SSOCards = () => {
         onLoad={() => { }}
         onTimedout={() => { }}
         attributes={splitAttributes}>
-        <ExternalLinkTxt>External Links</ExternalLinkTxt>
+        <ExternalLinkTxt>TEST2 External Links</ExternalLinkTxt>
         {displayExternalLinkCards()}
       </FeatureTreatment>
     </>

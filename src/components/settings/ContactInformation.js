@@ -381,7 +381,7 @@ const ContactInformation = () => {
 										setPhoneEditing(false)
 										setEmailAddressEditing(!emailAddressEditing)
 									}}>
-										<EditImg src="/img/other/ico-pencil.svg" />
+										<EditImg src="/react/images/other/ico-pencil.svg" />
 										<ButtonTxt>Edit</ButtonTxt>
 									</EditButton>
 								</PhoneReadFlexCol>
@@ -496,7 +496,7 @@ const ContactInformation = () => {
 											value: customerInfo?.mobilePhone
 										})
 									}}>
-										<EditImg src="/img/other/ico-pencil.svg" />
+										<EditImg src="/react/images/other/ico-pencil.svg" />
 										<ButtonTxt>Edit</ButtonTxt>
 									</EditButton>
 								</PhoneReadFlexCol>
