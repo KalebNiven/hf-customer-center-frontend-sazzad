@@ -183,6 +183,8 @@ const DocumentCenter = (props) => {
                         value: "center",
                     },
                 },
+                targetMemberId: memberSelection.relationshipType ? memberSelection.memberId : undefined,
+                relationshipType: memberSelection.relationshipType
             });
         } catch (err) {
             console.log("AnalyticsTrack Error");

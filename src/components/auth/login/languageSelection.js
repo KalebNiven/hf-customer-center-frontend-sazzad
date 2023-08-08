@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components';
 import useQuery from '../../../hooks/useQuery';
 const { MIX_APP_DOMAIN } = process.env;
+const { MIX_REACT_LOFL_LANGUAGE_EN_URL } = process.env;
+const { MIX_REACT_LOFL_LANGUAGE_ES_URL } = process.env;
+const { MIX_REACT_LOFL_LANGUAGE_ZH_URL } = process.env;
 
 const setLoginLang = (langCode) => {
     let isSupportedLang = false;
@@ -32,9 +35,44 @@ const setSelectedLang = (langCode) => {
         case "zh": 
             isSupportedLang = true;
     }
-    console.log('selectedLang' + langCode);
     if(isSupportedLang){
         localStorage.setItem('selectedLang', langCode);
+    }
+}
+
+export const getLoginLang = () => {
+    let selectedLang = localStorage.getItem('loginLang');
+    let isSupportedLang = false;
+    switch(selectedLang) {
+        case "en": 
+            isSupportedLang = true;
+            break;
+        case "es": 
+            isSupportedLang = true;
+            break;
+        case "zh": 
+            isSupportedLang = true;
+    }
+    if(isSupportedLang){
+        return selectedLang;
+    }
+}
+
+export const getSelectedLang = () => {
+    let selectedLang = localStorage.getItem('selectedLang');
+    let isSupportedLang = false;
+    switch(selectedLang) {
+        case "en": 
+            isSupportedLang = true;
+            break;
+        case "es": 
+            isSupportedLang = true;
+            break;
+        case "zh": 
+            isSupportedLang = true;
+    }
+    if(isSupportedLang){
+        return selectedLang;
     }
 }
 
@@ -45,11 +83,11 @@ export const HandleLanguageSelection = () => {
     const generateURL = (langCode) => {
         switch(langCode) {
             case "es": 
-                return `https://` + `es.` + domainURLObject.hostname + `/home`;
+                return MIX_REACT_LOFL_LANGUAGE_ES_URL + `/home`;
             case "zh": 
-                return `https://` + `zh.` + domainURLObject.hostname + `/home`;
+                return MIX_REACT_LOFL_LANGUAGE_ZH_URL + `/home`;
             default: // Defaults to English
-                return `https://` + domainURLObject.hostname + `/home`;
+                return MIX_REACT_LOFL_LANGUAGE_EN_URL + `/home`;
         }
     }
 
@@ -70,11 +108,11 @@ const LanguageSelection = () => {
     const generateURL = (langCode) => {
         switch(langCode) {
             case "en": 
-                return `https://` + domainURLObject.hostname + `/selectLanguage?selectedLang=en`;
+                return MIX_REACT_LOFL_LANGUAGE_EN_URL + `/selectLanguage?selectedLang=en`;
             case "es": 
-                return `https://` + `es.` + domainURLObject.hostname + `/selectLanguage?selectedLang=es`;
+                return MIX_REACT_LOFL_LANGUAGE_ES_URL + `/selectLanguage?selectedLang=es`;
             case "zh": 
-                return `https://` + `zh.` + domainURLObject.hostname + `/selectLanguage?selectedLang=zh`;
+                return MIX_REACT_LOFL_LANGUAGE_ZH_URL + `/selectLanguage?selectedLang=zh`;
             default:
                 return "";
         }

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import RegistrationSuccess from "./registrationSuccess";
 import RegistrationOnlySuccess from "./registrationOnlySuccess";
 import useQuery from "../../../hooks/useQuery";
+import { passwordIsValid } from "../../../utils/formValidation";
 
 import {
     FormGrid,
@@ -24,8 +25,7 @@ import {
 import { handleSegmentClick } from "../../../libs/segment";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    requestCreateUserNamePassword,
-    requestRegister,
+    requestCreateUserNamePassword
 } from "../../../store/actions"; 
  import { useToaster } from "../../../hooks/useToaster";
 
@@ -33,8 +33,7 @@ const USERNAME_REQUIRED= 'Username is required';
 const USERNAME_SHOULD_BE_MORE_CHAR= 'Please enter at least 3 characters';   
 const INVALID_USERNAME= 'Invalid Username'; 
 const PASSWORD_REQUIRED = 'Password is required'; 
-const INVALID_PASSWORD  = 'Password does not meet requirement';  
-const CONFIRM_PASSWORD_REQUIRED = 'Confirm Password should not be empty';  
+const INVALID_PASSWORD  = 'Password does not meet requirement';   
 const CONFIRM_PASSWORD_ERROR = 'Password does not match';  
 const ERROR = "error"
  
@@ -62,10 +61,7 @@ const CreateUserCredentials = (props) => {
     const [isHover, setIsHover] = useState(false);
     const accountInfo = { ...memberInfo };
 
-    const [ memberRegisterDetails, setMemberRegisterDetails ] = useState(props.memberInfo);
-
     const dispatch = useDispatch();
-    const memberRegister = useSelector((state) => state.memberRegister);
     const createUsernamePassword = useSelector(
         (state) => state.createUsernamePassword
     );
@@ -90,14 +86,7 @@ const CreateUserCredentials = (props) => {
     }, [createUsernamePassword]);
 
     const mfaVerify = useSelector((state) => state.mfaVerify);
-
-    //mfaVerifiedToken will comes from selector
     const mfaVerifiedToken = mfaVerify.data?.mfaAuthorization;
-
-    useEffect(() => {
-        
-        dispatch(requestRegister(memberRegisterDetails, mfaVerifiedToken));
-    }, []);
 
     const handleAccountInfo = (key, label, value) => {
         accountInfo[key] = {
@@ -142,17 +131,11 @@ const CreateUserCredentials = (props) => {
 
                 case "Password":
                     if (value.value.length === 0) {
-                        handleAccountInfo(
-                            key,
-                            PASSWORD_REQUIRED,
-                            value.value
-                        );
+                        handleAccountInfo(key, PASSWORD_REQUIRED, value.value);
+                        setMemberInfo(accountInfo);
                     } else if (value.value.length > 0) {
-                        const passwordRegex = new RegExp(
-                            "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^ws]).{8,}$"
-                        );
                         if (
-                            passwordRegex.test(value.value) &&
+                            passwordIsValid(value.value) &&
                             !value.value.includes(accountInfo["UserName"].value)
                         ) {
                             handleAccountInfo(key, null, value.value);
@@ -162,18 +145,13 @@ const CreateUserCredentials = (props) => {
                                 INVALID_PASSWORD,
                                 value.value
                             );
+                            setMemberInfo(accountInfo);
                         }
                     }
                     break;
 
                 case "ConfirmPassword":
-                    if (value.value.length === 0) {
-                        handleAccountInfo(
-                            key,
-                            CONFIRM_PASSWORD_REQUIRED,
-                            value.value
-                        );
-                    } else if (value.value.length > 0) {
+                    if (value?.value.length >=2) {
                         if (accountInfo["Password"].value === value.value) {
                             handleAccountInfo(key, null, value.value);
                         } else {
@@ -235,7 +213,7 @@ const CreateUserCredentials = (props) => {
         if (
             accountInfo["UserName"].error === null &&
             accountInfo["Password"].error === null &&
-            accountInfo["ConfirmPassword"].error === null
+            accountInfo["ConfirmPassword"].error === null 
         ) {
             const data = {
                 username: accountInfo.UserName.value,
@@ -300,7 +278,7 @@ const CreateUserCredentials = (props) => {
                             <CustomToolTip>
                                 <CustomToolTipText>
                                     Must contain: <br />
-                                    - At least 3 characters
+                                    - At least 9 characters
                                     <br />
                                     - 1 upper case letter <br />
                                     - 1 lower case letter
@@ -318,7 +296,7 @@ const CreateUserCredentials = (props) => {
                             <InputWrapper>
                                 <InputHeader htmlFor="firstName" name="firstName">UserName</InputHeader>
                                 <MemberIdInput>
-                                    <Image src="/img/account_normal.png"></Image>
+                                    <Image src="/react/images/account_normal.png"></Image>
                                     <CustomInput
                                         autoFocus
                                         type="text"
@@ -402,10 +380,13 @@ const CreateUserCredentials = (props) => {
                                         value={
                                             memberInfo["ConfirmPassword"].value
                                         }
+                                        onSelect={(e) => {
+                                            checkValidations();
+                                        }}
                                         onChange={(e) => {
                                             checkAllFields();
+                                            checkValidations();
                                             if (e.target.value.length > 0) {
-                                                
                                                 handleMemberInfo(
                                                     e,
                                                     "ConfirmPassword"
@@ -461,6 +442,7 @@ export default CreateUserCredentials;
 
 
 const FinishButton = styled(StyledButton)`
+margin-top: 8px;
 color:#ffffff;
 background-color: ${({ variant }) =>variant === "primary" ? "#3e7128" : "#D3D3D3"};
         &:hover {
@@ -517,8 +499,6 @@ const MemberCardsContainer = styled.div`
     top: 0px;
     border-radius: 4px;
     margin: auto;
-    margin-bottom: 59px;
-    margin-top: 15px;
     font-family: "museo-sans" !important;
 `;
 

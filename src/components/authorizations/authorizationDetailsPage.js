@@ -268,7 +268,9 @@ const Container = styled(MainContentContainer)`
   box-sizing: content-box;
 }
 max-width: 1024px;
+@media screen and (min-width: 1440px)  {
 margin:auto;
+}
 background-color:#f4f4f4;
 margin-top: -16px;
 margin-bottom: 32px;
@@ -358,6 +360,7 @@ const RightContainer = styled.div`
 width: 100%;
 display: block;
 flex: 1 1 auto;
+min-width: 668px;
 justify-content: space-between;
 align-items: center;
 box-sizing: border-box;

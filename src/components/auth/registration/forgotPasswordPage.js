@@ -28,7 +28,7 @@ const NO_VERIFIED_CHANNELS_ERROR = "Sorry, it looks like you did't verify your e
 
 const FORGOT_PASSWORD_STEP = 'forgotPassword';
 const RESET_PASSWORD_STEP = 'resetPassword';
-const VERIFY_STEP = 'verify';
+const VERIFY_STEP = 'Verify';
 
 const USERNAME_MAX_LENGTH = 32;
 const PASSWORD_MIN_LENGTH = 9;
@@ -71,6 +71,10 @@ const ForgotPasswordPage = () => {
             setStep(FORGOT_PASSWORD_STEP);
         }
     }, []);
+
+    useEffect(() => {
+        if(password !== '' && password === confirmedPassword) validatePasswordReset();
+    }, [password, confirmedPassword])
 
     useEffect(() => {
         if(step === FORGOT_PASSWORD_STEP){
@@ -239,7 +243,7 @@ const ForgotPasswordPage = () => {
                         {step === FORGOT_PASSWORD_STEP && 
                             <ForgotCredentialForm onSubmit={e => submitForm(e)}>
                                 <RecaptchaV3 setV3Response={setGRecaptchaResponse} formSubmitted={formSubmissions}/>
-                                <AuthFormBackLink href='/login'>
+                                <AuthFormBackLink onClick={() => {history.push('/login')}}>
                                     <i className="fas fa-arrow-left"></i> BACK
                                 </AuthFormBackLink>
                                 <AuthFormHeader>Reset Password</AuthFormHeader>
@@ -361,7 +365,7 @@ right: 29px;
 top: 121px;
 z-index: 3;
 display: inline-block;
-background: url(/img/ico-info.png) no-repeat center;
+background: url(/react/images/ico-info.png) no-repeat center;
 min-width: 25px;
 min-height: 25px;
 &:hover .passwordToolTip {

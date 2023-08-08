@@ -19,7 +19,7 @@ const EMAIL_ERROR = 'Invalid email address.';
 const USER_NOT_FOUND_ERROR = 'Sorry, we do not recognize the email and/or date of birth you have entered. Please try again. If you need assistance, please call member services.';
 const USER_MUTIPLE_MATCHES_ERROR = 'Multiple matches with the same email and date of birth. Please try again. If you need assistance, please call member services.';
 const FORGOT_USERNAME_STEP = 'forgotUsername';
-const VERIFY_STEP = 'verify';
+const VERIFY_STEP = 'Verify';
 const DISPLAY_USERNAME_STEP = 'displayUsername';
 
 
@@ -172,7 +172,7 @@ const ForgotUsernamePage = () => {
                         <RecaptchaV3 setV3Response={setGRecaptchaResponse} formSubmitted={formSubmissions}/>
                         {step === FORGOT_USERNAME_STEP && 
                             <ForgotCredentialForm onSubmit={e => submitForm(e)}>
-                                <AuthFormBackLink href='/login'>
+                                <AuthFormBackLink onClick={() => {history.push('/login')}}>
                                     <i className="fas fa-arrow-left"></i> BACK
                                 </AuthFormBackLink>
                                 <AuthFormHeader>Retrieve Username</AuthFormHeader>
@@ -288,6 +288,7 @@ export const AuthFormBackLink = styled.a`
 font-size: 14px;
 font-weight: 500;
 color: #474b55;
+cursor: pointer;
 `;
 
 export const AuthFormHeader = styled.div`
@@ -319,7 +320,7 @@ right: 29px;
 top: 145px;
 z-index: 3;
 display: inline-block;
-background: url(/img/ico-info.png) no-repeat center;
+background: url(/react/images/ico-info.png) no-repeat center;
 min-width: 25px;
 min-height: 25px;
 &:hover .emailToolTip {

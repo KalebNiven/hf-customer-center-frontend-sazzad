@@ -249,7 +249,7 @@ select.form-control {
     -webkit-appearance: none;
     -ms-appearance: none;
     -moz-appearance: none;
-    background: #fff url(../img/select.png) right center no-repeat;
+    background: #fff url(/react/images/select.png) right center no-repeat;
     border-radius: 0;
     -webkit-border-radius: 0;
     font-size: 15px;
@@ -793,7 +793,7 @@ span.error { color:#AD122A; display:block; padding:6px 0 0 0;}
 */
 
 .auth-background {
-    background-image: url(/img/branding-background.png);
+    background-image: url(/react/images/branding-background.png);
 }
 
 .login-container {
@@ -1159,7 +1159,7 @@ span.error { color:#AD122A; display:block; padding:6px 0 0 0;}
     font-size: 10px;
     width: 20px;
     height: 20px;
-    background: #880d20 url(/img/other/ico-warning.svg) no-repeat center;
+    background: #880d20 url(/react/images/other/ico-warning.svg) no-repeat center;
 }
 i.flaticon2-delete {
     display: none !important;
@@ -1285,11 +1285,11 @@ i.flaticon2-delete {
 ************************************/
 .account-icon,
 .username-icon {
-    background-image: url(/img/ico-user.png);
+    background-image: url(/react/images/ico-user.png);
 }
 .account-icon-error,
 .username-icon-error {
-    background-image: url(/img/ico-user-red.png);
+    background-image: url(/react/images/ico-user-red.png);
 }
 .account-settings {
     display: inline-flex;
@@ -1307,18 +1307,18 @@ i.flaticon2-delete {
 }
 
 .email-icon {
-    background-image: url(/img/ico-mail.png);
+    background-image: url(/react/images/ico-mail.png);
 }
 .email_confirmation-icon {
-    background-image: url(/img/ico-mail.png);
+    background-image: url(/react/images/ico-mail.png);
 }
 .email-icon-error,
 .email-error-icon {
-    background-image: url(/img/ico-mail-red.png);
+    background-image: url(/react/images/ico-mail-red.png);
 }
 .email_confirmation-icon-error,
 .email_confirmation-error-icon {
-    background-image: url(/img/ico-mail-red.png);
+    background-image: url(/react/images/ico-mail-red.png);
 }
 
 .base-card {
@@ -1399,10 +1399,10 @@ i.flaticon2-delete {
 }
 
 .calendar-icon {
-    background-image: url(/img/ico-calendar.png);
+    background-image: url(/react/images/ico-calendar.png);
 }
 .calendar-icon-error {
-    background-image: url(/img/ico-calendar-red.png);
+    background-image: url(/react/images/ico-calendar-red.png);
 }
 
 .input-icon {
@@ -1415,27 +1415,27 @@ i.flaticon2-delete {
 /* .input-icon-right { background-repeat: no-repeat; background-position: right 10px center; background-attachment: scroll; display: inline-block; padding-right: 40px; } */
 .account-icon,
 .username-icon {
-    background-image: url(/img/account_normal.png);
+    background-image: url(/react/images/account_normal.png);
 }
 .account-error-icon,
 .username-error-icon {
-    background-image: url(/img/account_red.png);
+    background-image: url(/react/images/account_red.png);
 }
 .key-icon,
 .oldPassword-icon,
 .password-icon,
 .password_confirmation-icon {
-    background-image: url(/img/key.png);
+    background-image: url(/react/images/key.png);
 }
 .key-error-icon,
 .password-error-icon,
 .password_confirmation-error-icon {
-    background-image: url(/img/key_red.png);
+    background-image: url(/react/images/key_red.png);
 }
 .oldPassword-icon-error,
 .password-icon-error,
 .password_confirmation-icon-error {
-    background-image: url(/img/key_red.png);
+    background-image: url(/react/images/key_red.png);
 }
 /* .email-icon { background-image: url(/img/email_light.png); }
 .email-error-icon { background-image: url(/img/other/ico-email-error.svg); } */
@@ -1444,7 +1444,7 @@ i.flaticon2-delete {
 .pharmacyTooltip {
     position: relative;
     display: inline-block;
-    background: url(/img/ico-info.png) no-repeat center;
+    background: url(/react/images/ico-info.png) no-repeat center;
     min-width: 25px;
     min-height: 25px;
 }
@@ -1482,7 +1482,7 @@ i.flaticon2-delete {
 .pharmacyTooltip:hover {
     position: relative;
     display: flex;
-    background: url(/img/other/ico-info-blue.svg) no-repeat center;
+    background: url(/react/images/other/ico-info-blue.svg) no-repeat center;
     min-width: 25px;
     min-height: 25px;
 }
@@ -1507,7 +1507,7 @@ i.flaticon2-delete {
 .infoTooltip {
     position: relative;
     display: inline-block;
-    background: url(/img/ico-info.png) no-repeat center;
+    background: url(/react/images/ico-info.png) no-repeat center;
     min-width: 25px;
     min-height: 25px;
 }
@@ -1545,7 +1545,7 @@ i.flaticon2-delete {
 .memberIdTooltip {
     position: relative;
     display: inline-block;
-    background: url(/img/ico-info.png) no-repeat center;
+    background: url(/react/images/ico-info.png) no-repeat center;
     min-width: 25px;
     min-height: 25px;
 }
@@ -2415,7 +2415,7 @@ i.flaticon2-delete {
 
 #header-backdrop {
     padding-top: 0;
-    background-image: url(/img/SettingsBackground_1_1600.png);
+    background-image: url(/react/images/SettingsBackground_1_1600.png);
     background-size: cover;
     height: 240px;
 }
@@ -2530,7 +2530,7 @@ i.flaticon2-delete {
     background-color: transparent;
     border: 1px solid #ffffff;
     display: inline-block;
-    background-image: url(/img/light/ico-account.svg);
+    background-image: url(/react/images/light/ico-account.svg);
     background-position: 8px;
     background-repeat: no-repeat;
 }
@@ -2793,7 +2793,7 @@ i.flaticon2-delete {
 }
 
 .address-input {
-    background-image: url(../img/gray/ico-pin.svg);
+    background-image: url(/react/images/gray/ico-pin.svg);
     background-repeat: no-repeat;
     background-position: 8px center;
     text-indent: 20px;
@@ -3226,9 +3226,9 @@ i.flaticon2-delete {
 
 .digitalId-container {
     box-shadow: rgba(0, 0, 0, 0.23) 0px 0px 8px 0px;
-    border-radius: 4px;
+    border-radius: 24px;
     background-color: #ffffff;
-    padding: 1em;
+    padding: 2em;
 }
 .digitalId-duals-card {
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.23);
@@ -3822,5 +3822,5 @@ i.flaticon2-delete {
 }
 
 .digital-card-field{
-    min-height: 30px;
+    min-height: 20px;
 }

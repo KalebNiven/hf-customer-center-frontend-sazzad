@@ -180,8 +180,8 @@ export const IconRight = styled.div`
   position: relative;
   padding: 20px;
   border-radius: 4px;
-  background: ${props => props.selected ? 'url(react/images/icn-download.svg) no-repeat 10px 10px #e6e6e6'
-    : 'url(react/images/icn-download.svg) no-repeat 10px 10px'};
+  background: ${props => props.selected ? 'url(/react/images/icn-download.svg) no-repeat 10px 10px #e6e6e6'
+    : 'url(/react/images/icn-download.svg) no-repeat 10px 10px'};
   align-self: flex-start;
   top: -2px;
   cursor: pointer;
@@ -638,7 +638,7 @@ export const DropdownListItem = styled.button`
   color: #474b55;
   text-align: left;
   border: none;
-  background-color: #ffffff;
+  background-color: ${props => props.currentSelection == props.name? "#e2e2e2" : "#ffffff"};
   padding: 9px 12px;
   display: inline-block;
   vertical-align: middle;

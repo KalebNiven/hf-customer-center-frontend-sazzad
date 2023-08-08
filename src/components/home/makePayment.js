@@ -4,7 +4,7 @@ import GlobalStyle from "../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
 import { useHomeContext } from './homeContext';
 import { FeatureTreatment } from "../../libs/featureFlags";
-import { SHOW_PAYMENTS } from "../../constants/splits";
+import { PAYMENTS_ACL } from "../../constants/splits";
 import { handleSegmentClick } from "../../libs/segment";
 import { useHistory } from "react-router-dom";
 
@@ -32,7 +32,7 @@ const MakePayment = () => {
   return (
     showPayment && 
     <FeatureTreatment
-      treatmentName={SHOW_PAYMENTS}
+      treatmentName={PAYMENTS_ACL}
       onLoad={() => { }}
       onTimedout={() => { }}
       attributes={splitAttributes}

@@ -131,6 +131,7 @@ function DependentDropdown(props) {
                                     onClick={(e) => handleSelect(item, e)}
                                     name={item.label}
                                     value={item.value}
+                                    currentSelection={selection}
                                 >
                                     <UserIconContainer>
                                         <UserCircleIcon

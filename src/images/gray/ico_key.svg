@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ico_key</title>
+    <defs>
+        <path d="M11.436357,0 C14.0145824,0 16.1046469,2.09006458 16.1046469,4.6682899 C16.1046469,7.24651522 14.0145824,9.33657981 11.436357,9.33657981 C10.6240114,9.33657981 9.86012801,9.12908863 9.19481349,8.76421304 L6.39216702,11.1798166 L6.39216702,13.4248562 L3.91379578,12.9662747 L3.91379578,15.4875408 L0,16 L0.367196809,12.6168989 L6.95069502,5.96561535 C6.83178541,5.55374036 6.76806714,5.11845623 6.76806714,4.6682899 C6.76806714,2.09006458 8.85813172,0 11.436357,0 Z M11.436357,2.97072994 C10.4988206,2.97072994 9.73879708,3.73075342 9.73879708,4.6682899 C9.73879708,5.60582638 10.4988206,6.36584987 11.436357,6.36584987 C12.3738935,6.36584987 13.133917,5.60582638 13.133917,4.6682899 C13.133917,3.73075342 12.3738935,2.97072994 11.436357,2.97072994 Z" id="path-1"></path>
+    </defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Gray" transform="translate(-189.000000, -425.000000)">
+            <g id="iconography/_validation/icn_checkmark-copy-2" transform="translate(189.000000, 425.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Combined-Shape" fill="#D8D8D8" xlink:href="#path-1"></use>
+                <g id="Group" mask="url(#mask-2)" fill="#A8ABAC">
+                    <g id="colors/03_medium_gray">
+                        <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

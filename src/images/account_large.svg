@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>account_large</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="account_large" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(1.000000, 1.000000)">
+            <rect id="Rectangle-13" stroke="#DEDEDE" x="0.5" y="0.5" width="37" height="37" rx="18.5"></rect>
+            <path d="M12.0434783,23.5242817 C12.0434783,22.1427556 12.9783383,20.7391304 16.5139008,20.7391304 L20.6171642,20.7391304 C24.151819,20.7391304 25.086951,22.1327556 25.086951,23.5242817 C25.0967891,25.6064923 12.0471759,25.6092035 12.0434783,23.5242817 Z M18.7993311,19.4682274 C16.989167,19.4682274 15.5217391,18.0007995 15.5217391,16.1906355 C15.5217391,14.3804714 16.989167,12.9130435 18.7993311,12.9130435 C20.6094952,12.9130435 22.0769231,14.3804714 22.0769231,16.1906355 C22.0769231,18.0007995 20.6094952,19.4682274 18.7993311,19.4682274 Z" id="Combined-Shape" fill="#474B55" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

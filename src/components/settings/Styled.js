@@ -141,7 +141,7 @@ const TextBox = styled.div`
 `;
 RightHeader,SubHeader,Card,Title,Text,RowBlock,UserName,EditButton,EditImg,ButtonTxt,Label,TextBox,UserImg,InputBox,ButtonRow
 const UserImg = styled.img`
-  width: ${(props) => props.width ? '30px' : '20px'};
+  width: ${(props) => props.width == "true" ? '30px' : '20px'};
   height: 20px;
   margin: 2px 8px 0 0;
 `;

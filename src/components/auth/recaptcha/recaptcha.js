@@ -8,13 +8,25 @@ export const RecaptchaV3 = (props) => {
     const [grecaptchaV3, setGrecaptchaV3] = useState();
     if(MIX_REACT_APP_CAPTCHA_ENABLED !== 'true') return(<></>);
     useEffect(()=>{
+        let isMounted= true;
+        if(isMounted){
         loadReCaptchaScript();
+        }
+        return() =>{
+            isMounted = false;
+        }
     }, []);
 
     useEffect(() => {
+        let isMounted= true;
+        if(isMounted){
         grecaptchaV3?.ready(function(){
             grecaptchaV3.reset();
         });
+    }
+    return() =>{
+        isMounted = false;
+    }
     }, [props.formSubmitted]);
 
     const loadReCaptchaScript = () => {

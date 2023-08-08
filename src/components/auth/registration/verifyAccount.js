@@ -17,6 +17,10 @@ import {handleSegmentClick} from "../../../libs/segment"
 import { useHistory } from "react-router";
 import LanguageSelection from "../login/languageSelection";
 
+//update these later, need to refactor selection proccessing for readability.
+const SEND_TO_EMAIL = 'text';
+const SEND_TO_SMS = 'email'
+
 const VerifyAccount = (props) => {
     const [submitClicked, setSubmitClicked] = useState(false);
     const [selection, setSelection] = useState("email");
@@ -79,6 +83,7 @@ const VerifyAccount = (props) => {
             let reqData = {val: verfiedChannels[0].displayInfo, type: verfiedChannels[0].method}
             setSubmitClicked(true);
             setSendCodeTo(verfiedChannels[0].displayInfo);
+            setPreferedSelectedItem(verfiedChannels[0].method === 'sms' ? SEND_TO_SMS : SEND_TO_EMAIL);
             dispatch(requestMFACode(reqData, mfaUnverifiedToken));
         }
     };

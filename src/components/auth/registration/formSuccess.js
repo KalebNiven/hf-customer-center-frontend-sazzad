@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import {
     Header,
@@ -7,11 +6,11 @@ import {
     MemberCard,
 } from "../styles";
 
-const FormSuccessCard = ({message, callback}) =>{
-    const history = useHistory();
-
+const FormSuccessCard = ({message, delayedCallback}) =>{
     useEffect(() => {
-        if(callback) callback();
+        if(delayedCallback) setTimeout(() => {
+            delayedCallback();
+        }, 3000);
     }, []);
 
     return (

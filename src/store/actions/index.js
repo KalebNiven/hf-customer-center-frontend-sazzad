@@ -998,8 +998,17 @@ export const requestResetState = () => ({
     type: actionTypes.REQUEST_RESET_STATE
 });
 
+export const requestResetPcpDetails = () =>({
+    type:actionTypes.REQUEST_RESET_PCP_DETAILS
+});
+
 export const requestResetRegisterState = () =>({
     type: actionTypes.RESET_REGISTER
+});
+
+export const requestUpdatedPCPID = (data) =>({
+    type: actionTypes.UPDATE_CUSTOMER_INFO,
+    payload: {data:data}
 });
 
 export const requestForgotUsername = (data, mfaToken) => ({
@@ -1134,4 +1143,23 @@ export const errorDocumentFile = (error) => ({
 
 export const documentFileLoading = () => ({
     type: actionTypes.DOCUMENT_FILE_LOADING
+});
+
+export const requestVerifyAddress = (streetAddress, streetAddressTwo, city, state, zip) => ({
+    type: actionTypes.REQUEST_VERIFY_ADDRESS,
+    payload: { streetAddress, streetAddressTwo, city, state, zip },
+});
+export const receiveVerifyAddress = (data) => ({
+    type: actionTypes.RECEIVE_VERIFY_ADDRESS,
+    payload: {
+        status: "SUCCESS",
+        data,
+    },
+});
+export const errorVerifyAddress = (error) => ({
+    type: actionTypes.RECEIVE_VERIFY_ADDRESS,
+    payload: {
+        status: "ERROR",
+        errorData: error,
+    },
 });

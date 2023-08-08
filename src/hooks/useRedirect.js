@@ -9,35 +9,37 @@ const useRedirect = (url, callback) => {
     useEffect(() => {
       if(!url) return;
 
+      // decodes URI into a String
       const decodedRedirectURL = decodeURI(url);
 
+      // validates if passed url is the same as to MIX_APP_DOMAIN
       const isValidHostName = (url) => {
-        const isRelativePath = url.indexOf('https')===-1;
-        if(isRelativePath) return true;
         const urlObject = new URL(url);
         const domainURLObject = new URL(MIX_APP_DOMAIN);
         return urlObject.hostname === domainURLObject.hostname ? true : false;
       }
 
-      // Check if requested URL is an EOB document
+      // check if requested URL is an related to EOB document
       const isEOBDocumentURL = (url) => {
-        //used for deep link non eob   
-        if(url.indexOf('documents') !== -1 || url.indexOf('claims/eob') !== -1){
-          return true;
+        // check if URL contains either 'documents' or 'claims/eob' which means it's related to EOB
+        if(url.indexOf('documents') !== -1 || url.indexOf('claims/eob') !== -1) {
+          return true; // this is EOB url
         }
-        return false;
+        return false; // this isn't EOB url
       }
       
       // Validate redirectUrl and handle redirect
       if(isValidHostName(decodedRedirectURL)) {
         if(callback) callback();
         if(isEOBDocumentURL(decodedRedirectURL)) {
-          // Open in new tab
-          window.open(decodedRedirectURL, "_blank");
-        } else {
+        // Open in new tab
+        window.open(decodedRedirectURL, "_blank");
+      } else {
           // Redirect within current tab
           setIsRedirecting(true)
-          window.location.href = decodedRedirectURL;
+          let urlObj = new URL(decodedRedirectURL);
+          const domainURLObject = new URL(MIX_APP_DOMAIN);
+          window.location.href = 'https://' + domainURLObject.hostname + urlObj.pathname + '?' + urlObj.searchParams;
         }
         return () => setIsRedirecting(false);
       }

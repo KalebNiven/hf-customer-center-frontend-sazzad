@@ -53,8 +53,8 @@
 
 @media only screen and (max-width: 879px) {
     .navbar-light .navbar-toggler { border-color:white; }
-	.navbar-toggler .navbar-toggler-icon { background-image: url(/img/hamburger_dark.svg); }
-	.navbar-toggler .navbar-toggler-icon.light-icon { background-image: url(/img/hamburger_light.svg);}
+	.navbar-toggler .navbar-toggler-icon { background-image: url(/react/images/hamburger_dark.svg); }
+	.navbar-toggler .navbar-toggler-icon.light-icon { background-image: url(/react/images/hamburger_light.svg);}
     .navbar-light .navbar-nav .nav-link { color:white; display: -webkit-inline-box;}
 }
 

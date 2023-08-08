@@ -11,11 +11,12 @@ export const useLogout = () => {
     try {
       await oktaAuth.signOut({ postLogoutRedirectUri: window.location.origin + '/login' })
       oktaAuth.tokenManager.clear();
-      sessionStorage.removeItem("userLoggedIn");
-      sessionStorage.removeItem("currentMemberId"); 
+      localStorage.removeItem("identifySegmentFlag");
+      sessionStorage.removeItem("currentMemberId");
       sessionStorage.removeItem('SessionTimeStamp');
       sessionStorage.removeItem('from');
       sessionStorage.removeItem(`persist:${window.location.host}_PROVIDER_APP`);
+      sessionStorage.removeItem(`persist:${process.env.MIX_REACT_PAYMENTS_BASE_URL}`);
       sessionStorage.removeItem('skipAddMembership');
       sessionStorage.removeItem('visitedPrefCenterSync');
       ProviderDirectoryWidget.invalidateStore();

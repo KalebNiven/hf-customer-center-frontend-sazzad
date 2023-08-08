@@ -32,8 +32,9 @@ const ExternalSiteModal = () => {
         } else {
             setMembership({ ...membership, loading: false });
             if(homeDetails.externalLinkError === undefined) {
-                externalWindow.location = membership.link;
+                setExternalWindow(window.open(membership.link, "_blank"));
                 resetExternalModal();
+                setMembership({});
             }
         }
     }, [membership.membershipKey, homeDetails.externalLinkError, homeDetails.externalLinkLoading])
@@ -75,7 +76,6 @@ const ExternalSiteModal = () => {
         if(isSSOLink){ // handle SSO Links
             setMembership({ membershipKey, link })
             dispatch(requestSelectPlan(membershipKey));
-            setExternalWindow(window.open("", "_blank"));
         } else { // handle regular links
             window.open(link);
             resetExternalModal()

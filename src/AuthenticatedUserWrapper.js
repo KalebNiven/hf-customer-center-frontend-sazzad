@@ -8,7 +8,7 @@ import { HealthResourcesContextProvider } from './components/myHealth/healthReso
 import { HomeContextProvider } from './components/home/homeContext'
 import { ChatWidget } from './components/common/chatWidget';
 import { FeatureFactory } from "./libs/featureFlags";
-import { getFeatureFlagList } from "./constants/splits";
+import { featureFlagOptions } from "./constants/splits";
 import useRedirect from "./hooks/useRedirect";
 import GlobalAlerts from './components/common/globalAlerts';
 import LoadingOverlay from './components/common/loadingOverlay';
@@ -20,26 +20,22 @@ import SSOModal from './components/common/ssoModal'
 import AppBar from './AppBarComponent'
 import Footer from './footer';
 import ScrollToTop from './components/common/scrollToTop'
-import GlobalErrorPage from './components/unrecoverableError/GlobalErrorPage';
 import { ToastProvider } from './hooks/useToaster';
 import { useLocation, useHistory } from "react-router-dom";
 import { useProviderDirectory } from './hooks/useProviderDirectory';
+import { PaymentsModalContextProvider } from './context/paymentsModalContext';
+import MemberSelectionModal from './components/payments/memberSelectionModal';
+import { useClient } from "@splitsoftware/splitio-react";
+import { MAINTENANCE_PAGE } from "./constants/splits";
+import Maintenance from './components/maintenance';
+import Cookies from 'js-cookie';
+const uuid = Cookies.get('ajs_anonymous_id') || 'uuid';
+import { ErrorBoundary } from "react-error-boundary";
+import UnrecoverableErrorAuthenticated from './components/errors/UnrecoverableErrorAuthenticated';
+import UnrecoverableErrorCommon from './components/errors/UnrecoverableErrorCommon';
 
 const { MIX_REACT_APP_MPSR_LOGIN_URL } = process.env;
 const { MIX_SPLITIO_KEY } = process.env;
-const featureFlagList = getFeatureFlagList();
-
-const featureFlagOptions = {
-  scheduler: { featuresRefreshRate: 300, metricsRefreshRate: 30 },
-  sync: {
-    splitFilters: [
-      {
-        type: "byName",
-        values: featureFlagList,
-      },
-    ],
-  },
-};
 
 const AuthenticatedUserWrapper = ({ children }) => {
   const dispatch = useDispatch();
@@ -58,15 +54,16 @@ const AuthenticatedUserWrapper = ({ children }) => {
 
   // Make the identify call here...
   useEffect(() => {
-    const userLoggedIn = sessionStorage.getItem('userLoggedIn');
-    if (oktaId && !userLoggedIn) {
+    const identifySegmentFlag = localStorage.getItem('identifySegmentFlag');
+    if(identifySegmentFlag) localStorage.removeItem("identifySegmentFlag");
+    if (oktaId && !identifySegmentFlag) {
       const fullName = firstName + " " + lastName;
       if (accountStatus === "MEMBER") {
-        sessionStorage.setItem('userLoggedIn', 'Yes')
+        localStorage.setItem('identifySegmentFlag', true)
         AnalyticsIdentifyMember(customerId, fullName, email, oktaId, memberId)
       }
       else {
-        sessionStorage.setItem('userLoggedIn', 'Yes')
+        localStorage.setItem('identifySegmentFlag', true)
         AnalyticsIdentifyNonMember(fullName, email, oktaId)
       }
     }
@@ -98,7 +95,6 @@ const AuthenticatedUserWrapper = ({ children }) => {
     if(!sessionStorage.getItem('visitedPrefCenterSync') && (preferenceCenterInfo?.data?.email?.is_different || preferenceCenterInfo?.data?.phones?.is_different)){
       sessionStorage.setItem('visitedPrefCenterSync', 'true')
       history.push('/selectPreferredContacts');
-      //useRedirect('/selectPreferredContacts');
     }
   }, [preferenceCenterInfo?.data]);
   
@@ -111,50 +107,64 @@ const AuthenticatedUserWrapper = ({ children }) => {
     }
   }, [preferenceCenterInfo?.data, isRedirecting])
 
-
   return (
     <>
-   {customerInfo.loading == false ?
-    (customerInfo.error === "" ?
-      wantsMedicare ? window.location.href = MIX_REACT_APP_MPSR_LOGIN_URL :
-      <FeatureFactory splitKey={MIX_SPLITIO_KEY} options={featureFlagOptions} uniqueId={customerId === null ? 'Anonymous' : customerInfo.data.customerId}>
-          <AppContextProvider>
-            <SSOModalContextProvider>
-              { isLoading ? <LoadingOverlay isLoading={isLoading} /> : <>
-              <ExternalSiteModal />
-              <SSOModal />
-              <ScrollToTop />
-              {(memberId && customerId && id_token && nonce && !endpointsStrippedOfWrapper.includes(location.pathname)) && <ChatWidget memberId={memberId} jwt={id_token} nonce={nonce} customerId={customerId} />}
-              {(alertsList?.length > 0 && !endpointsStrippedOfWrapper.includes(location.pathname)) && <GlobalAlerts alertsList={alertsList} />}
-              <CoachMarksContextProvider>
-                <HealthResourcesContextProvider>
-                  <HomeContextProvider>
-                    <ToastProvider>
-                    {!endpointsStrippedOfWrapper.includes(location.pathname) ? (
-                    <>
-                      <AppBar />
-                      { children }
-                      <Footer/>
-                    </>
-                    )
-                    :
-                      children
-                    }
-                    </ToastProvider>
-                  </HomeContextProvider>
-                </HealthResourcesContextProvider>
-              </CoachMarksContextProvider>
-              </> }
-            </SSOModalContextProvider>
-          </AppContextProvider>
-        </FeatureFactory>
-      :
-        <GlobalErrorPage error={customerInfo?.error}/>
-    )
-    : <LoadingOverlay isLoading={customerInfo.loading}/> }
-      <SessionTimeoutModal csrf={customerInfo.data.csrf}></SessionTimeoutModal>
+      <ErrorBoundary FallbackComponent={UnrecoverableErrorAuthenticated}>
+      {customerInfo.loading == false ?
+        (customerInfo.error === "" ?
+          wantsMedicare ? window.location.href = MIX_REACT_APP_MPSR_LOGIN_URL :
+          <FeatureFactory splitKey={MIX_SPLITIO_KEY} options={featureFlagOptions} uniqueId={customerId ? customerId : uuid} trafficType='user'>
+              <AppContextProvider>
+                <SSOModalContextProvider>
+                  <Wrapper>
+                    { isLoading ? <LoadingOverlay isLoading={isLoading} /> : <>
+                    <ExternalSiteModal />
+                    <SSOModal />
+                    <ScrollToTop />
+                    {(memberId && customerId && id_token && nonce && !endpointsStrippedOfWrapper.includes(location.pathname)) && <ChatWidget memberId={memberId} jwt={id_token} nonce={nonce} customerId={customerId} />}
+                    {(alertsList?.length > 0 && !endpointsStrippedOfWrapper.includes(location.pathname)) && <GlobalAlerts alertsList={alertsList} />}
+                    <CoachMarksContextProvider>
+                      <HealthResourcesContextProvider>
+                        <HomeContextProvider>
+                          <PaymentsModalContextProvider>
+                            <MemberSelectionModal />
+                            <ToastProvider>
+                            {!endpointsStrippedOfWrapper.includes(location.pathname) ? (
+                            <>
+                              <AppBar />
+                              { children }
+                              <Footer/>
+                            </>
+                            )
+                            :
+                              children
+                            }
+                            </ToastProvider>
+                          </PaymentsModalContextProvider>
+                        </HomeContextProvider>
+                      </HealthResourcesContextProvider>
+                    </CoachMarksContextProvider>
+                    </> }
+                  </Wrapper>
+                </SSOModalContextProvider>
+              </AppContextProvider>
+            </FeatureFactory>
+          :
+            <UnrecoverableErrorCommon error={customerInfo?.error}/>
+        )
+        : <LoadingOverlay isLoading={customerInfo.loading}/> }
+          <SessionTimeoutModal csrf={customerInfo.data.csrf}></SessionTimeoutModal>
+      </ErrorBoundary>
     </>
   )
+}
+
+const Wrapper = ({ children }) => {
+  // Maintenance Mode
+  const splitHookClient = useClient();
+  const maintenanceFeature = splitHookClient.getTreatmentWithConfig(MAINTENANCE_PAGE);
+  if(maintenanceFeature?.treatment === "on") return <Maintenance />;
+  return children;
 }
 
 export default AuthenticatedUserWrapper

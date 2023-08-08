@@ -30,7 +30,7 @@ img.center { margin-left:auto; margin-right:auto; display:block;}
 
 #splash-container-with { display:block; margin-top:40px; padding:40px; background-color: #DBF5FF; box-shadow: 10px 10px 10px 0 rgba(0,0,0,0.05); }
 #splash-container-with h3 { color:#4a4a4a; font-size:22px; font-weight:700; text-align:center; }
-#splash-container-with ul.items { list-style-image: url('/img/bullet.svg'); padding:40px 0 0 240px; }
+#splash-container-with ul.items { list-style-image: url('/react/images/bullet.svg'); padding:40px 0 0 240px; }
 #splash-container-with li { padding-top:10px; font-size:17px;}
 
 #splash-container-already { display:block; text-align:center; padding-top:100px;}
@@ -100,7 +100,7 @@ img.center { margin-left:auto; margin-right:auto; display:block;}
 
     #splash-container-with { display:block; margin-top:40px; background-color: #DBF5FF; box-shadow: 10px 10px 10px 0 rgba(0,0,0,0.05); width: 100%;  padding: 40px; }
     #splash-container-with h3 { color:#4a4a4a; font-size:22px; font-weight:700; text-align:center; }
-    #splash-container-with ul.items { list-style-image: url('/img/bullet.svg'); padding:40px 0 0 30px; }
+    #splash-container-with ul.items { list-style-image: url('/react/images/bullet.svg'); padding:40px 0 0 30px; }
     #splash-container-with li { padding-top:10px; font-size:17px;}
 
     #splash-container-already h3 { font-size:24px; line-height:30px; color:#4a4a4a; width: 100%}

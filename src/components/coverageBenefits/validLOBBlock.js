@@ -39,7 +39,7 @@ const ValidLOBBlock = ({ memberSelection, setMemberSelection }) => {
               attributes = {splitAttributes}
             >  
         <ValidLOBBlockWrapper>
-          <MainHeader hasDependents={dependents.length > 0} noTopMargin>Coverage & Benefits</MainHeader>
+          <MainHeader hasDependents={dependents?.length > 0} noTopMargin>Coverage & Benefits</MainHeader>
           <CoversageBenefitsHeaderWrapper>
             <DependentBlock memberSelection={memberSelection} setMemberSelection={setMemberSelection} />
             <FeatureTreatment
@@ -48,7 +48,7 @@ const ValidLOBBlock = ({ memberSelection, setMemberSelection }) => {
               onTimedout={() => {}}
               attributes = {splitAttributes}
             >
-            <ButtonsWrapper hasDependents={dependents.length > 0}>
+            <ButtonsWrapper hasDependents={dependents?.length > 0}>
               {/* <DownloadButton href="#" firstItem>
                 <Icon src="/react/images/icn-download-blue.svg" />
                 <ButtonText>Download Summary of Benefits</ButtonText>

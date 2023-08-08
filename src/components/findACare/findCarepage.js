@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { requestSelectedMember } from '../../store/actions'; 
+import { requestPCPDetails, requestSelectedMember } from '../../store/actions'; 
 import GlobalError from "../common/globalErrors/globalErrors";
+import Spinner from "../common/spinner";
+import { Wrapper } from "./findCarePCP";
 
 
 const FindCare = (props) => {
@@ -11,7 +13,8 @@ const FindCare = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const customerInfo = useSelector((state) => state.customerInfo.data);
-  const jwt_token = customerInfo.id_token
+  const jwt_token = customerInfo.id_token;
+  const pcp = useSelector((state) => state.pcp);
   
   const [isGlobalError,setGlobalError] = useState(false);  
   useEffect(() => {
@@ -33,28 +36,36 @@ const FindCare = (props) => {
 
   /** Adding Widget script for  provider search for care  and Mounting the widget on page load
    */
-  const dependents = customerInfo.dependents || []
-  const memberDetails = [
-    {
-      memberId: customerInfo.memberId, 
-      age: customerInfo.age,
-      benefitPackage: customerInfo.benefitPackage,
-      groupNumber: customerInfo.groupNumber,
-      year: customerInfo.memberYear,
-      firstName: customerInfo.firstName,
-      lastName: customerInfo.lastName,
-      pcpId: customerInfo.pcpId,
-      disablePcpUpdate: customerInfo.membershipStatus === "active" ? false : true,
-    },
-    ...dependents
-  ];
 
   const handleMemberChanged = (id, details) => {
     dispatch(requestSelectedMember(id));
     sessionStorage.setItem("currentMemberId", id)
   };
 
+
+  useEffect(() => {
+    if(customerInfo.customerId && customerInfo.membershipStatus === "active"){
+      dispatch(requestPCPDetails(customerInfo.memberId, customerInfo.membershipEffectiveDate));
+    }
+  }, []);
+
   useEffect(() => { 
+    if(pcp.pcpLoading) return;
+    const dependents = customerInfo.dependents || [];
+    const memberDetails = [
+      {
+        memberId: customerInfo.memberId, 
+        age: customerInfo.age,
+        benefitPackage: customerInfo.benefitPackage,
+        groupNumber: customerInfo.groupNumber,
+        year: customerInfo.memberYear,
+        firstName: customerInfo.firstName,
+        lastName: customerInfo.lastName,
+        pcpId: pcp.pcpDetails.id || customerInfo.pcpId,
+        disablePcpUpdate: customerInfo.membershipStatus === "active" ? false : true,
+      },
+      ...dependents
+    ];
     if(customerInfo.accountStatus !=="NON-MEMBER"){
     const mountProps = {
       parentElement: "#findCareHomeWrapper",
@@ -75,6 +86,7 @@ const FindCare = (props) => {
       onMemberChanged: handleMemberChanged,
       onResultClicked: handleResultClicked,
     };
+
     if (customerInfo.memberId && dependents && jwt_token) {
       try {
         const currentMemberId = sessionStorage.getItem("currentMemberId")
@@ -89,8 +101,9 @@ const FindCare = (props) => {
     else{
       setGlobalError(true);
     }
-  }, [jwt_token,customerInfo, dependents])
+  }, [jwt_token,customerInfo, pcp])
 
+  if (pcp.pcpLoading) return  <Wrapper><Spinner /></Wrapper>
 
   return (
     <div>

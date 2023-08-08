@@ -137,7 +137,6 @@ const PreferredContactInfo = (props) => {
         }
         else{
             */
-            //console.log("jfdklsjfkldjfkldsfsdf");
             dispatch(requestPreferredContactInfoSubmit(data, customerInfo.csrf));
         /*}
         setTimesSubmitted(timesSubmitted+1);

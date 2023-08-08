@@ -50,27 +50,21 @@ const SessionTimeoutModal = (props) => {
     }
 
     const sessionReset = () => {
-         fetch(`${MIX_REACT_OKTA_API_URL}/sessions/me/lifecycle/refresh`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                Accpet: 'application/json'
-            }
-         });
-
-         fetch('/sessionKeepAlive', {
-            headers: {
-                'X-CSRF-TOKEN': props.csrf
-            }
-         })
-         .then((data) => {
-         })
-         .catch((error) => {
-            console.log(error);
-         })
-         .finally( ()=> {
-            clearTimers(true);
-         })
+        fetch(`${MIX_REACT_OKTA_API_URL}/sessions/me/lifecycle/refresh`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            Accpet: 'application/json'
+        }
+        })
+        .then((data) => {
+        })
+        .catch((error) => {
+           console.log(error);
+        })
+        .finally( ()=> {
+           clearTimers(true);
+        });
     }
 
     const sessionTimeStamp = () => {

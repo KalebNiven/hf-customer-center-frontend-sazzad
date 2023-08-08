@@ -54,7 +54,9 @@ const DependentBlock = ({
                     companyCode: plan.CompanyNumber,
                     firstName: plan.FirstName,
                     lastName: plan.LastName,
-                    benefitPackage: plan.BenefitPackage                    
+                    benefitPackage: plan.BenefitPackage,
+                    groupNumber: plan.GroupNumber,
+                    relationshipType: 'SELF'
                 };
 
                 if (!activeOnly) {
@@ -80,7 +82,9 @@ const DependentBlock = ({
                     companyCode: dependent.companyCode,
                     firstName: dependent.firstName,
                     lastName: dependent.lastName,
-                    benefitPackage: dependent.benefitPackage 
+                    benefitPackage: dependent.benefitPackage,
+                    groupNumber: dependent.groupNumber, 
+                    relationshipType: dependent.RelationshipType
                 };
 
                 let isValidDependent = false;
@@ -131,7 +135,9 @@ const DependentBlock = ({
             firstName,
             lastName,
             value,
-            benefitPackage
+            benefitPackage,
+            groupNumber,
+            relationshipType
         } = memberInfo;
         setMemberSelection({
             ...memberSelection,
@@ -143,7 +149,9 @@ const DependentBlock = ({
             companyCode,
             firstName,
             lastName,
-            benefitPackage
+            benefitPackage,
+            groupNumber,
+            relationshipType
         });
     };
 

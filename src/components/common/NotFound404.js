@@ -1,68 +1,86 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from "react-router-dom";
 const { MIX_APP_DOMAIN } = process.env;
-import LoadingOverlay from './loadingOverlay';
+import LoadingOverlay from "./loadingOverlay";
 
 const NotFound404 = ({ isAuthenticated }) => {
     const history = useHistory();
     const location = useLocation();
 
     const saveRequestedURL = (location) => {
-
         let pathname = location.pathname;
-
-        const queryParams = location.search.split('&');
+        if (pathname === "/sessionExpired") {
+            // Lets make this better... tomorrow
+            return null;
+        }
+        const queryParams = location.search.split("&");
         queryParams.forEach((d, i) => {
-            if(i === 0){
+            if (i === 0) {
                 pathname = `${pathname}${d}`;
-            }else{
+            } else {
                 pathname = `${pathname}&${d}`;
             }
         });
 
-        sessionStorage.setItem("from", MIX_APP_DOMAIN + pathname);
-        
+        const searchParam = new URLSearchParams(window.location.search)
+        if(searchParam.get("redirectUrl") == null){
+            sessionStorage.setItem("from", MIX_APP_DOMAIN + pathname);
+        }
     }
 
-    // Unauthenticated user handling
-    if(isAuthenticated === false) {
-        saveRequestedURL(location);
-        history.push('/login');
-        return <LoadingOverlay />
-    }
-    
-    return(
+    useEffect(() =>{
+        checkAuthenticated()
+    })
+
+    const checkAuthenticated = () => {
+        // Unauthenticated user handling
+        if (isAuthenticated === false) {
+            saveRequestedURL(location);
+            history.push("/login");
+            return <LoadingOverlay />;
+        }
+    };
+
+    return (
         <Container>
             <ErrorWrapper>
                 <ErrorContainer>
                     <ErrorCard>
                         <Icon src="/react/images/alert-icon.svg" />
                         <ErrorCardTitle>Something went wrong.</ErrorCardTitle>
-                        <ErrorCardText>The page failed to load. Please try again.</ErrorCardText>
+                        <ErrorCardText>
+                            The page failed to load. Please try again.
+                        </ErrorCardText>
                         {/* <ErrorCodeText>Error Code: <span className="bold">###</span></ErrorCodeText> */}
                         <ControllersWrapper>
-                            <ControllersButton onClick={() => history.goBack()}>Go Back</ControllersButton>
-                            <ControllersButton onClick={() => history.push('/home')}>Go Home</ControllersButton>
+                            <ControllersButton onClick={() => history.goBack()}>
+                                Go Back
+                            </ControllersButton>
+                            <ControllersButton
+                                onClick={() => history.push("/home")}
+                            >
+                                Go Home
+                            </ControllersButton>
                         </ControllersWrapper>
                     </ErrorCard>
                 </ErrorContainer>
             </ErrorWrapper>
         </Container>
-    )
-}
+    );
+};
 
 export const Loading = styled.div`
-  color: red;
-  font-size: 4rem;
+    color: red;
+    font-size: 4rem;
 `;
 
 const Container = styled.div`
-  display: flex;
-  height: 100%;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    height: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 `;
 
 const ErrorContainer = styled.div`
@@ -93,7 +111,7 @@ const ErrorCard = styled.div`
     justify-content: center;
     align-items: center;
 
-    @media (min-width: 768px){
+    @media (min-width: 768px) {
         width: 480px;
     }
     max-width: 480px;
@@ -108,21 +126,21 @@ const ErrorCardTitle = styled.h6`
 `;
 
 const ErrorCardText = styled.p`
-    font-weight: 500; 
+    font-weight: 500;
     color: #474b55;
     font-size: 14px;
     letter-spacing: 0;
     line-height: 16px;
-    margin-bottom: .25rem;
+    margin-bottom: 0.25rem;
 `;
 
 const ErrorCodeText = styled.p`
-    margin-bottom: 1.5rem!important;
+    margin-bottom: 1.5rem !important;
     color: #474b55;
     font-size: 12px;
     letter-spacing: 0;
     line-height: 16px;
-`
+`;
 
 const Icon = styled.img`
     width: 80px;

@@ -9,6 +9,7 @@ import { reportError as reportErrorAction } from "../../store/actions/index";
 import { AnalyticsTrack } from "../../components/common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import { useLogout } from '../../hooks/useLogout'
+import { getRecertificationDate, isEligibleForRecertDate } from '../../utils/misc'
 
 
 const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
@@ -203,15 +204,15 @@ const displayMainComponent = () => (
       {
         activePlans.length === 0 && activeDepPlans.length === 0 &&
         <PlanCard>
-          <CenterImgBlock><ImgContent src="/img/gray/ico-plan.svg" background="#ffffff" /></CenterImgBlock>
+          <CenterImgBlock><ImgContent src="/react/images/gray/ico-plan.svg" background="#ffffff" /></CenterImgBlock>
           <Info>There are no plans to display.</Info>
         </PlanCard>
       }
       {
         activePlans.length > 0 &&
-        activePlans.map((plan) => {
+        activePlans.map((plan,index) => {
           return (
-            <PlanCard>
+            <PlanCard key={index}>
               <PlanName>{plan.PlanName}</PlanName>
               <MemberName>{plan.FirstName?.toLowerCase()}  {plan.LastName?.toLowerCase()}</MemberName>
               <Member>
@@ -219,6 +220,7 @@ const displayMainComponent = () => (
                 <MemberID>{plan.MemberId}</MemberID>
               </Member>
               <PlanDuration>Active on {handleDate(plan.MembershipEffectiveDate, plan.MembershipExpirationDate)}</PlanDuration>
+              { isEligibleForRecertDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate) && <PlanDuration>{getRecertificationDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate, "LL", ':')}</PlanDuration> }
               <Row>
                 {
                   plan.MembershipStatus === 'active' ?
@@ -238,7 +240,7 @@ const displayMainComponent = () => (
           return (
             <PlanCard>
               <ImgBlock><PlanName>{plan.planName}</PlanName>
-                <LinkIcon alt = "" src="/img/ico-linked-account.svg" />
+                <LinkIcon alt = "" src="/react/images/ico-linked-account.svg" />
               </ImgBlock>
               <MemberName>{plan.firstName?.toLowerCase()}  {plan.lastName?.toLowerCase()}</MemberName>
               <Member>
@@ -246,6 +248,7 @@ const displayMainComponent = () => (
                 <MemberID>{plan.memberId}</MemberID>
               </Member>
               <PlanDuration>Active on {handleDate(plan.MembershipEffectiveDate, plan.MembershipExpirationDate)}</PlanDuration>
+              { isEligibleForRecertDate(plan.companyCode, plan.benefitPackage, plan.renewalDate) && <PlanDuration>{getRecertificationDate(plan.companyCode, plan.benefitPackage, plan.renewalDate, "LL", ':')}</PlanDuration> }
               <Row>
                 {
                   plan.Status === 'active' ?
@@ -265,7 +268,7 @@ const displayMainComponent = () => (
       {
         inactivePlans.length === 0 && inactiveDepPlans.length === 0 &&
         <PlanCard>
-          <CenterImgBlock><ImgContent src="/img/gray/ico-plan.svg" background="#ffffff" /></CenterImgBlock>
+          <CenterImgBlock><ImgContent src="/react/images/gray/ico-plan.svg" background="#ffffff" /></CenterImgBlock>
           <Info>There are no plans to display.</Info>
         </PlanCard>
       }
@@ -281,6 +284,7 @@ const displayMainComponent = () => (
                 <MemberID>{plan.MemberId}</MemberID>
               </Member>
               <PlanDuration>Active on {handleDate(plan.MembershipEffectiveDate, plan.MembershipExpirationDate)}</PlanDuration>
+              { isEligibleForRecertDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate) && <PlanDuration>{getRecertificationDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate, "LL", ':')}</PlanDuration> }
               <Row>
                 <InactivePlan>{plan.MembershipStatus.toUpperCase()}</InactivePlan>
                 {reportError()}
@@ -295,7 +299,7 @@ const displayMainComponent = () => (
           return (
             <PlanCard>
               <ImgBlock><PlanName>{plan.planName}</PlanName>
-                <LinkIcon alt = "" src="/img/ico-linked-account.svg" />
+                <LinkIcon alt = "" src="/react/images/ico-linked-account.svg" />
               </ImgBlock>
               <MemberName>{plan.firstName?.toLowerCase()}  {plan.lastName?.toLowerCase()}</MemberName>
               <Member>
@@ -303,6 +307,7 @@ const displayMainComponent = () => (
                 <MemberID>{plan.memberId}</MemberID>
               </Member>
               <PlanDuration>Active on {handleDate(plan.MembershipEffectiveDate, plan.MembershipExpirationDate)}</PlanDuration>
+              { isEligibleForRecertDate(plan.companyCode, plan.benefitPackage, plan.renewalDate) && <PlanDuration>{getRecertificationDate(plan.companyCode, plan.benefitPackage, plan.renewalDate, "LL", ':')}</PlanDuration> }
               <Row>
                 <InactivePlan>{plan.Status.toUpperCase()}</InactivePlan>
                 {reportError()}

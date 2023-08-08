@@ -14,7 +14,8 @@ import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/
 import { AnalyticsIdentifyNonMember, AnalyticsIdentifyMember } from "./../../components/common/segment/analytics";
 import { MainContentContainer } from "../common/styles";
 import { useCoachMarksContext } from "../coachMarks/homePageCoachMarks/coachMarksContext";
-
+import { usePopperTooltip } from 'react-popper-tooltip';
+import { getRecertificationDate, isEligibleForRecertDate } from '../../utils/misc.js'
 
 const HomePage = () => {
   const { hasPassedTour } = useCoachMarksContext()
@@ -31,9 +32,18 @@ const HomePage = () => {
   }, [hasPassedTour])
 
   const time = new Date().toLocaleTimeString('en-GB');
-  const { memberId, customerId, accountStatus,membershipStatus, lastName, email, firstName, oktaId } = useSelector((state) => state?.customerInfo?.data);
-  const timeHrs = Number(time.split(":")[0])
   const customerInfo = useSelector(state => state.customerInfo) 
+
+  const { customerId, accountStatus, email, oktaId, companyCode, benefitPackage, hohPlans } = customerInfo?.data;
+
+  const primaryPlan = customerInfo?.data?.hohPlans[0];
+  const memberId = primaryPlan?.MemberId;
+  const membershipStatus = primaryPlan?.MembershipStatus;
+  const lastName = primaryPlan?.LastName;
+  const firstName = primaryPlan ? primaryPlan?.FirstName : customerInfo?.data?.firstName;
+  const planName = primaryPlan?.PlanName;
+
+  const timeHrs = Number(time.split(":")[0])
   const history = useHistory();
   let paperlessFlag = customerInfo?.data?.preferenceCenterPaperless?.status;
 
@@ -64,15 +74,15 @@ const HomePage = () => {
   }
 
   useEffect(() => {	 
-    const userLoggedIn = sessionStorage.getItem('userLoggedIn'); 	
-    if ((window.location.pathname === '/home') && oktaId && !userLoggedIn) {	
+    const identifySegmentFlag = localStorage.getItem('identifySegmentFlag'); 	
+    if ((window.location.pathname === '/home') && oktaId && !identifySegmentFlag) {	
       const fullName = firstName + " " + lastName;	
       if (accountStatus === "MEMBER") {	
-        sessionStorage.setItem('userLoggedIn', 'Yes')	
+        localStorage.setItem('identifySegmentFlag', true)	
         AnalyticsIdentifyMember(customerId, fullName, email, oktaId, memberId)	
       }
       else {	
-        sessionStorage.setItem('userLoggedIn', 'Yes')	 
+        localStorage.setItem('identifySegmentFlag',true)	 
         AnalyticsIdentifyNonMember(fullName, email, oktaId)	
       }	
     }	
@@ -107,6 +117,15 @@ const HomePage = () => {
       }
     );
   }
+
+  const {
+    getArrowProps,
+    getTooltipProps,
+    setTooltipRef,
+    setTriggerRef,
+    visible,
+  } = usePopperTooltip({ placement: 'top' });
+
   return (
     
     !customerInfo.loading ? <Container>
@@ -118,18 +137,28 @@ const HomePage = () => {
           <GreetingContainer>
             <GreetingInnerContainer>
               <LeftContainer>
-              <LeafIcon alt = "" type = {customerInfo.data.accountStatus === "MEMBER"} src="/react/images/leaf-icon@3x.png"></LeafIcon>
-              <Div type = {customerInfo.data.accountStatus === "MEMBER"}>
+              <LeafIcon alt = "" type = {accountStatus } src="/react/images/leaf-icon@3x.png"></LeafIcon>
+              <Div type = {accountStatus}>
             <Greeting>{greetingTxt}</Greeting> <br />
-            <Title>{customerInfo.data.firstName}&nbsp;{customerInfo.data.lastName}</Title>
-            {customerInfo.data.accountStatus === "MEMBER"  &&<>
-            <MemberDetails>Member ID: {customerInfo.data.memberId}</MemberDetails>
-            <PlanName>{customerInfo.data.planName}</PlanName>
-            <Status>
-            <StatusTxt status = {customerInfo.data.membershipStatus}>
-            {customerInfo.data.membershipStatus}
-            </StatusTxt>
-          </Status>
+            <Title>{firstName}&nbsp;{lastName}</Title>
+            {accountStatus === "MEMBER"  &&<>
+            <MemberDetails>Member ID: {memberId}</MemberDetails>
+            <PlanName>{planName}</PlanName>
+            <StatusWrapper>
+              <StatusContainer>
+                <Status>
+                  <StatusTxt status = {customerInfo.data.membershipStatus}>
+                  {customerInfo.data.membershipStatus}
+                  </StatusTxt>
+                </Status>
+                {/* {visible && <div ref={setTooltipRef} {...getTooltipProps({ className: 'tooltip-container' })}>
+                    <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                    {"Active as of xx/xx/xxxx"}
+                </div>} */}
+                {/* <TooltipIcon ref={setTriggerRef} /> */}
+              </StatusContainer>
+              { isEligibleForRecertDate(hohPlans?.[0]?.CompanyNumber, hohPlans?.[0]?.BenefitPackage, hohPlans?.[0]?.renewalDate) && <RecertDate>{getRecertificationDate(companyCode, benefitPackage, hohPlans?.[0]?.renewalDate)}</RecertDate> }
+            </StatusWrapper>
           <FeatureTreatment
               treatmentName={SHOW_MEMBER_ID_CARD}
               onLoad={() => {}}
@@ -159,7 +188,7 @@ const HomePage = () => {
         </FeatureTreatment>
 
         <ModelContainer>
-        {customerInfo.data.accountStatus ==="MEMBER" && !paperlessFlag && openPaperLess &&
+        {accountStatus ==="MEMBER" && !paperlessFlag && openPaperLess &&
         <FeatureTreatment
           treatmentName={SHOW_PAPERLESS_WIDGET}
           onLoad={() => { }}
@@ -189,7 +218,7 @@ position:fixed;
 transition: opacity 300ms ease-in-out;`;
 
 const Div = styled.div`
-margin-top : ${props => props.type ? '0px':'40px'};
+margin-top : ${props => props.type === "MEMBER" ? '0px':'40px'};
 `;
 
 const GreetingContainer = styled.div`
@@ -291,7 +320,6 @@ height: 20px;
 padding: 4px 6px;
 background-color:#ffffff;
 border-radius: 5px;
-margin-top: 10px;
 display:inline-block;
 `;
 
@@ -402,7 +430,7 @@ const LeafIcon = styled.img`
      margin-left: -144px;
      float:right;
     position:relative;
-    margin-top : ${props => props.type ? '-20px':'-60px'};
+    margin-top : ${props => props.type === "MEMBER" ? '-20px':'-60px'};
   }
   @media only screen and (max-width: 480px) {
     padding-right:8px;
@@ -436,6 +464,52 @@ const GreetingInnerContainer = styled.div`
 
 const RightContainer = styled.div`
   display: block;
+`;
+
+const StatusWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+
+  @media only screen and (max-width: 481px) {
+    flex-direction: column;
+    align-items: start;
+  };
+`;
+
+const RecertDate = styled.div`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #FFFFFF;
+  margin-left: 12px;
+  padding-top: 2px;
+
+  @media only screen and (max-width: 481px) {
+    margin-left: 0px;
+    margin-top: 7px;
+  };
+`;
+
+export const TooltipIcon = styled.div`
+  margin-left: 8px;
+  content: "";
+  background-image: url("/react/images/info-circle-icon-white.svg");
+  background-position: center;
+  background-size: cover;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+
+  /* &:hover {
+    background-image: url("/react/images/info-circle-icon-blue.svg");
+  } */
+`;
+
+export const StatusContainer = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export default HomePage;

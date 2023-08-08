@@ -23,7 +23,7 @@ export default ExternalSiteLink
 
 
 ExternalSiteLink.propTypes = {
-    label:PropTypes.string.isRequired,    
+    label:PropTypes.string,    
 };
 
 ExternalSiteLink.defaultProps = {

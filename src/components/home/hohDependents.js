@@ -4,6 +4,7 @@ import GlobalStyle from "../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import { Tooltip } from "@material-ui/core";
+import { getRecertificationDate, isEligibleForRecertDate } from '../../utils/misc.js'
 
 const HOHDependents = () => {
 
@@ -51,6 +52,7 @@ const HOHDependents = () => {
                     {dependent.Status}
                   </StatusTxt>
                 </Status>
+                { isEligibleForRecertDate(dependent.companyCode, dependent.benefitPackage, dependent.renewalDate) && <RenewalDate>{getRecertificationDate(dependent.companyCode, dependent.benefitPackage, dependent.renewalDate)}</RenewalDate> }
                 {dependent.Status === 'active' &&
                   <MemberIcon alt = "" src="/react/images/icn-household.svg" />}
               </Card>))}
@@ -121,7 +123,6 @@ const HOHDependent = styled.div`
 
 const Card = styled.div`
   width:100%;
-  height: 108px;
   flex-grow: 0;
   margin: ${props => !props.space && "0 0 10px 0"};
   cursor:${props => props.status === "active" && "pointer"};
@@ -129,6 +130,7 @@ const Card = styled.div`
   border-radius: 4px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px 0 #d8d8d8;
+  position: relative;
   @media only screen and (max-width: 959px) {
     margin: ${props => !props.space ? "16px 8px 16px 0px" : "16px 0px 16px 0px"};
   }
@@ -183,7 +185,7 @@ const MemberDetails = styled.div`
 const Status = styled.div`
   width: 90px;
   height: 20px;
-  margin: 8px 213px 12px 0;
+  margin: 5px 0;
   padding: 4px 6px;
   background-color: ${props => props.status === 'active' ? '#3e7128' : props.status === 'inactive' ? '#d43900' : '#ffffff'} ;
   border-radius: 5px;
@@ -206,14 +208,17 @@ const MemberIcon = styled.img`
   filter:opacity(0.3) drop-shadow(0 0 0 #474b55);
   width: 20px;
   height: 20px;
-  position: relative;
-  float: right;
-  right: 0px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
   &:hover {
   cursor: pointer;
   }
   bottom:95px;
 `;
 
-
-
+const RenewalDate = styled.div`
+  color: #474B55;
+  font-size: 14px;
+  font-weight: 400;
+`;

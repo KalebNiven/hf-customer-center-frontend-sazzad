@@ -25,7 +25,7 @@ const HealthResourcesChevron = ({ currentMemberInfo }) => {
     return (
         <>
             {
-                (surveyCompleteLocally(currentMemberInfo.memberId) && currentResources[currentMemberInfo.memberId]?.length > 0) ? <ChevronIcon src={`react/images/icn-${resoucesVisible.includes(currentMemberInfo.memberId) ? "up" : "down"}-arrow.svg`} onClick={() => handleResoucesDropdownClick(currentMemberInfo.memberId, currentMemberInfo.companyCode)}/> : surveyCompleteLocally(currentMemberInfo.memberId) ? <ChevronIconPlaceholder /> : null
+                (surveyCompleteLocally(currentMemberInfo.memberId) && currentResources[currentMemberInfo.memberId]?.length > 0) ? <ChevronIcon src={`/react/images/icn-${resoucesVisible.includes(currentMemberInfo.memberId) ? "up" : "down"}-arrow.svg`} onClick={() => handleResoucesDropdownClick(currentMemberInfo.memberId, currentMemberInfo.companyCode)}/> : surveyCompleteLocally(currentMemberInfo.memberId) ? <ChevronIconPlaceholder /> : null
             }
         </>
     )

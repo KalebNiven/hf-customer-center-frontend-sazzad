@@ -71,7 +71,7 @@ const AccountSettings = () => {
       },
       {
         label: "Your Healthfirst Plans",
-        imgContentSrc: "/img/dark/ico-id.svg",
+        imgContentSrc: "/react/images/dark/ico-id.svg",
         imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#eaeaea",
         destination_url: null
@@ -82,14 +82,14 @@ const AccountSettings = () => {
     items: [
       {
         label: "About Healthfirst",
-        imgContentSrc: "/img/light/ico-leaf.svg",
+        imgContentSrc: "/react/images/light/ico-leaf.svg",
         imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#529535",
         destination_url: "https://healthfirst.org/about-us/"
       },
       {
         label: "Understand Your Health Data",
-        imgContentSrc: "/img/other/ico-medical-shield.svg",
+        imgContentSrc: "/react/images/other/ico-medical-shield.svg",
         imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#ab3291",
         backgroundPosition: "0",
@@ -97,19 +97,19 @@ const AccountSettings = () => {
       },
       {
         label: "Terms & Conditions",
-        imgContentSrc: "/img/light/ico-check.svg",
+        imgContentSrc: "/react/images/light/ico-check.svg",
         imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#002a4a",
         destination_url: process.env.MIX_TERMS_CONDITIONS,
       }, {
         label: "Privacy Statements",
-        imgContentSrc: "/img/light/ico-lock.svg",
+        imgContentSrc: "/react/images/light/ico-lock.svg",
         imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#f7911d",
         destination_url: process.env.MIX_PRIVACY_STMTS
       }, {
         label: "Contact Us",
-        imgContentSrc: "/img/light/ico-phone.svg",
+        imgContentSrc: "/react/images/light/ico-phone.svg",
         imgIconSrc: "/react/images/icn-arrow-right.svg",
         backgroundColor: "#008bbf",
         destination_url: "https://healthfirst.org/contact"
@@ -226,19 +226,20 @@ const AccountSettings = () => {
             sideBarItems.map((leafItem, leafindex) => {
              
               return (
-                  <>
-                    <LeftTitle>{leafItem.leafTitle}</LeftTitle>
+                  <Wrapper key={leafindex}>
+                    <LeftTitle key={leafindex}>{leafItem.leafTitle}</LeftTitle>
                     {
                       leafItem.items.map((eachItem, itemIndex, items) => {
                         return (
                           eachItem.label ==="Paperless"?(
                             <FeatureTreatment
+                            key={itemIndex}
                             treatmentName={SHOW_PAPERLESS_WIDGET}
                             onLoad={() => { }}
                             onTimedout={() => { }}
                             attributes={splitAttributes}
                           >
-                             <NavWrapper borderRadius={itemIndex === 0 ? "4px 4px 0 0" : itemIndex === items.length - 1 ? "0 0 4px 4px" : ""} onClick={() => navItemClick(eachItem, itemIndex, leafindex)} active={selectIndex === itemIndex && selectedLeafIndex === leafindex}>
+                             <NavWrapper key={itemIndex} borderRadius={itemIndex === 0 ? "4px 4px 0 0" : itemIndex === items.length - 1 ? "0 0 4px 4px" : ""} onClick={() => navItemClick(eachItem, itemIndex, leafindex)} active={selectIndex === itemIndex && selectedLeafIndex === leafindex}>
                             <ImgBlock><ImgContent  src={eachItem.imgContentSrc} background={eachItem.backgroundColor} backgroundPosition={eachItem.backgroundPosition} /></ImgBlock>
                             <Option>{eachItem.label}</Option>
                             <InlineInnerFixedContainer>
@@ -247,7 +248,7 @@ const AccountSettings = () => {
                           </NavWrapper>                          
                           </FeatureTreatment>
                           ):(
-                          <NavWrapper borderRadius={itemIndex === 0 ? "4px 4px 0 0" : itemIndex === items.length - 1 ? "0 0 4px 4px" : ""} onClick={() => navItemClick(eachItem, itemIndex, leafindex)} active={selectIndex === itemIndex && selectedLeafIndex === leafindex}>
+                          <NavWrapper key={itemIndex} borderRadius={itemIndex === 0 ? "4px 4px 0 0" : itemIndex === items.length - 1 ? "0 0 4px 4px" : ""} onClick={() => navItemClick(eachItem, itemIndex, leafindex)} active={selectIndex === itemIndex && selectedLeafIndex === leafindex}>
                             <ImgBlock><ImgContent  src={eachItem.imgContentSrc} background={eachItem.backgroundColor} backgroundPosition={eachItem.backgroundPosition} /></ImgBlock>
                             <Option>{eachItem.label}</Option>
                             <InlineInnerFixedContainer>
@@ -259,8 +260,7 @@ const AccountSettings = () => {
                       })
 
                     }
-
-                  </>
+                  </Wrapper>
                 
 
               )
@@ -270,7 +270,7 @@ const AccountSettings = () => {
         </LeftPanel>
         <RightPanel show={showRight}>
           <MainDiv onClick={handleBack}>
-            <BackImg src="/img/dark/ico-back.svg" />
+            <BackImg src="/react/images/dark/ico-back.svg" />
             <BackText>BACK</BackText>
           </MainDiv>
           {displayRightPanel()}
@@ -391,6 +391,8 @@ const LeftTitle = styled.div`
   padding-left: 16px;
   margin: 15px 0px 8px;
 `;
+
+const Wrapper = styled.div``;
 
 const NavWrapper = styled.div`
   padding: 14px 24px 14px 14px;

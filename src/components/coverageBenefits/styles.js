@@ -172,8 +172,8 @@ export const IconRight = styled.div`
   position: relative;
   padding: 20px;
   border-radius: 4px;
-  background: ${props => props.selected ? 'url(react/images/icn-download.svg) no-repeat 8px 10px #e6e6e6'
-    : 'url(react/images/icn-download.svg) no-repeat 8px 10px'};
+  background: ${props => props.selected ? 'url(/react/images/icn-download.svg) no-repeat 8px 10px #e6e6e6'
+    : 'url(/react/images/icn-download.svg) no-repeat 8px 10px'};
   align-self: flex-start;
   top: -2px;
   cursor: pointer;

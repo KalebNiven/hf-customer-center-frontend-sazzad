@@ -267,7 +267,7 @@ const LoginSecurity = () => {
               <>
                 <Label>Username</Label>
                 <TextBox>
-                  <UserImg alt = "" src="/img/other/ico-account.svg" />
+                  <UserImg alt = "" src="/react/images/other/ico-account.svg" />
                   <InputBox value={userName} onChange={handleUserNameInputChange}
                     placeholder={settingsData.userName} />
                 </TextBox>
@@ -285,7 +285,7 @@ const LoginSecurity = () => {
               <RowBlock>
                 <UserName>{settingsData.userName}</UserName>
                 <EditButton onClick={toggleEditUserName}>
-                  <EditImg src="/img/other/ico-pencil.svg" />
+                  <EditImg src="/react/images/other/ico-pencil.svg" />
                   <ButtonTxt>Edit</ButtonTxt>
                 </EditButton>
               </RowBlock>
@@ -304,7 +304,7 @@ const LoginSecurity = () => {
               <>
                 <Label>Current Password</Label>
                 <TextBox error={currPassError}>
-                  <UserImg alt = "" src={currPassError ? "/img/other/ico-lock-red.svg" : "/img/other/ico-lock.svg"} />
+                  <UserImg alt = "" src={currPassError ? "/react/images/other/ico-lock-red.svg" : "/react/images/other/ico-lock.svg"} />
                   <InputBox type="password" value={currentPassword} onChange={(e) => handleCurrentPassword(e.target.value)}
                     onBlur={validateCurrentPass} placeholder="Enter Current Password" error={currPassError} />
                 </TextBox>
@@ -312,19 +312,19 @@ const LoginSecurity = () => {
 
                 <Label space>New Password</Label>
                 <TextBox error={newPassError}>
-                  <UserImg alt = "" src={newPassError ? "/img/other/ico-lock-red.svg" : "/img/other/ico-lock.svg"} />
+                  <UserImg alt = "" src={newPassError ? "/react/images/other/ico-lock-red.svg" : "/react/images/other/ico-lock.svg"} />
                   <InputBox type="password" value={newPassword} onChange={(e) => handleNewPassword(e.target.value)}
                     onBlur={validateNewPass} placeholder="Enter New Password" error={newPassError} />
                   <OverlayTrigger show={showPopover} placement="top-end" overlay={popoverTop}>
                     <UserImg onMouseEnter={() => setShowPopover(true)} onMouseLeave={() => setShowPopover(false)}
-                    alt = ""  src={showPopover ? "/img/other/ico-info-blue.svg" : "/img/gray/ico-info.svg"} width />
+                    alt = ""  src={showPopover ? "/react/images/other/ico-info-blue.svg" : "/react/images/gray/ico-info.svg"} width />
                   </OverlayTrigger>
                 </TextBox>
                 {newPassError && <ErrorLabel>{newPassError}</ErrorLabel>}
 
                 <Label space>Confirm New Password</Label>
                 <TextBox error={confirmPassError}>
-                  <UserImg alt = "" src={confirmPassError ? "/img/other/ico-lock-red.svg" : "/img/other/ico-lock.svg"} />
+                  <UserImg alt = "" src={confirmPassError ? "/react/images/other/ico-lock-red.svg" : "/react/images/other/ico-lock.svg"} />
                   <InputBox type="password" value={confirmPassword} onChange={(e) => handleConfirmPassword(e.target.value)}
                     onBlur={validateConfirmPass} placeholder="Confirm New Password" error={confirmPassError} />
                 </TextBox>
@@ -344,7 +344,7 @@ const LoginSecurity = () => {
               <RowBlock>
                 <UserName>**********</UserName>
                 <EditButton onClick={toggleEditPassword}>
-                  <EditImg src="/img/other/ico-pencil.svg" />
+                  <EditImg src="/react/images/other/ico-pencil.svg" />
                   <ButtonTxt>Edit</ButtonTxt>
                 </EditButton>
               </RowBlock>

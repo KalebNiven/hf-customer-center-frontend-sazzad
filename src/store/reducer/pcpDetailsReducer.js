@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 export const initialState = {
   pcpDetails: null,
   loading:false,
+  stateStatus: "init",
   error:""
 };
 
@@ -15,6 +16,10 @@ export default function pcpDetails(state = initialState, action) {
         error:""
       };
     }
+    case actionTypes.REQUEST_RESET_PCP_DETAILS: {
+      return { ...initialState, stateStatus: "Reset" }
+ }
+ 
     case actionTypes.RECEIVE_PCP_UPDATE: {
       switch (action.payload.status) {
         case 'ERROR':

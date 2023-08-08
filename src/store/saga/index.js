@@ -53,7 +53,8 @@ import {
   createUsernamePassword,
   forgotUsername,
   forgotPassword,
-  setPassword
+  setPassword,
+  verifyAddress
 } from "./apis";
 
 const formatNameCapitalize = (name) => {
@@ -227,7 +228,6 @@ function claimLineItem(lineItem) {
     claimStatus = "Pending";
   }
   this.status = claimStatus
-  console.log(this.status);
 }
 
 function authorizationLineItem(lineItem, placeOfService, requestDate) {
@@ -963,8 +963,7 @@ export function* submitSelectPlan(action) {
     const res = yield call(submitPlanForExternalLink, action.payload);
     if (res.status === "ok") {
       yield put(actions.receiveSelectPlan(res.status));
-    }
-    else {
+    }else {
       yield put(actions.errorSelectPlan(res.data.message));
     }
   } catch (e) {
@@ -1060,9 +1059,6 @@ function* watchDocumentFileSaga() {
 
 
 export function* getDocumentFileData(payload) {  
-
-  console.log('getDocumentFileData', payload);
-  
   try {
     const data = yield call(getDocumentFile, payload);
     yield put(actions.receivedDocumentFile(data));
@@ -1071,6 +1067,19 @@ export function* getDocumentFileData(payload) {
   }
 }
 
+// GET DOCUMENTS
+function* watchVerifyAddressSaga() {
+  yield takeLatest(actionTypes.REQUEST_VERIFY_ADDRESS, getVerifyAddress);
+}
+
+export function* getVerifyAddress(payload) {  
+  try {
+    const data = yield call(verifyAddress, payload);
+    yield put(actions.receiveVerifyAddress(data));
+  } catch (e) {
+    yield put(actions.errorVerifyAddress(e));
+  }
+}
 
 export default function* rootSaga() {
   yield all([
@@ -1105,7 +1114,6 @@ export default function* rootSaga() {
     watchPhoneContactInfoDetails(),
     watchGetMailMemberIDCardStatus(),
     watchGetCarouselItemsSaga(),
-    watchGetPcpDetailsSaga(),
     watchAddMembershipSaga(),
     watchSubmitAttestationAgreement(),
     watchSubmitPreferredContactInfo(),
@@ -1127,5 +1135,6 @@ export default function* rootSaga() {
     watchDocumentsSaga(),
     watchDocumentFileSaga(),
     watchGetOTCClaimReimbursementData(),
+    watchVerifyAddressSaga()
   ]);
 }

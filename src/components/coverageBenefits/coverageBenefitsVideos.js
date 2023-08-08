@@ -6,6 +6,7 @@ import VideoPopupPlayer from "./videoPopupPlayerModal";
 import { AnalyticsTrack } from "../common/segment/analytics";
 import { ANALYTICS_TRACK_CATEGORY, ANALYTICS_TRACK_TYPE } from "../../constants/segment";
 import { getCoverageBenefitsVideos } from "../../store/saga/apis";
+import { getSelectedLang } from "../auth/login/languageSelection.js";
 
 const CoverageBenefitsVideoCards = (props) => {
     const customerInfo = useSelector((state) => state.customerInfo);
@@ -15,8 +16,10 @@ const CoverageBenefitsVideoCards = (props) => {
     const [currentVideoName, setCurrentVideoName] = useState('');
 
     useEffect(() => {
+
+        let isMounted = true;
         let language;
-        switch(customerInfo.data.language){
+        switch(getSelectedLang()){
             case 'es':
                 language = 'Spanish';
                 break;
@@ -27,7 +30,16 @@ const CoverageBenefitsVideoCards = (props) => {
                 language = 'English'
         }
         getCoverageBenefitsVideos(language, props.companyCode, props.benefitPackage, props.membershipStatus)
-        .then( data => setVideoData(data));
+        .then( data => {
+            if(isMounted){
+                setVideoData(data)
+            }
+        }
+            );
+
+            return () =>{
+                isMounted = false;
+            };
     }, [customerInfo.data.language, props.companyCode, props.membershipStatus, props.benefitPackage]);
 
     const handleVideoCardClick = (videoName, embedUrl) => {

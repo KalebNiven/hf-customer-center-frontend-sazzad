@@ -7,9 +7,11 @@ import { AnalyticsTrack } from "../../../common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../../../constants/segment";
 import { generateCardType } from '../../../overTheCounter/utils';
 import { cardTypes } from '../../../overTheCounter/const'
+import { useHistory } from 'react-router-dom';
 
 const OTCReimbursementButton = () => {
     const customerInfo = useSelector((state) => state.customerInfo);
+    const history = useHistory();
     const getTitle = (hohPlans) => {
       let cardType = generateCardType(hohPlans);
       return cardType;
@@ -42,6 +44,7 @@ const OTCReimbursementButton = () => {
           }
         );
       }
+
     return (
         <>
             <FeatureTreatment
@@ -55,7 +58,7 @@ const OTCReimbursementButton = () => {
                     membershipStatus: customerInfo.data.membershipStatus,
                 }}
             >
-            <ActiveButton onClick={ () => handleSegmentBtn('OTC REIMBURSEMENT FORM')}>{getTitle(customerInfo?.data.hohPlans)} Reimbursement Form</ActiveButton>
+              <ActiveButton onClick={ () => handleSegmentBtn('OTC Reimbursement Form')}>{getTitle(customerInfo?.data.hohPlans)} Reimbursement Form</ActiveButton>
             </FeatureTreatment>
         </>
     )

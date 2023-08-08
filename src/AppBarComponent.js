@@ -13,7 +13,7 @@ import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import LongLoadSpinner from "./components/common/longLoadSpinner"
-import { SHOW_DOC, SHOW_CLAIMS, SHOW_AUTHS, SHOW_COVERAGE_AND_BENEFITS, SHOW_MEMBER_ID_CARD, SHOW_PRIMARY_CARE_PROVIDER, SHOW_MYHEALTH, SHOW_HOME, SHOW_PAYMENTS, SHOW_PAYMENTS_REACT_APP, PAYMENTS_ACL, BINDER_ACL, SHOW_PCP_SUB_NAV } from "./constants/splits";
+import { SHOW_DOC, SHOW_CLAIMS, SHOW_AUTHS, SHOW_COVERAGE_AND_BENEFITS, SHOW_MEMBER_ID_CARD, SHOW_PRIMARY_CARE_PROVIDER, SHOW_MYHEALTH, SHOW_HOME, SHOW_PAYMENTS, SHOW_PAYMENTS_REACT_APP, PAYMENTS_ACL, BINDER_ACL, SHOW_PCP_SUB_NAV, SHOW_TRANSLATION_LINKS, SHOW_HEALTH_ASSESMENT_SURVEY, SHOW_MY_HEALTH_CHECKLIST, SHOW_NOW_POW, SHOW_MY_REWARDS, OTC_WIDGET_PAGE } from "./constants/splits";
 import { FeatureTreatment } from "./libs/featureFlags";
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { useAppContext } from './AppContext';
@@ -23,7 +23,10 @@ import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "./constants/segm
 import { useClient } from "@splitsoftware/splitio-react";
 import { useLogout } from './hooks/useLogout'
 import { useLocation } from 'react-router';
-import axios from "axios";
+import { usePaymentsModalContext } from './context/paymentsModalContext';
+import { purgePaymentsSessionData } from './components/payments/paymentPortal';
+import { generateCardType } from './components/overTheCounter/utils';
+
 const LINK_TYPE = { external: "External", cc: "CC" }
 
 const useStyles = (top) => makeStyles(theme => ({
@@ -73,6 +76,7 @@ const AppBarComponent = () => {
   const firstName = (customerInfo.data.firstName)
   const [homeMobileItems, setHomeMobileItems] = useState(false);
   const [findCareMobileItems, setFindCareMobileItems] = useState(false);
+  const [myHealthMobileItems, setmyHealthMobileItems] = useState(false);
   const history = useHistory();
   const { MIX_REACT_LOFL_LANGUAGE_EN_URL } = process.env;
   const { MIX_REACT_LOFL_LANGUAGE_ES_URL } = process.env;
@@ -88,6 +92,7 @@ const AppBarComponent = () => {
   const [binderEnabled, setBinderEnabled] = useState(false);
   const [reactPaymentsPortalEnabled, setReactPaymentsPortalEnabled] = useState(false);
   const location = useLocation();
+  const { resetPaymentsModal } = usePaymentsModalContext();
   let nav;
 
   useEffect(() => {
@@ -110,7 +115,7 @@ const AppBarComponent = () => {
     accountStatus:customerInfo.data.accountStatus,
   }
 
-  const splitHookClient = useClient(customerInfo.data.customerId === null ? 'Anonymous' : customerInfo.data.customerId)
+  const splitHookClient = useClient();
 
   const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, splitAttributes)
   const binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes)
@@ -140,7 +145,9 @@ const AppBarComponent = () => {
         membershipKey = plan?.MembershipKey;
       }
     });
-    axios.get(`/selectPlan/${membershipKey}`)
+    history.push('/payments');
+    /*
+    axios.get(`/api/v2/select-plan/${membershipKey}`)
     .then(function (response) {
       // Will need to define how to handle response.status
       if(paymentsEnabled === true && binderEnabled === true){
@@ -152,14 +159,17 @@ const AppBarComponent = () => {
           history.push('/payments');
         }
         else{
-          window.location.href = getLangURLPrefix(customerInfo.data.loginLanguage)+MIX_REACT_PAYMENTS_BASE_URL+'/sso?loginLang='+customerInfo.data.loginLanguage+'&selectedLang='+customerInfo.data.language;
+          history.push('/payments');
+          //window.location.href = getLangURLPrefix(customerInfo.data.loginLanguage)+MIX_REACT_PAYMENTS_BASE_URL+'/sso?loginLang='+customerInfo.data.loginLanguage+'&selectedLang='+customerInfo.data.language;
         }
       }
-      else{ 
+      else{
         //console.log('redirect to binder');
-        window.location.href = getLangURLPrefix(customerInfo.data.loginLanguage)+MIX_REACT_BINDER_BASE_URL+'/sso?loginLang='+customerInfo.data.loginLanguage+'&selectedLang='+customerInfo.data.language;
+        history.push('/payments');
+        //window.location.href = getLangURLPrefix(customerInfo.data.loginLanguage)+MIX_REACT_BINDER_BASE_URL+'/sso?loginLang='+customerInfo.data.loginLanguage+'&selectedLang='+customerInfo.data.language;
       }
     });
+    */
   }
 
   const getUserProfile = () => {
@@ -174,9 +184,18 @@ const AppBarComponent = () => {
           <InlineInnerContainer>
             <Name>{userName}</Name>
             <Member>Member ID: {customerInfo.data.memberId}</Member>
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_EN_URL + "/selectLanguage?selectedLang=en"} className="langLink lang-btn" data-lang="en" mporgnav="" active={customerInfo.data.language === 'en'}> EN </Lang> |
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_ES_URL + "/selectLanguage?selectedLang=es"} className="langLink lang-btn" data-lang="es" mporgnav="" active={customerInfo.data.language === 'es'}>  ES </Lang> |
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_ZH_URL + "/selectLanguage?selectedLang=zh"} className="langLink lang-btn" data-lang="zh" mporgnav="" active={customerInfo.data.language === 'zh'}>  中文  </Lang>
+            <FeatureTreatment
+              treatmentName={SHOW_TRANSLATION_LINKS}
+              onLoad={() => { }}
+              onTimedout={() => { }}
+              attributes={splitAttributes}
+            >
+            <>
+              <Lang href={MIX_REACT_LOFL_LANGUAGE_EN_URL + "/selectLanguage?selectedLang=en"} className="langLink lang-btn" data-lang="en" mporgnav="" active={customerInfo.data.language === 'en'}> EN </Lang> |
+              <Lang href={MIX_REACT_LOFL_LANGUAGE_ES_URL + "/selectLanguage?selectedLang=es"} className="langLink lang-btn" data-lang="es" mporgnav="" active={customerInfo.data.language === 'es'}>  ES </Lang> |
+              <Lang href={MIX_REACT_LOFL_LANGUAGE_ZH_URL + "/selectLanguage?selectedLang=zh"} className="langLink lang-btn" data-lang="zh" mporgnav="" active={customerInfo.data.language === 'zh'}>  中文  </Lang>
+            </>
+            </FeatureTreatment>
             <SetDiv>
               <SettImg alt = "" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-gear.svg`} />
               <Settings onClick={(e) => {
@@ -187,6 +206,23 @@ const AppBarComponent = () => {
               </Settings>
             </SetDiv>
             <DocLink/>
+            <FeatureTreatment
+              key={SHOW_MY_REWARDS}
+              treatmentName={SHOW_MY_REWARDS}
+              onLoad={() => { }}
+              onTimedout={() => { }}
+              attributes={splitAttributes}
+            >
+              <SetDiv>
+                <SettImg alt = "" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-coin.svg`} />
+                <Settings onClick={(e) => {
+                  handleClick(e, '/my-rewards', '', 'My Rewards','My Rewards');
+                  setOpenUserCard(false)
+                }}>
+                  My Rewards
+                </Settings>
+              </SetDiv>
+            </FeatureTreatment>
           </InlineInnerContainer>
           <HorizontalDivider />
           <Logout
@@ -218,6 +254,11 @@ const AppBarComponent = () => {
     labelForSegment: "Coverage & Benefits",
     href: "/coverage-and-benefits",
     treatmentName: SHOW_COVERAGE_AND_BENEFITS
+  }, {
+    label: generateCardType(customerInfo.data?.hohPlans),
+    labelForSegment: "OTC",
+    href: "/otc-widget",
+    treatmentName: OTC_WIDGET_PAGE
   }, {
     label: "Claims",
     labelForSegment: "Claims",
@@ -295,8 +336,28 @@ const AppBarComponent = () => {
       label: "My Health",
       labelForSegment: "My Health",
       type: "navItem",
-      href: "/communityResources",
-      childNavs: homeChildNavOptions,
+      href: "/my-health",
+      childNavs: [{
+        label: "My Health",
+        labelForSegment:  "My Health",
+        href: "/my-health",
+        treatmentName: SHOW_MYHEALTH
+      }, {
+        label: "Annual Health Assessment",
+        labelForSegment:  "Annual Health Assessment",
+        href: "/my-health/annual-health-assessment",
+        treatmentName: SHOW_HEALTH_ASSESMENT_SURVEY
+      },{
+        label: "My Health Checklist",
+        labelForSegment:  "My Health Checklist",
+        href: "/my-health/my-health-checklist",
+        treatmentName: SHOW_MY_HEALTH_CHECKLIST
+      },{
+        label: "Community Resources",
+        labelForSegment:  "Community Resources",
+        href: "/my-health/community-resources",
+        treatmentName: SHOW_NOW_POW
+      }],
       coachmark: "myHealthNavItem-coachmark",
       mobileCoachmark: "myHealthMobileNav-coachmark",
       treatmentName: SHOW_MYHEALTH
@@ -326,31 +387,33 @@ const AppBarComponent = () => {
     if (drawerOpen){
       setDrawerOpen(!drawerOpen)
     }
+    resetPaymentsModal();
     handleSegmentBtn(param,eachNavLabel,labelForSegment)
-    if (['/claims', '/authorizations', '/coverage-and-benefits','/home','/idcard','/communityResources', '/findcare', '/pcp'].some(x => x === param)) {
+    if (['/claims', '/authorizations', '/coverage-and-benefits','/home','/idcard','/my-health', '/findcare', '/pcp','/my-health/annual-health-assessment','/my-health/my-health-checklist','/my-health','/my-health/community-resources','/my-rewards'].some(x => x === param)) {
       history.push(param)
     }
     else if(param === '/settings'){
       history.push({
         pathname: '/settings',
         state: { sideBarIndex: 0 }
-      }) 
+      })
     }else if (param === "/document-center") {
         history.push({
             pathname: "/document-center",
         });
     }
-    else if (param === 'member-logout') { 
-      analytics.reset(); 
+    else if (param === 'member-logout') {
+      analytics.reset();
       sessionStorage.removeItem(`persist:${window.location.host}_PROVIDER_APP`);
+      purgePaymentsSessionData();
       try {
         ProviderDirectoryWidget.invalidateStore();
       } catch (e) {
         console.log("Nothing to invalidate")
       }
-      sessionStorage.removeItem("currentMemberId"); 
-      if(sessionStorage.getItem("userLoggedIn")!=null){
-        sessionStorage.removeItem("userLoggedIn")
+      sessionStorage.removeItem("currentMemberId");
+      if(sessionStorage.getItem("identifySegmentFlag")!=null){
+        sessionStorage.removeItem("identifySegmentFlag")
       };
       logoutApi();
     }
@@ -374,6 +437,9 @@ const AppBarComponent = () => {
     }
     else if (['/claims', '/authorizations', '/coverage-and-benefits', '/idcard', '/home'].some(x => x === window.location.pathname)) {
       setSelectedParentTab('/home')
+      setSelectedChildTab(window.location.pathname)
+    }else if (['/my-health/annual-health-assessment','/my-health/my-health-checklist','/my-health','/my-health/community-resources'].some(x => x === window.location.pathname)){
+      setSelectedParentTab('/my-health')
       setSelectedChildTab(window.location.pathname)
     }
     else {
@@ -410,7 +476,7 @@ const AppBarComponent = () => {
                   icon={selectedParentTab === eachNav.href ? <LogoImg alt = "" src={eachNav.activeIcon} /> : <LogoImg alt = "" src={eachNav.inactiveIcon} />}
                   value={value}
                   className={selectedParentTab === eachNav.href ? `tab-active ${eachNav?.coachmark}` : `tab-inactive ${eachNav?.coachmark}`}
-                /> 
+                />
                 }
                 </>
                 </FeatureTreatment>
@@ -436,13 +502,19 @@ const AppBarComponent = () => {
 
   const getChildNav = () => {
     let childNavs, currentTab
-
     if (['/claims', '/authorizations', '/coverage-and-benefits', '/idcard', '/home'].some(x => x === window.location.pathname)) {
       currentTab = navItems[1]
       childNavs = currentTab?.childNavs
     }
     else if (window.location.pathname === '/findcare' || window.location.pathname === '/pcp') {
       currentTab = navItems[2]
+      childNavs = currentTab?.childNavs
+    } else if(window.location.pathname === '/my-health' || window.location.pathname === '/my-health/community-resources' || window.location.pathname ==='/my-health/annual-health-assessment' || window.location.pathname ==="/my-health/my-health-checklist"){
+      currentTab = navItems[4]
+      childNavs = currentTab?.childNavs
+    }
+    else if (window.location.pathname === '/communityResources' || window.location.pathname === '/testout') {
+      currentTab = navItems[4]
       childNavs = currentTab?.childNavs
     }
     else {
@@ -526,7 +598,10 @@ const AppBarComponent = () => {
     }
     else if (href === '/findcare' && clickElement === 'parent') {
       setFindCareMobileItems(!findCareMobileItems)
+    }else if(href === '/my-health' && clickElement === 'parent'){
+      setmyHealthMobileItems(!myHealthMobileItems)
     }
+
   }
   const handleClickMobile = (e, href, clickElement, eachNavLabel,labelForSegment) => {
     if (drawerOpen){
@@ -541,8 +616,8 @@ const AppBarComponent = () => {
     }
 
     else if (href === '/findcare' && clickElement === 'parent') {
-      
-      setSelectedParentTab(href) 
+
+      setSelectedParentTab(href)
      // setSelectedChildTab(navItems.find(x => x.href === href).childNavs[0].href)
       window.location.href = href;
     }
@@ -563,7 +638,7 @@ const AppBarComponent = () => {
         setSelectedParentTab('/home')
       }
       else {
-        window.location.href = href;
+        history.push(href);
       }
     }
     //call app segment API
@@ -572,7 +647,7 @@ const AppBarComponent = () => {
 
 
   const handleSegmentBtn = (href, eachNavLabel, labelForSegment) => {
-    // Segment Track 
+    // Segment Track
     AnalyticsPage()
     AnalyticsTrack(
       labelForSegment + " " + "button clicked",
@@ -583,7 +658,7 @@ const AppBarComponent = () => {
         "destination_url": window.location.origin + href,
         "description": labelForSegment,
         "category": ANALYTICS_TRACK_CATEGORY.navBar,
-        "type": ANALYTICS_TRACK_TYPE.linkClicked,
+        "type": ANALYTICS_TRACK_TYPE.buttonClicked,
         "targetMemberId": customerInfo?.data?.memberId,
         "location": {
           "desktop": {
@@ -612,12 +687,12 @@ const AppBarComponent = () => {
                 treatmentName={SHOW_DOC}
                 onLoad={() => {}}
                 onTimedout={() => {}}
-                attributes={    
+                attributes={
                     {
-                    lob: customerInfo.data?.sessLobCode,              
+                    lob: customerInfo.data?.sessLobCode,
                     membershipStatus:customerInfo.data?.membershipStatus,
                     accountStatus:customerInfo.data?.accountStatus,
-                    companyCode: customerInfo.data?.hohPlans?.map(plan => plan.CompanyNumber),                    
+                    companyCode: customerInfo.data?.hohPlans?.map(plan => plan.CompanyNumber),
                     benefitPackage: customerInfo.data?.hohPlans?.map(plan => plan.BenefitPackage)
                   }
                 }
@@ -630,7 +705,7 @@ const AppBarComponent = () => {
     };
 
     const DocLinkComp = (props) => {
-      
+
         const { featureconfig } = props ? props : {};
         useEffect(() => {}, [featureconfig]);
 
@@ -660,10 +735,11 @@ const AppBarComponent = () => {
         );
     };
 
-  const displayNavMenu = () => { 
+  const displayNavMenu = () => {
     nav = [...navItems]
     const myHomeObj = nav.find(x => x.href === '/home' && x.type === 'navItem');
     const findCareObj = nav.find(x => x.href === '/findcare' && x.type === 'navItem');
+    const myHealthObj = nav.find(x => x.href === '/my-health' && x.type === 'navItem')
      // if (window.location.pathname === "/search" || window.location.pathname === "/details") {
     //   findCareObj.childNavs = []
     // }
@@ -676,16 +752,42 @@ const AppBarComponent = () => {
           <InlineInnerContainer>
             <Name>{userName}</Name>
             <Member>Member ID: {customerInfo.data.memberId}</Member>
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_EN_URL + "/selectLanguage?selectedLang=en"} className="langLink lang-btn" data-lang="en" mporgnav="" active={customerInfo.data.language === 'en'}> EN </Lang> |
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_ES_URL + "/selectLanguage?selectedLang=es"} className="langLink lang-btn" data-lang="es" mporgnav="" active={customerInfo.data.language === 'es'}>  ES </Lang> |
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_ZH_URL + "/selectLanguage?selectedLang=zh"} className="langLink lang-btn" data-lang="zh" mporgnav="" active={customerInfo.data.language === 'zh'}>  中文  </Lang>
+            <FeatureTreatment
+              treatmentName={SHOW_TRANSLATION_LINKS}
+              onLoad={() => { }}
+              onTimedout={() => { }}
+              attributes={splitAttributes}
+            >
+            <>
+              <Lang href={MIX_REACT_LOFL_LANGUAGE_EN_URL + "/selectLanguage?selectedLang=en"} className="langLink lang-btn" data-lang="en" mporgnav="" active={customerInfo.data.language === 'en'}> EN </Lang> |
+              <Lang href={MIX_REACT_LOFL_LANGUAGE_ES_URL + "/selectLanguage?selectedLang=es"} className="langLink lang-btn" data-lang="es" mporgnav="" active={customerInfo.data.language === 'es'}>  ES </Lang> |
+              <Lang href={MIX_REACT_LOFL_LANGUAGE_ZH_URL + "/selectLanguage?selectedLang=zh"} className="langLink lang-btn" data-lang="zh" mporgnav="" active={customerInfo.data.language === 'zh'}>  中文  </Lang>
+            </>
+            </FeatureTreatment>
             <SetDiv>
               <SettImg alt = "" src={`${window.location.origin}/react/images/icn-gear.svg`} />
               <Settings 
-              onClick={(e) => handleClick(e, '/settings', '', 'Account Settings')}>
+              onClick={(e) => handleClick(e, '/settings', '', 'Account Settings', 'Account Settings')}>
                 Account Settings</Settings>
             </SetDiv>
             <DocLink />
+            <FeatureTreatment
+              key={SHOW_MY_REWARDS}
+              treatmentName={SHOW_MY_REWARDS}
+              onLoad={() => { }}
+              onTimedout={() => { }}
+              attributes={splitAttributes}
+            >
+              <SetDiv>
+                <SettImg alt = "" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-coin.svg`} />
+                <Settings onClick={(e) => {
+                  handleClick(e, '/my-rewards', '', 'My Rewards','My Rewards');
+                  setOpenUserCard(false)
+                }}>
+                  My Rewards
+                </Settings>
+              </SetDiv>
+            </FeatureTreatment>
           </InlineInnerContainer>
         </CardNav>
         <HorizontalDivider />
@@ -695,7 +797,7 @@ const AppBarComponent = () => {
               return (
                 <React.Fragment key={`${eachNav.href}`}>
                   {
-                  eachNav.treatmentName  ? 
+                  eachNav.treatmentName  ?
                    <FeatureTreatment
                          key={`${eachNav?.treatmentName}_${index}`}
                          treatmentName={eachNav?.treatmentName}
@@ -704,7 +806,7 @@ const AppBarComponent = () => {
                          attributes={splitAttributes}
                        >
                   <>
-                  {(eachNav?.treatmentName === SHOW_PAYMENTS && (!paymentsEnabled && !binderEnabled)) ? null : 
+                  {(eachNav?.treatmentName === SHOW_PAYMENTS && (!paymentsEnabled && !binderEnabled)) ? null :
                   <div className={`${eachNav?.mobileCoachmark}`} >
                     <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, eachNav.href, 'parent',eachNav?.label, eachNav?.labelForSegment)} button key={eachNav.href}>
                         <ListItemIcon>
@@ -728,29 +830,45 @@ const AppBarComponent = () => {
                               }
                             </>
                           }
+                           {
+                            eachNav.href === '/my-health' &&
+                            <>
+                              {
+                                (window.location.pathname === eachNav.href || myHealthObj.childNavs.find(cNav => cNav.href === window.location.pathname) || selectedParentTab === eachNav.href) ?
+                                  <LogoImg alt = "" src={eachNav.activeIcon} /> :
+                                  <LogoImg alt = "" src={eachNav.inactiveIcon} />
+                              }
+                            </>
+                          }
                           {
-                            eachNav.href !== '/findcare' && eachNav.href !== '/home' &&
+                            eachNav.href !== '/findcare' && eachNav.href !== '/home' && eachNav.href !== '/my-health' &&
                                 (
                                 window.location.pathname === eachNav.href ?
                                   <LogoImg alt = "" src={eachNav.activeIcon} /> :
                                   <LogoImg alt = "" src={eachNav.inactiveIcon} />)
-                                 
+
                           }
                         </ListItemIcon>
                         <ListItemText className={selectedParentTab === eachNav.href ? `tab-active` : `tab-inactive`}>
                           {eachNav.label}</ListItemText>
-                          
+
                         {eachNav.type === 'navItem' && ['/home'].some(x => x === eachNav.href) && (
                           <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')} >
-                            <LogoImg alt = "" src={((eachNav.href === '/home' && homeMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
+                            <LogoImg alt = "" src={((eachNav.href === '/home' && homeMobileItems) ||(eachNav.href === '/my-health' && myHealthMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
                           </ListItemIcon>
                         )}
                         {eachNav.type === 'navItem' && ['/findcare'].some(x => x === eachNav.href) && !(window.location.pathname === "/search" || window.location.pathname === "/details") && (
-                        
+
                          <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')} >
-                            <LogoImg alt = "" src={((eachNav.href === '/home' && homeMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
+                            <LogoImg alt = "" src={((eachNav.href === '/home' && homeMobileItems) ||(eachNav.href === '/my-health' && myHealthMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
                           </ListItemIcon>
                         )}
+                        {eachNav.type === 'navItem' && ['/my-health'].some(x => x === eachNav.href) && (
+
+                        <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')} >
+                           <LogoImg alt = "" src={((eachNav.href === '/home' && homeMobileItems) || (eachNav.href === '/my-health' && myHealthMobileItems) || (eachNav.href === '/' && findCareMobileItems) ) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
+                         </ListItemIcon>
+                       )}
                       </ListItem>
                     {
                       eachNav.href === '/home' && eachNav.type === 'navItem' && (
@@ -786,9 +904,9 @@ const AppBarComponent = () => {
                   </div>
                   }
                   </>
-                  </FeatureTreatment> : 
-                   <div className={`${eachNav?.mobileCoachmark}`} >
-                   <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, eachNav.href, 'parent',eachNav?.label,eachNav?.labelForSegment)} button key={eachNav.href}>
+                  </FeatureTreatment> :
+                   <div key={index} className={`${eachNav?.mobileCoachmark}`} >
+                   <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, eachNav.href, 'parent',eachNav?.label,eachNav?.labelForSegment)} button key={index}>
                        <ListItemIcon>
                          {
                            eachNav.href === '/home' &&
@@ -810,8 +928,20 @@ const AppBarComponent = () => {
                              }
                            </>
                          }
+
+{
+                           eachNav.href === '/my-health'  &&
+                           <>
+                             {
+                               (window.location.pathname === eachNav.href || myHealthObj.childNavs.find(cNav => cNav.href === window.location.pathname) || selectedParentTab === eachNav.href) ?
+                                 <LogoImg alt = "" src={eachNav.activeIcon} /> :
+                                <LogoImg alt = "" src={eachNav.inactiveIcon} />
+                             }
+                           </>
+                         }
+
                          {
-                           eachNav.href !== '/findcare' && eachNav.href !== '/home' &&
+                           eachNav.href !== '/findcare' && eachNav.href !== '/home' && eachNav.href !== '/my-health'&&
                                (
                                window.location.pathname === eachNav.href ?
                                <>
@@ -822,18 +952,24 @@ const AppBarComponent = () => {
                        </ListItemIcon>
                        <ListItemText className={selectedParentTab === eachNav.href ? `tab-active` : `tab-inactive`}>
                          {eachNav.label}</ListItemText>
-                         
+
                        {eachNav.type === 'navItem' && ['/home'].some(x => x === eachNav.href) && (
                          <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')} >
                            <LogoImg alt = "" src={((eachNav.href === '/home' && homeMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
                          </ListItemIcon>
                        )}
                        {eachNav.type === 'navItem' && ['/findcare'].some(x => x === eachNav.href) && !(window.location.pathname === "/search" || window.location.pathname === "/details") && (
-                       
+
                         <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')} >
                            <LogoImg alt = "" src={((eachNav.href === '/home' && homeMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
                          </ListItemIcon>
                        )}
+                        {eachNav.type === 'navItem' && ['/my-health'].some(x => x === eachNav.href)  && (
+
+                       <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')} >
+                          <LogoImg alt = "" src={((eachNav.href === '/home' && homeMobileItems) ||(eachNav.href === '/my-health' && myHealthMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
+                        </ListItemIcon>
+                      )}
                      </ListItem>
                    {
                      eachNav.href === '/home' && eachNav.type === 'navItem' && (
@@ -850,7 +986,7 @@ const AppBarComponent = () => {
                                    attributes={splitAttributes}
                                  >
                                    <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, childNav.href, 'child', childNav?.label)} button>
-                                  
+
                                      <ListItemIcon>{selectedChildTab === childNav.href ? <LogoImg alt = "" src={childNav.activeIcon} /> : <LogoImg alt="" src={childNav.inactiveIcon} />}</ListItemIcon>
                                      <ListItemText className={selectedChildTab === childNav.href ? 'child-tab-active' : 'child-tab-inactive'}>{childNav.label}</ListItemText>
                                    </ListItem>
@@ -899,6 +1035,38 @@ const AppBarComponent = () => {
                         <HorizontalDivider />
                       </Collapse>
                     )
+                  }{
+                    eachNav.href === '/my-health' && eachNav.type === 'navItem' && (
+                      <Collapse in={myHealthMobileItems} timeout="auto" unmountOnExit key={myHealthObj.href} component="li">
+                        <List>
+                          {myHealthObj.childNavs && myHealthObj.childNavs.length > 0 && myHealthObj.childNavs.map((childNav, childInd) => {
+                            return  (
+                              childNav.treatmentName ?
+                                (<FeatureTreatment
+                                  treatmentName={childNav.treatmentName}
+                                  key={`${childNav.treatmentName}_${childInd}`}
+                                  onLoad={() => { }}
+                                  onTimedout={() => { }}
+                                  attributes={splitAttributes}
+                                >
+                                  <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, childNav.href, 'child', childNav?.label,childNav?.labelForSegment)} button>
+                                    <ListItemIcon>{selectedChildTab === childNav.href ? <LogoImg alt = "" src={childNav.activeIcon} /> : <LogoImg alt = "" src={childNav.inactiveIcon} />}</ListItemIcon>
+                                    <ListItemText className={selectedChildTab === childNav.href ? 'child-tab-active' : 'child-tab-inactive'}>{childNav.label}</ListItemText>
+                                  </ListItem>
+                                </FeatureTreatment>) : (
+                                  <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, childNav.href, 'child', childNav?.label,childNav?.labelForSegment)} button>
+                                    <ListItemIcon>{selectedChildTab === childNav.href ? <LogoImg alt = "" src={childNav.activeIcon} /> : <LogoImg alt="" src={childNav.inactiveIcon} />}</ListItemIcon>
+                                    <ListItemText className={selectedChildTab === childNav.href ? 'child-tab-active' : 'child-tab-inactive'}>{childNav.label}</ListItemText>
+                                  </ListItem>
+                                )
+                            )
+
+                          })}
+                        </List>
+                        <HorizontalDivider />
+                      </Collapse>
+                    )
+
                   }
 
                 </React.Fragment>
@@ -910,7 +1078,7 @@ const AppBarComponent = () => {
       </>
     )
   }
-  
+
   return (
     !customerInfo.loading && <React.Fragment>
       <LongLoadSpinner show={loaderShow} />
@@ -939,7 +1107,7 @@ const AppBarComponent = () => {
                 aria-label="open drawer"
                 edge="end"
                 onClick={handleDrawerOpen}
-                className={`navbar-hamburger-coachmarks ${drawerOpen && 'drawer-is-open-coachmarks'}`}
+                className={`navbar-hamburger-coachmarks no-print ${drawerOpen && 'drawer-is-open-coachmarks'}`}
               >
                 {!drawerOpen ? <MobileHamburgerImg alt = "" src={`${window.location.origin}/react/images/icn-hamburger.svg`} /> :
                   <MobileCloseImg alt = "" src={`${window.location.origin}/react/images/icn-close.svg`} />}
@@ -947,14 +1115,14 @@ const AppBarComponent = () => {
             </Toolbar>
           </ThemeProvider>
           <div className={classes.root} >
-            <DrawerOverlay display={drawerOpen} >
+            <DrawerOverlay display={String(drawerOpen)} >
               <Drawer
                 id="mobileDrawer"
                 variant="persistent"
                 anchor="right"
                 open={drawerOpen}
                 classes={{ paper: appBarPosition === "relative" ? classes.drawerPaperRelative : classes.drawerPaper }}
-                containerStyle={{ background: 'white' }}
+               // containerStyle={{ background: 'white' }}
               >
                 <StickyDrawer>
                   <Divider />
@@ -981,7 +1149,7 @@ const AppBarComponent = () => {
 
 const DrawerOverlay = styled.div`
   position:fixed;
-  display:${({ display }) => display ? "block" : "none"};
+  display:${({ display }) => display!="false" ? "block" : "none"};
   left:0;
   background-color: rgba(0, 42, 74, 0.72);
   width: 100%;
@@ -990,7 +1158,7 @@ const DrawerOverlay = styled.div`
 const StickyDrawer = styled.div`
   position:sticky;
   top:0;
-  
+
   display: flex;
   flex-direction: column;
 `
@@ -1090,7 +1258,7 @@ const SettImg = styled.img`
     width: 20px;
     height: 20px;
     /* border: 2px solid red; */
-    
+
     img{
         display: block;
         width: 100%;
@@ -1103,7 +1271,7 @@ const Settings = styled.span`
   color: #008bbf;
   font-size: 14px;
   font-weight: 500;
-  font-family: "museo-sans",san-serif; 
+  font-family: "museo-sans",san-serif;
   font-stretch: normal;
   font-style: normal;
   line-height: 3;
@@ -1236,7 +1404,7 @@ const IconContainer = styled.div`
   display: list-item;
   border-radius: 50%;
   text-align: -webkit-center;
-  
+
   ::marker {
     color: transparent;
   }
