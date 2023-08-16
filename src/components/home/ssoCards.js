@@ -251,7 +251,7 @@ const SSOCards = () => {
         onLoad={() => { }}
         onTimedout={() => { }}
         attributes={splitAttributes}>
-        <ExternalLinkTxt>TEST2 External Links</ExternalLinkTxt>
+        <ExternalLinkTxt>External Links</ExternalLinkTxt>
         {displayExternalLinkCards()}
       </FeatureTreatment>
     </>
