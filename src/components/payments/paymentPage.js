@@ -135,7 +135,7 @@ const PaymentPage = () => {
     handleSegmentBtn("Monthly premium payment", !showNewPaymentsApp && MIX_REACT_APP_PAYMENT_SITE_HREF);
     setShowPortal(showNewPaymentsApp);
   };
-  if(paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "off") return (<GlobalError />);
+  if(  customerInfo.data.hohPlans.length === 1 && paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "off") return (<GlobalError />);
 
   if(showPortal) return (
   <PaymentPortalWrapper>

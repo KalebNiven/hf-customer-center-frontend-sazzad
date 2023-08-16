@@ -8,6 +8,7 @@ const MyRewards = () => {
 
   const { MIX_REACT_TRAILBLAZER_WIDGET_BASE_URL } = process.env;
   const customerInfo = useSelector((state) => state.customerInfo.data);
+  const memberId = customerInfo?.hohPlans[0]?.MemberId;
   const jwt_token = customerInfo.id_token
   const updatedJwt = (jwt_token === undefined ? jwt_token : jwt_token.replace('Bearer ', ''));
   const [existingScript, setExistingScript] = useState(document.getElementById(MY_REWARDS_SCRIPT_ID));
@@ -22,10 +23,9 @@ const MyRewards = () => {
       history.push({pathname: '/findcare'});
     }
   };
-
   const mountProps = {
       parentElement: '#rw-main',
-      memberId:customerInfo.memberId,
+      memberId: memberId,
       appId: 'CUSTOMER_CENTER',
       authorizer: 'OKTA',
       lang: customerInfo.language,

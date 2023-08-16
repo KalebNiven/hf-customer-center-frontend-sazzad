@@ -131,7 +131,7 @@ const MailMemberIDCardForm = (props) => {
     useEffect(() => {
         if(!verifyAddress.loading){
             if(verifyAddress.address){
-                addAddress(firstName, lastName, verifyAddress.address.addr1, verifyAddress.address.addr2, verifyAddress.address.city, verifyAddress.address.state, verifyAddress.address.zip, 'suggested');
+                setSelectedAddress(addAddress(firstName, lastName, verifyAddress.address.addr1, verifyAddress.address.addr2, verifyAddress.address.city, verifyAddress.address.state, verifyAddress.address.zip, 'suggested'));
                 setStep("Suggested");
             }
             else{
@@ -218,6 +218,7 @@ const MailMemberIDCardForm = (props) => {
             sourceType: sourceType
         };
         setAddresses([...addresses, address]);
+        return address;
     };
 
     const resetFormFields = () => {
@@ -242,6 +243,7 @@ const MailMemberIDCardForm = (props) => {
         resetFormFields();
         setAddresses([]);
         setSelectedAddress(null);
+        setAddressOnFile(null);
         unmountMe();
         Cookies.set("MailMeIdCard", "true", { expires: 1 });
         setTimeout(() => {
@@ -354,8 +356,7 @@ const MailMemberIDCardForm = (props) => {
 
         // check if the questions is the last one
         if (isValid) {
-            addAddress(firstName, lastName, streetAddress, streetAddressTwo, city, stateCd.code, zipCode, 'userInput');
-            setSelectedAddress(addresses[0]);
+            setSelectedAddress(addAddress(firstName, lastName, streetAddress, streetAddressTwo, city, stateCd.code, zipCode, 'userInput'));
             dispatch(requestVerifyAddress(streetAddress, streetAddressTwo, city, stateCd.code, zipCode));
         } else {
             //goToFirstStep();
@@ -375,7 +376,12 @@ const MailMemberIDCardForm = (props) => {
     };
 
     const goToFirstStep = () => {
-        setStep(1);
+        if(addressOnFile != null){
+            setStep(1); 
+        }
+        else{
+            setStep(0);
+        }
     };
 
     const renderSwitch = (step) => {
@@ -464,6 +470,10 @@ const MailMemberIDCardForm = (props) => {
                                 <FormModalHeader>
                                     Mail Me a New ID Card
                                 </FormModalHeader> 
+                                <FormModalSubHeader>
+                                    The new ID card will be mailed to the address below.
+                                </FormModalSubHeader> 
+                                <br />
                                 {addressOnFile && !streetAddress? (
                                     <InfoWrapper>
                                         <MemberDetailsFullName>
@@ -522,7 +532,7 @@ const MailMemberIDCardForm = (props) => {
                                                         "Mail Order ID Card Submit Button Clicked",
                                                         customerInfo,
                                                         {
-                                                            raw_text: "Submit",
+                                                            raw_text: "Confirm Address",
                                                             destination_url: null,
                                                             category:
                                                                 ANALYTICS_TRACK_CATEGORY.memberIdCard,
@@ -549,7 +559,7 @@ const MailMemberIDCardForm = (props) => {
                                                     );
                                                 }}
                                             >
-                                                Submit
+                                                Confirm Address
                                             </FormButton>
                                         ) : (
                                             <FormButton green={true}>
@@ -583,9 +593,10 @@ const MailMemberIDCardForm = (props) => {
                         <FormModalHeader>
                             Confirm Mailing Address
                         </FormModalHeader>
-                        <SubHeader>
+                        <ConfirmationSubHeader>
                             We were unable to verify your address. Please select the address you’d like to use to ensure a timely delivery. 
-                        </SubHeader>
+                        </ConfirmationSubHeader>
+                        <br />
                         <>
                         {addresses.map(((address) => (
                             <>
@@ -605,16 +616,14 @@ const MailMemberIDCardForm = (props) => {
                                         </MemeberDetailFieldWrapper>
                                         <div>
                                             {
-                                                addressOnFile && (
-                                                    <MemeberDetailFieldWrapper>
-                                                        <MemeberDetailField>{address.streetAddress ? address.streetAddress : ""} {address.streetAddressTwo ? address.streetAddressTwo : ""}</MemeberDetailField>
-                                                        <MemeberDetailField>
-                                                            {address.city},{" "}
-                                                            {address.state},{" "}
-                                                            {address.zip}
-                                                        </MemeberDetailField>
-                                                    </MemeberDetailFieldWrapper>
-                                                )
+                                                <MemeberDetailFieldWrapper>
+                                                    <MemeberDetailField>{address.streetAddress ? address.streetAddress : ""} {address.streetAddressTwo ? address.streetAddressTwo : ""}</MemeberDetailField>
+                                                    <MemeberDetailField>
+                                                        {address.city},{" "}
+                                                        {address.state},{" "}
+                                                        {address.zip}
+                                                    </MemeberDetailField>
+                                                </MemeberDetailFieldWrapper>
                                             }
 
                                         </div>
@@ -633,11 +642,51 @@ const MailMemberIDCardForm = (props) => {
                         )))}
                         </>
                         <FormButtonWrapper>
-                            <FormButton green={true} onClick={() => submitForm()}>
+                        {!submitMailMemberIDCardFormResponse.loading ? (
+                            <FormButton
+                                green={true}
+                                onClick={(event) => {
+                                    submitForm();
+                                    AnalyticsTrack(
+                                        "Mail Order ID Card Submit Button Clicked",
+                                        customerInfo,
+                                        {
+                                            raw_text: "Confirm Address",
+                                            destination_url: null,
+                                            category:
+                                                ANALYTICS_TRACK_CATEGORY.memberIdCard,
+                                            type:
+                                                ANALYTICS_TRACK_TYPE.linkClicked,
+                                            location: {
+                                                desktop: {
+                                                    width: 1024,
+                                                    value:
+                                                        "center",
+                                                },
+                                                tablet: {
+                                                    width: 768,
+                                                    value:
+                                                        "center",
+                                                },
+                                                mobile: {
+                                                    width: 0,
+                                                    value:
+                                                        "center",
+                                                },
+                                            },
+                                        }
+                                    );
+                                }}
+                            >
                                 Confirm Address
                             </FormButton>
-                            <FormButton green={false} onClick={closeForm}>
-                                Cancel
+                        ) : (
+                            <FormButton green={true}>
+                                <ProgressSpinner></ProgressSpinner>
+                            </FormButton>
+                        )}
+                            <FormButton green={false} onClick={() => handleBack()}>
+                                Back
                             </FormButton>
                         </FormButtonWrapper>
                     </div>
@@ -715,6 +764,14 @@ const FormModalHeader = styled(Header)`
     margin-bottom: 1rem;
 `;
 
+const FormModalSubHeader = styled.h3`
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.5rem;
+    color: #474B55;
+`;
+
 const SubHeader = styled.h3`
     margin: 4px 4px 8px 0;
     font-size: 16px;
@@ -724,6 +781,10 @@ const SubHeader = styled.h3`
     line-height: 24px;
     letter-spacing: normal;
     color: #474b55;
+`;
+
+const ConfirmationSubHeader = styled(SubHeader)`
+    font-weight: 300;
 `;
 
 const AddressField = styled.div`
@@ -930,6 +991,9 @@ const EditAddrressButton = styled.button`
   &:active {
     background-color: rgb(230, 244, 249);
   }
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+}
 `;
 
 const EditAddrressButtonImg = styled.img`

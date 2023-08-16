@@ -13,7 +13,7 @@ import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import LongLoadSpinner from "./components/common/longLoadSpinner"
-import { SHOW_DOC, SHOW_CLAIMS, SHOW_AUTHS, SHOW_COVERAGE_AND_BENEFITS, SHOW_MEMBER_ID_CARD, SHOW_PRIMARY_CARE_PROVIDER, SHOW_MYHEALTH, SHOW_HOME, SHOW_PAYMENTS, SHOW_PAYMENTS_REACT_APP, PAYMENTS_ACL, BINDER_ACL, SHOW_PCP_SUB_NAV, SHOW_TRANSLATION_LINKS, SHOW_HEALTH_ASSESMENT_SURVEY, SHOW_MY_HEALTH_CHECKLIST, SHOW_NOW_POW, SHOW_MY_REWARDS, OTC_WIDGET_PAGE } from "./constants/splits";
+import { SHOW_DOC, SHOW_CLAIMS, SHOW_AUTHS, SHOW_COVERAGE_AND_BENEFITS, SHOW_MEMBER_ID_CARD, SHOW_PRIMARY_CARE_PROVIDER, SHOW_MYHEALTH, SHOW_HOME, SHOW_PAYMENTS, SHOW_PAYMENTS_REACT_APP, PAYMENTS_ACL, BINDER_ACL, SHOW_PCP_SUB_NAV, SHOW_TRANSLATION_LINKS, SHOW_HEALTH_ASSESMENT_SURVEY, SHOW_MY_HEALTH_CHECKLIST, SHOW_NOW_POW, OTC_WIDGET_PAGE, SHOW_MY_REWARDS } from "./constants/splits";
 import { FeatureTreatment } from "./libs/featureFlags";
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { useAppContext } from './AppContext';
@@ -26,6 +26,7 @@ import { useLocation } from 'react-router';
 import { usePaymentsModalContext } from './context/paymentsModalContext';
 import { purgePaymentsSessionData } from './components/payments/paymentPortal';
 import { generateCardType } from './components/overTheCounter/utils';
+import { getSplitAttributesForHOHPlan } from './utils/misc';
 
 const LINK_TYPE = { external: "External", cc: "CC" }
 
@@ -77,6 +78,7 @@ const AppBarComponent = () => {
   const [homeMobileItems, setHomeMobileItems] = useState(false);
   const [findCareMobileItems, setFindCareMobileItems] = useState(false);
   const [myHealthMobileItems, setmyHealthMobileItems] = useState(false);
+  const [showPaymentFlag, setShowPaymentFlag] = useState(false);
   const history = useHistory();
   const { MIX_REACT_LOFL_LANGUAGE_EN_URL } = process.env;
   const { MIX_REACT_LOFL_LANGUAGE_ES_URL } = process.env;
@@ -86,13 +88,16 @@ const AppBarComponent = () => {
   const [loaderShow, setLoaderShow] = useState(sessionStorage.getItem("longLoad"))
   const { drawerOpen, setDrawerOpen, globalError } = useAppContext()
   const { currentStep, setCurrentStep, run, setRun, setIsStart } = useCoachMarksContext()
+  const [showReward,setShowReward] = useState(false)
   const appBarRef = useRef(null)
   const [appBarPosition, setAppBarPosition] = useState("relative")
   const [paymentsEnabled, setPaymentsEnabled] = useState(false);
   const [binderEnabled, setBinderEnabled] = useState(false);
+  const [rewardsEnabled, setRewardsEnabled] = useState(false);
   const [reactPaymentsPortalEnabled, setReactPaymentsPortalEnabled] = useState(false);
   const location = useLocation();
   const { resetPaymentsModal } = usePaymentsModalContext();
+  const [loadSplit,setLoadSplit] = useState({treatment: 'control', config: null});
   let nav;
 
   useEffect(() => {
@@ -105,28 +110,62 @@ const AppBarComponent = () => {
     setLoaderShow(longLoad)
   }, [sessionStorage.getItem("longLoad")])
 
-  const splitAttributes = {
-    memberId: customerInfo.data.memberId,
-    customerId: customerInfo.data.customerId,
+  const splitAttributes = { 
+    memberId: customerInfo.data.memberId, 
+    customerId: customerInfo.data.customerId, 
     lob: customerInfo.data.sessLobCode,
     companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus:customerInfo.data.membershipStatus,
-    accountStatus:customerInfo.data.accountStatus,
+    benefitPackage: customerInfo.data.benefitPackage, 
+    membershipStatus:customerInfo.data.membershipStatus, 
+    accountStatus:customerInfo.data.accountStatus, 
   }
+
 
   const splitHookClient = useClient();
 
-  const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, splitAttributes)
-  const binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes)
-  const showReactPaymentsPortal = splitHookClient.getTreatmentWithConfig(SHOW_PAYMENTS_REACT_APP, splitAttributes)
-
   useEffect(() => {
-      if(!splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control" || showReactPaymentsPortal.treatment === "control") return;
-          setPaymentsEnabled(paymentsEnabledTreatment.treatment === "off" ? false : paymentsEnabledTreatment.treatment === "on" ? true : false)
-          setBinderEnabled(binderEnabledTreatment.treatment === "off" ? false : binderEnabledTreatment.treatment === "on" ? true : false)
-          setReactPaymentsPortalEnabled(showReactPaymentsPortal.treatment === "off" ? false : showReactPaymentsPortal.treatment === "on" ? true : false)
-  }, [splitHookClient, paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal])
+      if (loadSplit.treatment !== "control") return ;
+          splitAttribute();
+  }, [loadSplit]);
+
+  const splitAttribute = () => {
+    customerInfo.data.hohPlans.forEach((value, index) => {
+          splitTreatment(getSplitAttributesForHOHPlan(customerInfo.data,index));
+      });
+  };
+
+
+  const splitTreatment = (attributes) =>{
+    let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
+      PAYMENTS_ACL,
+      attributes
+  );
+   let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(
+      BINDER_ACL,
+      attributes
+  );
+    let showReactPaymentsPortal = splitHookClient.getTreatmentWithConfig(
+      SHOW_PAYMENTS_REACT_APP,
+      attributes
+  );    
+    let rewardsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
+      SHOW_MY_REWARDS,
+      attributes
+  );  
+
+  checkTreatment(paymentsEnabledTreatment,binderEnabledTreatment,showReactPaymentsPortal,rewardsEnabledTreatment)
+    
+  };
+
+  const checkTreatment = (paymentsEnabledTreatment,binderEnabledTreatment,showReactPaymentsPortal,rewardsEnabledTreatment) =>{
+    setLoadSplit(paymentsEnabledTreatment)
+    if(!splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control" || showReactPaymentsPortal.treatment === "control") return;
+    setPaymentsEnabled(paymentsEnabledTreatment.treatment === "off" ? false : paymentsEnabledTreatment.treatment === "on" ? setShowPaymentFlag(true) : false)
+    setBinderEnabled(binderEnabledTreatment.treatment === "off" ? false : binderEnabledTreatment.treatment === "on" ? setShowPaymentFlag(true) : false)
+    setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false)
+    setReactPaymentsPortalEnabled(showReactPaymentsPortal.treatment === "off" ? false : showReactPaymentsPortal.treatment === "on" ? true : false)
+  }
+  
 
   const getLangURLPrefix = (lang) => {
     switch (lang) {
@@ -206,13 +245,7 @@ const AppBarComponent = () => {
               </Settings>
             </SetDiv>
             <DocLink/>
-            <FeatureTreatment
-              key={SHOW_MY_REWARDS}
-              treatmentName={SHOW_MY_REWARDS}
-              onLoad={() => { }}
-              onTimedout={() => { }}
-              attributes={splitAttributes}
-            >
+{showReward &&
               <SetDiv>
                 <SettImg alt = "" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-coin.svg`} />
                 <Settings onClick={(e) => {
@@ -222,7 +255,7 @@ const AppBarComponent = () => {
                   My Rewards
                 </Settings>
               </SetDiv>
-            </FeatureTreatment>
+ }
           </InlineInnerContainer>
           <HorizontalDivider />
           <Logout
@@ -255,7 +288,7 @@ const AppBarComponent = () => {
     href: "/coverage-and-benefits",
     treatmentName: SHOW_COVERAGE_AND_BENEFITS
   }, {
-    label: generateCardType(customerInfo.data?.hohPlans),
+    label: generateCardType(customerInfo?.data?.hohPlans),
     labelForSegment: "OTC",
     href: "/otc-widget",
     treatmentName: OTC_WIDGET_PAGE
@@ -316,7 +349,7 @@ const AppBarComponent = () => {
       }],
       coachmark: "findCareNavItem-coachmark",
       mobileCoachmark: "findCareMobileNav-coachmark",
-      treatmentName: SHOW_PRIMARY_CARE_PROVIDER
+      treatmentName: SHOW_PCP_SUB_NAV
     },
     {
       activeIcon: `${window.location.origin}/react/images/icn-cash-active.svg`,
@@ -389,7 +422,7 @@ const AppBarComponent = () => {
     }
     resetPaymentsModal();
     handleSegmentBtn(param,eachNavLabel,labelForSegment)
-    if (['/claims', '/authorizations', '/coverage-and-benefits','/home','/idcard','/my-health', '/findcare', '/pcp','/my-health/annual-health-assessment','/my-health/my-health-checklist','/my-health','/my-health/community-resources','/my-rewards'].some(x => x === param)) {
+    if (['/claims', '/authorizations', '/coverage-and-benefits','/home','/idcard','/my-health', '/findcare', '/pcp','/my-health/annual-health-assessment','/my-health/my-health-checklist','/my-health','/my-health/community-resources','/my-rewards', '/otc-widget'].some(x => x === param)) {
       history.push(param)
     }
     else if(param === '/settings'){
@@ -452,22 +485,29 @@ const AppBarComponent = () => {
     setValue(value);
   }
 
+  const checkSplit  = (label) =>{
+     if(showPaymentFlag && label == "Payments"){
+      return undefined
+    }
+    return splitAttributes
+  }
+
   const getParentNav = () => {
     return (
       <div id="navbar" style={{ display: 'flex', height: '64px', paddingLeft: "15px" }}>
         <Tabs value={value} TabIndicatorProps={{ style: { position: "absolute", left: "-999px" } }} onChange={handlTabs}>
           {navItems.map((eachNav, index) => {
             return (
-                eachNav.treatmentName ?(
+                eachNav.treatmentName  ?(
                 <FeatureTreatment
                     key={`${eachNav.treatmentName}_${index}`}
                     treatmentName={eachNav.treatmentName}
                     onLoad={() => { }}
                     onTimedout={() => { }}
-                    attributes={splitAttributes}
+                    attributes={checkSplit(eachNav.label)}
                   >
                 <>
-                {eachNav.treatmentName === SHOW_PAYMENTS && (!paymentsEnabled && !binderEnabled) ? null :
+                { !showPaymentFlag && eachNav.label == "Payments" ? null :
                 <Tab
                   key={`${eachNav.href}_${index}`}
                   style={selectedParentTab === eachNav.href ? tabStyle.active : tabStyle.default}
@@ -734,6 +774,7 @@ const AppBarComponent = () => {
             </SetDiv>
         );
     };
+//Iterate over all HohPlans - Check those any of those come back as true - display payments.both false - dont display  
 
   const displayNavMenu = () => {
     nav = [...navItems]
@@ -771,13 +812,7 @@ const AppBarComponent = () => {
                 Account Settings</Settings>
             </SetDiv>
             <DocLink />
-            <FeatureTreatment
-              key={SHOW_MY_REWARDS}
-              treatmentName={SHOW_MY_REWARDS}
-              onLoad={() => { }}
-              onTimedout={() => { }}
-              attributes={splitAttributes}
-            >
+            {showReward &&
               <SetDiv>
                 <SettImg alt = "" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-coin.svg`} />
                 <Settings onClick={(e) => {
@@ -787,7 +822,7 @@ const AppBarComponent = () => {
                   My Rewards
                 </Settings>
               </SetDiv>
-            </FeatureTreatment>
+   }
           </InlineInnerContainer>
         </CardNav>
         <HorizontalDivider />
@@ -806,7 +841,7 @@ const AppBarComponent = () => {
                          attributes={splitAttributes}
                        >
                   <>
-                  {(eachNav?.treatmentName === SHOW_PAYMENTS && (!paymentsEnabled && !binderEnabled)) ? null :
+                  {!showPaymentFlag? null :
                   <div className={`${eachNav?.mobileCoachmark}`} >
                     <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, eachNav.href, 'parent',eachNav?.label, eachNav?.labelForSegment)} button key={eachNav.href}>
                         <ListItemIcon>

@@ -157,7 +157,7 @@ const HomePage = () => {
                 </div>} */}
                 {/* <TooltipIcon ref={setTriggerRef} /> */}
               </StatusContainer>
-              { isEligibleForRecertDate(hohPlans?.[0]?.CompanyNumber, hohPlans?.[0]?.BenefitPackage, hohPlans?.[0]?.renewalDate) && <RecertDate>{getRecertificationDate(companyCode, benefitPackage, hohPlans?.[0]?.renewalDate)}</RecertDate> }
+              { isEligibleForRecertDate(hohPlans?.[0]?.CompanyNumber, hohPlans?.[0]?.BenefitPackage, hohPlans?.[0]?.renewalDate) && <RecertDate>{getRecertificationDate(hohPlans?.[0]?.CompanyNumber, hohPlans?.[0]?.BenefitPackage, hohPlans?.[0]?.renewalDate)}</RecertDate> }
             </StatusWrapper>
           <FeatureTreatment
               treatmentName={SHOW_MEMBER_ID_CARD}
