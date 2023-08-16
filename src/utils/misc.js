@@ -35,3 +35,15 @@ export const isEligibleForRecertDate = (companyCode, benefitPackage, renewalDate
         return false;
     }
 }
+export const getSplitAttributesForHOHPlan = (customerInfoData,index) =>{
+    let attributes = {
+        customerId: customerInfoData.customerId,
+        accountStatus: customerInfoData.accountStatus,
+        memberId: customerInfoData.memberId,
+        lob: customerInfoData.sessLobCode,
+        membershipStatus:customerInfoData.membershipStatus,
+        companyCode: customerInfoData.hohPlans[index].CompanyNumber ,
+        benefitPackage: customerInfoData.hohPlans[index].BenefitPackage
+      };
+      return attributes;
+}

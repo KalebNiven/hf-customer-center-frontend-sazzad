@@ -20,6 +20,7 @@ import { useSSOModalContext } from '../../context/ssoModalContext'
 import { NOTICE, SSO } from '../overTheCounter/config'
 import NoticeLink from "../common/noticeLink";
 import AcknowledgmentModal from "../common/acknowledgmentModal";
+import { getSplitAttributesForHOHPlan } from "../../utils/misc";
 
 const SSOCards = () => {
 
@@ -39,6 +40,8 @@ const SSOCards = () => {
   const { MIX_REACT_APP_SILVER_SNEAKERS_HREF } = process.env;
   const { MIX_REACT_APP_HEALTH_EQUITY_HREF } = process.env;
   const { MIX_REACT_APP_NATIONS_HEARING_HREF } = process.env;
+  const [showReward, setShowReward]=useState(false);
+  const [rewardsEnabled, setRewardsEnabled] = useState(false);
   const [costEstimatorWidgetEnabled, setCostEstimatorWidgetEnabledEnabled] = useState(false);
   const [managePrescriptionNoticeEnabled, setManagePrescriptionNoticeEnabled] = useState(false);
 
@@ -59,12 +62,17 @@ const SSOCards = () => {
   const splitHookClient = useClient(customerInfo?.data?.customerId === null ? 'Anonymous' : customerInfo?.data?.customerId)
 
   useEffect(() => {
+    splitAttributes.companyCode.map((value, index) =>{ 
+    let rewardsEnabledTreatment = splitHookClient.getTreatmentWithConfig( SHOW_MY_REWARDS, getSplitAttributesForHOHPlan(customerInfo.data,index)); 
+
       if(!splitHookClient) return;
           const showCostEstimatorWidgetTreatment = splitHookClient.getTreatmentWithConfig(SHOW_COST_ESTIMATOR_WIDGET, splitAttributes)
           const showManagePrescriptionNoticeTreatment = splitHookClient.getTreatmentWithConfig(SHOW_MANAGE_PRESCRIPTIONS, splitAttributes)
           setCostEstimatorWidgetEnabledEnabled(showCostEstimatorWidgetTreatment.treatment === "off" ? false : showCostEstimatorWidgetTreatment.treatment === "on" ? true : false)
           setManagePrescriptionNoticeEnabled(showManagePrescriptionNoticeTreatment.treatment === 'notice' ? true : false)
+          setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false)
   })
+}, []);
 
   const SuggestionData = [{ featureName: SHOW_PRIMARY_CARE_PROVIDER, name: "Find a Doctor", img: "/react/images/icon_care_providers.svg", routeLink: "findcare" },
   { featureName: SHOW_COVERAGE_AND_BENEFITS, name: "View Benefits", img: "/react/images/icon_benefits.svg", routeLink: "coverage-and-benefits" },
@@ -81,7 +89,6 @@ const SSOCards = () => {
       membershipStatus: customerInfo?.data?.membershipStatus,
     } 
   },
-  { featureName: SHOW_MY_REWARDS, name: "View My Rewards", img: "/react/images/icn-coin-grey.svg", routeLink: "my-rewards"},
   ];
 
   const externalLinksData = [{ name: "Manage Prescriptions", desc: "View and manage your prescriptions", img: "/react/images/icn-gray-pharmacy.svg", featureName: SHOW_MANAGE_PRESCRIPTIONS, routeLink: MIX_REACT_APP_CVS_HREF, type: managePrescriptionNoticeEnabled ? NOTICE : SSO, membershipSplit: SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS},
@@ -136,13 +143,31 @@ const SSOCards = () => {
       return history.push(`/${routeLink}`)
     }
   }
+  const RewardsCard = (data) => {
+      return (
+        <>
+          <Card
+              className={data.data?.className}
+              onClick={() =>
+                  handleSegmentBtn(data.data?.name, data.data?.routeLink, data.data?.name, data.data)
+              }
+              innerWidth={innerWidth}
+          >
+              <SuggestionImage alt="" src={data.data?.img}></SuggestionImage>
+              <SuggestionVerbiage>{data.data?.name}</SuggestionVerbiage>
+          </Card>
+          </>
+      );        
+  };
 
   const displaySuggestionCards = () => {
-
+    let isDual = customerInfo.data.hohPlans.filter(plan => plan.MembershipStatus === "active").length > 1 ? true : false;
+    SuggestionData.push( { featureName: SHOW_MY_REWARDS, name: "View My Rewards", img: "/react/images/icn-coin-grey.svg", routeLink: "my-rewards"})
     let SuggestionCards = <CardRow >
       {
         SuggestionData?.map((row, index) => {
           return (
+  <>
             <FeatureTreatment
               key={index}
               treatmentName={row?.featureName}
@@ -165,7 +190,10 @@ const SSOCards = () => {
                   <SuggestionImage alt = "" src={row?.img}></SuggestionImage>
                   <SuggestionVerbiage>{row?.name}</SuggestionVerbiage>
                 </Card>}
-            </FeatureTreatment>)
+            </FeatureTreatment>
+           { showReward && isDual &&row?.name == "View My Rewards" && <RewardsCard data = {row} />}
+            </>    
+         )
         })
 
       }
