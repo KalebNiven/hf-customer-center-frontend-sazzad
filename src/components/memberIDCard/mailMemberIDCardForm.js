@@ -243,7 +243,6 @@ const MailMemberIDCardForm = (props) => {
         resetFormFields();
         setAddresses([]);
         setSelectedAddress(null);
-        setAddressOnFile(null);
         unmountMe();
         Cookies.set("MailMeIdCard", "true", { expires: 1 });
         setTimeout(() => {
