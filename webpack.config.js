@@ -47,6 +47,7 @@ const config = {
     },
     hot: true,
     port: devPort,
+    historyApiFallback: true
   },
   plugins: [
     new HtmlWebpackPlugin({
