@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import styled, { keyframes } from "styled-components";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { requestSubmitMailMemberIDCardForm, requestVerifyAddress} from "../../store/actions/index";
+import { RESET_VERIFY_ADDRESS } from "../../store/actions/actionTypes";
 import { useQualtrics, qualtricsAction } from "../../hooks/useQualtrics";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -72,6 +73,12 @@ const MailMemberIDCardForm = (props) => {
 
     useQualtrics(qualtricsAction.MAIL_ME_ID_CARD);
 
+    useEffect(() => {
+        return () => {
+            dispatch({type: RESET_VERIFY_ADDRESS});
+        }
+    }, []);
+
     useEffect(() => {}, [step]);
 
     useEffect(() => {
@@ -111,7 +118,7 @@ const MailMemberIDCardForm = (props) => {
                 );
             } else {
                 setStep("Success");
-                resetFormFields();
+                resetFormState();
                 setTimesSubmitted(1);
                 AnalyticsTrack(
                     "Mail Order ID Card Submission Successful",
@@ -237,12 +244,16 @@ const MailMemberIDCardForm = (props) => {
         setZipCodeError(false);
     };
 
-    const closeForm = (data) => {
-        //setVisible(false);
-        goToFirstStep();
+    const resetFormState = () => {
         resetFormFields();
         setAddresses([]);
         setSelectedAddress(null);
+    };
+
+    const closeForm = (data) => {
+        //setVisible(false);
+        goToFirstStep();
+        resetFormState();
         unmountMe();
         Cookies.set("MailMeIdCard", "true", { expires: 1 });
         setTimeout(() => {
@@ -455,7 +466,7 @@ const MailMemberIDCardForm = (props) => {
                                 Continue
                             </FormButton>
                             }
-                            <FormButton green={false} onClick={closeForm}>
+                            <FormButton green={false} onClick={() => closeForm()}>
                                 Cancel
                             </FormButton>
                         </FormButtonWrapper>
@@ -567,7 +578,7 @@ const MailMemberIDCardForm = (props) => {
                                         )}
                                         <FormButton
                                             green={false}
-                                            onClick={closeForm}
+                                            onClick={() => closeForm()}
                                         >
                                             Cancel
                                         </FormButton>
@@ -576,7 +587,7 @@ const MailMemberIDCardForm = (props) => {
                                     <FormButtonWrapper>
                                         <FormButton
                                             green={true}
-                                            onClick={closeForm}
+                                            onClick={() => closeForm()}
                                         >
                                             Close
                                         </FormButton>
@@ -721,7 +732,7 @@ const MailMemberIDCardForm = (props) => {
                         <FormModalContent>
                             <CloseIcon
                                 src="/react/images/icn-close.svg"
-                                onClick={closeForm}
+                                onClick={() => closeForm()}
                             /> 
                             {renderSwitch(step)}
                         </FormModalContent>
