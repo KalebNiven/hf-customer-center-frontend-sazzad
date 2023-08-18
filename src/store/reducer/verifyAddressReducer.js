@@ -47,6 +47,14 @@ export default function verifyAddress(state = initialState, action) {
       }
       }
     }
+    case actionTypes.RESET_VERIFY_ADDRESS: {
+      return {
+        ...state,
+        address: null,
+        loading:false,
+        error:""
+      };
+    }
     default:
       return state;
   }
