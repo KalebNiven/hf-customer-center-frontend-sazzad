@@ -8,13 +8,15 @@
 1. Setup ```.env.client```;
 2. ```npm i``` 
 3. Use ```npm run build:dev``` to build your changes;
-4. Use ```npm run dev-serve``` to run dev environment;
+4. Use ```npm run serve``` to run dev environment;
 5. App should be accessible on ```localhost:3000``` (if not, look for more details in the terminal);
 
+To run the app with hot reload for development use ```npm run serve```. Your app rebuild and refresh automatically after you save your changes.
+
 ## Notes:
-1. After you make a change, you have to run ```npm run build:dev``` to build the app so you can serve it with ```npm run dev-serve```. We'll be looking into hot reload soon.
+1. After you make a change, you have to run ```npm run build:dev``` to build the app so you can serve it with ```npm run dev-serve```.
 2. Remember, our backend still runs on ```lofl.test``` so if you have a different setup - adjust your ```MIX_LOFL_API_BASE_URL``` in ```.env.client``` accordingly.
 
 ## Deployment:
 1. When you merge a PR into ```develop``` the pipiline gets triggered in order to build your changes which should be available live in ```dev``` environment.
-2. To merge ```dev``` into ```ST``` you should raise a CTASK (same process as before but under ```Customer-Center-Frontend``` repo).
+2. To merge ```dev``` into ```ST``` you should create a CTASK (same process as before but under ```Customer-Center-Frontend``` repo).
