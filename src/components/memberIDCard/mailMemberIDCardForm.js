@@ -709,7 +709,7 @@ const MailMemberIDCardForm = (props) => {
                             "Your new Member ID Card is on its way!"
                         }
                         modalBodyText={
-                            "Thank you for your ID Card request. Your new ID card will arrive at your current mailing address in 10-15 days."
+                            "Thank you for your ID Card request. Your new ID card will arrive at your mailing address in 10-15 days."
                         }
                     />
                 );
