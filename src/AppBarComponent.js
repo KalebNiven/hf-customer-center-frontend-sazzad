@@ -494,7 +494,7 @@ function AppBarComponent() {
   };
 
   const checkSplit = (label) => {
-    if (showPaymentFlag && label == "Payments") {
+    if (showPaymentFlag && label === "Payments") {
       return undefined;
     }
     return splitAttributes;
@@ -513,7 +513,7 @@ function AppBarComponent() {
               attributes={checkSplit(eachNav.label)}
             >
               <>
-                { !showPaymentFlag && eachNav.label == "Payments" ? null
+                { !showPaymentFlag && eachNav.label === "Payments" ? null
                   : (
                     <Tab
                       key={`${eachNav.href}_${index}`}
@@ -843,7 +843,7 @@ function AppBarComponent() {
                         attributes={splitAttributes}
                       >
                         <>
-                          {(!showPaymentFlag && eachNav.label == "Payments") ? null
+                          {(!showPaymentFlag && eachNav.label === "Payments") ? null
                             : (
                               <div className={`${eachNav?.mobileCoachmark}`}>
                                 <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, eachNav.href, 'parent', eachNav?.label, eachNav?.labelForSegment)} button key={eachNav.href}>
