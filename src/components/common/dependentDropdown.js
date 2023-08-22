@@ -54,9 +54,9 @@ function DependentDropdown(props) {
 
     useEffect(() => {
         if (defaultSelected) {
-            setSelection(values[0].label);
+            setSelection({'label':values[0].label, 'id':values[0].value});
         } else if (props.selected) {
-            setSelection(props.selected.label);
+            setSelection({'label':props.selected.label, 'id':props.selected.memberId});
         }
     }, []);
 
@@ -65,7 +65,7 @@ function DependentDropdown(props) {
     // handler for when user selects a value
     const handleSelect = (item, e) => {
         setIsOpen(!isOpen);
-        setSelection(item.label);
+        setSelection({'label':item.label, 'id':item.value});
         onSelect(item);
         onInvalidateError();
     };
@@ -101,11 +101,11 @@ function DependentDropdown(props) {
                             />
                         </UserIconContainer>
                         <DropdownFieldText
-                            className={`${selection && "selected"} ${
+                            className={`${selection?.id && "selected"} ${
                                 error && "error"
                             }`}
                         >
-                            {selection || placeholder}
+                            {selection?.label || placeholder}
                             <DropdownSecondFieldText>
                                 {props.selected.planName}
                             </DropdownSecondFieldText>
@@ -131,7 +131,7 @@ function DependentDropdown(props) {
                                     onClick={(e) => handleSelect(item, e)}
                                     name={item.label}
                                     value={item.value}
-                                    currentSelection={selection}
+                                    currentSelection={selection?.id}
                                 >
                                     <UserIconContainer>
                                         <UserCircleIcon
