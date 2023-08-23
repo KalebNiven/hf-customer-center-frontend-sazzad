@@ -235,7 +235,7 @@ const MailIdCard = (props) => {
                     <StatusDescription>Your New Member ID Card has been shipped.</StatusDescription>
                     {(latestStatusRecord['trackingCodeURL'] != null && latestStatusRecord['trackingCode'] != null) ?
                       <TrackingContainer>
-                        <TrackingIcon></TrackingIcon>
+                        <TrackingIcon alt="" src="/react/images/delivery.svg" />
                         <TrackingVerbiage>Tracking # <TrackingLink href={latestStatusRecord['trackingCodeURL']} target='_blank' rel='noreferrer noopener' onClick={() => handleClickToCarrierSite(latestStatusRecord['trackingCodeURL'])}>{latestStatusRecord['trackingCode']}</TrackingLink></TrackingVerbiage>
                       </TrackingContainer>
                     : null
@@ -402,10 +402,12 @@ const StatusDescription = styled.div`
   margin-top: 1rem;
 `;
 const TrackingContainer = styled.div`
-margin-top: .3rem;
+  display: flex;
+  align-items: center;
+  margin-top: .3rem;
 `;
-const TrackingIcon = styled.div`
-  display: inline;
+const TrackingIcon = styled.img`
+margin-right: .2rem;
 `;
 const TrackingVerbiage = styled.p`
   display: inline;
