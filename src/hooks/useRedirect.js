@@ -41,7 +41,7 @@ const useRedirect = (url, callback) => {
         const urlObj = new URL(decodedRedirectURL);
         const domainURLObject = new URL(MIX_APP_DOMAIN);
         if (window.location.origin.includes("localhost")) {
-          window.location.href = `http://localhost:3000${urlObj.pathname}?${urlObj.searchParams}`;
+          window.location.href = `${MIX_APP_DOMAIN + urlObj.pathname}?${urlObj.searchParams}`;
         } else {
           window.location.href = `https://${domainURLObject.hostname}${urlObj.pathname}?${urlObj.searchParams}`;
         }
