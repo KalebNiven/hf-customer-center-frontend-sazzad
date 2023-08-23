@@ -129,11 +129,11 @@ const AppBarComponent = () => {
   }, [loadSplit]);
 
   const splitAttribute = () => {
+    customerInfo.data.accountStatus === "NON-MEMBER" ? splitTreatment(getSplitAttributesForHOHPlan(customerInfo.data,null)) :
     customerInfo.data.hohPlans.forEach((value, index) => {
           splitTreatment(getSplitAttributesForHOHPlan(customerInfo.data,index));
       });
   };
-
 
   const splitTreatment = (attributes) =>{
     let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
