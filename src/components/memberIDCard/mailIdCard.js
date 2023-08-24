@@ -71,7 +71,7 @@ const MailIdCard = (props) => {
         </Container> : (
         <Container>
             <Label className="no-print">Need a New ID Card?</Label>
-            <Description className="no-print">Order a new Member ID Card and have it send directly to you home address.</Description>
+            <Description className="no-print">Order a new Member ID Card and have it send directly to your home address.</Description>
             <MailIdCardContainer>
               <MailIdCardButton handleClick={openForm} disableBtn={typeof(mailMemberIDCardStatus.data) !== "undefined" && mailMemberIDCardStatus.data !== null && mailMemberIDCardStatus.data.status == true ? true : false} memberId={props?.memberSelection?.memberId} />
               {(typeof(mailMemberIDCardStatus.data) !== "undefined" && mailMemberIDCardStatus.data !== null && mailMemberIDCardStatus.data.length != 0 ? true : false) ?
