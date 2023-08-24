@@ -720,6 +720,7 @@ const MailMemberIDCardForm = (props) => {
                     <TryAgainModal
                         tryAgainButtonClick={() => submitForm()}
                         backButtonClick={() => handleBack()}
+                        isLoading={submitMailMemberIDCardFormResponse.loading}
                     />
                 );
         }
