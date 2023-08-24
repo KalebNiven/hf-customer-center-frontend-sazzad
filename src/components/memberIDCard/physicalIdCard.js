@@ -156,7 +156,7 @@ const PrintButton = styled.button`
   border-radius: 8px;
   border: 1px solid #ffffff;
   padding: 1rem;
-  box-shadow:  0 0 8px 0 rgba(0, 0, 0, 0.23);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.10);
   &:hover{
     cursor:pointer;
     text-decoration:underline;
