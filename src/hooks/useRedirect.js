@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const { MIX_APP_DOMAIN } = process.env;
+const { MIX_APP_DOMAIN, MIX_APP_DOMAIN_PORT } = process.env;
 
 // @@ useRedirect take required "url" argument, validates the URL and redirects the user if validation is passed
 // @@ useRedirect takes optional "callback" argument which will be called after successful redirect
@@ -40,7 +40,7 @@ const useRedirect = (url, callback) => {
         setIsRedirecting(true);
         const urlObj = new URL(decodedRedirectURL);
         const domainURLObject = new URL(MIX_APP_DOMAIN);
-        if (window.location.origin.includes("localhost")) {
+        if (urlObj.port === MIX_APP_DOMAIN_PORT) {
           window.location.href = `${MIX_APP_DOMAIN + urlObj.pathname}?${urlObj.searchParams}`;
         } else {
           window.location.href = `https://${domainURLObject.hostname}${urlObj.pathname}?${urlObj.searchParams}`;
