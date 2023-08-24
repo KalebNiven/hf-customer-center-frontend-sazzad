@@ -1,11 +1,11 @@
 import React, { useState, useEffect, componentDidMount } from "react";
-import styled from 'styled-components'
+import styled, { keyframes } from "styled-components";
 import { ModalWrapper, ModalInnerWrapper, ModalContent, Text, CloseIcon,
     Button, ButtonWrapper } from "../../styles/commonStyles";
 
 const TryAgainModal = (props) => {
 
-    const { tryAgainButtonClick, backButtonClick } = props;
+    const { tryAgainButtonClick, backButtonClick, isLoading } = props;
 
     const handleTryAgain = (data) => {
         tryAgainButtonClick();
@@ -28,9 +28,15 @@ const TryAgainModal = (props) => {
                 <FormButton green={false} onClick={handleBack}>
                     Back
                 </FormButton>
-                <FormButton green={true} onClick={handleTryAgain}>
-                    Try Again
-                </FormButton>
+                {isLoading ?
+                    <FormButton green={true}>
+                        <ProgressSpinner></ProgressSpinner>
+                    </FormButton>
+                    :
+                    <FormButton green={true} onClick={handleTryAgain}>
+                        Try Again
+                    </FormButton>
+                }
             </FormButtonWrapper>
         </div>
     );
@@ -75,10 +81,35 @@ const SubHeader = styled.h3`
     color: #474b55;
 `
 const FormButtonWrapper = styled(ButtonWrapper)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 2rem; 
   margin-bottom: 0rem;
-  text-align: center;
 `;
 const FormButton = styled(Button)`
   float: none!important;
+`;
+const SpinnerRotate = keyframes`
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+`;
+const ProgressSpinner = styled.div`
+    text-align: center;
+    margin: auto;
+    border: 0.2rem solid #375225;
+    border-top: 0.2rem solid white;
+    border-radius: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    animation-name: ${SpinnerRotate};
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    @media only screen and (max-width: 768px) {
+        margin-left: auto;
+        margin-right: auto;
+    }
 `;

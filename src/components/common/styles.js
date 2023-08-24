@@ -638,7 +638,7 @@ export const DropdownListItem = styled.button`
   color: #474b55;
   text-align: left;
   border: none;
-  background-color: ${props => props.currentSelection == props.name? "#e2e2e2" : "#ffffff"};
+  background-color: ${props => props.currentSelection == props.value? "#e2e2e2" : "#ffffff"};
   padding: 9px 12px;
   display: inline-block;
   vertical-align: middle;
