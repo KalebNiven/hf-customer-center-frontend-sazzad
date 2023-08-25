@@ -40,7 +40,7 @@ const ActiveCard = ({ handleLearnMore, planCode }) => {
                                 "MMMM YYYY"
                             )}
                         </Paragraph>
-                        <ButtonWrapper>
+                        <ButtonWrapper onClick={() => setShowClaimCard(true)}>
                             <OTCReimbursementButton />
                         </ButtonWrapper>
                     </CardBody>
