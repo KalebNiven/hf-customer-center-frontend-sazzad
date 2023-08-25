@@ -49,6 +49,17 @@ const MemberIDCardPage = (props) => {
     },
   };
 
+  const getHOH = (memberId) => {
+    var planArr = customerInfo.data.hohPlans;
+    var selectedPlan = null;
+    planArr.forEach(plan => {
+      if (plan.memberId === memberId) {
+        selectedPlan = plan;
+      }
+    });
+    return selectedPlan;
+  };
+
   const getDependent = (memberId) => {
     var dependentsArr = customerInfo.data.dependents;
     var selectedDependent = null;
@@ -74,7 +85,9 @@ const  checkSelectedDependent  = () =>{
       companyCode: plan.CompanyNumber,
       firstName: plan.FirstName,
       lastName: plan.LastName,
-      groupNumber: plan.GroupNumber
+      groupNumber: plan.GroupNumber,
+      lob: plan.LOBCode,
+      benefitPackage: plan.BenefitPackage
     })
   })
   setPlanName("")
@@ -105,6 +118,26 @@ useEffect(() => {
         firstName: customerInfo.data.hohPlans[0].FirstName,
         lastName: customerInfo.data.hohPlans[0].LastName
       })
+    }
+
+    if (customerInfo.data.hohPlans != undefined) {
+      if (props.selectedMemberId) {
+        var plan = getHOH(props.selectedMemberId);
+        setMemberSelection({
+          ...memberSelection,
+          memberId: props.selectedMemberId,
+          planName: plan.planName,
+          membershipStatus: plan.Status,
+          membershipEffectiveDate: plan.MembershipEffectiveDate,
+          membershipExpirationDate: plan.MembershipExpirationDate,
+          companyCode: plan.companyCode,
+          lob: plan.LOBCode,
+          groupNumber: plan.groupNumber,
+          benefitPackage: plan.benefitPackage,
+          firstName: plan.firstName,
+          lastName: plan.lastName
+        })
+      }
     }
    
     if (customerInfo.data.dependents != undefined) {
