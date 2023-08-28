@@ -118,8 +118,8 @@ const DependentBlock = ({
                         firstName: prevPlan.FirstName,
                         lastName: prevPlan.LastName,
                         benefitPackage: prevPlan.BenefitPackage ,
-                        lob: plan.LOBCode,
-                        groupNumber: plan.GroupNumber
+                        lob: prevPlan.LOBCode,
+                        groupNumber: prevPlan.GroupNumber
                     };
                     memberships.push(member);
                 });
