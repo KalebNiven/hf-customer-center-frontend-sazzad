@@ -55,6 +55,7 @@ const DependentBlock = ({
                     firstName: plan.FirstName,
                     lastName: plan.LastName,
                     benefitPackage: plan.BenefitPackage,
+                    lob: plan.LOBCode,
                     groupNumber: plan.GroupNumber,
                     relationshipType: 'SELF'
                 };
@@ -83,6 +84,7 @@ const DependentBlock = ({
                     firstName: dependent.firstName,
                     lastName: dependent.lastName,
                     benefitPackage: dependent.benefitPackage,
+                    lob: dependent.LobCode,
                     groupNumber: dependent.groupNumber, 
                     relationshipType: dependent.RelationshipType
                 };
@@ -115,7 +117,9 @@ const DependentBlock = ({
                         companyCode: prevPlan.CompanyNumber,
                         firstName: prevPlan.FirstName,
                         lastName: prevPlan.LastName,
-                        benefitPackage: prevPlan.BenefitPackage 
+                        benefitPackage: prevPlan.BenefitPackage ,
+                        lob: prevPlan.LOBCode,
+                        groupNumber: prevPlan.GroupNumber
                     };
                     memberships.push(member);
                 });
@@ -137,6 +141,7 @@ const DependentBlock = ({
             value,
             benefitPackage,
             groupNumber,
+            lob,
             relationshipType
         } = memberInfo;
         setMemberSelection({
@@ -151,6 +156,7 @@ const DependentBlock = ({
             lastName,
             benefitPackage,
             groupNumber,
+            lob,
             relationshipType
         });
     };
