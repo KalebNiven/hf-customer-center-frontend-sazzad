@@ -57,7 +57,8 @@ const DependentBlock = ({
                     benefitPackage: plan.BenefitPackage,
                     lob: plan.LOBCode,
                     groupNumber: plan.GroupNumber,
-                    relationshipType: 'SELF'
+                    relationshipType: 'SELF',
+                    relationshipCode: plan.RelationshipCode
                 };
 
                 if (!activeOnly) {
@@ -142,7 +143,8 @@ const DependentBlock = ({
             benefitPackage,
             groupNumber,
             lob,
-            relationshipType
+            relationshipType,
+            relationshipCode
         } = memberInfo;
         setMemberSelection({
             ...memberSelection,
@@ -157,7 +159,8 @@ const DependentBlock = ({
             benefitPackage,
             groupNumber,
             lob,
-            relationshipType
+            relationshipType,
+            relationshipCode
         });
     };
 
