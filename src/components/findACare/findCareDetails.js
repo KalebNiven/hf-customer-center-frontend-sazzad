@@ -64,6 +64,7 @@ const FindCareDetails = (props) => {
             callback("error", BUS_FAILURE)
         }
     }
+  };
 
     useQualtrics(qualtricsAction.CHANGE_PCP)
 
@@ -95,7 +96,7 @@ const FindCareDetails = (props) => {
      
             if (hoh.MemberId === memberId) { 
                 const customerInfoUpdatedPcp = { ...customerInfo };
-                customerInfoUpdatedPcp.hohPlans[index].PcpId = pcpId;
+                customerInfoUpdatedPcp.hohPlans[index].pcpId = pcpId;
                 dispatch(requestUpdatedPCPID(customerInfoUpdatedPcp));
             } else {
                 customerInfo.dependents.map((dependent, index) => {
