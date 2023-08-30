@@ -55,11 +55,11 @@ const otcWidgetLinks = {
   },
   navigateToDollarGeneral: {
     type: null,
-    link: ""
+    link: "http://www2.dollargeneral.com/About-Us/pages/storelocator.aspx"
   },
   navigateToRiteAid: {
     type: null,
-    link: ""
+    link: "https://www.riteaid.com/locations/"
   },
 }
 const OTCWidget = () => {
