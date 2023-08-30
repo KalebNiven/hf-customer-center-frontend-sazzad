@@ -131,12 +131,14 @@ function AppBarComponent() {
   }, [loadSplit]);
 
   const splitAttribute = () => {
+    customerInfo.data.accountStatus === "NON-MEMBER" ? splitTreatment(getSplitAttributesForHOHPlan(customerInfo.data,null)) :
     customerInfo.data.hohPlans.forEach((value, index) => {
       splitTreatment(getSplitAttributesForHOHPlan(customerInfo.data, index));
     });
   };
 
-  const splitTreatment = (attributes) => {
+ 
+  const splitTreatment = (attributes) =>{
     const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
       PAYMENTS_ACL,
       attributes,

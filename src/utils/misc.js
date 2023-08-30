@@ -42,8 +42,8 @@ export const getSplitAttributesForHOHPlan = (customerInfoData, index) => {
     memberId: customerInfoData.memberId,
     lob: customerInfoData.sessLobCode,
     membershipStatus: customerInfoData.membershipStatus,
-    companyCode: customerInfoData.hohPlans[index].CompanyNumber,
-    benefitPackage: customerInfoData.hohPlans[index].BenefitPackage,
+    companyCode: index === null ? null : customerInfoData.hohPlans[index].CompanyNumber,
+    benefitPackage: index === null ? null : customerInfoData.hohPlans[index].BenefitPackage,
   };
   return attributes;
 };
