@@ -55,7 +55,7 @@ const FindCarePCP = (props) => {
     let CurrentPcpId = "";
         customerInfo.hohPlans.map((hoh, index) => {
             if (hoh.MemberId === memberId) {
-                CurrentPcpId =  customerInfo.hohPlans[index].pcpId;
+                CurrentPcpId =  customerInfo.hohPlans[index].PcpId;
             }
         });
         return CurrentPcpId;
