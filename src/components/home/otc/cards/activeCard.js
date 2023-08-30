@@ -14,6 +14,7 @@ import OTCBenefitsCenterButton from "./otcBenefitsCenterButton";
 import LearnMoreButton from "./learnMoreButton";
 import OTCReimbursementButton from "./otcReimbursementButton";
 import ClaimsCard from "./claimsCard.js";
+import ManageOTCWidgetCard from "./manageOTCWidgetCard.js";
 
 const ActiveCard = ({ handleLearnMore, planCode }) => {
     const otcProfile = useSelector((state) => state.otcCard.profile);
@@ -27,32 +28,33 @@ const ActiveCard = ({ handleLearnMore, planCode }) => {
             {otcProfile.loading ? (
                 <Spinner />
             ) : (
-                <Card>
-                    <OTCIcon alt="" src="/react/images/otc-icon.svg" />
-                    <CardHeader>
-                        <BalanceTitle>Remaining Balance</BalanceTitle>
-                    </CardHeader>
-                    <CardBody>
-                        <Balance>${otcProfile?.data?.balance}</Balance>
-                        <Paragraph>
-                            Allowance resets in{" "}
-                            {moment(otcProfile?.data?.balanceReloadDate,"MM-Do-YYYY").format(
-                                "MMMM YYYY"
-                            )}
-                        </Paragraph>
-                        <ButtonWrapper>
-                            <OTCReimbursementButton />
-                        </ButtonWrapper>
-                    </CardBody>
-                    <CardFooter>
-                        <FooterActions>
-                            <LearnMoreButton
-                                handleLearnMore={handleLearnMore}
-                            />
-                            <OTCBenefitsCenterButton />
-                        </FooterActions>
-                    </CardFooter>
-                </Card>
+                // <Card>
+                //     <OTCIcon alt="" src="/react/images/otc-icon.svg" />
+                //     <CardHeader>
+                //         <BalanceTitle>Remaining Balance</BalanceTitle>
+                //     </CardHeader>
+                //     <CardBody>
+                //         <Balance>${otcProfile?.data?.balance}</Balance>
+                //         <Paragraph>
+                //             Allowance resets in{" "}
+                //             {moment(otcProfile?.data?.balanceReloadDate,"MM-Do-YYYY").format(
+                //                 "MMMM YYYY"
+                //             )}
+                //         </Paragraph>
+                //         <ButtonWrapper>
+                //             <OTCReimbursementButton />
+                //         </ButtonWrapper>
+                //     </CardBody>
+                //     <CardFooter>
+                //         <FooterActions>
+                //             <LearnMoreButton
+                //                 handleLearnMore={handleLearnMore}
+                //             />
+                //             <OTCBenefitsCenterButton />
+                //         </FooterActions>
+                //     </CardFooter>
+                // </Card>
+                <ManageOTCWidgetCard />
             )}
         </>
     );

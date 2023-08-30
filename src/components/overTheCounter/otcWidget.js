@@ -32,7 +32,35 @@ const otcWidgetLinks = {
   navigateToNationsBenefits: {
     type: SSO,
     link: process.env.MIX_REACT_APP_NATIONS_OTC_HREF_V2
-  }
+  },
+  navigateToCVS: {
+    type: null,
+    link: "https://www.cvs.com/store-locator/landing"
+  },
+  navigateToDuaneReade: {
+    type: null,
+    link: "https://www.walgreens.com/storelocator/find.jsp"
+  },
+  navigateToWalmart: {
+    type: null,
+    link: "https://www.walmart.com/store/finder"
+  },
+  navigateToFamilyDollar: {
+    type: null,
+    link: "https://www.familydollar.com/store-locator"
+  },
+  navigateToWalgreens: {
+    type: null,
+    link: "https://www.walgreens.com/storelocator/find.jsp"
+  },
+  navigateToDollarGeneral: {
+    type: null,
+    link: ""
+  },
+  navigateToRiteAid: {
+    type: null,
+    link: ""
+  },
 }
 const OTCWidget = () => {
 
@@ -69,6 +97,13 @@ const OTCWidget = () => {
         case 'navigateToOTCNetwork': 
         case 'navigateToGrowNYC': 
         case 'navigateToNationsBenefits': 
+        case 'navigateToCVS':
+        case 'navigateToDuaneReade':
+        case 'navigateToWalmart':
+        case 'navigateToFamilyDollar':
+        case 'navigateToWalgreens':
+        case 'navigateToDollarGeneral':
+        case 'navigateToRiteAid':
           handleExternalSiteClicked(otcWidgetLinks[action].link, otcWidgetLinks[action].type, action);
           break;
         default: 
