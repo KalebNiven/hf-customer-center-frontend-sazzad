@@ -111,7 +111,7 @@ const checkNonMemberHOH = (companyCode, benefitPackage, relationshipCode) => {
 }
 
 useEffect(() => {
-  dispatch(requestCustomerDemographicsInfo(customerInfo.data.memberId));
+  dispatch(requestCustomerDemographicsInfo(customerInfo.data.customerId));
 }, []);
 
   // set default memberId on initial load

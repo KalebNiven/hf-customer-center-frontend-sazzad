@@ -57,7 +57,7 @@ const MailIdCard = (props) => {
 
     useEffect(() => {
        // dispatch(requestIdCard(props.memberId));
-       dispatch(requestCustomerDemographicsInfo(customerInfo.data.memberId));
+       dispatch(requestCustomerDemographicsInfo(customerInfo.data.customerId));
     }, []);
     useEffect(() => {
       if(!mailMemberIDCardStatus.loading && (typeof(mailMemberIDCardStatus.data) !== "undefined" && mailMemberIDCardStatus.data !== null && mailMemberIDCardStatus.data.length != 0 ? true : false)){

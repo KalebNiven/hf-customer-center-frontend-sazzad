@@ -51,7 +51,7 @@ const ClaimsPage = () => {
   useEffect(() => {
     if(!customerInfo.data?.access_token || !customerInfo.data?.id_token) return;
     dispatch(requestClaimList());
-    dispatch(requestCustomerDemographicsInfo(customerInfo.data.memberId));
+    dispatch(requestCustomerDemographicsInfo(customerInfo.data.customerId));
     sessionStorage.setItem("longLoad", false)
   }, [customerInfo?.data]);
 
