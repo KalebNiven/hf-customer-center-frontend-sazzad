@@ -161,10 +161,10 @@ export const errorCoverageDetails = (error) => ({
     },
 });
 
-export const requestCustomerDemographicsInfo = (memberId) => ({
+export const requestCustomerDemographicsInfo = (customerId) => ({
   type: actionTypes.REQUEST_CUSTOMER_DEMOGRAPHICS_INFO,
   payload:{
-    memberId: memberId
+    memberId: customerId
   }
 });
 

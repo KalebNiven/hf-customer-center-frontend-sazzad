@@ -403,7 +403,7 @@ function* watchCustomerDemographicsInfoSaga() {
 
 export function* getCustomerDemographicsInfo(action) {
   try {
-    const data = yield call(getCustomerDemographicsInfoData, action.payload.memberId);
+    const data = yield call(getCustomerDemographicsInfoData, action.payload.customerId);
     yield put(actions.receiveCustomerDemographicsInfo(data));
   } catch (e) {
     yield put(actions.errorCustomerDemographicsInfo(e));
