@@ -17,6 +17,7 @@ import { MainContentContainer } from "../common/styles";
 import GlobalError from "../common/globalErrors/globalErrors";
 import MailIdCard from "./mailIdCard";
 
+const DUMMY_PACKAGES = [ "RK", "SU", "OC", "WC", "NY", "LI" ];
 const MemberIDCardPage = (props) => {
 
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const MemberIDCardPage = (props) => {
   const mailMemberIDCardStatus = useSelector((state) => state.correspondenceStatus);
   const submitMailMemberIDCardFormResponse = useSelector((state) => state.correspondence);
   const [renderNotification, setRenderNotification] = useState(false);
+  const [isNonMemberHOH, setIsNonMemberHOH] = useState()
 
   const customerInfo = useSelector((state) => state.customerInfo);
   const customerDemographicsInfo = useSelector( (state) => state.customerDemographicsInfo.data);
@@ -87,11 +89,25 @@ const  checkSelectedDependent  = () =>{
       lastName: plan.LastName,
       groupNumber: plan.GroupNumber,
       lob: plan.LOBCode,
-      benefitPackage: plan.BenefitPackage
+      benefitPackage: plan.BenefitPackage,
+      relationshipCode: plan.RelationshipCode
     })
   })
   setPlanName("")
 }
+}
+
+const checkNonMemberHOH = (companyCode, benefitPackage, relationshipCode) => {
+  console.log({companyCode, benefitPackage, relationshipCode});
+  if(companyCode === '01' && DUMMY_PACKAGES.includes(benefitPackage)){
+      return true;
+  }
+  else if(companyCode === '20' && relationshipCode === 'CHP_HOH'){
+      return true;
+  }
+  else{
+      return false;
+  }
 }
 
 useEffect(() => {
@@ -116,7 +132,8 @@ useEffect(() => {
         groupNumber: customerInfo.data.hohPlans[0].GroupNumber,
         benefitPackage: customerInfo.data.hohPlans[0].BenefitPackage,
         firstName: customerInfo.data.hohPlans[0].FirstName,
-        lastName: customerInfo.data.hohPlans[0].LastName
+        lastName: customerInfo.data.hohPlans[0].LastName,
+        relationshipCode: customerInfo.data.hohPlans[0].RelationshipCode
       })
     }
 
@@ -135,7 +152,8 @@ useEffect(() => {
           groupNumber: plan.groupNumber,
           benefitPackage: plan.benefitPackage,
           firstName: plan.firstName,
-          lastName: plan.lastName
+          lastName: plan.lastName,
+          relationshipCode: plan.relationshipCode
         })
       }
     }
@@ -193,6 +211,7 @@ useEffect(() => {
       dispatch(requestPhysicalIdCard(memberSelection.memberId));
       dispatch(requestMailMemberIDCardStatus(memberSelection.memberId));
     }
+    setIsNonMemberHOH(checkNonMemberHOH(memberSelection.companyCode, memberSelection.benefitPackage, memberSelection.relationshipCode));
   }, [memberSelection]);
 
   useEffect(() => {
@@ -233,7 +252,7 @@ useEffect(() => {
                     <Spinner />
                   </ProgressWrapper>
                 </Container> : (
-                  physicalIdCard.length != 0 ?
+                  physicalIdCard.length != 0  && !isNonMemberHOH?
                   <IDCardContainers>
                     <DigitalIdCardContainer> 
                       <DigitalId member={memberSelection} />
