@@ -21,7 +21,9 @@ import {
     Link,
     Header,
     Spinner,
-    ProgressWrapper
+    ProgressWrapper,
+    BackIcon,
+    BackText
 } from "../styles";
 import { useSelector, useDispatch } from "react-redux";
 import {handleSegmentClick} from "../../../libs/segment"
@@ -264,7 +266,18 @@ const nonMemberForm = ({
     return (
         <> 
          <RecaptchaV3 setV3Response={setGRecaptchaResponse} formSubmitted={formSubmissions}/>
-            <NonMemberFormHeader>{!wmvalue ? <>Register Your Account</> : WM_HEADER}</NonMemberFormHeader>
+            {
+                !wmvalue ? <>
+                <BackIcon
+                        src="/react/images/ico-back.svg"
+                        onClick={onBack}
+                    ></BackIcon>
+                    <BackText onClick={onBack}>Back</BackText>
+
+                    <Header>Register Your Account</Header>
+                </> :
+            <NonMemberFormHeader>{WM_HEADER}</NonMemberFormHeader>
+            }
             <SubHeader>
                 {!wmvalue ? "Please enter the same information you provided during enrollment." : WM_SUB_HEADER}
             </SubHeader>
