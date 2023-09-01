@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components'
 import { useLogout } from "../../hooks/useLogout";
+import useLogError from "../../hooks/useLogError";
 import { ModalWrapper, Header, ModalContent, ModalInnerWrapper } from '../../styles/commonStyles';
 const { MIX_REACT_SESSION_LIFETIME_SECONDS } = process.env;
 const { MIX_REACT_SESSION_WARNING_COUNTDOWN_SECONDS } = process.env;
@@ -12,6 +13,7 @@ const SessionTimeoutModal = (props) => {
     const [countDownSecondsLeft, setCountdownSecondsLeft] = useState(MIX_REACT_SESSION_WARNING_COUNTDOWN_SECONDS);
     const [startCounter, setStartCounter] = useState(false);
     const logout = useLogout();
+    const { logError } = useLogError();
 
     let countDownId;
 
@@ -60,7 +62,8 @@ const SessionTimeoutModal = (props) => {
         .then((data) => {
         })
         .catch((error) => {
-           console.log(error);
+            console.error('Error caught: ', error.message)
+            logError(error).catch(error => console.error('Error caught: ', error.message));
         })
         .finally( ()=> {
            clearTimers(true);

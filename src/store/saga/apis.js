@@ -1,45 +1,139 @@
 import axios from "axios";
 import { LOFLv2 } from '../../utils/api/loflv2';
 
+export const sendErrorLog = async (error) => {
+  if(!error) throw new Error('Error is missing. Please provide error.');
+
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }
+
+    const clientDetails = {
+      userAgent: navigator.userAgent,
+      cookieEnabled: navigator.cookieEnabled,
+    }
+
+    const payload = {
+      errorMessage: error.message,
+      errorPage: window.location.href,
+      clientDetails
+    }
+
+    console.log('== sendErrorLog received payload == ', payload)
+
+    const res = await LOFLv2(true).post('/log', payload, config);
+    return res.data;
+  } catch (error) {
+    console.error('Error caught: ', error.message)
+    return error.message;
+  }
+};
+
 export const getClaimsList = async () => {
-  return LOFLv2(true).get('claims');
+  try {
+    return LOFLv2(true).get('claims');
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const getClaimsDetails = async (memberId, claimId) => {
-  return LOFLv2(true).get(`claims/${memberId}/${claimId}`);
+  try {
+    return LOFLv2(true).get(`claims/${memberId}/${claimId}`);
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const getClaimsEOB = async (memberId, claimId) => {
   try {
     const res = await LOFLv2(true).get(`claims/eob/${memberId}/${claimId}`);
     return res.data;
-  } catch (err) {
-    console.log(err.message);
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 };
 
 export const getAuthorizationList = async () => {
-  return LOFLv2(true).get('auths');
+  try {
+    return LOFLv2(true).get('auths');
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const getPhysicalIdCarda = async (memberId) => {
-  return LOFLv2(true).get('physical-id-card/' + memberId);
+  try {
+    return LOFLv2(true).get('physical-id-card/' + memberId);
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const getDigitalIdCarda = async (memberId) => {
-  return LOFLv2(true).get('digital-id-card/' + memberId);
+  try {
+    return LOFLv2(true).get('digital-id-card/' + memberId);
+  } catch (error) {
+    try {
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const getAuthorizationsDetails = async (selectedAuth) => {
-  return LOFLv2(true).get('auths/' + selectedAuth.authorizationId);
+  try {
+    return LOFLv2(true).get('auths/' + selectedAuth.authorizationId);
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const getCustomerOOP = async () => {
   try {
     const res = await LOFLv2(true).get('oop');
     return res.data;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 };
 
@@ -47,8 +141,13 @@ export const getPcpStatus = async (memberId) => {
   try {
     const res = await LOFLv2(true).get(`pcp/${memberId}/status`);
     return res.data;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 };
 
@@ -56,8 +155,13 @@ export const getPcpDetails = async (pcpDetails) => {
   try {
     const res = await LOFLv2(true).patch('pcp', pcpDetails);
     return res.data;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 };
 
@@ -76,8 +180,13 @@ export const getCoverageBenefitsData = async (memberId) => {
   try {
     const res = await LOFLv2(true).get(`coverage-details/${memberId}`);
     return res.data;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 };
 
@@ -85,9 +194,8 @@ export const getCustomerInfoData = async () => { // Need to defer to Igor
   try {
     const res = await LOFLv2(true).get('/customer-info');
     return res.data;
-  } catch (err) {
-    console.log(err.message)
-    throw new Error(err);
+  } catch (error) {
+    throw new Error(error);
   }
 };
 
@@ -95,8 +203,13 @@ export const getCustomerDemographicsInfoData = async (memberId) => {
   try {
     const res = await LOFLv2(true).get(`/customer-contact/${memberId}`);
     return res.data;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 };
 
@@ -104,8 +217,13 @@ export const getFormsDocsData = async (memberId) => {
   try {
     const res = await LOFLv2(true).get(`forms-docs/${memberId}`);
     return res.data;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 };
 
@@ -113,8 +231,13 @@ export const getHraQuestionsList = async (memberId) => {
   try {
     const res = await LOFLv2(true).get(`/hra-list/${memberId}`);
     return res.data[0];
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 };
 
@@ -122,8 +245,13 @@ export const submitHraSurvey = async (data) => {
   try {
     const res = await LOFLv2(true).post(`/hra-submit`, data);
     return res.data
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 };
 
@@ -131,8 +259,13 @@ export const getHraStatus = async (memberId) => {
   try {
     const res = await LOFLv2(true).get(`/hra-status/${memberId}`)
     return res.data;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
@@ -140,8 +273,13 @@ export const getHraPartials = async (memberId) => {
   try {
     const res = await LOFLv2(true).get(`/hra-surveys/${memberId}`);
     return res.data;
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
@@ -152,8 +290,13 @@ export const saveHraSurveyResponseToDB = async (data) => {
     }
     const res = await LOFLv2(true).post('/hra-surveys', data, config);
     return res.data;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
@@ -168,8 +311,13 @@ export const getHraStatuses = async (headOfHouseholdMemberId, dependents) => {
 
     const allData = await Promise.all(calls);
     return allData;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
@@ -177,8 +325,15 @@ export const submitMailMemberIDCardForm = async (data) => {
   try {
     const res = await LOFLv2(true).post('/mail-member-id-card-form', data);
     return res;
-  } catch (err) {
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 };
 
@@ -186,8 +341,15 @@ export const submitClaimPayloadApi = async (data) => {
   try {
     const res = await LOFLv2(true).post('/claims', data);
     return res;
-  } catch (err) {
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 };
 
@@ -195,8 +357,15 @@ export const submitAttestationAgreementAPI = async (data) => {
   try {
     const res = await LOFLv2(true).post('/user-agreement', data);
     return res;
-  } catch (err) {
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 };
 
@@ -204,8 +373,15 @@ export const getMailMemberIDCardStatus = async (memberId) => {
   try {
     const res = await LOFLv2(true).get('/mail-member-id-card-status/' + memberId);
     return res;
-  } catch (err) {
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 };
 
@@ -219,8 +395,13 @@ export const getHraStatusesLocalOnly = async (memberIds) => {
 
     const allData = await Promise.all(calls);
     return allData;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
@@ -231,8 +412,13 @@ export const getMemberAnswers = async (memberIdsList) => {
     memberIdsList.forEach(memberId => calls.push(LOFLv2(true).get(`/hra-surveys/${memberId}`)))
     const allData = await Promise.all(calls);
     return allData.map(data => data.data);
-  } catch (err) {
-    console.log('Error catched: ', err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
@@ -243,8 +429,13 @@ export const getAllRecomendedResources = async (dataPairList) => {
     dataPairList.forEach(pair => calls.push(LOFLv2(true).get(`/hra-resources/${pair.questionareId}/${pair.companyCode}/${pair.memberId}`)))
     const allData = await Promise.all(calls);
     return allData.map(data => data.data);
-  } catch (err) {
-    console.log('Error catched: ', err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
@@ -254,9 +445,8 @@ export const getCategoriesApiData = async () => {
   try {
     const res = await LOFLv2(true).get('/community-resources/categories');
     return res.data;
-  } catch (err) {
-    throw new Error(err.message)
-    console.log("getCategoriesApiData Error caught: ", err.message)
+  } catch (error) {
+    throw new Error(error.message)
   }
 }
 
@@ -279,8 +469,13 @@ export const getCategDetails = async (data) => {
   try {
     const res = await LOFLv2(true).post('/community-resources/sub-categories', formData, config);
     return res.data;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
@@ -305,8 +500,13 @@ export const getCategDetailsAll = async (data) => {
   try {
     const res = await LOFLv2(true).post('/community-resources/resources', formData, config);
     return res.data;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
@@ -329,20 +529,43 @@ export const getIndMapDetails = async (data) => {
   try {
     const res = await LOFLv2(true).post('/community-resources/resource-details', formData, config);
     return res.data;
-  } catch (err) {
-    console.log(err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
 
   export const getCarouselDetails = async () => {
-    const res = await LOFLv2(true)('carousel');
-    return res.data;
+    try {
+      const res = await LOFLv2(true)('carousel');
+      return res.data;
+    } catch (error) {
+      try {
+        console.error('Error caught: ', error.message)
+        await sendErrorLog(error)
+      } catch (error) {
+        console.error('Error caught: ', error.message)
+      }
+    }
   }
 
   export const getPcpData = async (data) => {
-    const res =  await LOFLv2(true).get(`/pcp/${data.memberId}`);
-    return res.data;
+    try {
+      const res =  await LOFLv2(true).get(`/pcp/${data.memberId}`);
+      return res.data;
+    } catch (error) {
+      try {
+        console.error('Error caught: ', error.message)
+        await sendErrorLog(error)
+      } catch (error) {
+        console.error('Error caught: ', error.message)
+      }
+    }
   }
 
   export const addMbrshipDetails = async (membershipDetails) => {
@@ -354,9 +577,15 @@ export const getIndMapDetails = async (data) => {
     
         const res = await LOFLv2(true).post('/attach-membership', membershipDetails.data, config);
         return res;
-      } catch (err) {
-        return err.response;
-
+      } catch (error) {
+        try {
+          console.error('Error caught: ', error.message)
+          await sendErrorLog(error)
+          return error.response;
+        } catch (err) {
+          console.error('Error caught: ', err.message)
+          return error.response;
+        }
       }
   }
 
@@ -371,8 +600,15 @@ export const submitPreferredContactInfo = async (data, csrf) => {
 
     const res = await LOFLv2(true).put('/preference/contacts', data, config);
     return res;
-  } catch (err) {
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 };
 
@@ -380,8 +616,15 @@ export const getPreferenceCenterInfo = async () => {
   try {
     const res = await LOFLv2(true).get('/preference/contacts');
     return res;
-  } catch (err) {
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 };
 
@@ -398,8 +641,15 @@ export const requestMFACode = async (data, mfaToken) => {
     res = await LOFLv2(false).post('/mfa/send/'+data.type, null, config);
 
     return res;
-  } catch (err) {
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 };
 
@@ -414,8 +664,15 @@ export const requestUserMFACode = async (data, mfaToken) => {
     res = await LOFLv2(true).post('settings/resend-verification-code', data, config);
 
     return res;
-  } catch (err) {
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 };
 
@@ -429,9 +686,15 @@ export const requestRegister = async(data,mfaToken) =>{
     }
     const res = await LOFLv2(true).post('register',data,config);
     return res.data;
-  }catch (err) {
-    console.log("requestRegistererror",err);
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 }
 
@@ -445,8 +708,15 @@ export const requestMFAFactors = async(mfaToken) =>{
     }
     const res = await LOFLv2(true).get('mfa/channels',config);
     return res;
-  }catch(err){
-    return err.response
+  } catch(error){
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 }
 
@@ -459,8 +729,15 @@ export const verifyMFACode = async (data, mfaToken,channel) => {
     }
     const res = await LOFLv2(true).post('mfa/verify/'+channel,data,config);
     return res;
-  } catch (err) {
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 };
 
@@ -473,8 +750,15 @@ export const verifyUserMFACode = async (data, mfaToken) => {
     }
     const res = await LOFLv2(true).post('verify-code',data,config);
     return res;
-  } catch (err) {
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 };
 
@@ -487,8 +771,15 @@ export const createUsernamePassword = async (data,mfaVerifiedAuth) => {
     }
     const res = await LOFLv2(true).post('create-username-password',data,config);
     return res;
-  } catch (err) {
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 };
 
@@ -497,93 +788,214 @@ export const getGlobalAlerts = async () => {
   try {
     const res = await LOFLv2(false).get(`global-alerts`);
     return res.data;
-  } catch (err) {
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 }
 
 //why do we need an api call to get username?
 export const getUserName = async () => {
-  return await LOFLv2(true).get('settings/getUserName');
+  try {
+    return await LOFLv2(true).get('settings/getUserName');
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 //we can remove the passing of csrf
 export const changeUserName = async ({ data, csrf }) => {
-  // const config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "X-CSRF-TOKEN": csrf
-  //   }
-  // }
-  const res = await LOFLv2(true).post('change-username', data);
-  return res.data;
+  try {
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "X-CSRF-TOKEN": csrf
+    //   }
+    // }
+    const res = await LOFLv2(true).post('change-username', data);
+    return res.data;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 //we can remove the passing of csrf
 export const changePassword = async ({ data, csrf }) => {
-  // const config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "X-CSRF-TOKEN": csrf
-  //   }
-  // }
-  const res = await LOFLv2(true).post('change-password', data);
-  return res.data;
+  try {
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "X-CSRF-TOKEN": csrf
+    //   }
+    // }
+    const res = await LOFLv2(true).post('change-password', data);
+    return res.data;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const updateEmailContactInfo = async (email) => {
-  const res = await LOFLv2(true).post('change-email', email);
-  return res.data;
+  try {
+    const res = await LOFLv2(true).post('change-email', email);
+    return res.data;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const updatePhoneContactInfo = async (phoneNum) => {
-  const res = await LOFLv2(true).post('change-phone', phoneNum);
-  return res.data;
+  try {
+    const res = await LOFLv2(true).post('change-phone', phoneNum);
+    return res.data;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const verifyPhoneContactInfo = async (payload, authenticated = false) => {
-  return await LOFLv2(authenticated).post('settings/resend-verification-code', payload).then((response) => response.data);
+  try {
+    return await LOFLv2(authenticated).post('settings/resend-verification-code', payload).then((response) => response.data);
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const verifyEmailContactInfo = async (payload, authenticated = false) => {
-  return await LOFLv2(authenticated).post('settings/resend-verification-code', payload).then((response) => response.data);
+  try {
+    return await LOFLv2(authenticated).post('settings/resend-verification-code', payload).then((response) => response.data);
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const verifyContactInfo = async (payload) => {
-  return await LOFLv2(true).post('verify-code', payload).then((response) => response.data);
+  try {
+    return await LOFLv2(true).post('verify-code', payload).then((response) => response.data);
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const resendCodeContactInfo = async (payload, csrf) => {
-  // const config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     "X-CSRF-TOKEN": csrf
-  //   }
-  // }
-  const res = await LOFLv2(true).post('settingsResendVerificationCode', payload);
-  return res.data;
+  try {
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "X-CSRF-TOKEN": csrf
+    //   }
+    // }
+    const res = await LOFLv2(true).post('settingsResendVerificationCode', payload);
+    return res.data;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const reportErrorService = async (membershipKey) => {
-  return await LOFLv2(true).post('/report-membership', membershipKey)
+  try {
+    return await LOFLv2(true).post('/report-membership', membershipKey)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 }
 
 //sam to deliver today
 export const submitPlanForExternalLink = async (payload) => {
-  const res = await LOFLv2(true).get(`/select-plan/${payload.membershipKey}`);
-  return res;
+  try {
+    const res = await LOFLv2(true).get(`/select-plan/${payload.membershipKey}`);
+    return res;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 }
 
 export const getCoverageBenefitsVideos = async (language, companyCode, benefitPackage, membershipStatus) => {
-  const res = await LOFLv2(true).get(`/videos/medicare/${language}?companyCode=${companyCode}&benefitPackage=${benefitPackage}&membershipStatus=${membershipStatus}`);
-  return res.data;
+  try {
+    const res = await LOFLv2(true).get(`/videos/medicare/${language}?companyCode=${companyCode}&benefitPackage=${benefitPackage}&membershipStatus=${membershipStatus}`);
+    return res.data;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 }
 
 export const getOTCProfile = async () => {
   try {
     const res = await LOFLv2(true).get(`/otc/profile`);
     return res.data;
-  } catch (err) {
-      console.log('getOTCCardStatus Error caught: ', err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
@@ -597,9 +1009,15 @@ export const activateOTCCard = async (cardNumber) => {
     const data = { cardNumber }
     const res = await LOFLv2(true).post(`/otc/activate-card`, data, config);
     return { status: res.status, data: res.data};
-  } catch (err) {
-    console.log('activateOTCCard Error caught: ', err.message)
-    return { status: err.response.status, data: err.response.data};
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return { status: error.response.status, data: error.response.data};
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return { status: error.response.status, data: error.response.data};
+    }
   }
 }
 
@@ -607,8 +1025,13 @@ export const getOTCCardMeta = async () => {
   try {
     const res = await LOFLv2(true).get(`/otc/card-meta`);
     return res.data;
-  } catch (err) {
-      console.log('activateOTCCard Error caught: ', err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
 
@@ -616,8 +1039,13 @@ export const getOTCClaimReimbursementData = async () => {
   try {
     const res = await LOFLv2(true).get(`/otc/claim-reimbursement-form`);
     return res.data;
-  } catch (err) {
-      console.log('ClaimReimbursementForm Error caught: ', err.message)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 } 
 
@@ -633,9 +1061,15 @@ export const forgotUsername = async (data, mfaToken="") => {
     const res = await LOFLv2(false).post('/forgot-username', data, config);
     // return res.data;
     return { status: res.status, data: res.data.data};
-  } catch (err) {
-    console.log('forgot-username Error caught: ', err.message)
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 }
 
@@ -650,9 +1084,15 @@ export const forgotPassword = async (data, mfaToken="") => {
 
     const res = await LOFLv2(false).post('/forgot-password', data, config);
     return { status: res.status, data: res.data.data};
-  } catch (err) {
-    console.log('forgot-password Error caught: ', err.message)
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 }
 
@@ -667,50 +1107,68 @@ export const setPassword = async (data, mfaToken="") => {
 
     const res = await LOFLv2(false).post('/set-password', data, config);
     return { status: res.status, data: res.data.data};
-  } catch (err) {
-    console.log('set-password Error caught: ', err.message)
-    return err.response;
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+      return error.response;
+    } catch (err) {
+      console.error('Error caught: ', err.message)
+      return error.response;
+    }
   }
 }
 
 // need to convert to V2
 export const getDocuments = async (data) => {
-
-  const { memberId, type, startDate, endDate, companyCode, benefitPackage, featureconfig } = data.payload;
-  
-  const docTypes = type.join(',');
-
-  return new Promise((res, rej) => {
-
-      const docs = LOFLv2(true).get("/documents", { params: {
-        documentPropValue1: memberId,
-        documentDateFrom: (startDate ? startDate : undefined),
-        documentDateTo: (endDate ? endDate : undefined),
-        documentTypes: docTypes,
-        includeSensitive: featureconfig.INCLUDE_SENSITIVE_DOCS ? 'true' : 'false',
-        showCorrespondence: featureconfig.SHOW_ONLY_CORRESPONDENCE ? 'true' : 'false',
-        maxRecords: featureconfig.MAX_RECORDS ? featureconfig.MAX_RECORDS : 1000,
-        companyCode: companyCode,
-        benefitPackage: benefitPackage
-      }
-    });
-
-    res(docs);
-
-  })
+  try {
+    const { memberId, type, startDate, endDate, companyCode, benefitPackage, featureconfig } = data.payload;
+    const docTypes = type.join(',');
+    return new Promise((res, rej) => {
+        const docs = LOFLv2(true).get("/documents", { params: {
+          documentPropValue1: memberId,
+          documentDateFrom: (startDate ? startDate : undefined),
+          documentDateTo: (endDate ? endDate : undefined),
+          documentTypes: docTypes,
+          includeSensitive: featureconfig.INCLUDE_SENSITIVE_DOCS ? 'true' : 'false',
+          showCorrespondence: featureconfig.SHOW_ONLY_CORRESPONDENCE ? 'true' : 'false',
+          maxRecords: featureconfig.MAX_RECORDS ? featureconfig.MAX_RECORDS : 1000,
+          companyCode: companyCode,
+          benefitPackage: benefitPackage
+        }
+      });
+      res(docs);
+    })
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 
 export const getDocumentFile = async (data) => {
-  const { docId, isNodeId } = data.payload;
-  return new Promise((res, rej) => {
-      const doc = LOFLv2(true).get(`/document/${docId}`, { 
-          params: {
-            isNodeId: isNodeId
-          }
-      });
-      res(doc);
-  })
+  try {
+    const { docId, isNodeId } = data.payload;
+    return new Promise((res, rej) => {
+        const doc = LOFLv2(true).get(`/document/${docId}`, { 
+            params: {
+              isNodeId: isNodeId
+            }
+        });
+        res(doc);
+    })
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
 };
 
 export const verifyAddress = async (data) => {
@@ -725,6 +1183,11 @@ export const verifyAddress = async (data) => {
     });
     return res.data;
   } catch (err) {
-    console.log(err.message)
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
   }
 }
