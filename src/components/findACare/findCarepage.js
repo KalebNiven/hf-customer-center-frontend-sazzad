@@ -6,6 +6,7 @@ import { requestPCPDetails, requestSelectedMember } from '../../store/actions';
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner";
 import { Wrapper } from "./findCarePCP";
+import moment from 'moment'
 
 
 const FindCare = (props) => {
@@ -51,21 +52,42 @@ const FindCare = (props) => {
 
   useEffect(() => { 
     if(pcp.pcpLoading) return;
-    const dependents = customerInfo.dependents || [];
+
+    const dependents = customerInfo?.dependents.map(dep => {
+      return {
+        memberId: dep.memberId, 
+        age: dep.Age,
+        benefitPackage: dep.benefitPackage,
+        groupNumber: dep.groupNumber,
+        year: dep.year,
+        firstName: dep.firstName,
+        lastName: dep.lastName,
+        pcpId: dep.pcpId,
+        disablePcpUpdate: dep.Status === "active" ? false : true,
+        membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY')
+      }
+    }) || [];
+
+    const hohPlans = customerInfo?.hohPlans.map(plan => {
+      return {
+        memberId: plan.MemberId, 
+        age: plan.age,
+        benefitPackage: plan.BenefitPackage,
+        groupNumber: plan.GroupNumber,
+        year: plan.memberYear,
+        firstName: plan.FirstName,
+        lastName: plan.LastName,
+        pcpId: plan.pcpId,
+        disablePcpUpdate: plan.MembershipStatus === "active" ? false : true,
+        membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY')
+      }
+    }) || [];
+
     const memberDetails = [
-      {
-        memberId: customerInfo.memberId, 
-        age: customerInfo.age,
-        benefitPackage: customerInfo.benefitPackage,
-        groupNumber: customerInfo.groupNumber,
-        year: customerInfo.memberYear,
-        firstName: customerInfo.firstName,
-        lastName: customerInfo.lastName,
-        pcpId: pcp.pcpDetails.id || customerInfo.pcpId,
-        disablePcpUpdate: customerInfo.membershipStatus === "active" ? false : true,
-      },
+      ...hohPlans,
       ...dependents
     ];
+    
     if(customerInfo.accountStatus !=="NON-MEMBER"){
     const mountProps = {
       parentElement: "#findCareHomeWrapper",

@@ -6,6 +6,7 @@ import { requestSelectedMember } from "../../store/actions";
 import { requestPCPDetails } from "../../store/actions/index";
 import Spinner from "../common/spinner";
 import styled from "styled-components";
+import moment from 'moment'
 
 const FindCarePCP = (props) => {
     const dispatch = useDispatch();
@@ -63,40 +64,42 @@ const FindCarePCP = (props) => {
 
     useEffect(() => {
         if (pcp.pcpLoading) return;
-        const custDependents = () => {
-            if (customerInfo.dependents != null) {
-                let dependents = customerInfo.dependents.map((info) => ({
-                    memberId: info.memberId,
-                    age: info.Age,
-                    benefitPackage: info.benefitPackage,
-                    groupNumber: info.groupNumber,
-                    year: info.year,
-                    firstName: info.firstName,
-                    lastName: info.lastName,
-                    pcpId: info.pcpId,
-                    disablePcpUpdate: info.Status === "active" ? false : true,
-                }));
-                return dependents;
+        
+        const memberDependents = customerInfo?.dependents.map(dep => {
+            return {
+              memberId: dep.memberId, 
+              age: dep.Age,
+              benefitPackage: dep.benefitPackage,
+              groupNumber: dep.groupNumber,
+              year: dep.year,
+              firstName: dep.firstName,
+              lastName: dep.lastName,
+              pcpId: dep.pcpId,
+              disablePcpUpdate: dep.Status === "active" ? false : true,
+              membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY')
             }
-            return [];
-        };
+        }) || [];
 
-        const memberDependents = custDependents();
+        const hohPlans = customerInfo?.hohPlans.map(plan => {
+            return {
+              memberId: plan.MemberId, 
+              age: plan.age,
+              benefitPackage: plan.BenefitPackage,
+              groupNumber: plan.GroupNumber,
+              year: plan.memberYear,
+              firstName: plan.FirstName,
+              lastName: plan.LastName,
+              pcpId: plan.pcpId,
+              disablePcpUpdate: plan.MembershipStatus === "active" ? false : true,
+              membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY')
+            }
+          }) || [];
+
         const memberDetails = [
-            {
-                memberId: customerInfo.memberId,
-                age: customerInfo.age,
-                benefitPackage: customerInfo.benefitPackage,
-                groupNumber: customerInfo.groupNumber,
-                year: customerInfo.memberYear,
-                firstName: customerInfo.firstName,
-                lastName: customerInfo.lastName,
-                pcpId:  getPcpIdFromHoh(customerInfo.memberId),
-                disablePcpUpdate:
-                    customerInfo.membershipStatus === "active" ? false : true,
-            },
+            ...hohPlans,
             ...memberDependents,
         ];
+        
         let mountProps;
         if (
             customerInfo.accountStatus !== "NON-MEMBER" &&
