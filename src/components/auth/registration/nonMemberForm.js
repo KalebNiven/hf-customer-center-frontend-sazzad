@@ -18,8 +18,6 @@ import {
     TermsLink,
     CheckBoxWrapper,
     SubHeader,
-    BackIcon,
-    BackText,
     Link,
     Header,
     Spinner,
@@ -30,7 +28,6 @@ import {handleSegmentClick} from "../../../libs/segment"
 import { requestRegister } from "../../../store/actions";
 import { RecaptchaV2 ,RecaptchaV3} from "../recaptcha/recaptcha";
 import { useToaster } from "../../../hooks/useToaster";
-import { number } from "prop-types";
 import useQuery from "../../../hooks/useQuery";
 import { dobIsValid } from "../../../utils/formValidation";
 
@@ -46,6 +43,9 @@ const INVALID_NAME_FORMAT = 'Invalid Name Format';
 const ERROR = "error"
 const { MIX_REACT_REG_CONTACT_LINK } = process.env;
 
+const WM_HEADER = "Online Registration";
+const WM_SUB_HEADER = "Welcome to the Healthfirst Medicare registration portal.";
+const WM_CENTER_INFO = "To start your Medicare Advantage plan enrollment application, enter the information below.";
 const nonMemberForm = ({
     onBack,
     handleRegistrationWithId,
@@ -264,17 +264,9 @@ const nonMemberForm = ({
     return (
         <> 
          <RecaptchaV3 setV3Response={setGRecaptchaResponse} formSubmitted={formSubmissions}/>
-         
-            <BackIcon
-                src="/react/images/ico-back.svg"
-                onClick={onBack}
-            ></BackIcon>
-            <BackText onClick={onBack}>Back</BackText>
-
-            <Header>Register Your Account</Header>
+            <NonMemberFormHeader>{!wmvalue ? <>Register Your Account</> : WM_HEADER}</NonMemberFormHeader>
             <SubHeader>
-                Please enter the same information you provided during
-                enrollment.
+                {!wmvalue ? "Please enter the same information you provided during enrollment." : WM_SUB_HEADER}
             </SubHeader>
             <FormGrid>
                 <AdditionalInfo>
@@ -719,6 +711,9 @@ const nonMemberForm = ({
 };
 export default nonMemberForm;
 
+const NonMemberFormHeader = styled(Header)`
+    margin-top:12px;
+`;
 
 const ContinueButton = styled(StyledButton)`
 color:#ffffff;
