@@ -214,15 +214,14 @@ const MailIdCard = (props) => {
 
     const dispatch = useDispatch();
     return (
-        <>
+      <Container>
         {
-        false ? // This will be replaced with status loading
-        <Container>
+        mailMemberIDCardStatus.loading ?
             <ProgressWrapper>
                 <Spinner />
             </ProgressWrapper>
-        </Container> : (
-        <Container>
+         : (
+          <>
             {(latestStatusRecord != null) ?
               <>
                 <Label className="no-print">Mail ID Card Status</Label>
@@ -232,7 +231,7 @@ const MailIdCard = (props) => {
                   <Card>
                     <StatusLabel>{latestStatusRecord['title']}</StatusLabel>
                     <StatusDate>Last Updated {latestStatusRecord['lastUpdateDate']}</StatusDate>
-                    <StatusDescription>Your New Member ID Card has been shipped.</StatusDescription>
+                    <StatusDescription>{latestStatusRecord['description']}</StatusDescription>
                     {(latestStatusRecord['trackingCodeURL'] != null && latestStatusRecord['trackingCode'] != null) ?
                       <TrackingContainer>
                         <TrackingIcon alt="" src="/react/images/delivery.svg" />
@@ -276,10 +275,10 @@ const MailIdCard = (props) => {
                 </MailIdCardContainer>
               </>
             }
-            <MailMemberIDCardForm showForm={renderIdCardForm} member={props?.memberSelection} customerDemographicsInfo = {customerDemographicsInfo} unmountMe={() => setRenderIdCardForm(false)}/>
-        </Container>
-        )}
         </>
+        )}
+        <MailMemberIDCardForm showForm={renderIdCardForm} member={props?.memberSelection} customerDemographicsInfo = {customerDemographicsInfo} unmountMe={() => setRenderIdCardForm(false)}/>
+        </Container>
     )
 }
 
