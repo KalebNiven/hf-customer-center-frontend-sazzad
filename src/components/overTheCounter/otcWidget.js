@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useAppContext } from "../../AppContext";
 import { ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import { loadExternalScript } from "../../utils/externalScripts";
+import useLogError from "../../hooks/useLogError";
 
 const OTC_WIDGET_SCRIPT_ID = 'OTCWidgetScript';
 
@@ -71,6 +72,7 @@ const OTCWidget = () => {
   const updatedJwt = (jwt_token === undefined ? jwt_token : jwt_token.replace('Bearer ', ''));
   const [existingScript, setExistingScript] = useState(document.getElementById(OTC_WIDGET_SCRIPT_ID));
   const { externalSiteModal, setExternalSiteModal } = useAppContext()
+  const { logError } = useLogError();
 
   const handleExternalSiteClicked = (link, type, action) => {
     let externalSiteData = {
@@ -124,22 +126,48 @@ const OTCWidget = () => {
 
   useEffect(() => {
     if(existingScript){
-      window.OTCWidget.mount(mountProps);
-      sessionStorage.setItem("longLoad", false);
+      try {
+        window.OTCWidget.mount(mountProps);
+        sessionStorage.setItem("longLoad", false);
+      } catch (error) {
+        (async () => {
+            try {
+                await logError(error);
+            } catch (err) {
+                console.error('Error caught: ', err.message);
+            }
+        })()
+      }
     }
     else{
       loadExternalScript(MIX_REACT_TRAILBLAZER_WIDGET_BASE_URL + '/otc-widget.js', OTC_WIDGET_SCRIPT_ID, 
       () => {
-        window.OTCWidget.mount(mountProps);
-        sessionStorage.setItem("longLoad", false);
-        setExistingScript(document.getElementById(OTC_WIDGET_SCRIPT_ID));
+        try {
+          window.OTCWidget.mount(mountProps);
+          sessionStorage.setItem("longLoad", false);
+          setExistingScript(document.getElementById(OTC_WIDGET_SCRIPT_ID));
+        } catch (error) {
+          (async () => {
+              try {
+                  await logError(error);
+              } catch (err) {
+                  console.error('Error caught: ', err.message);
+              }
+          })()
+        }
       });
     }
     return () => {
-      try{
+      try {
         window.OTCWidget.unmount();
-      }catch(e){
-        console.log(e)
+      } catch(error){
+        (async () => {
+            try {
+                await logError(error);
+            } catch (err) {
+                console.error('Error caught: ', err.message);
+            }
+        })()
       }
     };
   },[]);

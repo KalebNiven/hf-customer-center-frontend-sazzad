@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useSelector } from "react-redux";
 import { SHOW_CHAT_WIDGET } from '../../constants/splits'
 import { FeatureTreatment } from "../../libs/featureFlags";
+import useLogError from '../../hooks/useLogError';
 
 export const ChatWidget = ({ memberId, jwt, nonce }) => {
     const customerInfo = useSelector((state) => state.customerInfo);
@@ -39,6 +40,7 @@ export const ChatWidget = ({ memberId, jwt, nonce }) => {
 
 export const ChatWidgetScript = ({ memberId, removeChatWidget, jwt, nonce }) => {
     const { MIX_CHAT_WIDGET_BASE_URL } = process.env;
+    const { logError } = useLogError();
 
     // Chat Widget Integration
     useEffect(() => {
@@ -48,21 +50,53 @@ export const ChatWidgetScript = ({ memberId, removeChatWidget, jwt, nonce }) => 
             const script = document.createElement('script');
             script.src = MIX_CHAT_WIDGET_BASE_URL + '/widget.js';
             script.async = true;
-            script.onload = () => window.EmbeddableWidget.mount({
-                token: jwt.slice(7), // Slice Bearer part
-                nonce: nonce,
-                caller: "web",
-                memberId: memberId
-            })
+            script.onload = () => {
+                try {
+                    window.EmbeddableWidget.mount({
+                        token: jwt.slice(7), // Slice Bearer part
+                        nonce: nonce,
+                        caller: "web",
+                        memberId: memberId
+                    })
+                } catch (error) {
+                    (async () => {
+                        try {
+                            await logError(error);
+                        } catch (err) {
+                            console.error('Error caught: ', err.message);
+                        }
+                    })()
+                }
+            }
 
             chatContainer.appendChild(script);
 
             return () => {
                 chatContainer.removeChild(script);
-                window.EmbeddableWidget && window.EmbeddableWidget.unmount();
+                try {
+                    window.EmbeddableWidget && window.EmbeddableWidget.unmount();
+                } catch (error) {
+                    (async () => {
+                        try {
+                            await logError(error);
+                        } catch (err) {
+                            console.error('Error caught: ', err.message);
+                        }
+                    })()
+                }
             }
-        } else{
-            window.EmbeddableWidget && window.EmbeddableWidget.unmount();
+        } else {
+            try {
+                window.EmbeddableWidget && window.EmbeddableWidget.unmount();
+            } catch (error) {
+                (async () => {
+                    try {
+                        await logError(error);
+                    } catch (err) {
+                        console.error('Error caught: ', err.message);
+                    }
+                })()
+            }
         }
     }, [memberId, jwt, nonce])
 

@@ -22,8 +22,6 @@ export const sendErrorLog = async (error) => {
       clientDetails
     }
 
-    console.log('== sendErrorLog received payload == ', payload)
-
     const res = await LOFLv2(true).post('/log', payload, config);
     return res.data;
   } catch (error) {

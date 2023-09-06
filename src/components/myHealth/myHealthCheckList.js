@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { loadExternalScript } from "../../utils/externalScripts";
+import useLogError from "../../hooks/useLogError";
 
 const MY_HEALTH_CHECKLIST_SCRIPT_ID = 'myHealthChecklistScript';
 const MyHealthCheckList = () => {
@@ -13,6 +14,7 @@ const MyHealthCheckList = () => {
   const updatedJwt = (jwt_token === undefined ? jwt_token : jwt_token.replace('Bearer ', ''));
   const [existingScript, setExistingScript] = useState(document.getElementById(MY_HEALTH_CHECKLIST_SCRIPT_ID));
   const history = useHistory();
+  const { logError } = useLogError();
 
   const events = {
       onNavigateToPrimaryCareProvider: (data) => {
@@ -41,13 +43,33 @@ const MyHealthCheckList = () => {
 
   useEffect(() => {
     if(existingScript){
-      MyHealthChecklistWidget.mount(mountProps);
       sessionStorage.setItem("longLoad", false);
+      try {
+        MyHealthChecklistWidget.mount(mountProps);
+      } catch (error) {
+        (async () => {
+            try {
+                await logError(error);
+            } catch (err) {
+                console.error('Error caught: ', err.message);
+            }
+        })()
+      }
     }
     else{
       loadExternalScript(MIX_REACT_TRAILBLAZER_WIDGET_BASE_URL + '/mhc-widget.js', MY_HEALTH_CHECKLIST_SCRIPT_ID, 
       () => {
-        MyHealthChecklistWidget.mount(mountProps);
+        try {
+          MyHealthChecklistWidget.mount(mountProps);
+        } catch (error) {
+          (async () => {
+              try {
+                  await logError(error);
+              } catch (err) {
+                  console.error('Error caught: ', err.message);
+              }
+          })()
+        }
         sessionStorage.setItem("longLoad", false);
         setExistingScript(document.getElementById(MY_HEALTH_CHECKLIST_SCRIPT_ID));
       });
@@ -55,8 +77,14 @@ const MyHealthCheckList = () => {
     return () => {
       try{
         MyHealthChecklistWidget.unmount();
-      }catch(e){
-        console.log(e)
+      } catch(error){
+        (async () => {
+          try {
+              await logError(error);
+          } catch (err) {
+              console.error('Error caught: ', err.message);
+          }
+      })()
       }
     };
   },[]);
