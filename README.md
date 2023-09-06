@@ -20,3 +20,6 @@ To run the app with hot reload for development use ```npm run serve```. Your app
 ## Deployment:
 1. When you merge a PR into ```develop``` the pipiline gets triggered in order to build your changes which should be available live in ```dev``` environment.
 2. To merge ```dev``` into ```ST``` you should create a CTASK (same process as before but under ```Customer-Center-Frontend``` repo).
+
+## Trigger:
+lets see how many time i gotta manually trigger this -__-
