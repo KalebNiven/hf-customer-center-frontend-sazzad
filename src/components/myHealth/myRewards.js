@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { loadExternalScript } from "../../utils/externalScripts";
+import useLogError from "../../hooks/useLogError";
 
 const MY_REWARDS_SCRIPT_ID = 'myRewardsScript';
 const MyRewards = () => {
@@ -12,6 +13,7 @@ const MyRewards = () => {
   const jwt_token = customerInfo.id_token
   const updatedJwt = (jwt_token === undefined ? jwt_token : jwt_token.replace('Bearer ', ''));
   const [existingScript, setExistingScript] = useState(document.getElementById(MY_REWARDS_SCRIPT_ID));
+  const { logError } = useLogError();
 
   const events = {
     onNavigateToPrimaryCareProvider: (data) => {
@@ -36,23 +38,51 @@ const MyRewards = () => {
 
   useEffect(() => {
     if(existingScript){
-      RewardsWidget.mount(mountProps);
       sessionStorage.setItem("longLoad", false);
+      try {
+        RewardsWidget.mount(mountProps);
+      } catch (error) {
+        (async () => {
+            try {
+                await logError(error);
+            } catch (err) {
+                console.error('Error caught: ', err.message);
+            }
+        })()
+      }
     }
     else{
       loadExternalScript(MIX_REACT_TRAILBLAZER_WIDGET_BASE_URL + '/rewards-widget.js', MY_REWARDS_SCRIPT_ID, 
       () => {
-        RewardsWidget.mount(mountProps);
+        try {
+          RewardsWidget.mount(mountProps);
+        } catch (error) {
+          (async () => {
+              try {
+                  await logError(error);
+              } catch (err) {
+                  console.error('Error caught: ', err.message);
+              }
+          })()
+        }
         sessionStorage.setItem("longLoad", false);
       });
     }
 
     return () => {
       const existingScript = document.getElementById(MY_REWARDS_SCRIPT_ID);
-      if(existingScript) try{
-        RewardsWidget.unmount();
-      }catch(e){
-        console.log(e)
+      if(existingScript) {
+        try {
+          RewardsWidget.unmount();
+        } catch (error) {
+          (async () => {
+              try {
+                  await logError(error);
+              } catch (err) {
+                  console.error('Error caught: ', err.message);
+              }
+          })()
+        }
       }
     };
   },[]);

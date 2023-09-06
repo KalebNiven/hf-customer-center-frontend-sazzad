@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
-
 import { useSelector } from "react-redux";
-
 import styled from "styled-components";
+import useLogError from "../../hooks/useLogError";
 
 const UpdatedContactInformation = () => {
-
-
-
   const customerInfo = useSelector((state) => state.customerInfo);
-
-
+  const { logError } = useLogError();
 
   /** Adding Widget script for Preference Management and Mounting the widget on page load */
-
   useEffect(() => {
 
     const jwt_token = customerInfo.data.id_token
@@ -29,11 +23,38 @@ const UpdatedContactInformation = () => {
 
     try {
       if (updatedJwt) {
-        { prefManagementWidget?.mount(mountProps); }
+        try {
+          { prefManagementWidget?.mount(mountProps); }
+        } catch (error) {
+          (async () => {
+              try {
+                  await logError(error);
+              } catch (err) {
+                  console.error('Error caught: ', err.message);
+              }
+          })()
+        }
       }
     } catch (error) {
-      prefManagementWidget?.unmount(mountProps);
-      prefManagementWidget?.mount(mountProps);
+      (async () => {
+          try {
+              await logError(error);
+          } catch (err) {
+              console.error('Error caught: ', err.message);
+          }
+      })()
+      try {
+        prefManagementWidget?.unmount(mountProps);
+        prefManagementWidget?.mount(mountProps);
+      } catch (error) {
+        (async () => {
+            try {
+                await logError(error);
+            } catch (err) {
+                console.error('Error caught: ', err.message);
+            }
+        })()
+      }
     }
 
   }, [customerInfo.data.id_token])

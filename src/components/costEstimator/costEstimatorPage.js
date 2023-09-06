@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { SHOW_COST_ESTIMATOR_WIDGET } from '../../constants/splits'
 import { FeatureTreatment } from "../../libs/featureFlags";
+import useLogError from '../../hooks/useLogError';
 
 export const CostEstimatorPage = () => {
     const customerInfo = useSelector((state) => state.customerInfo.data);
@@ -47,6 +48,7 @@ export const CostEstimatorWidget = ({ removeCostEstimatorWidget }) => {
     const customerInfo = useSelector((state) => state.customerInfo.data);
     const jwt_token_with_bearer = customerInfo.id_token;
     const jwt_token = (jwt_token_with_bearer === undefined ? jwt_token_with_bearer : jwt_token_with_bearer.replace('Bearer ', ''));
+    const { logError } = useLogError();
 
     useEffect(() => {
     if(!removeCostEstimatorWidget){
@@ -55,18 +57,40 @@ export const CostEstimatorWidget = ({ removeCostEstimatorWidget }) => {
         const script = document.createElement('script');
         script.src = `${MIX_REACT_COST_CALCULATOR_BASE_URL}/cost-estimator-widget.js`;
         script.async = true;
-        script.onload = () => window.CostEstimator.mount({
-            parentElement: "#costCalculatorPageWrapper",
-            oktaToken: jwt_token
-        })
+        script.onload = () => {
+            try {
+                window.CostEstimator.mount({
+                    parentElement: "#costCalculatorPageWrapper",
+                    oktaToken: jwt_token
+                })
+            } catch (error) {
+                (async () => {
+                    try {
+                        await logError(error);
+                    } catch (err) {
+                        console.error('Error caught: ', err.message);
+                    }
+                })()
+            }
+        }
         costEstimatorContainer.appendChild(script);
 
         return () => {
             costEstimatorContainer.removeChild(script);
         }
     }
-    else{
-        window.CostEstimator && window.CostEstimator.unmount();
+    else {
+        try {
+            window.CostEstimator && window.CostEstimator.unmount();
+        } catch (error) {
+            (async () => {
+                try {
+                    await logError(error);
+                } catch (err) {
+                    console.error('Error caught: ', err.message);
+                }
+            })()
+        }
     }
     }, [])
 
