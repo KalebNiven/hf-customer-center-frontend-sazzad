@@ -331,6 +331,14 @@ const HRACard = () => {
         }
     }
 
+    const getCurrQuestionIndex = (data, active) => {
+        let index = 0;
+        data.list.find((i, idx) => {
+            if(i.question_id === active) index = idx;
+        })
+        return index;
+    }
+
     return (
         <HRAWrapper>
             <Breadcrumbs>
@@ -345,7 +353,7 @@ const HRACard = () => {
                             (surveyStatus?.status === "COMPLETE" || surveySuccess) ? <SurveySuccess /> : 
                             (surveyStatus?.status === "NOT COMPLETE" && data.list.length > 0) ?
                             <>
-                                <ProgressBar style={{ width: active === "q01" ? `0%` : `${100 / data.list.length * Number(active.slice(1))}%` }} />
+                                <ProgressBar style={{ width: active === "q01" ? `0%` : `${100 / data.list.length * Number(getCurrQuestionIndex(data, active))}%` }} />
                                 <CardQuestion isSelected={isSelected} setIsSelected={setIsSelected} setVisible={setVisible} />
                                 <Controls>
                                     <div>
