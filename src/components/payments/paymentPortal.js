@@ -1,19 +1,21 @@
 
 import React, { useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
 import PaymentError from './paymentError';
+import { usePaymentsModalContext } from '../../context/paymentsModalContext';
 
 const { MIX_REACT_PAYMENTS_BASE_URL } = process.env;
 
-//purge session storage for payments
+// purge session storage for payments
 export const purgePaymentsSessionData = () => sessionStorage.removeItem(`persist:${MIX_REACT_PAYMENTS_BASE_URL}`);
 
 const PaymentPortal = () => {
 
   const [isError, setIsError] = useState(false);
+  const { paymentsModalState } = usePaymentsModalContext();
 
-  const memberData = useSelector(state => state.customerInfo);
-  const oktaToken = memberData?.data?.id_token?.length>0?memberData.data.id_token.split(' ')[1] : '' ;
+  const localStorageOKTA = JSON.parse(localStorage.getItem('okta-token-storage'));
+  const accessToken = localStorageOKTA.accessToken.accessToken;
+  const memberId = paymentsModalState?.membership?.MemberId;
 
   useEffect(()=>{
     const uniqueHash = (+new Date).toString(16); //to prevent caching
@@ -49,7 +51,8 @@ const PaymentPortal = () => {
             id="hf--payments--root"
             hf--payments--app="lofl"
             hf--payments--token="okta"
-            hf--payments--session={oktaToken}
+            hf--payments--session={accessToken}
+            hf--payments--member={memberId}
           >
             { isError ? <PaymentError /> :
               <h1 id="hf--payments--loading" className="mt-5 text-center">
