@@ -97,12 +97,11 @@ const  checkSelectedDependent  = () =>{
 }
 }
 
-const checkNonMemberHOH = (companyCode, benefitPackage, relationshipCode) => {
-  console.log({companyCode, benefitPackage, relationshipCode});
+const checkNonMemberHOH = (companyCode, benefitPackage, isHohMember) => {
   if(companyCode === '01' && DUMMY_PACKAGES.includes(benefitPackage)){
       return true;
   }
-  else if(companyCode === '20' && relationshipCode === 'CHP_HOH'){
+  else if(companyCode === '20' && isHohMember){
       return true;
   }
   else{
