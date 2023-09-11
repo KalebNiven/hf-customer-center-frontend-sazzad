@@ -58,7 +58,8 @@ const DependentBlock = ({
                     lob: plan.LOBCode,
                     groupNumber: plan.GroupNumber,
                     relationshipType: 'SELF',
-                    relationshipCode: plan.RelationshipCode
+                    relationshipCode: plan.RelationshipCode,
+                    isHohPlan: true
                 };
 
                 if (!activeOnly) {
