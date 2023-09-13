@@ -132,7 +132,8 @@ useEffect(() => {
         benefitPackage: customerInfo.data.hohPlans[0].BenefitPackage,
         firstName: customerInfo.data.hohPlans[0].FirstName,
         lastName: customerInfo.data.hohPlans[0].LastName,
-        relationshipCode: customerInfo.data.hohPlans[0].RelationshipCode
+        relationshipCode: customerInfo.data.hohPlans[0].RelationshipCode,
+        isHohPlan: true
       })
     }
 
@@ -210,7 +211,7 @@ useEffect(() => {
       dispatch(requestPhysicalIdCard(memberSelection.memberId));
       dispatch(requestMailMemberIDCardStatus(memberSelection.memberId));
     }
-    setIsNonMemberHOH(checkNonMemberHOH(memberSelection.companyCode, memberSelection.benefitPackage, memberSelection.relationshipCode));
+    setIsNonMemberHOH(checkNonMemberHOH(memberSelection.companyCode, memberSelection.benefitPackage, memberSelection.isHohPlan));
   }, [memberSelection]);
 
   useEffect(() => {
