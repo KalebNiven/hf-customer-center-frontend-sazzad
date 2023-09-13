@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import PaymentError from './paymentError';
+import { useSelector } from 'react-redux';
 import { usePaymentsModalContext } from '../../context/paymentsModalContext';
 
 const { MIX_REACT_PAYMENTS_BASE_URL } = process.env;
@@ -15,7 +16,8 @@ const PaymentPortal = () => {
 
   const localStorageOKTA = JSON.parse(localStorage.getItem('okta-token-storage'));
   const accessToken = localStorageOKTA.accessToken.accessToken;
-  const memberId = paymentsModalState?.membership?.MemberId;
+  const memberData = useSelector(state => state.customerInfo);
+  const memberId = paymentsModalState?.membership?.MemberId ?? memberData?.data?.memberId;
 
   useEffect(()=>{
     const uniqueHash = (+new Date).toString(16); //to prevent caching
