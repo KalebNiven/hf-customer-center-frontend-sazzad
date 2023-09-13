@@ -1,18 +1,23 @@
 import styled from "styled-components";
-import React from 'react';
+import React, { useEffect } from 'react';
 import GlobalStyle from "../../styles/GlobalStyle";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import moment from 'moment';
 import { AnalyticsPage, AnalyticsTrack } from "../../components/common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import ExternalSiteLink from '../common/externalSiteLink';
+import { requestPcpHousehold } from '../../store/actions'
+import Spinner from "../common/spinner";
 
 const PrimaryCareProvider = () => {
+  const dispatch = useDispatch();
+  const customerInfo = useSelector(state => state.customerInfo)
+  const pcpHousehold = useSelector(state => state.pcpHousehold)
+  const pcpDetails = pcpHousehold?.data?.hohPlans[customerInfo?.data?.hohPlans[0]?.MemberId];
 
-  const pcpDetails = useSelector((state) => state.pcp.pcpDetails);
-  const customerInfo = useSelector(state => state.customerInfo) 
-
- 
+  useEffect(() => {
+    dispatch(requestPcpHousehold())
+  }, [])
 
   const checkIfOpened = (openTime, closeTime) => {
     const open = moment(openTime);
@@ -150,7 +155,9 @@ const PrimaryCareProvider = () => {
     );
   };
 
-  return (Object.keys(pcpDetails).length > 0 &&
+  if(pcpHousehold?.loading) return <Spinner />;
+
+  return (pcpDetails ?
     <> <GlobalStyle />
       <PcpTxt>
         Primary Care Provider
@@ -179,7 +186,7 @@ const PrimaryCareProvider = () => {
           <ViewChangePcp>View or Change Primary Care Provider</ViewChangePcp>
         </Section>
       </Card>
-    </>
+    </> : <></>
   )
 };
 

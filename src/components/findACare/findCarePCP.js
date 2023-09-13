@@ -1,38 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useLocation } from "react-router";
-import { requestSelectedMember } from "../../store/actions";
-import { requestPCPDetails } from "../../store/actions/index";
-import Spinner from "../common/spinner";
 import styled from "styled-components";
 import moment from 'moment'
+import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { requestPcpHousehold } from "../../store/actions";
+import Spinner from "../common/spinner";
+import useLogError from "../../hooks/useLogError";
 
 const FindCarePCP = (props) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const customerInfo = useSelector((state) => state.customerInfo.data);
     const { MIX_REACT_APP_PROVIDER_API_KEY } = process.env;
-    const jwt_token = customerInfo.id_token;
-    const [isGlobalError, setGlobalError] = useState(false);
-    const pcp = useSelector((state) => state.pcp);
+    const [isGlobalError,setGlobalError] = useState(false);
+    const { logError } = useLogError();
 
+    const pcpHousehold = useSelector(state => state.pcpHousehold)
     useEffect(() => {
-        // dispatch(requestCustomerInfo());
-        sessionStorage.setItem("longLoad", false);
-
-        if (
-            customerInfo.customerId &&
-            customerInfo.membershipStatus === "active"
-        ) {
-            dispatch(
-                requestPCPDetails(
-                    customerInfo.memberId,
-                    customerInfo.membershipEffectiveDate
-                )
-            );
-        }
-    }, []);
+        if(pcpHousehold.data) return;
+        dispatch(requestPcpHousehold())
+    }, [])
 
     const handleChangePCP = () => {
         history.push({
@@ -48,24 +35,15 @@ const FindCarePCP = (props) => {
     };
 
     const handleMemberChanged = (id, details) => {
-        dispatch(requestSelectedMember(id));
         sessionStorage.setItem("currentMemberId", id);
     };
 
-   const getPcpIdFromHoh = (memberId) => {
-    let CurrentPcpId = "";
-        customerInfo.hohPlans.map((hoh, index) => {
-            if (hoh.MemberId === memberId) {
-                CurrentPcpId =  customerInfo.hohPlans[index].pcpId;
-            }
-        });
-        return CurrentPcpId;
-    };
-
     useEffect(() => {
-        if (pcp.pcpLoading) return;
+        if (pcpHousehold.loading || !pcpHousehold.data) return;
         
-        const memberDependents = customerInfo?.dependents.map(dep => {
+        const memberDependents = customerInfo?.dependents
+        .filter(dep => dep.Status === 'active')
+        .map(dep => {
             return {
               memberId: dep.memberId, 
               age: dep.Age,
@@ -74,13 +52,15 @@ const FindCarePCP = (props) => {
               year: dep.year,
               firstName: dep.firstName,
               lastName: dep.lastName,
-              pcpId: dep.pcpId,
+              pcpId: pcpHousehold?.data?.dependents[dep?.memberId].id,
               disablePcpUpdate: dep.Status === "active" ? false : true,
               membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY')
             }
         }) || [];
 
-        const hohPlans = customerInfo?.hohPlans.map(plan => {
+        const hohPlans = customerInfo?.hohPlans
+        .filter(plan => plan.MembershipStatus === 'active')
+        .map(plan => {
             return {
               memberId: plan.MemberId, 
               age: plan.age,
@@ -89,7 +69,7 @@ const FindCarePCP = (props) => {
               year: plan.memberYear,
               firstName: plan.FirstName,
               lastName: plan.LastName,
-              pcpId: plan.pcpId,
+              pcpId: pcpHousehold?.data?.hohPlans[plan?.MemberId]?.id,
               disablePcpUpdate: plan.MembershipStatus === "active" ? false : true,
               membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY')
             }
@@ -100,18 +80,14 @@ const FindCarePCP = (props) => {
             ...memberDependents,
         ];
         
-        let mountProps;
-        if (
-            customerInfo.accountStatus !== "NON-MEMBER" &&
-            customerInfo.membershipStatus !== "inactive"
-        ) {
-            mountProps = {
+        if(customerInfo.accountStatus !== "NON-MEMBER") {
+            let mountProps = {
                 parentElement: "#findcarePCPWrapper",
                 widget: "PRIMARY_CARE_PROVIDER",
                 memberId: customerInfo.memberId,
                 channel: "customer-center",
                 memberDetails: memberDetails,
-                token: jwt_token,
+                token: customerInfo.id_token,
                 apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
                 lang: customerInfo.language || "en",
                 onOtherLocClicked: handleOtherLocClicked,
@@ -119,50 +95,63 @@ const FindCarePCP = (props) => {
                 onChangePCP: handleChangePCP,
             };
             if (customerInfo.memberId) {
+                const currentMemberId = sessionStorage.getItem(
+                    "currentMemberId"
+                );
+                sessionStorage.setItem(
+                    "currentMemberId",
+                    currentMemberId
+                        ? currentMemberId
+                        : customerInfo.memberId
+                );
+
                 try {
-                    const currentMemberId = sessionStorage.getItem(
-                        "currentMemberId"
-                    );
-                    sessionStorage.setItem(
-                        "currentMemberId",
-                        currentMemberId
-                            ? currentMemberId
-                            : customerInfo.memberId
-                    );
-                    // dispatch(requestSelectedMember(currentMemberId));
+                    ProviderDirectoryWidget.mount(mountProps);
+                } catch (error) {
+                    (async () => {
+                        try {
+                            await logError(error);
+                        } catch (err) {
+                            console.error('Error caught: ', err.message);
+                        }
+                    })()
                     try {
-                        ProviderDirectoryWidget.invalidateStore();
-                    } catch (e) {
-                        console.log("Nothing to invalidate");
+                        ProviderDirectoryWidget.unmount(mountProps.widget);
+                        ProviderDirectoryWidget.mount(mountProps);
+                    } catch (error) {
+                        (async () => {
+                            try {
+                                await logError(error);
+                            } catch (err) {
+                                console.error('Error caught: ', err.message);
+                            }
+                        })()
                     }
-                    ProviderDirectoryWidget.mount(mountProps);
-                } catch (e) {
-                    ProviderDirectoryWidget.unmount(mountProps.widget);
-                    ProviderDirectoryWidget.invalidateStore();
-                    ProviderDirectoryWidget.mount(mountProps);
                 }
             }
         } else {
             setGlobalError(true);
         }
 
+        () => {
+            if(ProviderDirectoryWidget.isMounted()) {
+                ProviderDirectoryWidget.unmount(mountProps.widget);
+            }
+        }
+    }, [customerInfo, pcpHousehold]);
 
-    }, [pcp]);
+    if (pcpHousehold.loading) return  <Wrapper><Spinner /></Wrapper>
 
     return (
         <Wrapper>
-            {pcp.pcpLoading && <Spinner />}
-            {!pcp.pcpLoading && (
-                <>
-                    <div id="findcarePCPWrapper" />
-                </>
-            )}
+            <div id="findcarePCPWrapper"></div>
+            {isGlobalError && <GlobalError/>}
         </Wrapper>
     );
 };
 
+export default FindCarePCP;
+
 export const Wrapper = styled.div`
     height: 100%;
 `;
-
-export default FindCarePCP;

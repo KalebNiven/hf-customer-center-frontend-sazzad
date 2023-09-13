@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import moment from 'moment'
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { requestPCPDetails, requestSelectedMember } from '../../store/actions'; 
+import { requestPcpHousehold } from '../../store/actions'; 
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner";
-import { Wrapper } from "./findCarePCP";
-import moment from 'moment'
-
+import useLogError from "../../hooks/useLogError";
 
 const FindCare = (props) => {
   const { MIX_REACT_APP_PROVIDER_API_KEY } = process.env;
   const history = useHistory();
   const dispatch = useDispatch();
   const customerInfo = useSelector((state) => state.customerInfo.data);
-  const jwt_token = customerInfo.id_token;
-  const pcp = useSelector((state) => state.pcp);
+  const pcpHousehold = useSelector(state => state.pcpHousehold);
+  const { logError } = useLogError();
+
+  useEffect(() => {
+    if(pcpHousehold.data) return;
+    dispatch(requestPcpHousehold())
+  }, [])
   
   const [isGlobalError,setGlobalError] = useState(false);  
-  useEffect(() => {
-    if(jwt_token) {sessionStorage.setItem("longLoad", false)}
-  }, []);
 
   const handleSearchClicked = () => {
     history.push({
@@ -35,25 +36,16 @@ const FindCare = (props) => {
     })
   };
 
-  /** Adding Widget script for  provider search for care  and Mounting the widget on page load
-   */
-
   const handleMemberChanged = (id, details) => {
-    dispatch(requestSelectedMember(id));
     sessionStorage.setItem("currentMemberId", id)
   };
-
-
-  useEffect(() => {
-    if(customerInfo.customerId && customerInfo.membershipStatus === "active"){
-      dispatch(requestPCPDetails(customerInfo.memberId, customerInfo.membershipEffectiveDate));
-    }
-  }, []);
-
+  
   useEffect(() => { 
-    if(pcp.pcpLoading) return;
+    if(pcpHousehold.loading || !pcpHousehold.data) return;
 
-    const dependents = customerInfo?.dependents.map(dep => {
+    const dependents = customerInfo?.dependents
+    .filter(dep => dep.Status === 'active')
+    .map(dep => {
       return {
         memberId: dep.memberId, 
         age: dep.Age,
@@ -62,22 +54,24 @@ const FindCare = (props) => {
         year: dep.year,
         firstName: dep.firstName,
         lastName: dep.lastName,
-        pcpId: dep.pcpId,
+        pcpId: pcpHousehold?.data?.dependents[dep?.memberId].id,
         disablePcpUpdate: dep.Status === "active" ? false : true,
         membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY')
       }
     }) || [];
 
-    const hohPlans = customerInfo?.hohPlans.map(plan => {
+    const hohPlans = customerInfo?.hohPlans
+    .filter(plan => plan.MembershipStatus === 'active')
+    .map(plan => {
       return {
         memberId: plan.MemberId, 
         age: plan.age,
         benefitPackage: plan.BenefitPackage,
         groupNumber: plan.GroupNumber,
-        year: plan.memberYear,
+        year: plan.memberYear,  
         firstName: plan.FirstName,
         lastName: plan.LastName,
-        pcpId: plan.pcpId,
+        pcpId: pcpHousehold?.data?.hohPlans[plan?.MemberId]?.id,
         disablePcpUpdate: plan.MembershipStatus === "active" ? false : true,
         membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY')
       }
@@ -102,30 +96,53 @@ const FindCare = (props) => {
       memberDetails: memberDetails,
       groupNumber: customerInfo.groupNumber,
       lang: customerInfo.language || "en",
-      token: jwt_token,
+      token: customerInfo.id_token,
       apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
       onSearchClicked: handleSearchClicked,
       onMemberChanged: handleMemberChanged,
       onResultClicked: handleResultClicked,
     };
 
-    if (customerInfo.memberId && dependents && jwt_token) {
+    if (customerInfo.memberId && dependents) {
       try {
         const currentMemberId = sessionStorage.getItem("currentMemberId")
         sessionStorage.setItem("currentMemberId", currentMemberId ? currentMemberId : customerInfo.memberId)
-        dispatch(requestSelectedMember(currentMemberId));
+
         ProviderDirectoryWidget.mount(mountProps);
-      } catch (e) {
-        ProviderDirectoryWidget.unmount(mountProps.widget);
-        ProviderDirectoryWidget.mount(mountProps);
+      } catch (error) {
+        (async () => {
+          try {
+              await logError(error);
+          } catch (err) {
+              console.error('Error caught: ', err.message);
+          }
+        })()
+        try {
+          ProviderDirectoryWidget.unmount(mountProps.widget);
+          ProviderDirectoryWidget.mount(mountProps);
+        } catch (error) {
+          (async () => {
+              try {
+                  await logError(error);
+              } catch (err) {
+                  console.error('Error caught: ', err.message);
+              }
+          })()
+        }
       }
     }}
     else{
       setGlobalError(true);
     }
-  }, [jwt_token,customerInfo, pcp])
 
-  if (pcp.pcpLoading) return  <Wrapper><Spinner /></Wrapper>
+    () => {
+      if(ProviderDirectoryWidget.isMounted()) {
+          ProviderDirectoryWidget.unmount(mountProps.widget);
+      }
+    }
+  }, [customerInfo, pcpHousehold])
+
+  if (pcpHousehold.loading) return  <Wrapper><Spinner /></Wrapper>
 
   return (
     <div>
@@ -137,5 +154,9 @@ const FindCare = (props) => {
 
 export default FindCare;
 
-const Widget = styled.div` 
+export const Widget = styled.div` 
 `
+
+export const Wrapper = styled.div`
+    height: 100%;
+`;
