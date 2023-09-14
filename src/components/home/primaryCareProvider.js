@@ -150,7 +150,7 @@ const PrimaryCareProvider = () => {
     );
   };
 
-  return (Object.keys(pcpDetails).length > 0 &&
+  return (pcpDetails !== undefined && pcpDetails !== null && Object.keys(pcpDetails).length > 0 &&
     <> <GlobalStyle />
       <PcpTxt>
         Primary Care Provider
