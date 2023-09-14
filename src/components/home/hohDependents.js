@@ -23,7 +23,8 @@ const HOHDependents = () => {
         <HOHDependent>
           {
             hohDependents.dependents.map((dependent, index) => (
-              <Card 
+              (dependent.Status === 'active' || dependent.Status === 'upcoming') ?
+               <Card 
               key = {index}
               space={index + 1 === hohDependents.dependents.length}
               status = {dependent.Status}  onClick={() => dependent.Status === 'active' && 
@@ -55,7 +56,7 @@ const HOHDependents = () => {
                 { isEligibleForRecertDate(dependent.companyCode, dependent.benefitPackage, dependent.renewalDate) && <RenewalDate>{getRecertificationDate(dependent.companyCode, dependent.benefitPackage, dependent.renewalDate)}</RenewalDate> }
                 {dependent.Status === 'active' &&
                   <MemberIcon alt = "" src="/react/images/icn-household.svg" />}
-              </Card>))}
+              </Card>: null))}
               
         </HOHDependent>
       </>
