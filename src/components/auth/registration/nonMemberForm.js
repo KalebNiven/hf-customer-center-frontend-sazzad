@@ -283,12 +283,19 @@ const nonMemberForm = ({
             </SubHeader>
             <FormGrid>
                 <AdditionalInfo>
-                    <CenterInfo>
-                        Are you currently an active Healthfirst member? &nbsp;
-                        <Link role="button" onClick={handleRegistrationWithId}>
-                            Register with your Member ID
-                        </Link>
-                    </CenterInfo>
+                    {
+                        !wmvalue ? 
+                            <CenterInfo>
+                                Are you currently an active Healthfirst member? &nbsp;
+                                <Link role="button" onClick={handleRegistrationWithId}>
+                                    Register with your Member ID
+                                </Link>
+                            </CenterInfo> :
+                            <CenterInfo>
+                                To start your Medicare Advantage plan enrollment application, enter the information below.
+                            </CenterInfo>
+                    }
+
                 </AdditionalInfo>
                 <InputWrapper>
                     <InputHeader htmlFor="firstName" name="firstName">First Name</InputHeader>
@@ -581,7 +588,7 @@ const nonMemberForm = ({
                         type="text"
                         name="email"
                         autocomplete='email'
-                        placeholder="you@domain.com"
+                        placeholder="Enter Email Address"
                         onClick={() => checkValues()}
                         value={membershipInfo["email"].value}
                         onSelect={(e) =>{
@@ -620,7 +627,7 @@ const nonMemberForm = ({
                     <InputHeader>Confirm Email Address</InputHeader>
                     <Input
                         type="text"
-                        placeholder="you@domain.com"
+                        placeholder="Confirm Email Address"
                         onClick={() => checkValues()}
                         value={membershipInfo["cEmail"].value}
                         onSelect={(e) =>{

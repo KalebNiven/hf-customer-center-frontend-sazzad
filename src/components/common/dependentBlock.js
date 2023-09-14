@@ -145,7 +145,8 @@ const DependentBlock = ({
             groupNumber,
             lob,
             relationshipType,
-            relationshipCode
+            relationshipCode,
+            isHohPlan
         } = memberInfo;
         setMemberSelection({
             ...memberSelection,
@@ -161,7 +162,8 @@ const DependentBlock = ({
             groupNumber,
             lob,
             relationshipType,
-            relationshipCode
+            relationshipCode,
+            isHohPlan
         });
     };
 
