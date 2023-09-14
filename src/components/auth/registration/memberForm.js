@@ -761,7 +761,7 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                                 name="email"
                                 autocomplete='email'
                                 onClick={() => checkValues()}
-                                placeholder="you@domain.com"
+                                placeholder="Enter Email Address"
                                 value={membershipInfo["email"].value}
                                 onSelect={(e) =>{
                                     checkValues()
@@ -782,7 +782,7 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
                             <InputHeader>Confirm Email Address</InputHeader>
                             <Input
                                 type="text"
-                                placeholder="you@domain.com"
+                                placeholder="Confirm Email Address"
                                 onClick={() => checkValues()}
                                 value={membershipInfo["cEmail"].value}
                                 onSelect={(e) =>{
