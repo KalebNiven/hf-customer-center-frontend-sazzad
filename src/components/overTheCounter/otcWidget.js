@@ -16,7 +16,7 @@ const otcWidgetLinks = {
   },
   navigateToMomsMeals: {
     type: null,
-    link: "https://www.grownyc.org/greenmarket/ourmarkets"
+    link: "https://my.momsmeals.com/content/discounted.aspx?code=healthfirst"
   },
   navigateToNationsOTC: {
     type: SSO,
