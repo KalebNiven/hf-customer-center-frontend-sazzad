@@ -1163,3 +1163,24 @@ export const errorVerifyAddress = (error) => ({
         errorData: error,
     },
 });
+
+// PCP Household
+export const requestPcpHousehold = () => ({
+    type: actionTypes.REQUEST_PCP_HOUSEHOLD,
+});
+
+export const receivePcpHousehold = (data) => ({
+    type: actionTypes.RECEIVE_PCP_HOUSEHOLD,
+    payload: {
+        status: "SUCCESS",
+        data,
+    },
+});
+
+export const errorPcpHousehold = (error) => ({
+    type: actionTypes.RECEIVE_PCP_HOUSEHOLD,
+    payload: {
+        status: "ERROR",
+        errorData: error,
+    },
+});

@@ -54,7 +54,8 @@ import {
   forgotUsername,
   forgotPassword,
   setPassword,
-  verifyAddress
+  verifyAddress,
+  getPcpHousehold
 } from "./apis";
 
 const formatNameCapitalize = (name) => {
@@ -1081,6 +1082,20 @@ export function* getVerifyAddress(payload) {
   }
 }
 
+// PCP Household
+function* watchPcpHousehold() {
+  yield takeLatest(actionTypes.REQUEST_PCP_HOUSEHOLD, getPcpHousehld);
+}
+
+export function* getPcpHousehld() {
+  try {
+    const data = yield call(getPcpHousehold);
+    yield put(actions.receivePcpHousehold(data));
+  } catch (e) {
+    yield put(actions.errorPcpHousehold(e));
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     watchClaimListSaga(),
@@ -1135,6 +1150,7 @@ export default function* rootSaga() {
     watchDocumentsSaga(),
     watchDocumentFileSaga(),
     watchGetOTCClaimReimbursementData(),
-    watchVerifyAddressSaga()
+    watchVerifyAddressSaga(),
+    watchPcpHousehold()
   ]);
 }

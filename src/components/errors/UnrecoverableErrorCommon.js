@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, ErrorContainer, ErrorWrapper, ErrorCard, ErrorCardTitle, ErrorCardText, Icon, ControllersWrapper, ControllersButton } from './styles'
 import useLogError from '../../hooks/useLogError';

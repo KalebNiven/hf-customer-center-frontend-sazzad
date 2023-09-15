@@ -1189,3 +1189,18 @@ export const verifyAddress = async (data) => {
     }
   }
 }
+
+// PCP Household
+export const getPcpHousehold = async () => {
+  try {
+    const res = await LOFLv2(true).get(`/pcp/`);
+    return res.data;
+  } catch (err) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
+}

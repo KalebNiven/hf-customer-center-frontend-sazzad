@@ -1,115 +1,32 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import moment from "moment"; 
 import { useLocation } from "react-router";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { requestPcpDetails,requestUpdatedPCPID ,requestResetPcpDetails, requestCustomerInfo} from '../../store/actions/index';
+import { requestPcpHousehold } from '../../store/actions/index';
 import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';
-import Spinner from "../common/spinner";
-import styled from "styled-components";
-import moment from "moment"; 
 import GlobalError from "../common/globalErrors/globalErrors";
-import Cookies from 'js-cookie';
-import { requestPCPDetails } from "../../store/actions/index";
-import { Wrapper } from "./findCarePCP";
+import Spinner from "../common/spinner";
+import useLogError from "../../hooks/useLogError";
 
 const FindCareDetails = (props) => {
     const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
-    const updateStatus = useSelector((state) => state.pcpDetails.pcpDetails);
-    const resetStatus = useSelector((state) => state.pcpDetails.stateStatus);
-    const [callbackState, setCallbackState] = useState();
     const customerInfo = useSelector((state) => state.customerInfo.data);
-    const changePcpLoading = useSelector((state) => state.pcpDetails.loading);
-    const PcpStatusFlag = useSelector((state) => state.pcpStatus.pcpStatus);
     const { MIX_REACT_APP_PROVIDER_API_KEY } = process.env;
-    const SUCCESS = "Primary Care Provider has been changed";
-    const BUS_FAILURE = "Changes to your Primary Care Provider can only be made every 48 hours.";
-    const SYS_FAILURE = "Unable to process request, Please Try again later ";
-    const dependents = customerInfo.dependents || []
-    const jwt_token = customerInfo.id_token 
     const [isGlobalError,setGlobalError] = useState(false);
-    const pcp = useSelector((state) => state.pcp);
-    const [pcpinfo, setPcpInfo] = useState();
+    const { logError } = useLogError();
 
-    const getEffectiveDates = (memberId) =>{  
-        if (dependents.length === 0){ 
-            return  moment(customerInfo.membershipEffectiveDate).format('MM-DD-YYYY')
-        }
-        else {
-            for(var i =0; i<=dependents.length;i++){
-            if(memberId === dependents[i].memberId){  
-                return moment(dependents[i].MembershipEffectiveDate).format('MM-DD-YYYY') 
-            } 
-            if(memberId === customerInfo.memberId){
-                return  moment(customerInfo.membershipEffectiveDate).format('MM-DD-YYYY')
-            }
-        }
-    }
-    }
+    const pcpHousehold = useSelector(state => state.pcpHousehold)
 
-    const handleChangePCP = (memberId, pcpId, callback) => { 
-        if (PcpStatusFlag === true) {
-            setCallbackState(() => callback) 
-            const pcpDetails = {
-                memberId: memberId,
-                effectiveDate:  getEffectiveDates(memberId),
-                pcpId: pcpId,
-                csrf: customerInfo.csrf,
-            }
-            dispatch(requestPcpDetails(pcpDetails))
-            setPcpInfo(pcpDetails)
-        }
-        else {
-            callback("error", BUS_FAILURE)
-        }
-    }
+    useEffect(() => {
+        if(pcpHousehold.data) return;
+        dispatch(requestPcpHousehold())
+    }, [])
 
     useQualtrics(qualtricsAction.CHANGE_PCP)
-
-    useEffect(() => {
-        if(customerInfo.customerId && customerInfo.membershipStatus === "active"){
-            dispatch(requestPCPDetails(customerInfo.memberId, customerInfo.membershipEffectiveDate));
-        }
-      }, []);
-    
-    useEffect(() => {
-        if (callbackState && (updateStatus === "Success" || updateStatus === undefined || (!!updateStatus) )) {
-
-            if(updateStatus === "Success") {
-                callbackState("success", SUCCESS)
-                dispatch(requestPCPDetails(customerInfo.memberId, customerInfo.membershipEffectiveDate));
-                updateCustomerInfo(pcpinfo.memberId, pcpinfo.pcpId)
-                Cookies.set('ChangeYourPCP','true',{expires:1}) 
-                dispatch(requestResetPcpDetails())
-            } else  {
-                if(resetStatus !=="Reset"){
-                    callbackState("error", SYS_FAILURE)
-                }
-            }
-        }
-    }, [updateStatus]);
-    
-    const updateCustomerInfo= (memberId, pcpId) => {
-        customerInfo.hohPlans.map((hoh, index) => {
-     
-            if (hoh.MemberId === memberId) { 
-                const customerInfoUpdatedPcp = { ...customerInfo };
-                customerInfoUpdatedPcp.hohPlans[index].PcpId = pcpId;
-                dispatch(requestUpdatedPCPID(customerInfoUpdatedPcp));
-            } else {
-                customerInfo.dependents.map((dependent, index) => {
-                    if (dependent.memberId === memberId) { 
-                        const customerInfoUpdatedPcp = { ...customerInfo };
-                        customerInfoUpdatedPcp.dependents[index].pcpId = pcpId;
-                        dispatch(
-                            requestUpdatedPCPID(customerInfoUpdatedPcp)
-                        );
-                    }
-                });
-            }
-        });
-    }
 
     const handleBackClicked = () => {
         history.push({
@@ -118,7 +35,9 @@ const FindCareDetails = (props) => {
     };
 
     const getMountProps = (result) => {
-        const dependentsObj = customerInfo?.dependents.map(dep => {
+        const dependentsObj = customerInfo?.dependents
+        .filter(dep => dep.Status === 'active')
+        .map(dep => {
             return {
               memberId: dep.memberId, 
               age: dep.Age,
@@ -127,13 +46,15 @@ const FindCareDetails = (props) => {
               year: dep.year,
               firstName: dep.firstName,
               lastName: dep.lastName,
-              pcpId: dep.pcpId,
+              pcpId: pcpHousehold?.data?.dependents[dep?.memberId].id,
               disablePcpUpdate: dep.Status === "active" ? false : true,
               membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY')
             }
           }) || [];
 
-        const hohPlans = customerInfo?.hohPlans.map(plan => {
+        const hohPlans = customerInfo?.hohPlans
+        .filter(plan => plan.MembershipStatus === 'active')
+        .map(plan => {
             return {
               memberId: plan.MemberId, 
               age: plan.age,
@@ -142,7 +63,7 @@ const FindCareDetails = (props) => {
               year: plan.memberYear,
               firstName: plan.FirstName,
               lastName: plan.LastName,
-              pcpId: plan.pcpId,
+              pcpId: pcpHousehold?.data?.hohPlans[plan?.MemberId]?.id,
               disablePcpUpdate: plan.MembershipStatus === "active" ? false : true,
               membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY')
             }
@@ -153,58 +74,92 @@ const FindCareDetails = (props) => {
             ...dependentsObj
         ];
         
-        if(customerInfo.accountStatus !=="NON-MEMBER" ){
-        const mountProps = {
-            parentElement: "#findcareDetailsWrapper",
-            widget: "DETAILS",
-            memberId: customerInfo.memberId,
-            channel: "customer-center",
-            memberDetails: memberDetailsObj,
-            token: jwt_token,
-            apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
-            locationId: result,
-            lang: customerInfo.language || "en",
-            onOtherLocClicked: handleOtherLocClicked,
-            onBackClicked: handleBackClicked,
-            onMakePCP: () => {},
-            onPcpUpdateComplete: () => {
-                dispatch(requestCustomerInfo()); 
+        if(customerInfo.accountStatus !== "NON-MEMBER") {
+            const mountProps = {
+                parentElement: "#findcareDetailsWrapper",
+                widget: "DETAILS",
+                memberId: customerInfo.memberId,
+                channel: "customer-center",
+                memberDetails: memberDetailsObj,
+                token: customerInfo.id_token,
+                apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
+                locationId: result,
+                lang: customerInfo.language || "en",
+                onOtherLocClicked: handleOtherLocClicked,
+                onBackClicked: handleBackClicked,
+                onMakePCP: () => {},
+                onPcpUpdateComplete: () => {
+                    dispatch(requestPcpHousehold()); 
+                }
             }
+            return mountProps
+        } else {
+            setGlobalError(true);
         }
-        return mountProps
     }
-else{
-    setGlobalError(true);
-}}
 
     const handleOtherLocClicked = (result) => {
-        ProviderDirectoryWidget.unmount(getMountProps(location.result).widget);
-        ProviderDirectoryWidget.mount(getMountProps(result));
+        try {
+            ProviderDirectoryWidget.unmount(getMountProps(location.result).widget);
+            ProviderDirectoryWidget.mount(getMountProps(result));
+          } catch (error) {
+            (async () => {
+                try {
+                    await logError(error);
+                } catch (err) {
+                    console.error('Error caught: ', err.message);
+                }
+            })()
+        }
     };
+    
     /** Adding Widget script for provider details and Mounting the widget on page load */
     useEffect(() => {
+        if(pcpHousehold.loading || !pcpHousehold.data) return;
+
         if(!location.result) {
             history.push('/search')
         }
-        
-    if(pcp.pcpLoading) return;
+            
         if (customerInfo.memberId) {
             const mProps = getMountProps(location.result);
             try {
                 ProviderDirectoryWidget.mount(mProps);
-            } catch (e) {
-                ProviderDirectoryWidget.unmount(mProps.widget);
-                ProviderDirectoryWidget.mount(mProps);
+            } catch (error) {
+                (async () => {
+                    try {
+                        await logError(error);
+                    } catch (err) {
+                        console.error('Error caught: ', err.message);
+                    }
+                })()
+                try {
+                    ProviderDirectoryWidget.unmount(mProps.widget);
+                    ProviderDirectoryWidget.mount(mProps);
+                } catch (error) {
+                    (async () => {
+                        try {
+                            await logError(error);
+                        } catch (err) {
+                            console.error('Error caught: ', err.message);
+                        }
+                    })()
+                }
             }
         }
-    }, [customerInfo, location.result, pcp]);
+        
+        () => {
+            if(ProviderDirectoryWidget.isMounted()) {
+                ProviderDirectoryWidget.unmount(mountProps.widget);
+            }
+        }
+    }, [customerInfo, location.result, pcpHousehold]);
 
-    if (pcp.pcpLoading) return  <Wrapper><Spinner /></Wrapper>
+    if (pcpHousehold.loading) return  <Wrapper><Spinner /></Wrapper>
 
     return (
         <>
-            <div id="findcareDetailsWrapper" />
-            {changePcpLoading && <SpinnerContainer><Spinner /></SpinnerContainer>}
+            <div id="findcareDetailsWrapper"></div>
             {isGlobalError && <GlobalError/>}
         </>
     );
@@ -212,12 +167,6 @@ else{
 
 export default FindCareDetails;
 
-const SpinnerContainer = styled.div`
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-background-color: rgba(0,42,74, 0.72);
-padding-top: calc(50vh - 50px);
+export const Wrapper = styled.div`
+    height: 100%;
 `;

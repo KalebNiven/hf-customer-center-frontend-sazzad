@@ -18,26 +18,24 @@ import HelpfulTips from "./helpfulTips";
 import { Hidden } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../common/spinner";
-import { requestPCPDetails, requestCarouselItems} from "../../store/actions";
+import { requestCarouselItems} from "../../store/actions";
 import OTC from './otc/index'
 
 const HomeDetails = () => {
-  const pcpLoading = useSelector((state) => state.pcp.pcpLoading);
   const carouselLoading = useSelector((state) => state.homeDetails.carouselLoading);
   const customerInfo = useSelector((state) => state.customerInfo);
 
   const dispatch = useDispatch();
   useEffect(() => {
     if(customerInfo.data.customerId ){
-      customerInfo.data.membershipStatus === "active" &&  dispatch(requestPCPDetails(customerInfo.data.memberId,customerInfo.data.membershipEffectiveDate));
-    dispatch(requestCarouselItems());
+      dispatch(requestCarouselItems());
     }
   }, []);
 
   return (
     customerInfo.data.accountStatus === "MEMBER" ?
       (customerInfo.data.membershipStatus === "active" ? (
-        !customerInfo.loading && (!pcpLoading && !carouselLoading) ?
+        !customerInfo.loading && (!carouselLoading) ?
           (<Container>
             <Hidden smDown>
               <InnerContainer>
