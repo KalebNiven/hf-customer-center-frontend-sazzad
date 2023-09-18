@@ -47,3 +47,7 @@ export const getSplitAttributesForHOHPlan = (customerInfoData, index) => {
   };
   return attributes;
 };
+
+export const getValidHRASurveryPlan = (hohplans) => {
+  return hohplans.find(plan => !['02', '34'].includes(plan.CompanyNumber))
+}

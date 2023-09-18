@@ -19,6 +19,7 @@ import { isValidCompanyCode } from "./utils";
 import { useHistory } from "react-router-dom";
 import GlobalError from "../common/globalErrors/globalErrors";
 import { handleSegmentClick } from "../../libs/segment";
+import { getValidHRASurveryPlan } from "../../utils/misc";
 const LINK_TYPE = { external: "External", cc: "CC" };
 
 const AnnualHealthAssessment = () => {
@@ -27,6 +28,7 @@ const AnnualHealthAssessment = () => {
     }, []);
     const customerInfo = useSelector((state) => state.customerInfo.data);
     const { dependents } = customerInfo;
+    const hraPlan = getValidHRASurveryPlan(customerInfo?.hohPlans);
     const history = useHistory();
 
     const splitAttributes = {
@@ -63,7 +65,8 @@ const AnnualHealthAssessment = () => {
 
     const getAssessmentLink = (eachDependent) => {
         let hrefLink;
-        let checkObj = !eachDependent ? customerInfo : eachDependent;
+        let hraPlanLowerCamo= {companyCode: hraPlan.CompanyNumber, memberId: hraPlan.MemberId, benefitPackage: hraPlan.BenefitPackage}
+        let checkObj = !eachDependent ? hraPlanLowerCamo : eachDependent;
         if (
             checkObj.companyCode == "30" &&
             ["SIGD", "SIGO", "SIGT"].some((x) => x == checkObj.benefitPackage)
@@ -144,8 +147,7 @@ const AnnualHealthAssessment = () => {
 
     return (
         <ReactAppWrapper>
-            {customerInfo.companyCode !== null &&
-                !["34", "02"].some((x) => x == customerInfo.companyCode) && (
+            {hraPlan.CompanyNumber !== null && (
                     <FeatureTreatment
                         treatmentName={SHOW_HEALTH_ASSESMENT_SURVEY}
                         onLoad={() => {}}

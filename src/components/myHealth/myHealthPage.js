@@ -9,10 +9,15 @@ import {
 } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import { handleSegmentClick } from "../../libs/segment";
+import { useState } from "react";
+import { getValidHRASurveryPlan } from "../../utils/misc";
 
 const MyHealthPage = () => {
+    const [showHRACard, setShowHRACard] = useState(true);
+
     useEffect(() => {
         sessionStorage.setItem("longLoad", false);
+        setShowHRACard(getValidHRASurveryPlan(customerInfo?.hohPlans) ? true : false)
     }, []);
 
     const history = useHistory();
@@ -43,7 +48,7 @@ const MyHealthPage = () => {
                 onTimedout={() => {}}
                 attributes={splitAttributes}
             >
-                <Card>
+                {setShowHRACard && <Card>
                     <Wrapper>
                         <Image src="/react/images/exam_plus.svg" />
                         <ContentWrapper>
@@ -65,7 +70,7 @@ const MyHealthPage = () => {
                             </Navigator>
                         </ContentWrapper>
                     </Wrapper>
-                </Card>
+                </Card>}
             </FeatureTreatment>
             <FeatureTreatment
                 treatmentName={SHOW_MY_HEALTH_CHECKLIST}
