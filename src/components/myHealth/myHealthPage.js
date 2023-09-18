@@ -20,10 +20,6 @@ const MyHealthPage = () => {
         setShowHRACard(getValidHRASurveryPlan(customerInfo?.hohPlans) ? true : false)
     }, []);
 
-    useEffect(() => {
-        console.log({showHRACard})
-    }, [showHRACard])
-
     const history = useHistory();
 
     const customerInfo = useSelector((state) => state.customerInfo.data);
