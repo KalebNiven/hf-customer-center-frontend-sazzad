@@ -5,7 +5,8 @@ import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { requestPcpHousehold } from "../../store/actions";
 import Spinner from "../common/spinner";
-import useLogError from "../../hooks/useLogError";
+
+const PRIMARY_CARE_PROVIDER = "PRIMARY_CARE_PROVIDER";
 
 const FindCarePCP = (props) => {
     const dispatch = useDispatch();
@@ -13,7 +14,6 @@ const FindCarePCP = (props) => {
     const customerInfo = useSelector((state) => state.customerInfo.data);
     const { MIX_REACT_APP_PROVIDER_API_KEY } = process.env;
     const [isGlobalError,setGlobalError] = useState(false);
-    const { logError } = useLogError();
 
     const pcpHousehold = useSelector(state => state.pcpHousehold)
     useEffect(() => {
@@ -79,22 +79,26 @@ const FindCarePCP = (props) => {
             ...hohPlans,
             ...memberDependents,
         ];
-        
-        if(customerInfo.accountStatus !== "NON-MEMBER") {
-            let mountProps = {
-                parentElement: "#findcarePCPWrapper",
-                widget: "PRIMARY_CARE_PROVIDER",
-                memberId: customerInfo.memberId,
-                channel: "customer-center",
-                memberDetails: memberDetails,
-                token: customerInfo.id_token,
-                apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
-                lang: customerInfo.language || "en",
-                onOtherLocClicked: handleOtherLocClicked,
-                onMemberChanged: handleMemberChanged,
-                onChangePCP: handleChangePCP,
-            };
-            if (customerInfo.memberId) {
+    
+            let mountProps 
+            if (
+                customerInfo.accountStatus !== "NON-MEMBER" &&
+                customerInfo.membershipStatus !== "inactive"
+              ) {
+                mountProps = {
+                  parentElement: "#findcarePCPWrapper",
+                  widget: PRIMARY_CARE_PROVIDER,
+                  memberId: customerInfo.memberId,
+                  channel: "customer-center",
+                  memberDetails: memberDetails,
+                  token: customerInfo.id_token,
+                  apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
+                  lang: customerInfo.language || "en",
+                  onOtherLocClicked: handleOtherLocClicked,
+                  onMemberChanged: handleMemberChanged,
+                  onChangePCP: handleChangePCP,
+                };
+            if (customerInfo.memberId &&  ProviderDirectoryWidget) {
                 const currentMemberId = sessionStorage.getItem(
                     "currentMemberId"
                 );
@@ -104,30 +108,9 @@ const FindCarePCP = (props) => {
                         ? currentMemberId
                         : customerInfo.memberId
                 );
-
-                try {
+                if (!ProviderDirectoryWidget.isMounted(PRIMARY_CARE_PROVIDER)) {
                     ProviderDirectoryWidget.mount(mountProps);
-                } catch (error) {
-                    (async () => {
-                        try {
-                            await logError(error);
-                        } catch (err) {
-                            console.error('Error caught: ', err.message);
-                        }
-                    })()
-                    try {
-                        ProviderDirectoryWidget.unmount(mountProps.widget);
-                        ProviderDirectoryWidget.mount(mountProps);
-                    } catch (error) {
-                        (async () => {
-                            try {
-                                await logError(error);
-                            } catch (err) {
-                                console.error('Error caught: ', err.message);
-                            }
-                        })()
-                    }
-                }
+                  }  
             }
         } else {
             setGlobalError(true);
@@ -139,6 +122,15 @@ const FindCarePCP = (props) => {
             }
         }
     }, [customerInfo, pcpHousehold]);
+
+    useEffect(() => {
+        return () => {
+          if (ProviderDirectoryWidget.isMounted(PRIMARY_CARE_PROVIDER)) {
+            ProviderDirectoryWidget.invalidateStore();
+            ProviderDirectoryWidget.unmount(PRIMARY_CARE_PROVIDER);
+          }
+        };
+      });
 
     if (pcpHousehold.loading) return  <Wrapper><Spinner /></Wrapper>
 

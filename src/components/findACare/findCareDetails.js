@@ -7,8 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { requestPcpHousehold } from '../../store/actions/index';
 import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';
 import GlobalError from "../common/globalErrors/globalErrors";
-import Spinner from "../common/spinner";
-import useLogError from "../../hooks/useLogError";
+import Spinner from "../common/spinner"; 
+
+const DETAILS = "DETAILS";
 
 const FindCareDetails = (props) => {
     const history = useHistory();
@@ -17,7 +18,6 @@ const FindCareDetails = (props) => {
     const customerInfo = useSelector((state) => state.customerInfo.data);
     const { MIX_REACT_APP_PROVIDER_API_KEY } = process.env;
     const [isGlobalError,setGlobalError] = useState(false);
-    const { logError } = useLogError();
 
     const pcpHousehold = useSelector(state => state.pcpHousehold)
 
@@ -99,19 +99,9 @@ const FindCareDetails = (props) => {
     }
 
     const handleOtherLocClicked = (result) => {
-        try {
-            ProviderDirectoryWidget.unmount(getMountProps(location.result).widget);
-            ProviderDirectoryWidget.mount(getMountProps(result));
-          } catch (error) {
-            (async () => {
-                try {
-                    await logError(error);
-                } catch (err) {
-                    console.error('Error caught: ', err.message);
-                }
-            })()
-        }
-    };
+        ProviderDirectoryWidget.unmount(getMountProps(location.result).widget);
+        ProviderDirectoryWidget.mount(getMountProps(result));
+      };
     
     /** Adding Widget script for provider details and Mounting the widget on page load */
     useEffect(() => {
@@ -121,39 +111,22 @@ const FindCareDetails = (props) => {
             history.push('/search')
         }
             
-        if (customerInfo.memberId) {
+        if (
+            customerInfo.memberId &&
+            ProviderDirectoryWidget
+          ) {
             const mProps = getMountProps(location.result);
-            try {
-                ProviderDirectoryWidget.mount(mProps);
-            } catch (error) {
-                (async () => {
-                    try {
-                        await logError(error);
-                    } catch (err) {
-                        console.error('Error caught: ', err.message);
-                    }
-                })()
-                try {
-                    ProviderDirectoryWidget.unmount(mProps.widget);
-                    ProviderDirectoryWidget.mount(mProps);
-                } catch (error) {
-                    (async () => {
-                        try {
-                            await logError(error);
-                        } catch (err) {
-                            console.error('Error caught: ', err.message);
-                        }
-                    })()
-                }
+            if (!ProviderDirectoryWidget.isMounted(DETAILS)) {
+              ProviderDirectoryWidget.mount(mProps);
             }
-        }
-        
-        () => {
-            if(ProviderDirectoryWidget.isMounted()) {
-                ProviderDirectoryWidget.unmount(mountProps.widget);
-            }
-        }
+          }
     }, [customerInfo, location.result, pcpHousehold]);
+
+    useEffect(() => () => {
+        if (ProviderDirectoryWidget.isMounted(DETAILS)) {
+          ProviderDirectoryWidget.unmount(DETAILS);
+        }
+      });
 
     if (pcpHousehold.loading) return  <Wrapper><Spinner /></Wrapper>
 

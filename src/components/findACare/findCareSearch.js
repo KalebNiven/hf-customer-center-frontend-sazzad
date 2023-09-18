@@ -4,8 +4,9 @@ import moment from 'moment'
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { requestPcpHousehold } from '../../store/actions';
-import Spinner from "../common/spinner";
-import useLogError from "../../hooks/useLogError";
+import Spinner from "../common/spinner"; 
+
+const SEARCH = "SEARCH";
 
 const FindCareSearch = (props) => {
   const { MIX_REACT_APP_PROVIDER_API_KEY } = process.env;
@@ -14,7 +15,6 @@ const FindCareSearch = (props) => {
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const pcpHousehold = useSelector(state => state.pcpHousehold)
   const [isGlobalError,setGlobalError] = useState(false);
-  const { logError } = useLogError();
 
   useEffect(() => {
     if(pcpHousehold.data) return;
@@ -77,10 +77,11 @@ const FindCareSearch = (props) => {
     ];
 
     let mountProps;
-    if(customerInfo.accountStatus !== "NON-MEMBER") {
-      mountProps = {
+
+    if (customerInfo.accountStatus !== "NON-MEMBER") {
+      const mountProps = {
         parentElement: "#findcareSearchWrapper",
-        widget: "SEARCH",
+        widget: SEARCH,
         memberId: customerInfo.memberId,
         channel: "customer-center",
         companyCode: customerInfo.companyCode,
@@ -98,42 +99,26 @@ const FindCareSearch = (props) => {
         onMemberChanged: handleMemberChanged,
         onResultClicked: handleResultClicked,
       };
+      if (
+        customerInfo.memberId &&
+        pcpHousehold &&
+        !pcpHousehold.pcpLoading &&
+        ProviderDirectoryWidget
+      ) {
+        if (!ProviderDirectoryWidget.isMounted(SEARCH)) {
+          ProviderDirectoryWidget.mount(mountProps);
+        }
+      }
     } else {
       setGlobalError(true);
     }
-    
-    if (customerInfo.memberId) {
-      try {
-        ProviderDirectoryWidget.mount(mountProps);
-      } catch (error) {
-        (async () => {
-            try {
-                await logError(error);
-            } catch (err) {
-                console.error('Error caught: ', err.message);
-            }
-        })()
-        try {
-          ProviderDirectoryWidget.unmount(mountProps.widget);
-          ProviderDirectoryWidget.mount(mountProps);
-        } catch (error) {
-          (async () => {
-              try {
-                  await logError(error);
-              } catch (err) {
-                  console.error('Error caught: ', err.message);
-              }
-          })()
-        }
-      }
-    }
+  }, [customerInfo, pcpHousehold]);
 
-    () => {
-      if(ProviderDirectoryWidget.isMounted()) {
-          ProviderDirectoryWidget.unmount(mountProps.widget);
-      }
-    }
-  }, [customerInfo, pcpHousehold])
+useEffect(() => () => {
+  if (ProviderDirectoryWidget.isMounted(SEARCH)) {
+    ProviderDirectoryWidget.unmount(SEARCH);
+  }
+});
 
   if (pcpHousehold.loading) return  <Wrapper><Spinner /></Wrapper>
 
