@@ -1193,7 +1193,7 @@ export const verifyAddress = async (data) => {
 // PCP Household
 export const getPcpHousehold = async () => {
   try {
-    const res = await LOFLv2(true).get(`/pcp/`);
+    const res = await LOFLv2(true).get(`/pcp`);
     return res.data;
   } catch (err) {
     try {
