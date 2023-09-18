@@ -65,8 +65,8 @@ const AnnualHealthAssessment = () => {
 
     const getAssessmentLink = (eachDependent) => {
         let hrefLink;
-        let hraPlanCompanyCode = {companyCode: hraPlan.CompanyCode, memberId: hraPlan.MemberId}
-        let checkObj = !eachDependent ? hraPlanCompanyCode : eachDependent;
+        let hraPlanLowerCamo= {companyCode: hraPlan.CompanyCode, memberId: hraPlan.MemberId, benefitPackage: hraPlan.BenefitPackage}
+        let checkObj = !eachDependent ? hraPlanLowerCamo : eachDependent;
         if (
             checkObj.companyCode == "30" &&
             ["SIGD", "SIGO", "SIGT"].some((x) => x == checkObj.benefitPackage)
