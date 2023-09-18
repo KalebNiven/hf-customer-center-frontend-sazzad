@@ -42,6 +42,7 @@ const HealthFirstPlan = () => {
         </MyHealthFirstPlan>
         {
           planDetails.hohPlans.slice(1,planDetails.hohPlans.length).map((plan, index) => (
+            (plan.MembershipStatus === 'active' || plan.MembershipStatus === 'upcoming') ?
             <Card key={index}>
               <HealthPlan>
                 <PlanImage alt = "" src="/react/images/ico-leaf-green.svg" />
@@ -67,6 +68,7 @@ const HealthFirstPlan = () => {
                   <MemberTxt>View Member ID Card</MemberTxt>
                 </ViewMemberId>}
             </Card>
+            : null
           ))}
       </>
   );
