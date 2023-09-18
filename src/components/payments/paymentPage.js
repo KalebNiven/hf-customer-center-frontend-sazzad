@@ -140,12 +140,19 @@ function PaymentPage() {
   if (showPortal) {
     return (
       <PaymentPortalWrapper>
-        <BrandingContainer>
-          <BrandingImage src="react/images/leaf-icon@3x.png" alt="" />
-          <BrandingTitleWrapper>
-            <BrandingTitle>Payments</BrandingTitle>
-          </BrandingTitleWrapper>
-        </BrandingContainer>
+        <Banner>
+          <BrandingContainer>
+            <BrandingInnerContainer>
+              <BrandingLeftContainer>
+                <LeafIcon alt = "" type = {accountStatus } src="/react/images/leaf-icon@3x.png"></LeafIcon>
+                <Div type = {accountStatus}>
+                  <BrandingTitle>Payments</BrandingTitle>
+                </Div>
+              </BrandingLeftContainer>
+              <BrandingRightContainer/>
+            </BrandingInnerContainer>
+          </BrandingContainer>
+        </Banner>
         <PaymentPortal />
       </PaymentPortalWrapper>
     );
@@ -342,15 +349,101 @@ const PaymentPortalWrapper = styled.div`
   height:100%;
 `;
 
-const BrandingContainer = styled.div`
+const Banner = styled.div`
   height: 240px;
-  overflow: hidden;
-  position: relative;
+  margin: auto;
+  @media only screen and (max-width: 480px) {
+    height: 240px;
+  }
   background-image: linear-gradient(to bottom,#003863, rgba(238, 238, 238, 0)),linear-gradient(
-    101deg, #0377a3, #0377a3, #367c19);
+  101deg, #0377a3, #0377a3, #367c19);
+`;
+
+const BrandingContainer = styled.span`
+  position:absolute;
+  padding-top: 40px;
+  margin: 3px 0 0px 0px;
+  width:100%;
+  @media only screen and (max-width: 960px) {
+    margin-top: 21px;
+    padding-top: 20px;
+  };
+  @media only screen and (max-width: 768px) {
+    margin-top: 21px;
+    padding-top: 20px;
+  };
+  @media only screen and (max-width: 480px) {
+    // margin-top: -34px;
+    margin-left: 0px;
+    // padding-top:20px
+  }
+`;
+
+const BrandingInnerContainer = styled.div`
   display: flex;
+  margin: 0 144px;
+  width:calc(100% - 288px);
+  gap:35px;
+  flex: 1 1 auto;
   justify-content: center;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  box-sizing: border-box;
+  @media only screen and (max-width: 1200px) {
+    margin: 0 86px;
+    width:calc(100% - 172px);
+  };
+  @media only screen and (max-width: 960px) {
+    display: contents;
+    margin: 0;
+    width:100%;
+  };
+`;
+
+const BrandingLeftContainer = styled.div`
+ 
+  display: block;
+  width:950px;
+    @media only screen and (max-width: 960px) {
+      margin: 0 86px;
+      width: calc(100% - 172px);
+    };
+
+    @media only screen and (max-width: 668px) {
+      margin: 0 16px;
+      width:calc(100% - 32px);
+    };
+   
+`;
+
+const LeafIcon = styled.img`
+  width: 240px; 
+  float: left;
+  margin-left: -144px;
+  object-fit: contain;
+  position:absolute;
+  margin-top :0px;
+  @media only screen and (max-width: 960px) {
+     margin-left: -144px;
+     float:right;
+    position:relative;
+    margin-top: -60px;
+  }
+  @media only screen and (max-width: 480px) {
+    padding-right:8px;
+    width:240px;
+    height:240px;
+    padding-top:0;
+    top:0px;
+    margin-top: -30px;
+  }
+`;
+
+const Div = styled.div`
+  margin-top: 40px;
+`;
+
+const BrandingRightContainer = styled.div`
+  display: block;
 `;
 
 const BrandingImage = styled.img`
@@ -364,22 +457,22 @@ const BrandingImage = styled.img`
   }
 `;
 
-const BrandingTitleWrapper = styled.div`
-  position: absolute;
-  top: 38%;
-  width: 60rem;
-  max-width: 90%;
-`;
-
 const BrandingTitle = styled.h1`
-  font-family: 'museo-sans', sans-serif;
-  font-size: 32px;
-  line-height: 40px;
-  font-weight: 600;
-  color: #fff;
+  height: 60px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  font-size: 48px;
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  color: white;text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
   @media only screen and (max-width: 768px) {
-    text-align: center;
-  }
+    font-size: 48px;
+  };
 `;
 
 const ProgressWrapper = styled.div`
