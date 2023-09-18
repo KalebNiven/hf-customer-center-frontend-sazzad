@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import GlobalStyle from "../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
@@ -11,14 +11,23 @@ const HOHDependents = () => {
 
   const hohDependents = useSelector((state) => state.customerInfo.data);
   const history = useHistory();
+  const [showPlan,setShowPlan] = useState(false)
+
+  useEffect(() =>{
+    hohDependents.dependents.map((dependent, index) => {
+       (dependent.Status === 'active' || dependent.Status === 'upcoming') && setShowPlan(true)
+    })
+  },[])
 
   return (
 
     (hohDependents.dependents !== undefined && hohDependents.dependents.length > 0) && (
       <> <GlobalStyle />
+      {showPlan &&
         <MyHouseholdTxt>
           My Household
         </MyHouseholdTxt>
+      }
 
         <HOHDependent>
           {

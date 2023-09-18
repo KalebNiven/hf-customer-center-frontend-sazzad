@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from "react";
+import React,{useState,useEffect} from "react";
 import GlobalStyle from "../../styles/GlobalStyle";
 import moment from 'moment';
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ const HealthFirstPlan = () => {
   const planDetails = useSelector((state) => state.customerInfo.data);
   const history = useHistory();
   const {planName,setPlanName} = useAppContext()
+  const [showPlan,setShowPlan] = useState(false)
 
   const formatDate = (startDate, endDate, status) => {
     let validity = '';
@@ -33,15 +34,24 @@ const HealthFirstPlan = () => {
     history.push(`/idcard`)
   }
 
+  useEffect(() =>{
+    planDetails.hohPlans.slice(1,planDetails.hohPlans.length).map((plan, index) => {
+      (plan.MembershipStatus === 'active' || plan.MembershipStatus === 'upcoming') && setShowPlan(true)
+  })
+  },[])
+
   return (
 
     (planDetails.hohPlans !== undefined && planDetails.hohPlans.length > 1) && 
       <> <GlobalStyle />
+      {showPlan &&
         <MyHealthFirstPlan>
           My Other Healthfirst Plan
         </MyHealthFirstPlan>
+      }
         {
           planDetails.hohPlans.slice(1,planDetails.hohPlans.length).map((plan, index) => (
+            (plan.MembershipStatus === 'active' || plan.MembershipStatus === 'upcoming') ?
             <Card key={index}>
               <HealthPlan>
                 <PlanImage alt = "" src="/react/images/ico-leaf-green.svg" />
@@ -67,6 +77,7 @@ const HealthFirstPlan = () => {
                   <MemberTxt>View Member ID Card</MemberTxt>
                 </ViewMemberId>}
             </Card>
+            : null
           ))}
       </>
   );
