@@ -121,18 +121,18 @@ useEffect(() => {
     else {
       setMemberSelection({
         ...memberSelection,
-        memberId: customerInfo.data.hohPlans[0].MemberId,
-        planName: customerInfo.data.hohPlans[0].PlanName,
-        membershipStatus: customerInfo.data.hohPlans[0].MembershipStatus,
-        membershipEffectiveDate: customerInfo.data.hohPlans[0].MembershipEffectiveDate,
-        membershipExpirationDate: customerInfo.data.hohPlans[0].MembershipExpirationDate,
-        companyCode: customerInfo.data.hohPlans[0].CompanyNumber,
-        lob: customerInfo.data.hohPlans[0].LOBCode,
-        groupNumber: customerInfo.data.hohPlans[0].GroupNumber,
-        benefitPackage: customerInfo.data.hohPlans[0].BenefitPackage,
-        firstName: customerInfo.data.hohPlans[0].FirstName,
-        lastName: customerInfo.data.hohPlans[0].LastName,
-        relationshipCode: customerInfo.data.hohPlans[0].RelationshipCode,
+        memberId: customerInfo.data.hohPlans[0]?.MemberId,
+        planName: customerInfo.data.hohPlans[0]?.PlanName,
+        membershipStatus: customerInfo.data.hohPlans[0]?.MembershipStatus,
+        membershipEffectiveDate: customerInfo.data.hohPlans[0]?.MembershipEffectiveDate,
+        membershipExpirationDate: customerInfo.data.hohPlans[0]?.MembershipExpirationDate,
+        companyCode: customerInfo.data.hohPlans[0]?.CompanyNumber,
+        lob: customerInfo.data.hohPlans[0]?.LOBCode,
+        groupNumber: customerInfo.data.hohPlans[0]?.GroupNumber,
+        benefitPackage: customerInfo.data.hohPlans[0]?.BenefitPackage,
+        firstName: customerInfo.data.hohPlans[0]?.FirstName,
+        lastName: customerInfo.data.hohPlans[0]?.LastName,
+        relationshipCode: customerInfo.data.hohPlans[0]?.RelationshipCode,
         isHohPlan: true
       })
     }
