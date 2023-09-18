@@ -27,8 +27,8 @@ const AnnualHealthAssessment = () => {
         sessionStorage.setItem("longLoad", false);
     }, []);
     const customerInfo = useSelector((state) => state.customerInfo.data);
-    const hraPlan = getValidHRASurveryPlan(customerInfo?.hohPlans);
     const { dependents } = customerInfo;
+    const hraPlan = getValidHRASurveryPlan(customerInfo?.hohPlans);
     const history = useHistory();
 
     const splitAttributes = {
@@ -65,7 +65,7 @@ const AnnualHealthAssessment = () => {
 
     const getAssessmentLink = (eachDependent) => {
         let hrefLink;
-        let hraPlanLowerCamo= {companyCode: hraPlan.CompanyCode, memberId: hraPlan.MemberId, benefitPackage: hraPlan.BenefitPackage}
+        let hraPlanLowerCamo= {companyCode: hraPlan.CompanyNumber, memberId: hraPlan.MemberId, benefitPackage: hraPlan.BenefitPackage}
         let checkObj = !eachDependent ? hraPlanLowerCamo : eachDependent;
         if (
             checkObj.companyCode == "30" &&
@@ -147,8 +147,7 @@ const AnnualHealthAssessment = () => {
 
     return (
         <ReactAppWrapper>
-            {hraPlan.CompanyCode !== null &&
-                !["34", "02"].some((x) => x == hraPlan.CompanyCode) && (
+            {hraPlan.CompanyNumber !== null && (
                     <FeatureTreatment
                         treatmentName={SHOW_HEALTH_ASSESMENT_SURVEY}
                         onLoad={() => {}}
