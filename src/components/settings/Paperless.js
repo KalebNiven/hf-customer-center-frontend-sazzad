@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import useLogError from "../../hooks/useLogError";
+import { getSelectedLang } from "../auth/login/languageSelection.js";
 
 const Paperless = ()  => {
   const customerInfo = useSelector((state) => state.customerInfo);
@@ -17,6 +18,7 @@ const Paperless = ()  => {
       token: updatedJwt,
       isWidget: true,
       widgetPage: 'PAPERLESS',
+      lang: getSelectedLang()|| "en",
     };
 
     try {

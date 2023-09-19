@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import useLogError from "../../hooks/useLogError";
+import { getSelectedLang } from "../auth/login/languageSelection.js";
 
 const UpdatedContactInformation = () => {
   const customerInfo = useSelector((state) => state.customerInfo);
@@ -19,6 +20,7 @@ const UpdatedContactInformation = () => {
       token: updatedJwt,
       isWidget: true,
       widgetPage: 'CONTACT',
+      lang: getSelectedLang()|| "en",
     };
 
     try {
