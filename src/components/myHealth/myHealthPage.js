@@ -48,7 +48,7 @@ const MyHealthPage = () => {
                 onTimedout={() => {}}
                 attributes={splitAttributes}
             >
-                {setShowHRACard && <Card>
+                {showHRACard && <Card>
                     <Wrapper>
                         <Image src="/react/images/exam_plus.svg" />
                         <ContentWrapper>
