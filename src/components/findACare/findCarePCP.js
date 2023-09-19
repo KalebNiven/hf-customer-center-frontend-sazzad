@@ -52,7 +52,7 @@ const FindCarePCP = (props) => {
               year: dep.year,
               firstName: dep.firstName,
               lastName: dep.lastName,
-              pcpId: pcpHousehold?.data?.dependents[dep?.memberId].id,
+              pcpId: pcpHousehold?.data?.dependents[dep?.memberId] ?? null,
               disablePcpUpdate: dep.Status === "active" ? false : true,
               membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY')
             }
@@ -69,7 +69,7 @@ const FindCarePCP = (props) => {
               year: plan.memberYear,
               firstName: plan.FirstName,
               lastName: plan.LastName,
-              pcpId: pcpHousehold?.data?.hohPlans[plan?.MemberId]?.id,
+              pcpId: pcpHousehold?.data?.hohPlans[plan?.MemberId]?.id ?? null,
               disablePcpUpdate: plan.MembershipStatus === "active" ? false : true,
               membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY')
             }
