@@ -49,5 +49,5 @@ export const getSplitAttributesForHOHPlan = (customerInfoData, index) => {
 };
 
 export const getValidHRASurveryPlan = (hohplans) => {
-  return hohplans.find(plan => !['02', '34'].includes(plan.CompanyNumber))
+  return hohplans.find(plan => !['02', '34'].includes(plan.CompanyNumber) && plan.MembershipStatus === 'active');
 }
