@@ -54,7 +54,7 @@ const FindCare = (props) => {
         year: dep.year,
         firstName: dep.firstName,
         lastName: dep.lastName,
-        pcpId: pcpHousehold?.data?.dependents[dep?.memberId].id,
+        pcpId: pcpHousehold?.data?.dependents[dep?.memberId],
         disablePcpUpdate: dep.Status === "active" ? false : true,
         membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY')
       }
