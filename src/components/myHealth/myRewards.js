@@ -23,6 +23,9 @@ const MyRewards = () => {
     onNavigateToProviderSearch: (data) => {
       /* const { benefitPackage, groupNumber, year, specialty } = data; */
       history.push({pathname: '/findcare'});
+    },
+    onNavigateToAccountDetails: () => {
+      history.push({pathname: '/settings'});
     }
   };
   const mountProps = {
