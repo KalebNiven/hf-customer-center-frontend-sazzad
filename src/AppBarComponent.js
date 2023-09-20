@@ -101,6 +101,7 @@ function AppBarComponent() {
   const location = useLocation();
   const { resetPaymentsModal } = usePaymentsModalContext();
   const [loadSplit, setLoadSplit] = useState({ treatment: 'control', config: null });
+  const otcCardType = generateCardType(customerInfo?.data?.hohPlans);
   let nav;
 
   useEffect(() => {
@@ -304,7 +305,7 @@ function AppBarComponent() {
     href: "/coverage-and-benefits",
     treatmentName: SHOW_COVERAGE_AND_BENEFITS,
   }, {
-    label: generateCardType(customerInfo?.data?.hohPlans),
+    label: otcCardType === "Flex" ? "Flex Benefit" : otcCardType,
     labelForSegment: "OTC",
     href: "/otc-widget",
     treatmentName: OTC_WIDGET_PAGE,
