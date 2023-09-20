@@ -22,7 +22,7 @@ export const sendErrorLog = async (error) => {
       clientDetails
     }
 
-    const res = await LOFLv2(true).post('/log', payload, config);
+    const res = await LOFLv2(true).post('/report', payload, config);
     return res.data;
   } catch (error) {
     console.error('Error caught: ', error.message)
