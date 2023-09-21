@@ -84,7 +84,7 @@ const ManageOTCWidgetCard = () => {
                     onTimedout={() => { }}
                     attributes={{
                       planCode: customerInfo?.data?.planCode,
-                      companyCode: customerInfo?.data?.hohPlans[0].CompanyNumber,
+                      companyCode: customerInfo?.data?.hohPlans[0]?.CompanyNumber,
                       benefitPackage: customerInfo?.data?.hohPlans[0]?.BenefitPackage,
                       membershipStatus: customerInfo?.data?.hohPlans[0]?.MembershipStatus,
                     }}
