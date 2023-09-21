@@ -85,7 +85,7 @@ const ManageOTCWidgetCard = () => {
                     attributes={{
                         planCode: customerInfo.data.planCode,
                         companyCode: customerInfo.data.companyCode,
-                        benefitPackage: customerInfo.data.hohPlans?.map(plan => plan.BenefitPackage),
+                        benefitPackage: customerInfo.data.hohPlans[0].BenefitPackage,
                         membershipStatus: customerInfo.data.membershipStatus,
                     }}
                     >
