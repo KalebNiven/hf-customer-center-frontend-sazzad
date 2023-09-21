@@ -5,6 +5,7 @@ import { useAppContext } from "../../AppContext";
 import { ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import { loadExternalScript } from "../../utils/externalScripts";
 import useLogError from "../../hooks/useLogError";
+import { generateCardType } from "./utils";
 
 const OTC_WIDGET_SCRIPT_ID = 'OTCWidgetScript';
 
@@ -125,6 +126,8 @@ const OTCWidget = () => {
   }
 
   useEffect(() => {
+    let otcCardType = generateCardType(customerInfo?.hohPlans);
+    document.title = otcCardType === "Flex" ? "Flex Benefit" : otcCardType;
     if(existingScript){
       try {
         window.OTCWidget.mount(mountProps);
