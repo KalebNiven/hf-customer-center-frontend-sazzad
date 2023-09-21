@@ -50,11 +50,15 @@ const config = {
     historyApiFallback: true
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env": getEnvVars(dotenv.config({ path: envDir }).parsed),
+    }),
     new HtmlWebpackPlugin({
       template: __dirname + '/src/index.html',
       filename: 'index.html',
       inject: 'body',
-      publicPath: '/'
+      publicPath: '/',
+      custom: '<script src="'+process.env.MIX_REACT_CONTACT_INFO_LINK+'prefManagementWidget.js"></script>'
     }),
     new InterpolateHtmlPlugin({
       JENKINS_JOB_NAME: process.env.JOB_NAME || 'Customer-center-Frontend',
@@ -62,9 +66,6 @@ const config = {
       JENKINS_BUILD_TAG: process.env.BUILD_TAG || '0000',
       JENKINS_NODE_NAME: process.env.NODE_NAME || '0000',
       JENKINS_BUILD_ID: process.env.BUILD_ID || '0000',
-    }),
-    new webpack.DefinePlugin({
-      "process.env": getEnvVars(dotenv.config({ path: envDir }).parsed),
     }),
     new CopyPlugin({ patterns: [{ from: "public", to: "." }, { from: "src/images", to: "react/images" }] }),
     new CopyPlugin({ patterns: [{ from: "public", to: "." }, { from: "src/css", to: "css" }] }),
