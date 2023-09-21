@@ -83,10 +83,10 @@ const ManageOTCWidgetCard = () => {
                     onLoad={() => { }}
                     onTimedout={() => { }}
                     attributes={{
-                        planCode: customerInfo.data.planCode,
-                        companyCode: customerInfo.data.companyCode,
-                        benefitPackage: customerInfo.data.hohPlans[0].BenefitPackage,
-                        membershipStatus: customerInfo.data.membershipStatus,
+                      planCode: customerInfo?.data?.planCode,
+                      companyCode: customerInfo?.data?.hohPlans[0].CompanyNumber,
+                      benefitPackage: customerInfo?.data?.hohPlans[0]?.BenefitPackage,
+                      membershipStatus: customerInfo?.data?.hohPlans[0]?.MembershipStatus,
                     }}
                     >
                       <ActiveButton onClick={ () => handleClick() }>Manage {getTitle(customerInfo?.data.hohPlans)}</ActiveButton>
