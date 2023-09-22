@@ -26,8 +26,10 @@ const DependentBlock = ({ memberSelection, setMemberSelection, halfWidth }) => {
       var members = [];
 
       hohPlans.forEach(plan => {
-        var hohplan = { label: formatNameCapitalize(plan.FirstName)+" "+formatNameCapitalize(plan.LastName), value: plan.MemberId, planName: formatNameCapitalize(plan.PlanName), membershipStatus: plan.MembershipStatus, membershipEffectiveDate: plan.MembershipEffectiveDate, membershipExpirationDate: plan.MembershipExpirationDate, companyCode: plan.CompanyNumber, benefitPackage: plan.BenefitPackage, firstName: plan.FirstName, lastName: plan.LastName };
-        members.push(hohplan);
+        if(plan.MembershipStatus !== 'inactive' ){
+          var hohplan = { label: formatNameCapitalize(plan.FirstName)+" "+formatNameCapitalize(plan.LastName), value: plan.MemberId, planName: formatNameCapitalize(plan.PlanName), membershipStatus: plan.MembershipStatus, membershipEffectiveDate: plan.MembershipEffectiveDate, membershipExpirationDate: plan.MembershipExpirationDate, companyCode: plan.CompanyNumber, benefitPackage: plan.BenefitPackage, firstName: plan.FirstName, lastName: plan.LastName };
+          members.push(hohplan);
+        }
       });
       
       dependents.forEach(dependent => {
