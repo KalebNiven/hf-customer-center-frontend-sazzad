@@ -27,15 +27,17 @@ const DependentBlock = ({ memberSelection, setMemberSelection, halfWidth, displa
       var members = [];
 
       hohPlans.forEach(plan => {
-        if(displayInactiveMembers || (!displayInactiveMembers &&  !isActivePlan(plan))){
+        if(displayInactiveMembers || (!displayInactiveMembers &&  isActivePlan(plan))){
           var hohplan = { label: formatNameCapitalize(plan.FirstName)+" "+formatNameCapitalize(plan.LastName), value: plan.MemberId, planName: formatNameCapitalize(plan.PlanName), membershipStatus: plan.MembershipStatus, membershipEffectiveDate: plan.MembershipEffectiveDate, membershipExpirationDate: plan.MembershipExpirationDate, companyCode: plan.CompanyNumber, benefitPackage: plan.BenefitPackage, firstName: plan.FirstName, lastName: plan.LastName };
           members.push(hohplan);
         }
       });
       
       dependents.forEach(dependent => {
-        var member = { label: formatNameCapitalize(dependent.firstName)+" "+formatNameCapitalize(dependent.lastName), value: dependent.memberId, planName: dependent.planName, membershipStatus: dependent.Status, membershipEffectiveDate: dependent.MembershipEffectiveDate, membershipExpirationDate: dependent.MembershipExpirationDate, companyCode: dependent.companyCode, benefitPackage: dependent.benefitPackage, firstName: dependent.firstName, lastName: dependent.lastName };
-        members.push(member);
+        if(displayInactiveMembers || (!displayInactiveMembers &&  isActivePlan(dependent))){
+          var member = { label: formatNameCapitalize(dependent.firstName)+" "+formatNameCapitalize(dependent.lastName), value: dependent.memberId, planName: dependent.planName, membershipStatus: dependent.Status, membershipEffectiveDate: dependent.MembershipEffectiveDate, membershipExpirationDate: dependent.MembershipExpirationDate, companyCode: dependent.companyCode, benefitPackage: dependent.benefitPackage, firstName: dependent.firstName, lastName: dependent.lastName };
+          members.push(member);
+        }
       });
       setMembers(members);
     }

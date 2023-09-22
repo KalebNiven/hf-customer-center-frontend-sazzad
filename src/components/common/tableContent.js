@@ -253,7 +253,7 @@ const TableContent = ({
         memberships.push({ label: "All Members", value: null, planName: "" });
 
         customerInfo["hohPlans"].forEach((plan) => {
-            if(displayInactiveMembers  || (!displayInactiveMembers && !isActivePlan(plan))){
+            if(displayInactiveMembers  || (!displayInactiveMembers && isActivePlan(plan))){
                 var hohplan = {
                     label:
                         formatNameCapitalize(plan.FirstName) +
@@ -274,15 +274,17 @@ const TableContent = ({
         });
 
         customerInfo["dependents"].forEach((dependent) => {
-            var membership = {
-                label:
-                    formatNameCapitalize(dependent.firstName) +
-                    " " +
-                    formatNameCapitalize(dependent.lastName),
-                value: dependent.memberId,
-                planName: dependent.planName,
-            };
+            if(displayInactiveMembers  || (!displayInactiveMembers && isActivePlan(dependent))){
+                var membership = {
+                    label:
+                        formatNameCapitalize(dependent.firstName) +
+                        " " +
+                        formatNameCapitalize(dependent.lastName),
+                    value: dependent.memberId,
+                    planName: dependent.planName,
+                };
             memberships.push(membership);
+            }
         });
         setMemberships(memberships);
     };
