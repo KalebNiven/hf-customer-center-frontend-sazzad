@@ -34,7 +34,6 @@ const FindCareSearch = (props) => {
 
   /** Adding Widget script for  provider search and Mounting the widget on page load */
   const memberDependents = customerInfo?.dependents
-  .filter(dep => dep.Status === 'active')
   .map(dep => {
     return {
       memberId: dep.memberId, 
@@ -51,7 +50,6 @@ const FindCareSearch = (props) => {
   }) || [];
 
   const hohPlans = customerInfo?.hohPlans
-  .filter(plan => plan.MembershipStatus === 'active')
   .map(plan => {
     return {
       memberId: plan.MemberId, 

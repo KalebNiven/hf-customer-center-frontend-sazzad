@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { requestPcpHousehold } from "../../store/actions";
 import Spinner from "../common/spinner";
+import GlobalError from "../common/globalErrors/globalErrors";
 
 const PRIMARY_CARE_PROVIDER = "PRIMARY_CARE_PROVIDER";
 
@@ -42,7 +43,6 @@ const FindCarePCP = (props) => {
         if (pcpHousehold.loading || !pcpHousehold.data) return;
         
         const memberDependents = customerInfo?.dependents
-        .filter(dep => dep.Status === 'active')
         .map(dep => {
             return {
               memberId: dep.memberId, 
@@ -59,7 +59,6 @@ const FindCarePCP = (props) => {
         }) || [];
 
         const hohPlans = customerInfo?.hohPlans
-        .filter(plan => plan.MembershipStatus === 'active')
         .map(plan => {
             return {
               memberId: plan.MemberId, 
