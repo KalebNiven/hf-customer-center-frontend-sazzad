@@ -22,10 +22,11 @@ const UpdatedContactInformation = () => {
       widgetPage: 'CONTACT',
       lang: getSelectedLang()|| "en",
     };
-
-    try {
       if (updatedJwt) {
         try {
+          if (prefManagementWidget.isMounted(mountProps)) {
+            { prefManagementWidget?.unmount(mountProps); }
+          }
           { prefManagementWidget?.mount(mountProps); }
         } catch (error) {
           (async () => {
@@ -37,28 +38,6 @@ const UpdatedContactInformation = () => {
           })()
         }
       }
-    } catch (error) {
-      (async () => {
-          try {
-              await logError(error);
-          } catch (err) {
-              console.error('Error caught: ', err.message);
-          }
-      })()
-      try {
-        prefManagementWidget?.unmount(mountProps);
-        prefManagementWidget?.mount(mountProps);
-      } catch (error) {
-        (async () => {
-            try {
-                await logError(error);
-            } catch (err) {
-                console.error('Error caught: ', err.message);
-            }
-        })()
-      }
-    }
-
   }, [customerInfo.data.id_token])
 
   return (
