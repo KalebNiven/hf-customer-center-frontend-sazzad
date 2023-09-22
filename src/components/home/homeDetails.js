@@ -24,11 +24,19 @@ import OTC from './otc/index'
 const HomeDetails = () => {
   const carouselLoading = useSelector((state) => state.homeDetails.carouselLoading);
   const customerInfo = useSelector((state) => state.customerInfo);
-
   const dispatch = useDispatch();
+
+  const formatCarouselReqPayload = (memberships) => {
+    let arr = [];
+    memberships.forEach(membership => {
+      arr.push({'benefitPackage': membership['BenefitPackage'], 'companyCode': membership['CompanyNumber'], 'membershipStatus': membership['MembershipStatus']});
+    });
+    return arr;
+  }
+
   useEffect(() => {
     if(customerInfo.data.customerId ){
-      dispatch(requestCarouselItems());
+      dispatch(requestCarouselItems(formatCarouselReqPayload(customerInfo.data.hohPlans)));
     }
   }, []);
 
