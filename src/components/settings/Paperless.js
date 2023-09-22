@@ -20,10 +20,11 @@ const Paperless = ()  => {
       widgetPage: 'PAPERLESS',
       lang: getSelectedLang()|| "en",
     };
-
-    try {
       if (updatedJwt) {
         try {
+          if (prefManagementWidget.isMounted(mountProps)) {
+            { prefManagementWidget?.unmount(mountProps); }
+          }
           { prefManagementWidget?.mount(mountProps); }
         } catch (error) {
           (async () => {
@@ -35,28 +36,6 @@ const Paperless = ()  => {
           })()
         }
       }
-    } catch (error) {
-      (async () => {
-          try {
-              await logError(error);
-          } catch (err) {
-              console.error('Error caught: ', err.message);
-          }
-      })()
-      try {
-        prefManagementWidget?.unmount(mountProps);
-        prefManagementWidget?.mount(mountProps);
-      } catch (error) {
-        (async () => {
-            try {
-                await logError(error);
-            } catch (err) {
-                console.error('Error caught: ', err.message);
-            }
-        })()
-      }
-    }
-
   }, [customerInfo.data.id_token])
 
   return (
