@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { MemberDropDownSelect, MemberDropDownSelectWrapper } from './styles';
 import { AnalyticsTrack } from "../common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
+import { isActivePlan } from './utils';
 
-const DependentBlock = ({ memberSelection, setMemberSelection, halfWidth }) => {
+const DependentBlock = ({ memberSelection, setMemberSelection, halfWidth, displayInactiveMembers = true }) => {
 
     const customerInfo = useSelector((state) => state.customerInfo);
     const { data: { dependents, hohPlans } } = customerInfo;
@@ -21,12 +22,12 @@ const DependentBlock = ({ memberSelection, setMemberSelection, halfWidth }) => {
       name = name.toLowerCase();
       return name.charAt(0).toUpperCase() + name.slice(1);
     }
-  
+
     const formatMemberDDList = (data) => {
       var members = [];
 
       hohPlans.forEach(plan => {
-        if(plan.MembershipStatus !== 'inactive' ){
+        if(displayInactiveMembers || (!displayInactiveMembers &&  !isActivePlan(plan))){
           var hohplan = { label: formatNameCapitalize(plan.FirstName)+" "+formatNameCapitalize(plan.LastName), value: plan.MemberId, planName: formatNameCapitalize(plan.PlanName), membershipStatus: plan.MembershipStatus, membershipEffectiveDate: plan.MembershipEffectiveDate, membershipExpirationDate: plan.MembershipExpirationDate, companyCode: plan.CompanyNumber, benefitPackage: plan.BenefitPackage, firstName: plan.FirstName, lastName: plan.LastName };
           members.push(hohplan);
         }

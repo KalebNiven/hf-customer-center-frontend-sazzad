@@ -285,7 +285,7 @@ const ClaimsPage = () => {
               pathName="/claimDetails"
               defaultSortAsc={false}
               handleSegmentBtn={(row)=>handleSegmentBtn(row)}
-          
+              displayInactiveMembers={false}
             />
             :
             (selectedTab === 0) ?

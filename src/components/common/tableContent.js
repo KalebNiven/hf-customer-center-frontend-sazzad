@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
 import DropdownSelect from "./dropdownSelect";
+import { isActivePlan } from "../coverageBenefits/utils";
 const SearchComponent = ({ searchTxt, onFilter, searchPlaceHolder }) => (
     <Search
         id="search"
@@ -74,6 +75,7 @@ const TableContent = ({
     pathName,
     tab,
     handleSegmentBtn,
+    displayInactiveMembers = true
 }) => {
     const [searchTxt, setSearchTxt] = useState("");
     const [srchResult, setSrchResult] = useState([]);
@@ -251,7 +253,7 @@ const TableContent = ({
         memberships.push({ label: "All Members", value: null, planName: "" });
 
         customerInfo["hohPlans"].forEach((plan) => {
-            if(plan.MembershipStatus !== 'inactive'){
+            if(displayInactiveMembers  || (!displayInactiveMembers && !isActivePlan(plan))){
                 var hohplan = {
                     label:
                         formatNameCapitalize(plan.FirstName) +
