@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
 import DropdownSelect from "./dropdownSelect";
+import { isActivePlan } from "../coverageBenefits/utils";
 const SearchComponent = ({ searchTxt, onFilter, searchPlaceHolder }) => (
     <Search
         id="search"
@@ -74,6 +75,7 @@ const TableContent = ({
     pathName,
     tab,
     handleSegmentBtn,
+    displayInactiveMembers = true
 }) => {
     const [searchTxt, setSearchTxt] = useState("");
     const [srchResult, setSrchResult] = useState([]);
@@ -251,33 +253,38 @@ const TableContent = ({
         memberships.push({ label: "All Members", value: null, planName: "" });
 
         customerInfo["hohPlans"].forEach((plan) => {
-            var hohplan = {
-                label:
-                    formatNameCapitalize(plan.FirstName) +
-                    " " +
-                    formatNameCapitalize(plan.LastName),
-                value: plan.MemberId,
-                planName: formatNameCapitalize(plan.PlanName),
-                membershipStatus: plan.MembershipStatus,
-                membershipEffectiveDate: plan.MembershipEffectiveDate,
-                membershipExpirationDate: plan.MembershipExpirationDate,
-                companyCode: plan.CompanyCode,
-                firstName: plan.FirstName,
-                lastName: plan.LastName,
-            };
-            memberships.push(hohplan);
+            if(displayInactiveMembers  || (!displayInactiveMembers && isActivePlan(plan))){
+                var hohplan = {
+                    label:
+                        formatNameCapitalize(plan.FirstName) +
+                        " " +
+                        formatNameCapitalize(plan.LastName),
+                    value: plan.MemberId,
+                    planName: formatNameCapitalize(plan.PlanName),
+                    membershipStatus: plan.MembershipStatus,
+                    membershipEffectiveDate: plan.MembershipEffectiveDate,
+                    membershipExpirationDate: plan.MembershipExpirationDate,
+                    companyCode: plan.CompanyCode,
+                    firstName: plan.FirstName,
+                    lastName: plan.LastName,
+                };
+                memberships.push(hohplan);
+            }
+
         });
 
         customerInfo["dependents"].forEach((dependent) => {
-            var membership = {
-                label:
-                    formatNameCapitalize(dependent.firstName) +
-                    " " +
-                    formatNameCapitalize(dependent.lastName),
-                value: dependent.memberId,
-                planName: dependent.planName,
-            };
+            if(displayInactiveMembers  || (!displayInactiveMembers && isActivePlan(dependent))){
+                var membership = {
+                    label:
+                        formatNameCapitalize(dependent.firstName) +
+                        " " +
+                        formatNameCapitalize(dependent.lastName),
+                    value: dependent.memberId,
+                    planName: dependent.planName,
+                };
             memberships.push(membership);
+            }
         });
         setMemberships(memberships);
     };

@@ -24,3 +24,14 @@ export const getFormattedCopay = ({ isPercent, total, coinsurance, hasAdmission 
             </DataBlock> }
         </CostData>;
 }
+
+export  const isActivePlan = (plan) => {
+    if(plan.MembershipStatus){
+      //HOH
+      return plan.MembershipStatus !== 'inactive';
+    }
+    else {
+      //Dependent
+      return plan.Status !== 'inactive';
+    }
+};
