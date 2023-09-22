@@ -32,6 +32,6 @@ export  const isActivePlan = (plan) => {
     }
     else {
       //Dependent
-      plan.Status !== 'inactive';
+      return plan.Status !== 'inactive';
     }
 };
