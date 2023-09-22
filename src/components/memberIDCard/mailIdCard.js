@@ -59,11 +59,12 @@ const MailIdCard = (props) => {
        // dispatch(requestIdCard(props.memberId));
        dispatch(requestCustomerDemographicsInfo(customerInfo.data.customerId));
     }, []);
+
     useEffect(() => {
       if(!mailMemberIDCardStatus.loading && (typeof(mailMemberIDCardStatus.data) !== "undefined" && mailMemberIDCardStatus.data !== null && mailMemberIDCardStatus.data.length != 0 ? true : false)){
         setLatestStatusRecord(getLatestStatus(mailMemberIDCardStatus.data[1], mailMemberIDCardStatus.data[0].status, mailMemberIDCardStatus.data[0][mailMemberIDCardStatus.data[1]], mailMemberIDCardStatus.data[0].IMBbarcode, mailMemberIDCardStatus.data[0].SLA, mailMemberIDCardStatus.data[0].mailingAddress, mailMemberIDCardStatus.data[0].newAddress));
       }
-   }, [mailMemberIDCardStatus]);
+    }, [mailMemberIDCardStatus]);
 
     const openForm = () => {
       setRenderIdCardForm(true);

@@ -538,9 +538,11 @@ export const getIndMapDetails = async (data) => {
 }
 
 
-  export const getCarouselDetails = async () => {
+  export const getCarouselDetails = async (payload) => {
     try {
-      const res = await LOFLv2(true)('carousel');
+      const res = await LOFLv2(true).get(`carousel`,{ params: {
+        memberships: payload.memberships,
+      }});
       return res.data;
     } catch (error) {
       try {

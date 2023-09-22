@@ -593,8 +593,13 @@ export const errorIndMapDetails = (error) => ({
     },
 });
 
-export const requestCarouselItems = () => ({
+export const requestCarouselItems = (payload) => ({
     type: actionTypes.REQUEST_CAROUSEL_ITEMS,
+    payload: { 
+        memberships: {
+            hohPlans: payload 
+        }
+    }
 });
 
 export const receiveCarouselItems = (data) => ({
