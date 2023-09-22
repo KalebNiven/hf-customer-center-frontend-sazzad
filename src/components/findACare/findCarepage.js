@@ -44,7 +44,6 @@ const FindCare = (props) => {
     if(pcpHousehold.loading || !pcpHousehold.data) return;
 
     const dependents = customerInfo?.dependents
-    .filter(dep => dep.Status === 'active')
     .map(dep => {
       return {
         memberId: dep.memberId, 
@@ -61,7 +60,6 @@ const FindCare = (props) => {
     }) || [];
 
     const hohPlans = customerInfo?.hohPlans
-    .filter(plan => plan.MembershipStatus === 'active')
     .map(plan => {
       return {
         memberId: plan.MemberId, 
