@@ -128,7 +128,7 @@ function DigitalId(props) {
                           <div className="row no-gutters" />
                         )}
                     </div>
-                    {customerInfo.data.companyCode !== COMPANYCODE02 && <BottomDivider /> }
+                    {props.member.companyCode !== COMPANYCODE02 && <BottomDivider /> }
                   </div>
                   <div className={window.innerWidth <= 820 ? "col-12" : "col-5"} style={window.innerWidth <= 820 ? {} : { paddingLeft: '2rem', paddingBottom: '1rem' }}>
                     {digitalIdCard.showPharmacyBlock ? (
@@ -176,7 +176,7 @@ function DigitalId(props) {
                           ) : null}
                       </div>
                     ) : null}
-                    {customerInfo.data.companyCode !== COMPANYCODE02 && <BottomDivider /> }
+                    {props.member.companyCode !== COMPANYCODE02 && <BottomDivider /> }
                   </div>
                 </div>
                 <div className="row no-gutters">
