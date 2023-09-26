@@ -72,7 +72,7 @@ const SSOCards = () => {
       setManagePrescriptionNoticeEnabled(showManagePrescriptionNoticeTreatment.treatment === 'notice');
       setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false);
     });
-  }, []);
+  }, [splitHookClient]);
 
   const SuggestionData = [{
     featureName: SHOW_PRIMARY_CARE_PROVIDER, name: "Find a Doctor", img: "/react/images/icon_care_providers.svg", routeLink: "findcare",
