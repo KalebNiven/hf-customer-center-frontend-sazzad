@@ -57,7 +57,7 @@ const OTC = () => {
       }
     );
 
-    history.push({ pathname: "/otc/activate-card" })
+    history.push('/otc-widget');
   }
 
   const handleLearnMore = (e) => {
