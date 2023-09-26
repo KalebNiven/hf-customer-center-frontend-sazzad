@@ -126,8 +126,6 @@ const OTCWidget = () => {
   }
 
   useEffect(() => {
-    let otcCardType = generateCardType(customerInfo?.hohPlans);
-    document.title = otcCardType === "Flex" ? "Flex Benefit" : otcCardType;
     if(existingScript){
       try {
         window.OTCWidget.mount(mountProps);
