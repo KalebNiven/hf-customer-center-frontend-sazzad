@@ -42,7 +42,7 @@ const SSOCards = () => {
   const { MIX_REACT_APP_NATIONS_HEARING_HREF } = process.env;
   const [showReward, setShowReward] = useState(false);
   const [rewardsEnabled, setRewardsEnabled] = useState(false);
-  const [costEstimatorWidgetEnabled, setCostEstimatorWidgetEnabledEnabled] = useState(false);
+  const [costEstimatorWidgetEnabled, setCostEstimatorWidgetEnabledEnabled] = useState(null);
   const [managePrescriptionNoticeEnabled, setManagePrescriptionNoticeEnabled] = useState(false);
 
   // To be removed in next sprint - Want to keep zero dependency with any service as we will remove this in coming sprints
@@ -68,7 +68,8 @@ const SSOCards = () => {
       if (!splitHookClient) return;
       const showCostEstimatorWidgetTreatment = splitHookClient.getTreatmentWithConfig(SHOW_COST_ESTIMATOR_WIDGET, splitAttributes);
       const showManagePrescriptionNoticeTreatment = splitHookClient.getTreatmentWithConfig(SHOW_MANAGE_PRESCRIPTIONS, splitAttributes);
-      setCostEstimatorWidgetEnabledEnabled(showCostEstimatorWidgetTreatment.treatment === "off" ? false : showCostEstimatorWidgetTreatment.treatment === "on");
+      console.log('===== showCostEstimatorWidgetTreatment: ', showCostEstimatorWidgetTreatment)
+      setCostEstimatorWidgetEnabledEnabled(showCostEstimatorWidgetTreatment.treatment === "off" ? false : showCostEstimatorWidgetTreatment.treatment === "on" ? true : false);
       setManagePrescriptionNoticeEnabled(showManagePrescriptionNoticeTreatment.treatment === 'notice');
       setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false);
     });
@@ -209,7 +210,7 @@ const SSOCards = () => {
               attributes={row.splitAttributes ? row.splitAttributes : splitAttributes}
             >
 
-              {row?.routeLink === 'payments' && costEstimatorWidgetEnabled !== true
+              {row?.routeLink === 'payments' && costEstimatorWidgetEnabled !== null && costEstimatorWidgetEnabled !== true
 
                 ? (
                   <ExternalSiteLink link="https://hfcostlookup.org/" label="hfcostlookup" target="_blank" styles={{ display: "flex" }}>
