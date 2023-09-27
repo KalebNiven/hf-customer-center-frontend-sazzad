@@ -52,7 +52,7 @@ const MailIdCardDB = (props) => {
 
     useEffect(() => {
        // dispatch(requestIdCard(props.memberId));
-       dispatch(requestCustomerDemographicsInfo(customerInfo.data.memberId));
+       dispatch(requestCustomerDemographicsInfo(customerInfo.data.customerId));
     }, []);
 
     const openForm = () => {
