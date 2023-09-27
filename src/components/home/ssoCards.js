@@ -173,7 +173,7 @@ const SSOCards = () => {
       },
     );
 
-    if (routeLink === 'payments' && costEstimatorWidgetEnabled == true) {
+    if (routeLink === 'payments' && costEstimatorWidgetEnabled !== null && costEstimatorWidgetEnabled == true) {
       return window.location.href = "/costEstimator";
     }
     return history.push(`/${routeLink}`);
