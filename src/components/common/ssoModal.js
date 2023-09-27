@@ -20,7 +20,7 @@ const SSOModal = () => {
             switch(externalLinkName){
                 case 'Manage Prescriptions':        
                     resetSsoModal();
-                    setAcknowledgmentModal({isVisible: true, label: externalLinkName, callback});
+                    setAcknowledgmentModal({isVisible: true, label: externalLinkName});
                     return;
                 default: 
                     return;
