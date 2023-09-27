@@ -97,11 +97,11 @@ const  checkSelectedDependent  = () =>{
 }
 }
 
-const checkNonMemberHOH = (companyCode, benefitPackage, isHohMember) => {
+const checkNonMemberHOH = (companyCode, benefitPackage, relationshipCode) => {
   if(companyCode === '01' && DUMMY_PACKAGES.includes(benefitPackage)){
       return true;
   }
-  else if(companyCode === '20' && isHohMember){
+  else if(companyCode === '20' && relationshipCode === 'SELF'){
       return true;
   }
   else{
@@ -132,8 +132,7 @@ useEffect(() => {
         benefitPackage: customerInfo.data.hohPlans[0]?.BenefitPackage,
         firstName: customerInfo.data.hohPlans[0]?.FirstName,
         lastName: customerInfo.data.hohPlans[0]?.LastName,
-        relationshipCode: customerInfo.data.hohPlans[0]?.RelationshipCode,
-        isHohPlan: true
+        relationshipCode: customerInfo.data.hohPlans[0]?.RelationshipCode
       })
     }
 
@@ -211,7 +210,7 @@ useEffect(() => {
       dispatch(requestPhysicalIdCard(memberSelection.memberId));
       dispatch(requestMailMemberIDCardStatus(memberSelection.memberId));
     }
-    setIsNonMemberHOH(checkNonMemberHOH(memberSelection.companyCode, memberSelection.benefitPackage, memberSelection.isHohPlan));
+    setIsNonMemberHOH(checkNonMemberHOH(memberSelection.companyCode, memberSelection.benefitPackage, memberSelection.relationshipCode));
   }, [memberSelection]);
 
   useEffect(() => {
