@@ -68,7 +68,6 @@ const SSOCards = () => {
       if (!splitHookClient) return;
       const showCostEstimatorWidgetTreatment = splitHookClient.getTreatmentWithConfig(SHOW_COST_ESTIMATOR_WIDGET, splitAttributes);
       const showManagePrescriptionNoticeTreatment = splitHookClient.getTreatmentWithConfig(SHOW_MANAGE_PRESCRIPTIONS, splitAttributes);
-      console.log('===== showCostEstimatorWidgetTreatment: ', showCostEstimatorWidgetTreatment)
       setCostEstimatorWidgetEnabledEnabled(showCostEstimatorWidgetTreatment.treatment === "off" ? false : showCostEstimatorWidgetTreatment.treatment === "on" ? true : false);
       setManagePrescriptionNoticeEnabled(showManagePrescriptionNoticeTreatment.treatment === 'notice');
       setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false);
