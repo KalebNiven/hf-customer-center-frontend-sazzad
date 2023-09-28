@@ -71,7 +71,7 @@ export default function settingsReducer(state = initialState, action) {
             const response = action.payload;
             if (response.responseCode === 200)
                 successMsg = response.successMessage;
-            else errorMsg = response.passwordError;
+            else errorMsg = response.error;
             return {
                 ...state,
                 passwordSuccess: successMsg,
