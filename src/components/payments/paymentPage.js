@@ -45,7 +45,7 @@ function PaymentPage() {
   let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes);
   useEffect(() => {
     sessionStorage.setItem("longLoad", false);
-    if (customerInfo?.data?.hohPlans.length > 1) {
+    if(customerInfo.data.hohPlans.filter(plan => plan.MembershipStatus !== 'inactive').length > 1){
       displayMembersModal('link', 'Payments');
     }
   }, []);
@@ -74,7 +74,7 @@ function PaymentPage() {
 
   // ACL Redirect
   useEffect(() => {
-    if (customerInfo.data.hohPlans.length > 1 && (selectedPlan.status === 'init' || paymentsModalState.membership == null)) return;
+    if(customerInfo.data.hohPlans.filter(plan => plan.MembershipStatus !== 'inactive').length > 1 && (selectedPlan.status === 'init' || paymentsModalState.membership == null)) return;
     if (localStorage.getItem('okta-token-storage') == null || !splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control") return;
     let isRedirecting = false;
     if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") {

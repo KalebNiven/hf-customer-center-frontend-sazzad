@@ -102,6 +102,7 @@ function AppBarComponent() {
   const { resetPaymentsModal } = usePaymentsModalContext();
   const [loadSplit, setLoadSplit] = useState({ treatment: 'control', config: null });
   const otcCardType = generateCardType(customerInfo?.data?.hohPlans);
+  const { MIX_REACT_APP_BINDER_SITE_HREF } = process.env;
   let nav;
 
   useEffect(() => {
@@ -180,38 +181,14 @@ function AppBarComponent() {
   };
 
   const paymentsClickLogic = () => {
-    let membershipKey = customerInfo?.data?.hohPlans[0]?.MembershipKey;
-    customerInfo?.data?.hohPlans.forEach((plan) => {
-      if (plan?.membershipStatus == "active") {
-        membershipKey = plan?.MembershipKey;
-      }
-    });
-    history.push('/payments');
-    /*
-    axios.get(`/api/v2/select-plan/${membershipKey}`)
-    .then(function (response) {
-      // Will need to define how to handle response.status
-      if(paymentsEnabled === true && binderEnabled === true){
-        history.push('/payments');
-      }
-      else if(paymentsEnabled === true){
-        //console.log('redirect to payments');
-        if(reactPaymentsPortalEnabled){
-          history.push('/payments');
-        }
-        else{
-          history.push('/payments');
-          //window.location.href = getLangURLPrefix(customerInfo.data.loginLanguage)+MIX_REACT_PAYMENTS_BASE_URL+'/sso?loginLang='+customerInfo.data.loginLanguage+'&selectedLang='+customerInfo.data.language;
-        }
-      }
-      else{
-        //console.log('redirect to binder');
-        history.push('/payments');
-        //window.location.href = getLangURLPrefix(customerInfo.data.loginLanguage)+MIX_REACT_BINDER_BASE_URL+'/sso?loginLang='+customerInfo.data.loginLanguage+'&selectedLang='+customerInfo.data.language;
-      }
-    });
-    */
-  };
+    let filteredPlans = customerInfo.data.hohPlans.filter(plan => plan.MembershipStatus !== 'inactive');
+    if(filteredPlans.length === 0){
+      window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
+    }
+    else{
+      history.push('/payments');
+    }
+  }
 
   const getUserProfile = () => (
 
