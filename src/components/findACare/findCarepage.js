@@ -76,8 +76,8 @@ const FindCare = (props) => {
     }) || [];
 
     const memberDetails = [
-      ...hohPlans,
-      ...dependents
+      ...hohPlans.filter(plan => plan.disablePcpUpdate === true),
+      ...dependents.filter(plan => plan.disablePcpUpdate === true)
     ];
     
     if(customerInfo.accountStatus !=="NON-MEMBER"){
@@ -100,7 +100,6 @@ const FindCare = (props) => {
       onMemberChanged: handleMemberChanged,
       onResultClicked: handleResultClicked,
     };
-
       if (
         customerInfo.memberId &&
         dependents &&
