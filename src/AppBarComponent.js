@@ -181,7 +181,7 @@ function AppBarComponent() {
   };
 
   const paymentsClickLogic = () => {
-    let filteredPlans = customerInfo.data.hohPlans.filter(plan => plan.MembershipStatus !== 'inactive');
+    let filteredPlans = customerInfo?.data?.hohPlans?.filter(plan => plan?.MembershipStatus !== 'inactive');
     if(filteredPlans.length === 0){
       window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
     }
