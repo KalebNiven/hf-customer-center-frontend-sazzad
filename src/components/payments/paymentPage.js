@@ -74,7 +74,7 @@ function PaymentPage() {
 
   // ACL Redirect
   useEffect(() => {
-    if(customerInfo.data.hohPlans.filter(plan => plan.MembershipStatus !== 'inactive').length > 1 && (selectedPlan.status === 'init' || paymentsModalState.membership == null)) return;
+    if(customerInfo?.data?.hohPlans.filter(plan => plan?.MembershipStatus !== 'inactive').length > 1 && (selectedPlan?.status === 'init' || paymentsModalState?.membership == null)) return;
     if (localStorage.getItem('okta-token-storage') == null || !splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control") return;
     let isRedirecting = false;
     if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") {
