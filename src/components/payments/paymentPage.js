@@ -45,7 +45,7 @@ function PaymentPage() {
   let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes);
   useEffect(() => {
     sessionStorage.setItem("longLoad", false);
-    if(customerInfo.data.hohPlans.filter(plan => plan.MembershipStatus !== 'inactive').length > 1){
+    if(customerInfo?.data?.hohPlans?.filter(plan => plan?.MembershipStatus !== 'inactive').length > 1){
       displayMembersModal('link', 'Payments');
     }
   }, []);
