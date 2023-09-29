@@ -48,7 +48,7 @@ const MemberSelectionModal = () => {
                                             customerInfo.hohPlans.map((row, index) => {
                                                 const enable = true;
                                                 return (
-                                                    (row.MembershipStatus === "active" || row.MembershipStatus === "upcoming") &&
+                                                    (row.MembershipStatus === "active" || row.MembershipStatus === "upcoming") && // Perhaps we should consider also displaying inactive here if they are passed in... just simply not filter
                                                         <Card enable={enable} key={index} onClick={() => {if(enable) handleClick(row.MembershipKey, row, routeLink, externalLinkName)}}>
                                                             <UserIcon alt="" src="/react/images/icons-solid-user-dark-grey.svg"></UserIcon>
                                                             <MemberDetails>
