@@ -76,8 +76,8 @@ const FindCare = (props) => {
     }) || [];
 
     const memberDetails = [
-      ...hohPlans.filter(plan => plan.disablePcpUpdate === true),
-      ...dependents.filter(plan => plan.disablePcpUpdate === true)
+      ...hohPlans.filter(plan => plan.disablePcpUpdate === false),
+      ...dependents.filter(plan => plan.disablePcpUpdate === false)
     ];
     
     if(customerInfo.accountStatus !=="NON-MEMBER"){
