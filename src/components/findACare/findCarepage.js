@@ -100,7 +100,6 @@ const FindCare = (props) => {
       onMemberChanged: handleMemberChanged,
       onResultClicked: handleResultClicked,
     };
-      console.log({mountProps})
       if (
         customerInfo.memberId &&
         dependents &&
