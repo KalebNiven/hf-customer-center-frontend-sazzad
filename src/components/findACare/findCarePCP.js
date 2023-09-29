@@ -76,7 +76,7 @@ const FindCarePCP = (props) => {
 
         const memberDetails = [
             ...hohPlans.filter(plan => plan.disablePcpUpdate === true),
-            ...dependents.filter(plan => plan.disablePcpUpdate === true)
+            ...memberDependents.filter(plan => plan.disablePcpUpdate === true)
         ];
     
             let mountProps 
