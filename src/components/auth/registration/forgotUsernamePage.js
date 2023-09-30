@@ -272,7 +272,7 @@ export const ForgotCredentialForm = styled(Form)`
 
 export const ForgotCredentialCard = styled.div`
 background: #FFFFFF;
-filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.23));
+filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.10));
 border-radius: 8px;
 padding: 16px;
 margin-top: 32px;

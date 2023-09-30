@@ -378,7 +378,7 @@ background-color: #ffffff;
 export const Card = styled.div`
   padding: 16px;
   border-radius: 4px;
-  box-shadow: 0 2px 8px 0 #d8d8d8;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.10);
   background-color: #ffffff;
   display:flex;
   align-items:center;
@@ -397,7 +397,7 @@ const LinkCard = styled.div`
   height:142px;
   padding: 16px 8px 26px;
   border-radius: 4px;
-  box-shadow: 0 2px 8px 0 #d8d8d8;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.10);
   background-color: #ffffff;
   width: ${(props) => (props.innerWidth > 668 ? "calc(100%/3 - 6px)" : "100%")};
   &:hover {

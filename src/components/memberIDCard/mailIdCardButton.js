@@ -71,7 +71,6 @@ const Container = styled.div`
 const MailIdCard = styled.button`
     margin-top: 1rem;
     object-fit: contain;
-    box-shadow: 1px 1px 2px 1px ${props => props.disableBtn ? "#757575" : "#3e7128" };
     border-radius: 5px;
     background-color: #3E7128;
     cursor: ${props => props.disableBtn ? "default" : "pointer" };

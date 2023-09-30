@@ -264,10 +264,10 @@ box-shadow:  0 0 8px 0 rgba(0, 0, 0, 0.23);
 }
 &:hover{
   cursor:pointer;
-  text-decoration:underline;
+  background-color:#F2F9FC;
 }
 &:hover p{
-  color:#2A6A9E
+  color:#008BBF
 }
 `;
 
