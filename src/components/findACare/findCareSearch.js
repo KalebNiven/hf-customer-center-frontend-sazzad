@@ -70,7 +70,8 @@ const FindCareSearch = (props) => {
     if(pcpHousehold.loading || !pcpHousehold.data) return;
 
     const memberDetails = [
-      ...hohPlans.filter(plan => plan.disablePcpUpdate === false),
+      hohPlans[0],
+      ...hohPlans.slice(1).filter(plan => plan.disablePcpUpdate === false),
       ...memberDependents.filter(plan => plan.disablePcpUpdate === false)
     ];
 
@@ -89,7 +90,7 @@ const FindCareSearch = (props) => {
         benefitPackage: customerInfo.benefitPackage,
         groupNumber: customerInfo.groupNumber,
         year: customerInfo.memberYear,
-        memberDetails: [...memberDetails],
+        memberDetails: memberDetails,
         token: customerInfo.id_token,
         apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
         lang: customerInfo.language || "en",
