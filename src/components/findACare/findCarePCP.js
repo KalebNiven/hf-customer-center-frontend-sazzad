@@ -75,7 +75,8 @@ const FindCarePCP = (props) => {
           }) || [];
 
         const memberDetails = [
-            ...hohPlans.filter(plan => plan.disablePcpUpdate === false),
+            hohPlans[0],
+            ...hohPlans.slice(1).filter(plan => plan.disablePcpUpdate === false),
             ...memberDependents.filter(plan => plan.disablePcpUpdate === false)
         ];
     
