@@ -125,7 +125,7 @@ const FindCarePCP = (props) => {
     useEffect(() => {
         return () => {
           if (ProviderDirectoryWidget.isMounted(PRIMARY_CARE_PROVIDER)) {
-            ProviderDirectoryWidget.invalidateStore();
+          
             ProviderDirectoryWidget.unmount(PRIMARY_CARE_PROVIDER);
           }
         };
