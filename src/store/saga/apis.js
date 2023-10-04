@@ -197,9 +197,9 @@ export const getCustomerInfoData = async () => { // Need to defer to Igor
   }
 };
 
-export const getCustomerDemographicsInfoData = async (memberId) => {
+export const getCustomerDemographicsInfoData = async (customerId) => {
   try {
-    const res = await LOFLv2(true).get(`/customer-contact/${memberId}`);
+    const res = await LOFLv2(true).get(`/customer-contact/${customerId}`);
     return res.data;
   } catch (error) {
     try {
