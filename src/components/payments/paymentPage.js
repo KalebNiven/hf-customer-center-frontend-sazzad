@@ -20,6 +20,7 @@ function PaymentPage() {
   const [showPortal, setShowPortal] = useState(false);
   const [loading, setLoading] = useState(true);
   const customerInfo = useSelector((state) => state.customerInfo);
+  const [plans, setPlans] = useState(null);
   const selectedPlan = useSelector((state) => state.selectPlan);
   const {
     memberId,
@@ -45,8 +46,12 @@ function PaymentPage() {
   let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes);
   useEffect(() => {
     sessionStorage.setItem("longLoad", false);
-    if(customerInfo?.data?.hohPlans?.filter(plan => plan?.MembershipStatus !== 'inactive').length > 1){
-      displayMembersModal('link', 'Payments');
+    if(splitHookClient.Event.SDK_READY){
+      let filteredPlans = getPlansWithPayments();
+      setPlans(filteredPlans);
+      if((filteredPlans.length > 1)){
+        displayMembersModal('link', 'Payments');
+      }
     }
   }, []);
 
@@ -54,6 +59,30 @@ function PaymentPage() {
     if (!(splitHookClient && splitHookClient.Event.SDK_READY)) return false;
     return treatment === "on";
   }, [splitHookClient, treatment]);
+
+  const checkACLs = (plan, accountStatus) => {
+    let planAttrs = {
+      memberId: plan?.MemberId,
+      lob: plan?.LOBCode,
+      membershipStatus: plan?.MembershipStatus,
+      benefitPackage: plan?.BenefitPackage,
+      accountStatus: accountStatus,
+      companyCode: plan?.CompanyNumber,
+    };
+    let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, planAttrs);
+    let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, planAttrs);
+    return (paymentsEnabledTreatment.treatment === "on" || binderEnabledTreatment.treatment === "on");
+  }
+
+  const getPlansWithPayments = () => {
+    let filteredPlans = [];
+    customerInfo.data.hohPlans.forEach((plan) => {
+        if(checkACLs(plan, customerInfo?.data?.accountStatus)){
+            filteredPlans.push(plan);
+        }
+    });
+    return filteredPlans;
+  }
 
   useEffect(() => {
     if (paymentsModalState?.membership == null) return;
@@ -72,9 +101,17 @@ function PaymentPage() {
     binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes);
   }, [splitAttributes]);
 
+  splitHookClient.on(splitHookClient.Event.SDK_READY, function() {
+    let filteredPlans = getPlansWithPayments();
+    setPlans(filteredPlans);
+    if((filteredPlans.length > 1)){
+      displayMembersModal('link', 'Payments');
+    }
+  });
+
   // ACL Redirect
   useEffect(() => {
-    if(customerInfo?.data?.hohPlans.filter(plan => plan?.MembershipStatus !== 'inactive').length > 1 && (selectedPlan?.status === 'init' || paymentsModalState?.membership == null)) return;
+    if((plans === null || plans.length > 1) && (selectedPlan?.status === 'init' || paymentsModalState?.membership == null)) return;
     if (localStorage.getItem('okta-token-storage') == null || !splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control") return;
     let isRedirecting = false;
     if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") {

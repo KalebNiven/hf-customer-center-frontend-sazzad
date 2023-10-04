@@ -180,6 +180,24 @@ function AppBarComponent() {
     return 'https://';
   };
 
+  const checkPaymentsACLs = () => {
+    let showPayments = false;
+    customerInfo.data.hohPlans.forEach((plan) => {
+      let planAttrs = {
+        memberId: plan?.MemberId,
+        lob: plan?.LOBCode,
+        membershipStatus: plan?.MembershipStatus,
+        benefitPackage: plan?.BenefitPackage,
+        accountStatus: customerInfo?.data?.accountStatus,
+        companyCode: plan?.CompanyNumber,
+      };
+      let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, planAttrs);
+      let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, planAttrs);
+      showPayments = (showPayments || paymentsEnabledTreatment.treatment === "on" || binderEnabledTreatment.treatment === "on");
+    });
+    return showPayments;
+  }
+
   const paymentsClickLogic = () => {
     let filteredPlans = customerInfo?.data?.hohPlans?.filter(plan => plan?.MembershipStatus !== 'inactive');
     if(filteredPlans.length === 0){
@@ -493,7 +511,7 @@ function AppBarComponent() {
               attributes={checkSplit(eachNav.label)}
             >
               <>
-                { !showPaymentFlag && eachNav.label === "Payments" ? null
+                { !checkPaymentsACLs() && eachNav.label === "Payments" ? null
                   : (
                     <Tab
                       key={`${eachNav.href}_${index}`}
@@ -823,7 +841,7 @@ function AppBarComponent() {
                         attributes={splitAttributes}
                       >
                         <>
-                          {(!showPaymentFlag && eachNav.label === "Payments") ? null
+                          {(!checkPaymentsACLs() && eachNav.label === "Payments") ? null
                             : (
                               <div className={`${eachNav?.mobileCoachmark}`}>
                                 <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, eachNav.href, 'parent', eachNav?.label, eachNav?.labelForSegment)} button key={eachNav.href}>
