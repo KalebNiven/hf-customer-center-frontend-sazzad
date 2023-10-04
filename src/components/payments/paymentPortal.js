@@ -16,6 +16,7 @@ const PaymentPortal = () => {
 
   const localStorageOKTA = JSON.parse(localStorage.getItem('okta-token-storage'));
   const accessToken = localStorageOKTA.accessToken.accessToken;
+  const idToken = localStorageOKTA.idToken.idToken;
   const memberData = useSelector(state => state.customerInfo);
   const memberId = paymentsModalState?.membership?.MemberId ?? memberData?.data?.memberId;
 
@@ -53,7 +54,7 @@ const PaymentPortal = () => {
             id="hf--payments--root"
             hf--payments--app="lofl"
             hf--payments--token="okta"
-            hf--payments--session={accessToken}
+            hf--payments--session={idToken}
             hf--payments--member={memberId}
           >
             { isError ? <PaymentError /> :
