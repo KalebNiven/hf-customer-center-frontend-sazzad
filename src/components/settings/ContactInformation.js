@@ -155,7 +155,7 @@ const ContactInformation = () => {
 		const toastrPopCopy = { ...toastrPop }
 		setLoadingSpinner(true)
 		const postVerifyErrorCopy = { ...postVerifyError }
-		await verifyContactInfo(payload).then((res) => {	
+		verifyContactInfo(payload).then((res) => {	
 			setLoadingSpinner(false);	
 			if(res?.data?.status === "Failure"){
 				postVerifyErrorCopy.error = true
@@ -195,7 +195,7 @@ const ContactInformation = () => {
 		}
 
 		setEmailAddressVerifying(true)
-		await verifyEmailContactInfo(payload, true).then(res => {
+		verifyEmailContactInfo(payload, true).then(res => {
 			setVerificationModalData(emailAddress)
 			setCurrentModal('email')
 		}).catch(err => console.log(err)).finally(() => {
@@ -208,7 +208,7 @@ const ContactInformation = () => {
 			phone: phoneNumber?.value
 		}
 		setPhoneVerifying(true);
-		await verifyPhoneContactInfo(payload, true).then(res => {
+		verifyPhoneContactInfo(payload, true).then(res => {
 			setVerificationModalData(phoneNumberHashed)
 			setCurrentModal('sms')
 		}).catch(err => {
@@ -221,7 +221,7 @@ const ContactInformation = () => {
 		const payload = {
 			channelType: currentModal
 		}
-		const responseData = await resendCodeContactInfo(payload, customerInfo.csrf).then(res => {
+		const responseData = resendCodeContactInfo(payload, customerInfo.csrf).then(res => {
 			setResendVerificationCodeRes(responseData)
 		}).catch(err => console.log(err))
 
