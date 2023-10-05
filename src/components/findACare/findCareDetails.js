@@ -87,7 +87,10 @@ const FindCareDetails = (props) => {
                 onBackClicked: handleBackClicked,
                 onMakePCP: () => {},
                 onPcpUpdateComplete: () => {
-                    dispatch(requestPcpHousehold()); 
+                //Cookies.set('ChangeYourPCP','true',{expires:1}) 
+                setTimeout(() => {
+                  dispatch(requestPcpHousehold()); 
+                }, 5000)
                 }
             }
             return mountProps
