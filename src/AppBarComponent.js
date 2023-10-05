@@ -437,9 +437,6 @@ function AppBarComponent() {
         console.log("Nothing to invalidate");
       }
       sessionStorage.removeItem("currentMemberId");
-      if (sessionStorage.getItem("identifySegmentFlag") != null) {
-        sessionStorage.removeItem("identifySegmentFlag");
-      }
       logoutApi();
     } else if (param === '/payments') {
       paymentsClickLogic();
