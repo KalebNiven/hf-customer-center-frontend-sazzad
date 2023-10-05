@@ -87,7 +87,7 @@ const FindCareDetails = (props) => {
                 onBackClicked: handleBackClicked,
                 onMakePCP: () => {},
                 onPcpUpdateComplete: () => {
-                Cookies.set('ChangeYourPCP','true',{expires:1}) 
+                //Cookies.set('ChangeYourPCP','true',{expires:1}) 
                 setTimeout(() => {
                   dispatch(requestPcpHousehold()); 
                 }, 5000)
