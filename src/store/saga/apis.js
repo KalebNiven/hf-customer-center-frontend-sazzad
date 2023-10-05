@@ -850,7 +850,6 @@ export const changePassword = async ({ data, csrf }) => {
     try {
       console.error('Error caught: ', error.message)
       await sendErrorLog(error)
-      return error.response.data
     } catch (error) {
       console.error('Error caught: ', error.message)
     }
@@ -918,8 +917,10 @@ export const verifyContactInfo = async (payload) => {
     try {
       console.error('Error caught: ', error.message)
       await sendErrorLog(error)
+      return error.response;
     } catch (error) {
       console.error('Error caught: ', error.message)
+      return error.response;
     }
   }
 };
@@ -932,7 +933,7 @@ export const resendCodeContactInfo = async (payload, csrf) => {
     //     "X-CSRF-TOKEN": csrf
     //   }
     // }
-    const res = await LOFLv2(true).post('settingsResendVerificationCode', payload);
+    const res = await LOFLv2(true).post('settings/resend-verification-code', payload);
     return res.data;
   } catch (error) {
     try {
