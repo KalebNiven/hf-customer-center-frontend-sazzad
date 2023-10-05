@@ -176,8 +176,8 @@ const MailIdCard = (props) => {
           };
         case 'Scanned at USPS': // Honestly not sure what this one is supposed to represent... contract pretty unclear on what condition tree this status could be reprentative of by itself or paired with other conditions. Basically it sounds like there are no guarantees as to what this means from conversations had with correspondence team... Processing seems fine for now
           return {
-            'title': 'Processing',
-            'description': 'Your New Member ID Card request is currently being processed.',
+            'title': 'Shipped',
+            'description': 'Your New Member ID Card has been shipped.',
             'lastUpdateDate': formatDate(statusDate),
             'carrier': carrier,
             'trackingCode': trackingCode,
