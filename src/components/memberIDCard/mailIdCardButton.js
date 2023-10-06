@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, {keyframes} from 'styled-components';
 import {   useSelector, useDispatch } from "react-redux";
 import { SHOW_MAIL_ID_CARD } from "../../constants/splits"; 
 import { FeatureTreatment } from "../../libs/featureFlags";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import { AnalyticsTrack } from "../common/segment/analytics";
+import { Button } from "../../styles/commonStyles";
 
 const MailIdCardButton = ({ handleClick, disableBtn, memberId}) => {
       const dispatch = useDispatch();
       const customerInfo = useSelector((state) => state.customerInfo);
+      const mailMemberIDCardStatus = useSelector((state) => state.correspondenceStatus);
       const splitAttributes = {
         lob: customerInfo.data.sessLobCode,
         companyCode: customerInfo.data.companyCode,
@@ -54,11 +56,17 @@ const MailIdCardButton = ({ handleClick, disableBtn, memberId}) => {
               onTimedout={() => { }}
               attributes={splitAttributes}
           >
-              <MailIdCard onClick={disableBtn ? null : handleClickWithAnalytics} disableBtn={disableBtn}>
+                {mailMemberIDCardStatus.loading ?
+                  <FormButton green={true}>
+                    <ProgressSpinner></ProgressSpinner>
+                  </FormButton>
+                : (
+                <MailIdCard onClick={disableBtn ? null : handleClickWithAnalytics} disableBtn={disableBtn}>
                   <NewCardBtnText className="no-print" disableBtn={disableBtn}>
                       Mail Me a New ID Card
                   </NewCardBtnText>
-              </MailIdCard>
+                </MailIdCard>
+                )}
           </FeatureTreatment>
         </Container>
     )
@@ -110,7 +118,42 @@ const NewCardBtnText = styled.span`
     color: ${props => props.disableBtn ? "#757575" : "#fff" };
     padding: 12px 16px;
     cursor: ${props => props.disableBtn ? "default" : "pointer" };
-    `;
+`;
+const FormButton = styled(Button)`
+  float: none!important;
+  width: 16rem;
+  margin-left: 0;
+  margin-right: 0;
+  cursor: default;
+  @media only screen and (max-width: 480px) {
+    width: 100%;
+    margin: 16px auto;
+  }
+`;
+const SpinnerRotate = keyframes`
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+`;
+  
+const ProgressSpinner = styled.div`
+  text-align: center;
+  margin: auto;
+  border: .2rem solid #375225;
+  border-top: .2rem solid white;
+  border-radius: 50%;
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  animation-name: ${SpinnerRotate};
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  @media only screen and (max-width: 768px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+`;
 export default MailIdCardButton;
 
 
