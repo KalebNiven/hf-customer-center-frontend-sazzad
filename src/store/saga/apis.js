@@ -850,6 +850,7 @@ export const changePassword = async ({ data, csrf }) => {
     try {
       console.error('Error caught: ', error.message)
       await sendErrorLog(error)
+      return error.response.data
     } catch (error) {
       console.error('Error caught: ', error.message)
     }
