@@ -15,13 +15,13 @@ export const useSplitEval = () => {
         customerInfo.data.hohPlans.forEach((plan) => {
             // ! Be careful changing this, it may affect other components. You better append to it rather than change.
             let splitAttributes = {
-                memberId: plan?.memberId,
-                customerId: plan?.customerId,
+                memberId: plan?.MemberId,
+                customerId: plan?.CustomerId,
                 lob: plan?.LOBCode,
                 companyCode: plan?.CompanyNumber,
                 benefitPackage: plan?.BenefitPackage,
-                membershipStatus: plan?.membershipStatus,
-                accountStatus: plan?.accountStatus,
+                membershipStatus: plan?.MembershipStatus,
+                accountStatus: plan?.CustomerId ? "MEMBER" : "NON-MEMBER"
             };
             let { treatment } = splitHookClient.getTreatmentWithConfig(splitFeatureName, splitAttributes);
             showFeature = (showFeature || treatment === "on");
