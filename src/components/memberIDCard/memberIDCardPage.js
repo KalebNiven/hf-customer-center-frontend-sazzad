@@ -15,7 +15,7 @@ import Toaster from "../common/toaster";
 import { useAppContext } from "../../AppContext"
 import { MainContentContainer } from "../common/styles";
 import GlobalError from "../common/globalErrors/globalErrors";
-import MailIdCardDB from "./mailIdCardDB";
+import MailIdCard from "./mailIdCard";
 
 const DUMMY_PACKAGES = [ "RK", "SU", "OC", "WC", "NY", "LI" ];
 const MemberIDCardPage = (props) => {
@@ -260,7 +260,7 @@ useEffect(() => {
                       <PhysicalIdCard memberId={memberSelection.memberId} />
                     </PhysicalIdCardContainer>
                     <MailIdCardContainer>
-                      <MailIdCardDB memberSelection={memberSelection} />
+                      <MailIdCard memberSelection={memberSelection} />
                     </MailIdCardContainer>
                   </IDCardContainers>
                   : (

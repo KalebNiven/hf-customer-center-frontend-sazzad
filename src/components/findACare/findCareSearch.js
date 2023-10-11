@@ -70,8 +70,9 @@ const FindCareSearch = (props) => {
     if(pcpHousehold.loading || !pcpHousehold.data) return;
 
     const memberDetails = [
-      ...hohPlans,
-      ...memberDependents
+      hohPlans[0],
+      ...hohPlans.slice(1).filter(plan => plan.disablePcpUpdate === false),
+      ...memberDependents.filter(plan => plan.disablePcpUpdate === false)
     ];
 
     let mountProps;
