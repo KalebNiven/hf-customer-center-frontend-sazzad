@@ -8,6 +8,7 @@ import { requestPcpHousehold } from '../../store/actions/index';
 import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner"; 
+import Cookies from "js-cookie";
 
 const DETAILS = "DETAILS";
 
@@ -87,7 +88,7 @@ const FindCareDetails = (props) => {
                 onBackClicked: handleBackClicked,
                 onMakePCP: () => {},
                 onPcpUpdateComplete: () => {
-                //Cookies.set('ChangeYourPCP','true',{expires:1}) 
+                Cookies.set('ChangeYourPCP','true',{expires:1}) 
                 setTimeout(() => {
                   dispatch(requestPcpHousehold()); 
                 }, 5000)
