@@ -181,6 +181,7 @@ function AppBarComponent() {
   };
 
   const checkPaymentsACLs = () => {
+    if(customerInfo?.data?.accountStatus === 'NON-MEMBER'){return true;}
     let showPayments = false;
     customerInfo.data.hohPlans.forEach((plan) => {
       let planAttrs = {
