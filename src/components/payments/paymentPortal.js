@@ -54,7 +54,8 @@ const PaymentPortal = () => {
             id="hf--payments--root"
             hf--payments--app="lofl"
             hf--payments--token="okta"
-            hf--payments--session={idToken}
+            hf--payments--session={accessToken}
+            hf--payments--session2={idToken}
             hf--payments--member={memberId}
           >
             { isError ? <PaymentError /> :
