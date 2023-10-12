@@ -21,7 +21,6 @@ import { NOTICE, SSO } from '../overTheCounter/config';
 import NoticeLink from "../common/noticeLink";
 import AcknowledgmentModal from "../common/acknowledgmentModal";
 import { getSplitAttributesForHOHPlan } from "../../utils/misc";
-import { useSplitEval } from '../../hooks/useSplitEval'
 
 const SSOCards = () => {
 
@@ -45,7 +44,6 @@ const SSOCards = () => {
   const [rewardsEnabled, setRewardsEnabled] = useState(false);
   const [costEstimatorWidgetEnabled, setCostEstimatorWidgetEnabledEnabled] = useState(null);
   const [managePrescriptionNoticeEnabled, setManagePrescriptionNoticeEnabled] = useState(false);
-  const { evaluateSplitByName } = useSplitEval();
 
   // To be removed in next sprint - Want to keep zero dependency with any service as we will remove this in coming sprints
   const MIX_REACT_EYE_MED_BASE_URL = "https://identity-st.healthfirst.org/app/st-healthfirst_eyemed_1/exk1pjapaxtuCJjIX0h8/sso/saml";
@@ -203,7 +201,12 @@ const SSOCards = () => {
         {
         SuggestionData?.map((row, index) => (
           <>
-            { evaluateSplitByName(row?.featureName) && <>
+            <FeatureTreatment
+              key={index}
+              treatmentName={row?.featureName}
+              onLoad={() => { }}
+              onTimedout={() => { }}
+              attributes={row.splitAttributes ? row.splitAttributes : splitAttributes}>
               {row?.routeLink === 'payments' && costEstimatorWidgetEnabled !== null && costEstimatorWidgetEnabled !== true
 
                 ? (
@@ -225,7 +228,7 @@ const SSOCards = () => {
                     <SuggestionVerbiage>{row?.name}</SuggestionVerbiage>
                   </Card>
                 )}
-            </>}
+            </FeatureTreatment>
             { showReward && isDual && row?.name == "View My Rewards" && <RewardsCard data={row} />}
           </>
         ))
