@@ -114,19 +114,60 @@ function PaymentPage() {
     if((plans === null || plans.length > 1) && (selectedPlan?.status === 'init' || paymentsModalState?.membership == null)) return;
     if (localStorage.getItem('okta-token-storage') == null || !splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control") return;
     let isRedirecting = false;
-    if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") {
-      if (showNewPaymentsApp) {
-        setShowPortal(showNewPaymentsApp);
-      } else {
+
+    if(plans.length == 1){
+      plans.forEach((plan) => {
+        let planAttrs = {
+          memberId: plan?.MemberId,
+          lob: plan?.LOBCode,
+          membershipStatus: plan?.MembershipStatus,
+          benefitPackage: plan?.BenefitPackage,
+          accountStatus: accountStatus,
+          companyCode: plan?.CompanyNumber,
+        };
+        let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, planAttrs);
+        let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, planAttrs);
+        if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") {
+          if (showNewPaymentsApp) {
+            setShowPortal(showNewPaymentsApp);
+          } else {
+            isRedirecting = true;
+            history.goBack();
+            window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
+          }
+        }
+        if (paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "on") {
+          isRedirecting = true;
+          history.goBack();
+          window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
+        }
+      })
+    }
+    else if(paymentsModalState?.membership){
+      let planAttrs = {
+        memberId: paymentsModalState?.membership?.MemberId,
+        lob: paymentsModalState?.membership?.LOBCode,
+        membershipStatus: paymentsModalState?.membership?.MembershipStatus,
+        benefitPackage: paymentsModalState?.membership?.BenefitPackage,
+        accountStatus: accountStatus,
+        companyCode: paymentsModalState?.membership?.CompanyNumber,
+      };
+      let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, planAttrs);
+      let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, planAttrs);
+      if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") {
+        if (showNewPaymentsApp) {
+          setShowPortal(showNewPaymentsApp);
+        } else {
+          isRedirecting = true;
+          history.goBack();
+          window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
+        }
+      }
+      if (paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "on") {
         isRedirecting = true;
         history.goBack();
-        window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
+        window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
       }
-    }
-    if (paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "on") {
-      isRedirecting = true;
-      history.goBack();
-      window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
     }
     setLoading(isRedirecting);
   }, [splitHookClient, paymentsEnabledTreatment, binderEnabledTreatment, selectedPlan]);
