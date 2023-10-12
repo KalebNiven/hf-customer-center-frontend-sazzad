@@ -60,6 +60,9 @@ const useStyles = (top) => makeStyles((theme) => ({
     overflow: "auto",
     maxHeight: "57%",
   },
+  customElevation4:{
+    boxShadow:'none'
+  },
 }));
 const theme = createMuiTheme({
   props: {
@@ -1117,7 +1120,7 @@ function AppBarComponent() {
     <>
       <LongLoadSpinner show={loaderShow} />
       <Hidden only={["xs", "sm"]}>
-        <AppBar position="sticky" className="no-print" style={{ color: 'black', zIndex: 500 }}>
+        <AppBar position="sticky" className="no-print" style={{ color: 'black', zIndex: 500, boxShadow:'none' }}>
           {getParentNav()}
           {getChildNav()}
         </AppBar>
