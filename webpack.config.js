@@ -96,7 +96,11 @@ const config = {
     ],
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx']
+    extensions: [".*",".js",".jsx",".*.mjs"],
+    alias: {
+      "react/jsx-dev-runtime": "react/jsx-dev-runtime.js",
+      "react/jsx-runtime": "react/jsx-runtime.js"
+    }
   }
 };
 

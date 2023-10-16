@@ -58,7 +58,6 @@ const AuthenticatedUserWrapper = ({ children }) => {
   // Make the identify call here...
   useEffect(() => {
     const identifySegmentFlag = localStorage.getItem('identifySegmentFlag');
-    if(identifySegmentFlag) localStorage.removeItem("identifySegmentFlag");
     if (oktaId && !identifySegmentFlag) {
       const fullName = firstName + " " + lastName;
       if (accountStatus === "MEMBER") {

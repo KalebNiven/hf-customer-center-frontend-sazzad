@@ -86,11 +86,11 @@ const FindCareDetails = (props) => {
                 onBackClicked: handleBackClicked,
                 onMakePCP: () => {},
                 onPcpUpdateComplete: () => {
-                    //Cookies.set('ChangeYourPCP','true',{expires:1}) 
-                    setTimeout(() => {
-                      dispatch(requestPcpHousehold());
-                      if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.PCP_UPDATE)
-                    }, 5000)
+                  //Cookies.set('ChangeYourPCP','true',{expires:1}) 
+                  setTimeout(() => {
+                    dispatch(requestPcpHousehold());
+                    if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.PCP_UPDATE)
+                  }, 5000)
                 }
             }
             return mountProps

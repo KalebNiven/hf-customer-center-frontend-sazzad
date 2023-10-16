@@ -75,8 +75,9 @@ const FindCarePCP = (props) => {
           }) || [];
 
         const memberDetails = [
-            ...hohPlans,
-            ...memberDependents,
+            hohPlans[0],
+            ...hohPlans.slice(1).filter(plan => plan.disablePcpUpdate === false),
+            ...memberDependents.filter(plan => plan.disablePcpUpdate === false)
         ];
     
             let mountProps 
@@ -125,7 +126,7 @@ const FindCarePCP = (props) => {
     useEffect(() => {
         return () => {
           if (ProviderDirectoryWidget.isMounted(PRIMARY_CARE_PROVIDER)) {
-            ProviderDirectoryWidget.invalidateStore();
+          
             ProviderDirectoryWidget.unmount(PRIMARY_CARE_PROVIDER);
           }
         };
