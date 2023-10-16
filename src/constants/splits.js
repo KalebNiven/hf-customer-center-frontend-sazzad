@@ -98,6 +98,9 @@ export const FORGOT_USERNAME_PAGE = "CustomerCenter_Forgot_Username_Page";
 export const MAINTENANCE_PAGE = "CustomerCenter_Maintenance_Page";
 export const OTC_WIDGET_PAGE = "CustomerCenter_OTCWidgetPage";
 
+export const DIGITAL_SURVEY = "CustomerCenter_Digital_Survey";
+export const HRA_WIDGET = "CustomerCenter_HealthAssessment_Widget";
+
 
 // return a list of the above featureflag names
 export const getFeatureFlagList = () => {
@@ -185,6 +188,8 @@ export const getFeatureFlagList = () => {
         FORGOT_USERNAME_PAGE,
         MAINTENANCE_PAGE,
         OTC_WIDGET_PAGE,
+        DIGITAL_SURVEY,
+        HRA_WIDGET
     ];
 };
 

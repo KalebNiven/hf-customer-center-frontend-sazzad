@@ -85,13 +85,23 @@ const AnnualHealthAssessment = () => {
             };
         } else if (
             checkObj.companyCode == "30" &&
-            ["NY65", "IBP1", "CBP1", "LIP1", "DMCR"].some(
+            ["NY65", "IBP1", "CBP1", "DMCR"].some(
                 (x) => x == checkObj.benefitPackage
             )
         ) {
             hrefLink = {
                 type: LINK_TYPE.external,
                 link: "https://myhfhealthsurvey.com/",
+            };
+        } else if (
+            checkObj.companyCode == "30" &&
+            ["LIP1"].some(
+                (x) => x == checkObj.benefitPackage
+            )
+        ) {
+            hrefLink = {
+                type: LINK_TYPE.cc,
+                link: `/hra/${checkObj?.memberId}`,
             };
         } else {
             hrefLink = {

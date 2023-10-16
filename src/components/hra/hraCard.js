@@ -6,12 +6,49 @@ import CardQuestion from './cardQuestion'
 import SurveySuccess from './surveySuccess'
 import { getQuestionById, getAnswerById } from '../../utils/lookup'
 import { SINGLE_SELECT, MULTY_SELECT, MATRIX, FREE_TEXT } from '../../constants/hra-types'
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { getHraPartials, saveHraSurveyResponseToDB } from '../../store/saga/apis'
 import { MainContentContainer } from '../common/styles';
 import { getHraStatus } from '../../store/saga/apis'
+import HRAWidget from '../hra/HRAWidget';
+import { FeatureTreatment } from '../../libs/featureFlags';
+import { HRA_WIDGET } from '../../constants/splits';
 
-const HRACard = () => {
+function HRA() {
+    const urlParams = useParams()
+    const customerInfo = useSelector(state => state.customerInfo);
+    // Show Survey Widget
+    const widgetEligible = (memberships, memberId) => {
+        let eligible = false;
+        if(memberships.find(item => item.memberId === memberId && item.companyCode === "30" && item.benefitPackage === "LIP1")){
+            eligible = true;
+        }
+        return eligible;
+    }
+
+    const memberships = [
+        ...customerInfo.data.hohPlans.map(plan => ({ companyCode: plan.CompanyNumber, benefitPackage: plan.BenefitPackage, memberId: plan.MemberId })),
+        ...customerInfo.data.dependents.map(dep => ({ companyCode: dep.companyCode, benefitPackage: dep.benefitPackage, memberId: plan.memberId }))
+    ]
+
+    if(widgetEligible(memberships, urlParams.memberId)) {
+        return (
+            <FeatureTreatment
+                treatmentName={HRA_WIDGET}
+                onLoad={() => {}}
+                onTimedout={() => {}}
+                attributes={{}}
+            >
+                <HRAWidget />
+            </FeatureTreatment>
+        )
+    }
+
+    return <HRACard />
+
+}
+
+function HRACard() {
 
     const { data, form: { active, selected, pending, visited } } = useSelector((state) => state.hra);
     const hraMemberInfo = useSelector(state => state.hra.data.memberInfo);
@@ -453,4 +490,4 @@ const ChangeStepBtn = styled.button`
     color: ${(props) => props.previous ? "#3e7128" : "#ffffff"};
     cursor: pointer;
 `
-export default HRACard
+export default HRA

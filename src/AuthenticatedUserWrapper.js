@@ -14,7 +14,6 @@ import GlobalAlerts from './components/common/globalAlerts';
 import LoadingOverlay from './components/common/loadingOverlay';
 import SessionTimeoutModal from './components/common/sessionTimeoutModal';
 import { AnalyticsIdentifyNonMember, AnalyticsIdentifyMember } from "./components/common/segment/analytics";
-import { useQualtrics ,qualtricsAction} from './hooks/useQualtrics';
 import { SSOModalContextProvider } from './context/ssoModalContext'
 import SSOModal from './components/common/ssoModal'
 import AppBar from './AppBarComponent'
@@ -33,6 +32,10 @@ const uuid = Cookies.get('ajs_anonymous_id') || 'uuid';
 import { ErrorBoundary } from "react-error-boundary";
 import UnrecoverableErrorAuthenticated from './components/errors/UnrecoverableErrorAuthenticated';
 import UnrecoverableErrorCommon from './components/errors/UnrecoverableErrorCommon';
+
+import SurveyScript from './components/scripts/SurveyScript';
+import DigitalSurvey from './components/common/DigitalSurvey';
+import { SurveyContextProvider } from './context/surveyContext';
 
 const { MIX_REACT_APP_MPSR_LOGIN_URL } = process.env;
 const { MIX_SPLITIO_KEY } = process.env;
@@ -69,7 +72,6 @@ const AuthenticatedUserWrapper = ({ children }) => {
     }
   }, [oktaId]);
 
-  useQualtrics(qualtricsAction.NO_ACTION); // launch qualtrics resources
   useProviderDirectory(); // launch Findcare Widget
 
   // Request customer info from the endpoint  
@@ -116,11 +118,14 @@ const AuthenticatedUserWrapper = ({ children }) => {
           <FeatureFactory splitKey={MIX_SPLITIO_KEY} options={featureFlagOptions} uniqueId={customerId ? customerId : uuid} trafficType='user'>
               <AppContextProvider>
                 <SSOModalContextProvider>
+                <SurveyContextProvider>
                   <Wrapper>
                     { isLoading ? <LoadingOverlay isLoading={isLoading} /> : <>
                     <ExternalSiteModal />
                     <SSOModal />
                     <ScrollToTop />
+                      <SurveyScript />
+                      <DigitalSurvey />
                     {(memberId && customerId && id_token && nonce && !endpointsStrippedOfWrapper.includes(location.pathname)) && <ChatWidget memberId={memberId} jwt={id_token} nonce={nonce} customerId={customerId} />}
                     {(alertsList?.length > 0 && !endpointsStrippedOfWrapper.includes(location.pathname)) && <GlobalAlerts alertsList={alertsList} />}
                     <CoachMarksContextProvider>
@@ -146,6 +151,7 @@ const AuthenticatedUserWrapper = ({ children }) => {
                     </CoachMarksContextProvider>
                     </> }
                   </Wrapper>
+                  </SurveyContextProvider>
                 </SSOModalContextProvider>
               </AppContextProvider>
             </FeatureFactory>

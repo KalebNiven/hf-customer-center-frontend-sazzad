@@ -5,13 +5,14 @@ import { useLocation } from "react-router";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { requestPcpHousehold } from '../../store/actions/index';
-import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner"; 
+import { useSurveyContext } from "../../context/surveyContext";
 
 const DETAILS = "DETAILS";
 
 const FindCareDetails = (props) => {
+    const { digitalSurveyWidget, triggerDigitalSurveyByEventName, DIGITAL_SURVEY_EVENTS } = useSurveyContext();
     const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
@@ -25,8 +26,6 @@ const FindCareDetails = (props) => {
         if(pcpHousehold.data) return;
         dispatch(requestPcpHousehold())
     }, [])
-
-    useQualtrics(qualtricsAction.CHANGE_PCP)
 
     const handleBackClicked = () => {
         history.push({
@@ -88,6 +87,7 @@ const FindCareDetails = (props) => {
                 onMakePCP: () => {},
                 onPcpUpdateComplete: () => {
                     dispatch(requestPcpHousehold()); 
+                    if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.PCP_UPDATE)
                 }
             }
             return mountProps

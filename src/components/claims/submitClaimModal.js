@@ -13,11 +13,11 @@ import DropdownSelect from "../common/dropdownSelect";
 import * as CONSTANTS from '../../constants/common';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';
 import { makeStyles } from '@material-ui/core/styles';
 import { StyledButton, MemberDropDownSelect, MemberDropDownSelectWrapper } from '../common/styles';
 import { requestSubmitClaimDetails, submitAttestationAgreement } from '../../store/actions';
 import Cookies from 'js-cookie'
+import { useSurveyContext } from '../../context/surveyContext';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -154,7 +154,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 	let { dependents = [], hohPlans } = customerInfo;
 	const { hoh, dependents: dependentsAddresses } = customerDemographicsInfo
 
-	useQualtrics(qualtricsAction.SUBMIT_CLAIM)
+	const { digitalSurveyWidget, triggerDigitalSurveyByEventName, DIGITAL_SURVEY_EVENTS } = useSurveyContext();
  
 	const hohAddressObj = Array.isArray(hoh) ? hoh[0].info.addresses[0] : {};
 	const getAddressString = (addressObj) => {
@@ -338,6 +338,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 				submitClaimPayload.claimInformation = getClaimInformationValueObj();
 				submitClaimPayload.claimUploadedFiles = claimUploadedFiles;
 				dispatch(requestSubmitClaimDetails(submitClaimPayload))
+				if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.CLAIM_SUBMITTED);
 			}
 
 		}
