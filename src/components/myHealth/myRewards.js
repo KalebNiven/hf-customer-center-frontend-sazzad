@@ -26,6 +26,9 @@ const MyRewards = () => {
     },
     onNavigateToAccountDetails: () => {
       history.push({pathname: '/settings'});
+    },
+    onNavigateToRewards: () => {
+      history.push({pathname: '/settings'});
     }
   };
   const mountProps = {
