@@ -90,7 +90,7 @@ const FindCareSearch = (props) => {
         benefitPackage: customerInfo.benefitPackage,
         groupNumber: customerInfo.groupNumber,
         year: customerInfo.memberYear,
-        memberDetails: [...memberDetails],
+        memberDetails: memberDetails,
         token: customerInfo.id_token,
         apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
         lang: customerInfo.language || "en",
