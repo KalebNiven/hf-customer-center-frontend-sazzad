@@ -921,6 +921,7 @@ export const verifyContactInfo = async (payload) => {
     } catch (error) {
       return error.response;
       console.error('Error caught: ', error.message)
+      return error.response;
     }
   }
 };

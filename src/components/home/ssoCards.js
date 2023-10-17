@@ -206,9 +206,7 @@ const SSOCards = () => {
               treatmentName={row?.featureName}
               onLoad={() => { }}
               onTimedout={() => { }}
-              attributes={row.splitAttributes ? row.splitAttributes : splitAttributes}
-            >
-
+              attributes={row.splitAttributes ? row.splitAttributes : splitAttributes}>
               {row?.routeLink === 'payments' && costEstimatorWidgetEnabled !== null && costEstimatorWidgetEnabled !== true
 
                 ? (
