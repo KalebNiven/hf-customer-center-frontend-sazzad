@@ -42,7 +42,7 @@ const AuthenticatedUserWrapper = ({ children }) => {
   const customerInfo = useSelector((state) => state.customerInfo);
   const location = useLocation();
   const history = useHistory();
-  const { memberId, customerId, accountStatus, lastName, email, firstName, oktaId, id_token, nonce, wantsMedicare } = customerInfo.data;
+  const { memberId, customerId, accountStatus, lastName, email, firstName, oktaId, id_token, nonce, wantsMedicare, hohPlans } = customerInfo.data;
   const { alertsList } = useSelector(state => state.globalAlerts);
   const preferenceCenterInfo = useSelector((state) => state.preferenceCenterInfo);
   const [isLoading, setIsLoading] = useState(true);
@@ -105,6 +105,10 @@ const AuthenticatedUserWrapper = ({ children }) => {
       setIsLoading(false);
     }
   }, [preferenceCenterInfo?.data, isRedirecting])
+
+  useEffect(() => {
+    if(!hohPlans?.length) throw new Error('No plans found.');
+  }, [hohPlans])
 
   return (
     <>
