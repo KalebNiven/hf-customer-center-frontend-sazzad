@@ -60,6 +60,9 @@ const useStyles = (top) => makeStyles((theme) => ({
     overflow: "auto",
     maxHeight: "57%",
   },
+  customElevation4:{
+    boxShadow:'none'
+  },
 }));
 const theme = createMuiTheme({
   props: {
@@ -179,6 +182,25 @@ function AppBarComponent() {
     }
     return 'https://';
   };
+
+  const checkPaymentsACLs = () => {
+    if(customerInfo?.data?.accountStatus === 'NON-MEMBER'){return true;}
+    let showPayments = false;
+    customerInfo.data.hohPlans.forEach((plan) => {
+      let planAttrs = {
+        memberId: plan?.MemberId,
+        lob: plan?.LOBCode,
+        membershipStatus: plan?.MembershipStatus,
+        benefitPackage: plan?.BenefitPackage,
+        accountStatus: customerInfo?.data?.accountStatus,
+        companyCode: plan?.CompanyNumber,
+      };
+      let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, planAttrs);
+      let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, planAttrs);
+      showPayments = (showPayments || paymentsEnabledTreatment.treatment === "on" || binderEnabledTreatment.treatment === "on");
+    });
+    return showPayments;
+  }
 
   const paymentsClickLogic = () => {
     let filteredPlans = customerInfo?.data?.hohPlans?.filter(plan => plan?.MembershipStatus !== 'inactive');
@@ -490,7 +512,7 @@ function AppBarComponent() {
               attributes={checkSplit(eachNav.label)}
             >
               <>
-                { !showPaymentFlag && eachNav.label === "Payments" ? null
+                { !checkPaymentsACLs() && eachNav.label === "Payments" ? null
                   : (
                     <Tab
                       key={`${eachNav.href}_${index}`}
@@ -820,7 +842,7 @@ function AppBarComponent() {
                         attributes={splitAttributes}
                       >
                         <>
-                          {(!showPaymentFlag && eachNav.label === "Payments") ? null
+                          {(!checkPaymentsACLs() && eachNav.label === "Payments") ? null
                             : (
                               <div className={`${eachNav?.mobileCoachmark}`}>
                                 <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, eachNav.href, 'parent', eachNav?.label, eachNav?.labelForSegment)} button key={eachNav.href}>
@@ -1117,7 +1139,7 @@ function AppBarComponent() {
     <>
       <LongLoadSpinner show={loaderShow} />
       <Hidden only={["xs", "sm"]}>
-        <AppBar position="sticky" className="no-print" style={{ color: 'black', zIndex: 500 }}>
+        <AppBar position="sticky" className="no-print" style={{ color: 'black', zIndex: 500, boxShadow:'none' }}>
           {getParentNav()}
           {getChildNav()}
         </AppBar>

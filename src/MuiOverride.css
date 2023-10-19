@@ -72,6 +72,7 @@
   }
   .MuiButtonBase-root.MuiTab-root.MuiTab-textColorInherit.child-tab-inactive:hover>.MuiTab-wrapper {
     background-color: rgba(0, 0, 0, 0.05);
+    padding:0px 15px;
     border-radius: 16px;
     
   }

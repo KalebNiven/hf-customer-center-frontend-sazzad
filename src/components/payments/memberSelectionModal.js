@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import styled from 'styled-components';
 import { useDispatch, useSelector } from "react-redux";
 import { ModalWrapper, ModalInnerWrapper, ModalContent, CloseIcon, ButtonWrapper } from "../../styles/commonStyles";
@@ -9,6 +9,7 @@ import { useClient } from '@splitsoftware/splitio-react';
 import { SHOW_EXTERNAL_LINK_CARDS } from '../../constants/splits';
 import { requestSelectPlan } from '../../store/actions';
 import { useHistory } from "react-router-dom";
+import { PAYMENTS_ACL, BINDER_ACL } from '../../constants/splits';
 
 const MemberSelectionModal = () => {
     const customerInfo = useSelector((state) => state.customerInfo.data);
@@ -16,6 +17,8 @@ const MemberSelectionModal = () => {
     const { showMemberModal, routeLink, externalLinkName } = paymentsModalState;
     const dispatch = useDispatch();
     const history = useHistory();
+    const splitHookClient = useClient();
+    const [plans, setPlans] = useState([]);
 
     const handleClick = (membershipKey, membership, routeLink, externalLinkName) => {
         setPaymentsModalState({ ...paymentsModalState, showMemberModal: false, routeLink, externalLinkName, membershipKey, membership });
@@ -27,11 +30,45 @@ const MemberSelectionModal = () => {
         history.replace('/home');
     }
 
+    splitHookClient.on(splitHookClient.Event.SDK_READY, function() {
+        getPlansWithPayments();
+    });
+
+    useEffect(() => {
+        if(splitHookClient.Event.SDK_READY){
+            getPlansWithPayments();
+        }
+    }, []);
+
+    const checkACLs = (plan, accountStatus) => {
+        let planAttrs = {
+          memberId: plan?.MemberId,
+          lob: plan?.LOBCode,
+          membershipStatus: plan?.MembershipStatus,
+          benefitPackage: plan?.BenefitPackage,
+          accountStatus: accountStatus,
+          companyCode: plan?.CompanyNumber,
+        };
+        let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, planAttrs);
+        let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, planAttrs);
+        return (paymentsEnabledTreatment.treatment === "on" || binderEnabledTreatment.treatment === "on");
+    }
+
+    const getPlansWithPayments = () => {
+        let filteredPlans = [];
+        customerInfo.hohPlans.forEach((plan) => {
+            if(checkACLs(plan, customerInfo?.accountStatus)){
+                filteredPlans.push(plan);
+            }
+        });
+        setPlans(filteredPlans);
+    }
+
     return (
         <div>
 
             {
-                showMemberModal === true ?
+                showMemberModal === true && (plans !== null && plans.length > 0) ?
                     <FormModalWrapper visible={showMemberModal}>
                         <ModalInnerWrapperCustom>
                             <FormModalContent>
@@ -45,10 +82,10 @@ const MemberSelectionModal = () => {
                                     </SubHeader>
                                     <MembersList>
                                         {
-                                            customerInfo.hohPlans.map((row, index) => {
+                                            plans.map((row, index) => {
                                                 const enable = true;
                                                 return (
-                                                    (row.MembershipStatus === "active" || row.MembershipStatus === "upcoming") && // Perhaps we should consider also displaying inactive here if they are passed in... just simply not filter
+                                                    (row.MembershipStatus === "active" || row.MembershipStatus === "upcoming" || row.MembershipStatus === "inactive") && // Perhaps we should consider also displaying inactive here if they are passed in... just simply not filter
                                                         <Card enable={enable} key={index} onClick={() => {if(enable) handleClick(row.MembershipKey, row, routeLink, externalLinkName)}}>
                                                             <UserIcon alt="" src="/react/images/icons-solid-user-dark-grey.svg"></UserIcon>
                                                             <MemberDetails>
