@@ -598,7 +598,7 @@ function AppBarComponent() {
                     onTimedout={() => { }}
                     attributes={splitAttributes}
                   >
-                  <Tab
+                    <Tab
                       label={eachNav.label}
                       onClick={(e) => handleClick(e, eachNav.href, 'child', eachNav?.label, eachNav.labelForSegment)}
                       value={eachNav.href}
