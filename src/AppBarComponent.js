@@ -578,22 +578,33 @@ function AppBarComponent() {
             style={{ display: "inline-flex" }}
           >
             {childNavs && childNavs.length > 0 && childNavs.map((eachNav, ind) => (
+              //harcoding for this case, will need to revaluated using featureTreatment for nav items vs useSplitEval hook.
+              eachNav.treatmentName === OTC_WIDGET_PAGE ?
+              (
+                splitEval.evaluateSplitByName(eachNav.treatmentName) &&  <Tab
+                  label={eachNav.label}
+                  onClick={(e) => handleClick(e, eachNav.href, 'child', eachNav?.label, eachNav.labelForSegment)}
+                  value={eachNav.href}
+                  className={selectedChildTab === eachNav.href ? 'child-tab-active' : 'child-tab-inactive'}
+                />
+              )
+              :
               eachNav.treatmentName
                 ? (
-                  // <FeatureTreatment
-                  //   key={`${eachNav.treatmentName}_${ind}`}
-                  //   treatmentName={eachNav.treatmentName}
-                  //   onLoad={() => { }}
-                  //   onTimedout={() => { }}
-                  //   attributes={splitAttributes}
-                  // >
-                  splitEval.evaluateSplitByName(eachNav.treatmentName) &&  <Tab
+                  <FeatureTreatment
+                    key={`${eachNav.treatmentName}_${ind}`}
+                    treatmentName={eachNav.treatmentName}
+                    onLoad={() => { }}
+                    onTimedout={() => { }}
+                    attributes={splitAttributes}
+                  >
+                  <Tab
                       label={eachNav.label}
                       onClick={(e) => handleClick(e, eachNav.href, 'child', eachNav?.label, eachNav.labelForSegment)}
                       value={eachNav.href}
                       className={selectedChildTab === eachNav.href ? 'child-tab-active' : 'child-tab-inactive'}
                     />
-                  // </FeatureTreatment>
+                  </FeatureTreatment>
                 )
                 : (
                   <Tab
