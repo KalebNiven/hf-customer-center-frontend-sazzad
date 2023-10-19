@@ -14,6 +14,7 @@ import GlobalAlerts from './components/common/globalAlerts';
 import LoadingOverlay from './components/common/loadingOverlay';
 import SessionTimeoutModal from './components/common/sessionTimeoutModal';
 import { AnalyticsIdentifyNonMember, AnalyticsIdentifyMember } from "./components/common/segment/analytics";
+import { useQualtrics ,qualtricsAction} from './hooks/useQualtrics';
 import { SSOModalContextProvider } from './context/ssoModalContext'
 import SSOModal from './components/common/ssoModal'
 import AppBar from './AppBarComponent'
@@ -71,6 +72,7 @@ const AuthenticatedUserWrapper = ({ children }) => {
     }
   }, [oktaId]);
 
+  useQualtrics(qualtricsAction.NO_ACTION); // launch qualtrics resources
   useProviderDirectory(); // launch Findcare Widget
 
   // Request customer info from the endpoint  

@@ -5,6 +5,7 @@ import { useLocation } from "react-router";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { requestPcpHousehold } from '../../store/actions/index';
+import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner"; 
 import { useSurveyContext } from "../../context/surveyContext";
@@ -26,6 +27,8 @@ const FindCareDetails = (props) => {
         if(pcpHousehold.data) return;
         dispatch(requestPcpHousehold())
     }, [])
+
+    useQualtrics(qualtricsAction.CHANGE_PCP)
 
     const handleBackClicked = () => {
         history.push({
