@@ -10,6 +10,7 @@ const HOHDependents = () => {
 
 
   const hohDependents = useSelector((state) => state.customerInfo.data);
+  const activeOrUpcomingDependents = hohDependents.dependents.filter(dependent => dependent.Status === "active" || dependent.Status === "upcoming");
   const history = useHistory();
   const [showPlan,setShowPlan] = useState(false)
 
@@ -33,9 +34,9 @@ const HOHDependents = () => {
           {
             hohDependents.dependents.map((dependent, index) => (
               (dependent.Status === 'active' || dependent.Status === 'upcoming') ?
-               <Card 
+               <Card
               key = {index}
-              space={index + 1 === hohDependents.dependents.length}
+              space={index + 1 === activeOrUpcomingDependents.length }
               status = {dependent.Status}  onClick={() => dependent.Status === 'active' && 
               
                  history.push({
