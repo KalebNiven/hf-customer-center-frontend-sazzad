@@ -154,7 +154,7 @@ const Card = styled.div`
   word-break: break-word;
   margin-bottom:40px;
   border-radius: 4px;
-  box-shadow:  0 0 8px 0 rgba(0, 0, 0, 0.23);
+  box-shadow:  0 0 8px 0 rgba(0, 0, 0, 0.10);
   position: relative;
   @media only screen and (max-width: 668px) {
     padding-bottom: 20px;
@@ -171,6 +171,7 @@ const Images = styled.img`
   height: 160px;
   flex-grow: 0;
   object-fit: cover;
+  border-radius: 4px 0 0 4px;
 `;
 
 const Paper = styled.div`

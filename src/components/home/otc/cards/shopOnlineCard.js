@@ -32,6 +32,7 @@ export const ShopOnlineCardWrapper = styled.div`
   background: #fff;
   cursor: pointer;
   justify-content: space-between;
+  border-radius: 4px;
 `;
 
 export const ShopOnlineCardLeft = styled.div`

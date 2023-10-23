@@ -1270,7 +1270,7 @@ const CardIcon = styled.img`
 `;
 
 const InlineInnerContainer = styled.div`
-  display: table-cell;
+  
   width: 100%;
 `;
 
@@ -1306,7 +1306,7 @@ const SetDiv = styled.div`
     display: flex;
     justify-content: left;
     align-items: center;
-    margin: auto 22px;
+    margin: auto 16px;
     /* border: 2px solid red; */
     @media only screen and (max-width: 768px) {
         justify-content: start;
@@ -1349,7 +1349,7 @@ const NavRightUser = styled.div`
   float: right;
   display: flex;
   margin: 15px;
-  padding: 5px;
+  padding: 8px;
   ${(props) => props.open && 'border-radius: 4px;  border: solid 1px #d8d8d8;'};
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
@@ -1378,7 +1378,7 @@ const UserName = styled.span`
   line-height: 1.71;
   letter-spacing: normal;
   color: #474b55;
-  margin-left: 10px;
+  margin-left: 8px;
   text-transform: capitalize;
 `;
 
@@ -1391,7 +1391,7 @@ export const UserCard = styled.div`
   right: 0px;
   top: 66px;
   border-radius: 4px;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.23);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0,10);
   background-color: #ffffff;
   list-style-type: none;
   width: 300px;

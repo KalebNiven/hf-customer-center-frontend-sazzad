@@ -65,7 +65,7 @@ const Card = styled.div`
   margin-bottom: 40px;
   padding: 16px 15px 16px 16px;
   border-radius: 4px;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.23);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.10);
   background-color: #008bbf;
   word-break: break-word;
 `;
