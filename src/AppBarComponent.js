@@ -29,6 +29,7 @@ import { usePaymentsModalContext } from './context/paymentsModalContext';
 import { purgePaymentsSessionData } from './components/payments/paymentPortal';
 import { generateCardType } from './components/overTheCounter/utils';
 import { getSplitAttributesForHOHPlan } from './utils/misc';
+import { useSplitEval } from './hooks/useSplitEval';
 
 const LINK_TYPE = { external: "External", cc: "CC" };
 
@@ -107,6 +108,7 @@ function AppBarComponent() {
   const otcCardType = generateCardType(customerInfo?.data?.hohPlans);
   const { MIX_REACT_APP_BINDER_SITE_HREF } = process.env;
   let nav;
+  const splitEval = useSplitEval();
 
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? 'hidden' : null;
@@ -576,6 +578,17 @@ function AppBarComponent() {
             style={{ display: "inline-flex" }}
           >
             {childNavs && childNavs.length > 0 && childNavs.map((eachNav, ind) => (
+              //harcoding for this case, will need to revaluated using featureTreatment for nav items vs useSplitEval hook.
+              eachNav.treatmentName === OTC_WIDGET_PAGE ?
+              (
+                splitEval.evaluateSplitByName(eachNav.treatmentName) &&  <Tab
+                  label={eachNav.label}
+                  onClick={(e) => handleClick(e, eachNav.href, 'child', eachNav?.label, eachNav.labelForSegment)}
+                  value={eachNav.href}
+                  className={selectedChildTab === eachNav.href ? 'child-tab-active' : 'child-tab-inactive'}
+                />
+              )
+              :
               eachNav.treatmentName
                 ? (
                   <FeatureTreatment
