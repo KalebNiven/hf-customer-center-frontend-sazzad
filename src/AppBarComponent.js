@@ -230,13 +230,6 @@ function AppBarComponent() {
             Member ID:
             {customerInfo.data.memberId}
           </Member>
-          <FeatureTreatment
-            treatmentName={SHOW_TRANSLATION_LINKS}
-            onLoad={() => { }}
-            onTimedout={() => { }}
-            attributes={splitAttributes}
-          >
-          </FeatureTreatment>
           <SetDiv>
             <SettImg alt="" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-gear.svg`} />
             <Settings onClick={(e) => {
@@ -776,13 +769,6 @@ function AppBarComponent() {
               Member ID:
               {customerInfo.data.memberId}
             </Member>
-            <FeatureTreatment
-              treatmentName={SHOW_TRANSLATION_LINKS}
-              onLoad={() => { }}
-              onTimedout={() => { }}
-              attributes={splitAttributes}
-            >
-            </FeatureTreatment>
             <SetDiv>
               <SettImg alt="" src={`${window.location.origin}/react/images/icn-gear.svg`} />
               <Settings
