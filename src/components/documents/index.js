@@ -281,10 +281,7 @@ const DocumentCenter = (props) => {
             cell: (row) => <>{getFormattedDate(row.DocumentDate)}</>,
             name: "Date",
             sortable: true,
-
             sortFunction: (rowA, rowB) => {
-               
-
                 const aField = moment(
                     rowA.DocumentDate,
                     rowA.DocumentDate.split("-")[0].length < 4
@@ -297,6 +294,23 @@ const DocumentCenter = (props) => {
                         ? "MM-DD-YYYY"
                         : "YYYY-MM-DD"
                 );
+
+                if (aField > bField) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            },
+        },
+        {
+            id: "DocumentType",
+            selector: "DocumentType",
+            cell: (row) => <>{row.DisplayDocumentTypeName ? row.DisplayDocumentTypeName : row.DocumentType ?  replaceChars({word: row.DocumentType}) : ""}</>,
+            name: "Document Type",
+            sortable: true,
+            sortFunction: (rowA, rowB) => {
+                const aField = rowA.DisplayDocumentTypeName ? rowA.DisplayDocumentTypeName : rowA.DocumentType; 
+                const bField = rowB.DisplayDocumentTypeName ? rowB.DisplayDocumentTypeName : rowB.DocumentType;
 
                 if (aField > bField) {
                     return 1;
