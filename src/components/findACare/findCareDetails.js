@@ -8,11 +8,13 @@ import { requestPcpHousehold } from '../../store/actions/index';
 import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner"; 
+import { useSurveyContext } from "../../context/surveyContext";
 import Cookies from "js-cookie";
 
 const DETAILS = "DETAILS";
 
 const FindCareDetails = (props) => {
+    const { digitalSurveyWidget, triggerDigitalSurveyByEventName, DIGITAL_SURVEY_EVENTS } = useSurveyContext();
     const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
@@ -88,10 +90,13 @@ const FindCareDetails = (props) => {
                 onBackClicked: handleBackClicked,
                 onMakePCP: () => {},
                 onPcpUpdateComplete: () => {
+
                 Cookies.set('ChangeYourPCP','true',{expires:1}) 
                 setTimeout(() => {
+                  if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.PCP_UPDATE)
                   dispatch(requestPcpHousehold()); 
                 }, 5000)
+                  
                 }
             }
             return mountProps
