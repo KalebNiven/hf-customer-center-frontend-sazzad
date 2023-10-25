@@ -226,22 +226,6 @@ function AppBarComponent() {
             Member ID:
             {customerInfo.data.memberId}
           </Member>
-          <FeatureTreatment
-            treatmentName={SHOW_TRANSLATION_LINKS}
-            onLoad={() => { }}
-            onTimedout={() => { }}
-            attributes={splitAttributes}
-          >
-            <>
-              <Lang href={`${MIX_REACT_LOFL_LANGUAGE_EN_URL}/selectLanguage?selectedLang=en`} className="langLink lang-btn" data-lang="en" mporgnav="" active={customerInfo.data.language === 'en'}> EN </Lang>
-              {' '}
-              |
-              <Lang href={`${MIX_REACT_LOFL_LANGUAGE_ES_URL}/selectLanguage?selectedLang=es`} className="langLink lang-btn" data-lang="es" mporgnav="" active={customerInfo.data.language === 'es'}>  ES </Lang>
-              {' '}
-              |
-              <Lang href={`${MIX_REACT_LOFL_LANGUAGE_ZH_URL}/selectLanguage?selectedLang=zh`} className="langLink lang-btn" data-lang="zh" mporgnav="" active={customerInfo.data.language === 'zh'}>  中文  </Lang>
-            </>
-          </FeatureTreatment>
           <SetDiv>
             <SettImg alt="" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-gear.svg`} />
             <Settings onClick={(e) => {
@@ -792,22 +776,6 @@ function AppBarComponent() {
               Member ID:
               {customerInfo.data.memberId}
             </Member>
-            <FeatureTreatment
-              treatmentName={SHOW_TRANSLATION_LINKS}
-              onLoad={() => { }}
-              onTimedout={() => { }}
-              attributes={splitAttributes}
-            >
-              <>
-                <Lang href={`${MIX_REACT_LOFL_LANGUAGE_EN_URL}/selectLanguage?selectedLang=en`} className="langLink lang-btn" data-lang="en" mporgnav="" active={customerInfo.data.language === 'en'}> EN </Lang>
-                {' '}
-                |
-                <Lang href={`${MIX_REACT_LOFL_LANGUAGE_ES_URL}/selectLanguage?selectedLang=es`} className="langLink lang-btn" data-lang="es" mporgnav="" active={customerInfo.data.language === 'es'}>  ES </Lang>
-                {' '}
-                |
-                <Lang href={`${MIX_REACT_LOFL_LANGUAGE_ZH_URL}/selectLanguage?selectedLang=zh`} className="langLink lang-btn" data-lang="zh" mporgnav="" active={customerInfo.data.language === 'zh'}>  中文  </Lang>
-              </>
-            </FeatureTreatment>
             <SetDiv>
               <SettImg alt="" src={`${window.location.origin}/react/images/icn-gear.svg`} />
               <Settings

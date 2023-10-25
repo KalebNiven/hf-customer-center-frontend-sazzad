@@ -104,9 +104,6 @@ const ErrorNavBar = () => {
           <InlineInnerContainer>
             <Name>{userName}</Name>
             <Member>Member ID: {customerInfo.data.memberId}</Member>
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_EN_URL + "/selectLanguage?selectedLang=en"} className="langLink lang-btn" data-lang="en" mporgnav="" active={customerInfo.data.language === 'en'}> EN </Lang> |
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_ES_URL + "/selectLanguage?selectedLang=es"} className="langLink lang-btn" data-lang="es" mporgnav="" active={customerInfo.data.language === 'es'}>  ES </Lang> |
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_ZH_URL + "/selectLanguage?selectedLang=zh"} className="langLink lang-btn" data-lang="zh" mporgnav="" active={customerInfo.data.language === 'zh'}>  中文  </Lang>
           </InlineInnerContainer>
           <HorizontalDivider />
           <Logout
@@ -396,9 +393,6 @@ const ErrorNavBar = () => {
           <InlineInnerContainer>
             <Name>{userName}</Name>
             <Member>Member ID: {customerInfo.data.memberId}</Member>
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_EN_URL + "/selectLanguage?selectedLang=en"} className="langLink lang-btn" data-lang="en" mporgnav="" active={customerInfo.data.language === 'en'}> EN </Lang> |
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_ES_URL + "/selectLanguage?selectedLang=es"} className="langLink lang-btn" data-lang="es" mporgnav="" active={customerInfo.data.language === 'es'}>  ES </Lang> |
-            <Lang href={MIX_REACT_LOFL_LANGUAGE_ZH_URL + "/selectLanguage?selectedLang=zh"} className="langLink lang-btn" data-lang="zh" mporgnav="" active={customerInfo.data.language === 'zh'}>  中文  </Lang>
           </InlineInnerContainer>
         </CardNav>
         <HorizontalDivider />
