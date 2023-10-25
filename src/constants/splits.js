@@ -18,6 +18,7 @@ export const SHOW_NOW_POW = "CustomerCenter_ShowNowPow";
 export const SHOW_MANAGE_PRESCRIPTIONS =
     "CustomerCenter_ShowManagePrescriptions";
 export const SHOW_VISION_BENEFITS = "CustomerCenter_ShowVisionBenefits";
+export const SHOW_VISION_BENEFITS_EYEMED = "CustomerCenter_ShowVisionBenefitsEyeMed";
 export const SHOW_LAUNCH_TELEDOC = "CustomerCenter_ShowLaunchTeleDoc";
 export const SHOW_SILVER_SNEAKERS = "CustomerCenter_ShowSilverSneakers";
 export const SHOW_HEALTH_HSA = "CustomerCenter_ShowHealthHSA";
@@ -124,6 +125,7 @@ export const getFeatureFlagList = () => {
         SHOW_YEARTODATE_CLAIMS,
         SHOW_BENEFIT_GRID,
         SHOW_VISION_BENEFITS,
+        SHOW_VISION_BENEFITS_EYEMED,
         SHOW_LAUNCH_TELEDOC,
         SHOW_SILVER_SNEAKERS,
         SHOW_HEALTH_HSA,
