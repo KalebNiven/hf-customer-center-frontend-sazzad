@@ -67,13 +67,17 @@ const SSOCards = () => {
 
       if (!splitHookClient) return;
       const showCostEstimatorWidgetTreatment = splitHookClient.getTreatmentWithConfig(SHOW_COST_ESTIMATOR_WIDGET, splitAttributes);
-      console.log('showCostEstimatorWidgetTreatmentL ', showCostEstimatorWidgetTreatment)
+      console.log('splitHookClient ', splitHookClient);
+      console.log('SHOW_COST_ESTIMATOR_WIDGET ', SHOW_COST_ESTIMATOR_WIDGET);
+      console.log('splitAttributes ', splitAttributes);
+      console.log('showCostEstimatorWidgetTreatmentL ', showCostEstimatorWidgetTreatment);
       const showManagePrescriptionNoticeTreatment = splitHookClient.getTreatmentWithConfig(SHOW_MANAGE_PRESCRIPTIONS, splitAttributes);
-      setCostEstimatorWidgetEnabledEnabled(showCostEstimatorWidgetTreatment.treatment === "off" ? false : showCostEstimatorWidgetTreatment.treatment === "on" ? true : false);
+      if(showCostEstimatorWidgetTreatment.treatment === "on") setCostEstimatorWidgetEnabledEnabled(true);
+      if(showCostEstimatorWidgetTreatment.treatment === "off") setCostEstimatorWidgetEnabledEnabled(false);
       setManagePrescriptionNoticeEnabled(showManagePrescriptionNoticeTreatment.treatment === 'notice');
       setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false);
     });
-  }, [splitHookClient, customerInfo]);
+  }, [splitHookClient, customerInfo, splitAttributes]);
 
   const SuggestionData = [{
     featureName: SHOW_PRIMARY_CARE_PROVIDER, name: "Find a Doctor", img: "/react/images/icon_care_providers.svg", routeLink: "findcare",
@@ -175,7 +179,7 @@ const SSOCards = () => {
     );
 
     if (routeLink === 'payments' && costEstimatorWidgetEnabled !== null && costEstimatorWidgetEnabled === true) {
-      return window.location.href = "/costEstimator";
+      return history.push(`/costEstimator`);
     }
     return history.push(`/${routeLink}`);
   };
