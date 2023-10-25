@@ -206,7 +206,7 @@ const AuthorizationPage = () => {
               defaultSortAsc={false}
               pathName="/authorizationDetails"
               handleSegmentBtn={(row)=>handleSegmentBtn(row)}
-              displayInactiveMembers={false}
+              displayInactiveMembers={true}
             />
           </Container>
           :
