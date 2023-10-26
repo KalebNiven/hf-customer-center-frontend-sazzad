@@ -7,7 +7,7 @@ import GlobalStyle from "../../styles/GlobalStyle";
 import { useAppContext } from '../../AppContext';
 import {
   SHOW_DOC,
-  SHOW_MANAGE_PRESCRIPTIONS, SHOW_VISION_BENEFITS, SHOW_LAUNCH_TELEDOC, SHOW_SILVER_SNEAKERS,
+  SHOW_MANAGE_PRESCRIPTIONS, SHOW_VISION_BENEFITS, SHOW_VISION_BENEFITS_EYEMED, SHOW_LAUNCH_TELEDOC, SHOW_SILVER_SNEAKERS,
   SHOW_HEALTH_HSA, SHOW_NATIONSHEARING, SHOW_DENTAQUEST, SHOW_OTCNETWORK, SHOW_NATIONSOTC, SHOW_PRIMARY_CARE_PROVIDER,
   SHOW_COVERAGE_AND_BENEFITS, SHOW_CLAIMS, SHOW_AUTHS, SHOW_MYHEALTH, SHOW_ESTIMATECOST, SHOW_SUGGESTION_CARDS, SHOW_EXTERNAL_LINK_CARDS, SHOW_COST_ESTIMATOR_WIDGET, SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS, SHOW_MY_REWARDS,
 } from "../../constants/splits";
@@ -40,14 +40,11 @@ const SSOCards = () => {
   const { MIX_REACT_APP_SILVER_SNEAKERS_HREF } = process.env;
   const { MIX_REACT_APP_HEALTH_EQUITY_HREF } = process.env;
   const { MIX_REACT_APP_NATIONS_HEARING_HREF } = process.env;
+  const { MIX_REACT_EYE_MED_BASE_URL } = process.env;
   const [showReward, setShowReward] = useState(false);
   const [rewardsEnabled, setRewardsEnabled] = useState(false);
   const [costEstimatorWidgetEnabled, setCostEstimatorWidgetEnabledEnabled] = useState(null);
   const [managePrescriptionNoticeEnabled, setManagePrescriptionNoticeEnabled] = useState(false);
-
-  // To be removed in next sprint - Want to keep zero dependency with any service as we will remove this in coming sprints
-  const MIX_REACT_EYE_MED_BASE_URL = "https://identity-st.healthfirst.org/app/st-healthfirst_eyemed_1/exk1pjapaxtuCJjIX0h8/sso/saml";
-  const ST_URL = "https://member-st.healthfirst.org";
 
   const splitAttributes = {
     memberId: customerInfo?.data?.memberId,
@@ -120,6 +117,9 @@ const SSOCards = () => {
     name: "Vision Benefits", desc: "View specialists in your plan's network ", img: "/react/images/icn-vision-benefits.svg", featureName: SHOW_VISION_BENEFITS, routeLink: MIX_REACT_APP_DAVIS_VISION_HREF, type: SSO,
   },
   {
+    name: "Vision Benefit", desc: "View specialists in your plan's network", img: "/react/images/icn-vision-benefits.svg", featureName: SHOW_VISION_BENEFITS_EYEMED, routeLink: MIX_REACT_EYE_MED_BASE_URL, type: SSO,
+  },
+  {
     name: "Launch Teladoc", desc: "24/7 access to care by phone or video chat", img: "/react/images/icn-teledoc.svg", featureName: SHOW_LAUNCH_TELEDOC, routeLink: MIX_REACT_APP_TELADOC_HREF, type: SSO,
   },
   {
@@ -139,15 +139,8 @@ const SSOCards = () => {
   },
   {
     name: "NationsOTC", desc: "Use your OTC card to order health/wellness products", img: "/react/images/icn-nation-otc.svg", featureName: SHOW_NATIONSOTC, routeLink: MIX_REACT_APP_NATIONS_OTC_HREF, type: SSO,
+    
   }];
-
-  const checkEyeMedAvailability = () => {
-    if (MIX_APP_DOMAIN === ST_URL) {
-      externalLinksData.push({
-        name: "Eye Med", desc: "Eye Med Sample", img: "/react/images/icn-vision-benefits.svg", featureName: SHOW_VISION_BENEFITS, routeLink: MIX_REACT_EYE_MED_BASE_URL, type: SSO,
-      });
-    }
-  };
 
   const handleSegmentBtn = (label, routeLink, rawtext, row) => {
     AnalyticsPage();
@@ -247,7 +240,6 @@ const SSOCards = () => {
   };
 
   const getExternalCard = (row) => {
-    checkEyeMedAvailability();
     switch (row?.type) {
       case SSO:
         return (
@@ -284,8 +276,6 @@ const SSOCards = () => {
   };
 
   const displayExternalLinkCards = () => {
-    checkEyeMedAvailability();
-
     const externalLinkCards = (
       <ExternalLinkCardRow className="servicesDeck-checkmark">
         {
