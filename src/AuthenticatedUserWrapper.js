@@ -33,6 +33,7 @@ const uuid = Cookies.get('ajs_anonymous_id') || 'uuid';
 import { ErrorBoundary } from "react-error-boundary";
 import UnrecoverableErrorAuthenticated from './components/errors/UnrecoverableErrorAuthenticated';
 import UnrecoverableErrorCommon from './components/errors/UnrecoverableErrorCommon';
+import MembershipNotfoundError from './pages/modals/memberShipNotFoundError';
 
 const { MIX_REACT_APP_MPSR_LOGIN_URL } = process.env;
 const { MIX_SPLITIO_KEY } = process.env;
@@ -89,7 +90,7 @@ const AuthenticatedUserWrapper = ({ children }) => {
       history.push('/addMembership');
     }
   }, [accountStatus])
-
+// Should we check here?
   useEffect(() => {
     if(!sessionStorage.getItem('visitedPrefCenterSync') && (preferenceCenterInfo?.data?.email?.is_different || preferenceCenterInfo?.data?.phones?.is_different)){
       sessionStorage.setItem('visitedPrefCenterSync', 'true')
@@ -108,52 +109,54 @@ const AuthenticatedUserWrapper = ({ children }) => {
 
   return (
     <>
+     {customerInfo.data.errorCode === 1002  ? <MembershipNotfoundError/> :
       <ErrorBoundary FallbackComponent={UnrecoverableErrorAuthenticated}>
-      {customerInfo.loading == false ?
-        (customerInfo.error === "" ?
-          wantsMedicare ? window.location.href = MIX_REACT_APP_MPSR_LOGIN_URL :
-          <FeatureFactory splitKey={MIX_SPLITIO_KEY} options={featureFlagOptions} uniqueId={customerId ? customerId : uuid} trafficType='user'>
-              <AppContextProvider>
-                <SSOModalContextProvider>
-                  <Wrapper>
-                    { isLoading ? <LoadingOverlay isLoading={isLoading} /> : <>
-                    <ExternalSiteModal />
-                    <SSOModal />
-                    <ScrollToTop />
-                    {(memberId && customerId && id_token && nonce && !endpointsStrippedOfWrapper.includes(location.pathname)) && <ChatWidget memberId={memberId} jwt={id_token} nonce={nonce} customerId={customerId} />}
-                    {(alertsList?.length > 0 && !endpointsStrippedOfWrapper.includes(location.pathname)) && <GlobalAlerts alertsList={alertsList} />}
-                    <CoachMarksContextProvider>
-                      <HealthResourcesContextProvider>
-                        <HomeContextProvider>
-                          <PaymentsModalContextProvider>
-                            <MemberSelectionModal />
-                            <ToastProvider>
-                            {!endpointsStrippedOfWrapper.includes(location.pathname) ? (
-                            <>
-                              <AppBar />
-                              { children }
-                              <Footer/>
-                            </>
-                            )
-                            :
-                              children
-                            }
-                            </ToastProvider>
-                          </PaymentsModalContextProvider>
-                        </HomeContextProvider>
-                      </HealthResourcesContextProvider>
-                    </CoachMarksContextProvider>
-                    </> }
-                  </Wrapper>
-                </SSOModalContextProvider>
-              </AppContextProvider>
-            </FeatureFactory>
-          :
-            <UnrecoverableErrorCommon error={customerInfo?.error}/>
-        )
-        : <LoadingOverlay isLoading={customerInfo.loading}/> }
-          <SessionTimeoutModal csrf={customerInfo.data.csrf}></SessionTimeoutModal>
+        {customerInfo.loading == false ?
+          (customerInfo.error === "" ?
+            wantsMedicare ? window.location.href = MIX_REACT_APP_MPSR_LOGIN_URL :
+            <FeatureFactory splitKey={MIX_SPLITIO_KEY} options={featureFlagOptions} uniqueId={customerId ? customerId : uuid} trafficType='user'>
+                <AppContextProvider>
+                  <SSOModalContextProvider>
+                    <Wrapper>
+                      { isLoading ? <LoadingOverlay isLoading={isLoading} /> : <>
+                      <ExternalSiteModal />
+                      <SSOModal />
+                      <ScrollToTop />
+                      {(memberId && customerId && id_token && nonce && !endpointsStrippedOfWrapper.includes(location.pathname)) && <ChatWidget memberId={memberId} jwt={id_token} nonce={nonce} customerId={customerId} />}
+                      {(alertsList?.length > 0 && !endpointsStrippedOfWrapper.includes(location.pathname)) && <GlobalAlerts alertsList={alertsList} />}
+                      <CoachMarksContextProvider>
+                        <HealthResourcesContextProvider>
+                          <HomeContextProvider>
+                            <PaymentsModalContextProvider>
+                              <MemberSelectionModal />
+                              <ToastProvider>
+                              {!endpointsStrippedOfWrapper.includes(location.pathname) ? (
+                              <>
+                                <AppBar />
+                                { children }
+                                <Footer/>
+                              </>
+                              )
+                              :
+                                children
+                              }
+                              </ToastProvider>
+                            </PaymentsModalContextProvider>
+                          </HomeContextProvider>
+                        </HealthResourcesContextProvider>
+                      </CoachMarksContextProvider>
+                      </> }
+                    </Wrapper>
+                  </SSOModalContextProvider>
+                </AppContextProvider>
+              </FeatureFactory>
+            :
+              <UnrecoverableErrorCommon error={customerInfo?.error}/>
+          )
+          : <LoadingOverlay isLoading={customerInfo.loading}/> }
+            <SessionTimeoutModal csrf={customerInfo.data.csrf}></SessionTimeoutModal>          
       </ErrorBoundary>
+}
     </>
   )
 }
