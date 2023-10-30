@@ -210,59 +210,60 @@ function AppBarComponent() {
 
   const getUserProfile = () => (
 
-    <NavRightUser
-      tabIndex={0}
-      open={openUserCard}
-      onClick={() => setOpenUserCard(!openUserCard)}
-      onBlur={() => setOpenUserCard(false)}
-    >
-      <UserIcon alt="" src={`${window.location.origin}/react/images/icn-user.svg`} />
-      <UserName>{firstName?.toLowerCase()}</UserName>
-      <UserCard onClick={(e) => e.stopPropagation()} open={openUserCard}>
-        <CardIcon alt="" src={`${window.location.origin}/react/images/icn-user.svg`} />
-        <InlineInnerContainer>
-          <Name>{userName}</Name>
-          <Member>
-            Member ID:
-            {customerInfo.data.memberId}
-          </Member>
-          <SetDiv>
-            <SettImg alt="" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-gear.svg`} />
-            <Settings onClick={(e) => {
-              handleClick(e, '/settings', '', 'Account Settings', 'Account Settings');
-              setOpenUserCard(false);
-            }}
-            >
-              Account Settings
-            </Settings>
-          </SetDiv>
-          <DocLink />
-          {showReward
-              && (
-              <SetDiv>
-                <SettImg alt="" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-coin.svg`} />
-                <Settings onClick={(e) => {
-                  handleClick(e, '/my-rewards', '', 'My Rewards', 'My Rewards');
-                  setOpenUserCard(false);
-                }}
-                >
-                  My Rewards
-                </Settings>
-              </SetDiv>
-              )}
-        </InlineInnerContainer>
-        <HorizontalDivider />
-        <Logout
-          type="button"
-          onMouseDown={(e) => {
-            e.stopPropagation();
-            handleClick(e, 'member-logout', '', 'Log Out', 'Log Out');
-          }}
+    <>
+      <NavRightUser
+        tabIndex={0}
+        open={openUserCard}
+        onClick={() => setOpenUserCard(!openUserCard)}
+        onBlur={() => setOpenUserCard(false)}
         >
-          Log Out
-        </Logout>
+        <UserIcon alt="" src={`${window.location.origin}/react/images/icn-user.svg`} />
+        <UserName>{firstName?.toLowerCase()}</UserName>
+      </NavRightUser>
+      <UserCard onClick={(e) => e.stopPropagation()} open={openUserCard}>
+      <CardIcon alt="" src={`${window.location.origin}/react/images/icn-user.svg`} />
+      <InlineInnerContainer>
+        <Name>{userName}</Name>
+        <Member>
+          Member ID:
+          {customerInfo.data.memberId}
+        </Member>
+        <SetDiv>
+          <SettImg alt="" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-gear.svg`} />
+          <Settings onClick={(e) => {
+            handleClick(e, '/settings', '', 'Account Settings', 'Account Settings');
+            setOpenUserCard(false);
+          }}
+          >
+            Account Settings
+          </Settings>
+        </SetDiv>
+        <DocLink />
+        {showReward
+            && (
+            <SetDiv>
+              <SettImg alt="" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-coin.svg`} />
+              <Settings onClick={(e) => {
+                handleClick(e, '/my-rewards', '', 'My Rewards', 'My Rewards');
+                setOpenUserCard(false);
+              }}
+              >
+                My Rewards
+              </Settings>
+            </SetDiv>
+            )}
+      </InlineInnerContainer>
+      <Logout
+        type="button"
+        onMouseDown={(e) => {
+          e.stopPropagation();
+          handleClick(e, 'member-logout', '', 'Log Out', 'Log Out');
+        }}
+      >
+        Log Out
+      </Logout>
       </UserCard>
-    </NavRightUser>
+    </>
 
   );
 
@@ -1363,10 +1364,10 @@ export const UserCard = styled.div`
   opacity:${(props) => (props.open ? "1" : "0")};
   pointer-events:${(props) => (props.open ? "auto" : "none")};
   position: absolute;
-  right: 0px;
+  right: 39px;
   top: 66px;
   border-radius: 4px;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0,10);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .23);
   background-color: #ffffff;
   list-style-type: none;
   width: 300px;
