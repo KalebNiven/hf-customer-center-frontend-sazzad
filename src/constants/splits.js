@@ -18,6 +18,7 @@ export const SHOW_NOW_POW = "CustomerCenter_ShowNowPow";
 export const SHOW_MANAGE_PRESCRIPTIONS =
     "CustomerCenter_ShowManagePrescriptions";
 export const SHOW_VISION_BENEFITS = "CustomerCenter_ShowVisionBenefits";
+export const SHOW_VISION_BENEFITS_EYEMED = "CustomerCenter_ShowVisionBenefitsEyeMed";
 export const SHOW_LAUNCH_TELEDOC = "CustomerCenter_ShowLaunchTeleDoc";
 export const SHOW_SILVER_SNEAKERS = "CustomerCenter_ShowSilverSneakers";
 export const SHOW_HEALTH_HSA = "CustomerCenter_ShowHealthHSA";
@@ -98,6 +99,9 @@ export const FORGOT_USERNAME_PAGE = "CustomerCenter_Forgot_Username_Page";
 export const MAINTENANCE_PAGE = "CustomerCenter_Maintenance_Page";
 export const OTC_WIDGET_PAGE = "CustomerCenter_OTCWidgetPage";
 
+export const DIGITAL_SURVEY = "CustomerCenter_Digital_Survey";
+export const HRA_WIDGET = "CustomerCenter_HealthAssessment_Widget";
+
 
 // return a list of the above featureflag names
 export const getFeatureFlagList = () => {
@@ -124,6 +128,7 @@ export const getFeatureFlagList = () => {
         SHOW_YEARTODATE_CLAIMS,
         SHOW_BENEFIT_GRID,
         SHOW_VISION_BENEFITS,
+        SHOW_VISION_BENEFITS_EYEMED,
         SHOW_LAUNCH_TELEDOC,
         SHOW_SILVER_SNEAKERS,
         SHOW_HEALTH_HSA,
@@ -185,6 +190,8 @@ export const getFeatureFlagList = () => {
         FORGOT_USERNAME_PAGE,
         MAINTENANCE_PAGE,
         OTC_WIDGET_PAGE,
+        DIGITAL_SURVEY,
+        HRA_WIDGET
     ];
 };
 

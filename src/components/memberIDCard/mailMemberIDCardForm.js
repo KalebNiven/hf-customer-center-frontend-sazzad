@@ -27,6 +27,7 @@ import {
     ANALYTICS_TRACK_TYPE,
     ANALYTICS_TRACK_CATEGORY,
 } from "../../constants/segment";
+import { useSurveyContext } from '../../context/surveyContext';
 
 const MailMemberIDCardForm = (props) => {
     const useComponentDidMount = () => {
@@ -70,8 +71,9 @@ const MailMemberIDCardForm = (props) => {
     const verifyAddress = useSelector((state) => state.verifyAddress);
 
     const [timesSubmitted, setTimesSubmitted] = useState(0); 
-
+    
     useQualtrics(qualtricsAction.MAIL_ME_ID_CARD);
+    const { digitalSurveyWidget, triggerDigitalSurveyByEventName, DIGITAL_SURVEY_EVENTS } = useSurveyContext();
 
     useEffect(() => {
         return () => {
@@ -314,6 +316,7 @@ const MailMemberIDCardForm = (props) => {
             dispatch(requestSubmitMailMemberIDCardForm(filteredFormData));
         }
         setTimesSubmitted(timesSubmitted + 1);
+        if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.MAIL_ID_CARD);
     };
 
     const validateForm = () => {
