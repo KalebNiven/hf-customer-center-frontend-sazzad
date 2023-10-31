@@ -55,6 +55,7 @@ const AuthenticatedUserWrapper = ({ children }) => {
     '/selectPreferredContacts',
     '/addMembership'
   ];
+  let component;
  
 
   // Make the identify call here...
@@ -86,7 +87,10 @@ const AuthenticatedUserWrapper = ({ children }) => {
   useEffect(() => {
     if(!customerInfo.data?.access_token || !customerInfo.data?.id_token) return;
     dispatch(requestGlobalAlerts());
+   
   }, [customerInfo?.data]);
+
+ 
 
   useEffect(() => {
     //redirect to the addMembership page unless they skip for the session.
@@ -111,10 +115,9 @@ const AuthenticatedUserWrapper = ({ children }) => {
     }
   }, [preferenceCenterInfo?.data, isRedirecting])
 
-  return (
-    <>
-     {customerInfo.data.errorCode === 1002  ? <MembershipNotfoundError/> :
-      <ErrorBoundary FallbackComponent={UnrecoverableErrorAuthenticated}>
+
+  const IsErrorBoundary = () =>{
+    return ( <ErrorBoundary FallbackComponent={UnrecoverableErrorAuthenticated}>
       {customerInfo.loading == false ?
         (customerInfo.error === "" ?
           wantsMedicare ? window.location.href = MIX_REACT_APP_MPSR_LOGIN_URL :
@@ -163,8 +166,13 @@ const AuthenticatedUserWrapper = ({ children }) => {
         )
         : <LoadingOverlay isLoading={customerInfo.loading}/> }
           <SessionTimeoutModal csrf={customerInfo.data.csrf}></SessionTimeoutModal>
-      </ErrorBoundary>
-}
+      </ErrorBoundary>)
+
+  }
+
+  return (
+    <> 
+      {customerInfo.data.errorCode === 1002 ? (<MembershipNotfoundError />): <IsErrorBoundary/>}
     </>
   )
 }
