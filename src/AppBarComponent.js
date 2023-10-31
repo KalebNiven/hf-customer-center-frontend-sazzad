@@ -253,6 +253,7 @@ function AppBarComponent() {
             </SetDiv>
             )}
       </InlineInnerContainer>
+      <HorizontalDivider />
       <Logout
         type="button"
         onMouseDown={(e) => {
@@ -1246,7 +1247,7 @@ const CardIcon = styled.img`
 `;
 
 const InlineInnerContainer = styled.div`
-  
+  padding: 8px;
   width: 100%;
 `;
 
