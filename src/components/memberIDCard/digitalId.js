@@ -424,7 +424,7 @@ function DigitalId(props) {
                                 !== null ? (
                                   <div className="row no-gutters caption-small light-bold mb-2 digital-card-field">
                                     <div className="col-6 text-left">
-                                      <span>Prescriptions Room</span>
+                                      <span>Prescriptions</span>
                                     </div>
                                     <div className="col-6 text-right">
                                       <span className="bold">
