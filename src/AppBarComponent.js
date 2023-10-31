@@ -210,59 +210,61 @@ function AppBarComponent() {
 
   const getUserProfile = () => (
 
-    <NavRightUser
-      tabIndex={0}
-      open={openUserCard}
-      onClick={() => setOpenUserCard(!openUserCard)}
-      onBlur={() => setOpenUserCard(false)}
-    >
-      <UserIcon alt="" src={`${window.location.origin}/react/images/icn-user.svg`} />
-      <UserName>{firstName?.toLowerCase()}</UserName>
-      <UserCard onClick={(e) => e.stopPropagation()} open={openUserCard}>
-        <CardIcon alt="" src={`${window.location.origin}/react/images/icn-user.svg`} />
-        <InlineInnerContainer>
-          <Name>{userName}</Name>
-          <Member>
-            Member ID:
-            {customerInfo.data.memberId}
-          </Member>
-          <SetDiv>
-            <SettImg alt="" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-gear.svg`} />
-            <Settings onClick={(e) => {
-              handleClick(e, '/settings', '', 'Account Settings', 'Account Settings');
-              setOpenUserCard(false);
-            }}
-            >
-              Account Settings
-            </Settings>
-          </SetDiv>
-          <DocLink />
-          {showReward
-              && (
-              <SetDiv>
-                <SettImg alt="" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-coin.svg`} />
-                <Settings onClick={(e) => {
-                  handleClick(e, '/my-rewards', '', 'My Rewards', 'My Rewards');
-                  setOpenUserCard(false);
-                }}
-                >
-                  My Rewards
-                </Settings>
-              </SetDiv>
-              )}
-        </InlineInnerContainer>
-        <HorizontalDivider />
-        <Logout
-          type="button"
-          onMouseDown={(e) => {
-            e.stopPropagation();
-            handleClick(e, 'member-logout', '', 'Log Out', 'Log Out');
-          }}
+    <>
+      <NavRightUser
+        tabIndex={0}
+        open={openUserCard}
+        onClick={() => setOpenUserCard(!openUserCard)}
+        onBlur={() => setOpenUserCard(false)}
         >
-          Log Out
-        </Logout>
+        <UserIcon alt="" src={`/react/images/icn-user.svg`} />
+        <UserName>{firstName?.toLowerCase()}</UserName>
+      </NavRightUser>
+      <UserCard onClick={(e) => e.stopPropagation()} open={openUserCard}>
+      <CardIcon alt="" src={`/react/images/icn-user.svg`} />
+      <InlineInnerContainer>
+        <Name>{userName}</Name>
+        <Member>
+          Member ID:
+          {customerInfo.data.memberId}
+        </Member>
+        <SetDiv>
+          <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/icn-gear.svg`} />
+          <Settings onClick={(e) => {
+            handleClick(e, '/settings', '', 'Account Settings', 'Account Settings');
+            setOpenUserCard(false);
+          }}
+          >
+            Account Settings
+          </Settings>
+        </SetDiv>
+        <DocLink />
+        {showReward
+            && (
+            <SetDiv>
+              <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/icn-coin.svg`} />
+              <Settings onClick={(e) => {
+                handleClick(e, '/my-rewards', '', 'My Rewards', 'My Rewards');
+                setOpenUserCard(false);
+              }}
+              >
+                My Rewards
+              </Settings>
+            </SetDiv>
+            )}
+      </InlineInnerContainer>
+      <HorizontalDivider />
+      <Logout
+        type="button"
+        onMouseDown={(e) => {
+          e.stopPropagation();
+          handleClick(e, 'member-logout', '', 'Log Out', 'Log Out');
+        }}
+      >
+        Log Out
+      </Logout>
       </UserCard>
-    </NavRightUser>
+    </>
 
   );
 
@@ -302,8 +304,8 @@ function AppBarComponent() {
 
   const [navItems, setNavItems] = useState([
     {
-      activeIcon: `${window.location.origin}/react/images/icn-hf-logo.svg`,
-      inactiveIcon: `${window.location.origin}/react/images/icn-hf-logo.svg`,
+      activeIcon: `/react/images/icn-hf-logo.svg`,
+      inactiveIcon: `/react/images/icn-hf-logo.svg`,
       label: "",
       labelForSegment: "LOGO",
       type: "logo",
@@ -314,8 +316,8 @@ function AppBarComponent() {
       treatmentName: null,
     },
     {
-      activeIcon: `${window.location.origin}/react/images/icn-my-plan-active.svg`,
-      inactiveIcon: `${window.location.origin}/react/images/ico-plan.svg`,
+      activeIcon: `/react/images/icn-my-plan-active.svg`,
+      inactiveIcon: `/react/images/ico-plan.svg`,
       label: "My Plan",
       labelForSegment: "My Plan",
       type: "navItem",
@@ -326,8 +328,8 @@ function AppBarComponent() {
       treatmentName: null,
     },
     {
-      activeIcon: `${window.location.origin}/react/images/icn-search-active.svg`,
-      inactiveIcon: `${window.location.origin}/react/images/icn-solid-search.svg`,
+      activeIcon: `/react/images/icn-search-active.svg`,
+      inactiveIcon: `/react/images/icn-solid-search.svg`,
       label: "Find Care",
       labelForSegment: "Find Care",
       type: "navItem",
@@ -348,8 +350,8 @@ function AppBarComponent() {
       treatmentName: SHOW_PRIMARY_CARE_PROVIDER,
     },
     {
-      activeIcon: `${window.location.origin}/react/images/icn-cash-active.svg`,
-      inactiveIcon: `${window.location.origin}/react/images/icn-cash.svg`,
+      activeIcon: `/react/images/icn-cash-active.svg`,
+      inactiveIcon: `/react/images/icn-cash.svg`,
       label: "Payments",
       labelForSegment: "Payments",
       type: "navItem",
@@ -360,8 +362,8 @@ function AppBarComponent() {
       treatmentName: SHOW_PAYMENTS,
     },
     {
-      activeIcon: `${window.location.origin}/react/images/icn-my-health-active.svg`,
-      inactiveIcon: `${window.location.origin}/react/images/icn-my-health.svg`,
+      activeIcon: `/react/images/icn-my-health-active.svg`,
+      inactiveIcon: `/react/images/icn-my-health.svg`,
       label: "My Health",
       labelForSegment: "My Health",
       type: "navItem",
@@ -734,7 +736,7 @@ function AppBarComponent() {
         <SettImg
           alt=""
           style={{ display: "inline-block", width: '19px', height: '19px' }}
-          src={`${window.location.origin}/react/images/icn-document-center.svg`}
+          src={`/react/images/icn-document-center.svg`}
         />
 
         <Settings
@@ -768,7 +770,7 @@ function AppBarComponent() {
       <>
         <CardNav>
           <IconContainer>
-            <ImgIcon alt="" src={`${window.location.origin}/react/images/icn-user.svg`} />
+            <ImgIcon alt="" src={`/react/images/icn-user.svg`} />
           </IconContainer>
           <InlineInnerContainer>
             <Name>{userName}</Name>
@@ -777,7 +779,7 @@ function AppBarComponent() {
               {customerInfo.data.memberId}
             </Member>
             <SetDiv>
-              <SettImg alt="" src={`${window.location.origin}/react/images/icn-gear.svg`} />
+              <SettImg alt="" src={`/react/images/icn-gear.svg`} />
               <Settings
                 onClick={(e) => handleClick(e, '/settings', '', 'Account Settings', 'Account Settings')}
               >
@@ -788,7 +790,7 @@ function AppBarComponent() {
             {showReward
               && (
               <SetDiv>
-                <SettImg alt="" style={{ display: 'inline-block' }} src={`${window.location.origin}/react/images/icn-coin.svg`} />
+                <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/icn-coin.svg`} />
                 <Settings onClick={(e) => {
                   handleClick(e, '/my-rewards', '', 'My Rewards', 'My Rewards');
                   setOpenUserCard(false);
@@ -873,19 +875,19 @@ function AppBarComponent() {
 
                                   {eachNav.type === 'navItem' && ['/home'].some((x) => x === eachNav.href) && (
                                   <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')}>
-                                    <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || (eachNav.href === '/my-health' && myHealthMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
+                                    <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || (eachNav.href === '/my-health' && myHealthMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `/react/images/icn-up-arrow.svg` : `/react/images/icn-down-arrow.svg`} />
                                   </ListItemIcon>
                                   )}
                                   {eachNav.type === 'navItem' && ['/findcare'].some((x) => x === eachNav.href) && !(window.location.pathname === "/search" || window.location.pathname === "/details") && (
 
                                   <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')}>
-                                    <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || (eachNav.href === '/my-health' && myHealthMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
+                                    <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || (eachNav.href === '/my-health' && myHealthMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `/react/images/icn-up-arrow.svg` : `/react/images/icn-down-arrow.svg`} />
                                   </ListItemIcon>
                                   )}
                                   {eachNav.type === 'navItem' && ['/my-health'].some((x) => x === eachNav.href) && (
 
                                   <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')}>
-                                    <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || (eachNav.href === '/my-health' && myHealthMobileItems) || (eachNav.href === '/' && findCareMobileItems)) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
+                                    <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || (eachNav.href === '/my-health' && myHealthMobileItems) || (eachNav.href === '/' && findCareMobileItems)) ? `/react/images/icn-up-arrow.svg` : `/react/images/icn-down-arrow.svg`} />
                                   </ListItemIcon>
                                   )}
                                 </ListItem>
@@ -984,19 +986,19 @@ function AppBarComponent() {
 
                           {eachNav.type === 'navItem' && ['/home'].some((x) => x === eachNav.href) && (
                           <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')}>
-                            <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
+                            <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `/react/images/icn-up-arrow.svg` : `/react/images/icn-down-arrow.svg`} />
                           </ListItemIcon>
                           )}
                           {eachNav.type === 'navItem' && ['/findcare'].some((x) => x === eachNav.href) && !(window.location.pathname === "/search" || window.location.pathname === "/details") && (
 
                           <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')}>
-                            <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
+                            <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `/react/images/icn-up-arrow.svg` : `/react/images/icn-down-arrow.svg`} />
                           </ListItemIcon>
                           )}
                           {eachNav.type === 'navItem' && ['/my-health'].some((x) => x === eachNav.href) && (
 
                           <ListItemIcon onClick={(e) => onCollapseExpand(e, eachNav.href, 'parent')}>
-                            <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || (eachNav.href === '/my-health' && myHealthMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `${window.location.origin}/react/images/icn-up-arrow.svg` : `${window.location.origin}/react/images/icn-down-arrow.svg`} />
+                            <LogoImg alt="" src={((eachNav.href === '/home' && homeMobileItems) || (eachNav.href === '/my-health' && myHealthMobileItems) || eachNav.href === '/findcare' && findCareMobileItems) ? `/react/images/icn-up-arrow.svg` : `/react/images/icn-down-arrow.svg`} />
                           </ListItemIcon>
                           )}
                         </ListItem>
@@ -1129,7 +1131,7 @@ function AppBarComponent() {
             <Toolbar style={{ justifyContent: 'space-between', backgroundColor: 'white' }}>
               <LogoImg
                 alt=""
-                src={`${window.location.origin}/react/images/icn-hf-logo.svg`}
+                src={`/react/images/icn-hf-logo.svg`}
                 onClick={() => {
                   sessionStorage.setItem("longLoad", true);
                   handleSegmentBtn('/logo', 'Logo', 'Logo');
@@ -1144,8 +1146,8 @@ function AppBarComponent() {
                 onClick={handleDrawerOpen}
                 className={`navbar-hamburger-coachmarks no-print ${drawerOpen && 'drawer-is-open-coachmarks'}`}
               >
-                {!drawerOpen ? <MobileHamburgerImg alt="" src={`${window.location.origin}/react/images/icn-hamburger.svg`} />
-                  : <MobileCloseImg alt="" src={`${window.location.origin}/react/images/icn-close.svg`} />}
+                {!drawerOpen ? <MobileHamburgerImg alt="" src={`/react/images/icn-hamburger.svg`} />
+                  : <MobileCloseImg alt="" src={`/react/images/icn-close.svg`} />}
               </IconButton>
             </Toolbar>
           </ThemeProvider>
@@ -1245,7 +1247,7 @@ const CardIcon = styled.img`
 `;
 
 const InlineInnerContainer = styled.div`
-  
+  padding: 8px;
   width: 100%;
 `;
 
@@ -1363,10 +1365,10 @@ export const UserCard = styled.div`
   opacity:${(props) => (props.open ? "1" : "0")};
   pointer-events:${(props) => (props.open ? "auto" : "none")};
   position: absolute;
-  right: 0px;
+  right: 39px;
   top: 66px;
   border-radius: 4px;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0,10);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .23);
   background-color: #ffffff;
   list-style-type: none;
   width: 300px;
