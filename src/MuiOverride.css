@@ -39,7 +39,7 @@
     font-size: 14px;
     font-weight: bold;
     height: 28px;
-    margin: 2px 8px 2px 0;
+    margin: 2px 0px 2px 0;
     border-radius: 16px;
     box-shadow: 0 2px 4px 0 rgba(62, 113, 40, 0.1);
     background-color: #3e7128;
@@ -60,10 +60,20 @@
     display: flex;
     align-items: center;
   }
+  .MuiTab-textColorInherit.child-tab-active{
+    padding: 6px 4px !important;
+  }
+  .MuiTab-textColorInherit.child-tab-inactive{
+    padding: 6px 4px !important;
+  }
+  .MuiTab-textColorInherit.child-tab-active:first-child {
+    padding: 6px 8px !important;
+  }
   .MuiTab-textColorInherit.child-tab-inactive > *:first-child {
     opacity:1 !important;
     color: #474b55;
-     font-size: 14px;
+    font-size: 14px; 
+    padding: 0 12px !important;
   }
   .MuiButtonBase-root.MuiTab-root.MuiTab-textColorInherit.child-tab-inactive>.MuiTab-wrapper {
     
@@ -72,7 +82,6 @@
   }
   .MuiButtonBase-root.MuiTab-root.MuiTab-textColorInherit.child-tab-inactive:hover>.MuiTab-wrapper {
     background-color: rgba(0, 0, 0, 0.05);
-    padding:0px 15px;
     border-radius: 16px;
     
   }
