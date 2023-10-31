@@ -111,34 +111,34 @@ const SSOCards = () => {
   ];
 
   const externalLinksData = [{
-    name: "Manage Prescriptions", desc: "View and manage your prescriptions", img: "/react/images/icn-gray-pharmacy.svg", featureName: SHOW_MANAGE_PRESCRIPTIONS, routeLink: MIX_REACT_APP_CVS_HREF, type: managePrescriptionNoticeEnabled ? NOTICE : SSO, membershipSplit: SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS,
+    name: "Manage Prescriptions", desc: "View and manage your prescriptions", vendor: "CVS Caremark", img: "/react/images/icn-gray-pharmacy.svg", featureName: SHOW_MANAGE_PRESCRIPTIONS, routeLink: MIX_REACT_APP_CVS_HREF, type: managePrescriptionNoticeEnabled ? NOTICE : SSO, membershipSplit: SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS,
   },
   {
-    name: "Vision Benefits", desc: "View specialists in your plan's network ", img: "/react/images/icn-vision-benefits.svg", featureName: SHOW_VISION_BENEFITS, routeLink: MIX_REACT_APP_DAVIS_VISION_HREF, type: SSO,
+    name: "Vision Benefit", desc: "View specialists in your plan's network ", vendor: "Davis Vision", img: "/react/images/icn-vision-benefits.svg", featureName: SHOW_VISION_BENEFITS, routeLink: MIX_REACT_APP_DAVIS_VISION_HREF, type: SSO,
   },
   {
-    name: "Vision Benefit", desc: "View specialists in your plan's network", img: "/react/images/icn-vision-benefits.svg", featureName: SHOW_VISION_BENEFITS_EYEMED, routeLink: MIX_REACT_EYE_MED_BASE_URL, type: SSO,
+    name: "Vision Benefit", desc: "View specialists in your plan's network", vendor: "EyeMed", img: "/react/images/icn-vision-benefits.svg", featureName: SHOW_VISION_BENEFITS_EYEMED, routeLink: MIX_REACT_EYE_MED_BASE_URL, type: SSO,
   },
   {
-    name: "Launch Teladoc", desc: "24/7 access to care by phone or video chat", img: "/react/images/icn-teledoc.svg", featureName: SHOW_LAUNCH_TELEDOC, routeLink: MIX_REACT_APP_TELADOC_HREF, type: SSO,
+    name: "Launch Teladoc", desc: "24/7 access to care by phone or video chat", vendor: "Teladoc", img: "/react/images/icn-teledoc.svg", featureName: SHOW_LAUNCH_TELEDOC, routeLink: MIX_REACT_APP_TELADOC_HREF, type: SSO,
   },
   {
-    name: "SilverSneakers®", desc: "Fitness programs to keep you active", img: "/react/images/icn-silver-sneakers.svg", featureName: SHOW_SILVER_SNEAKERS, routeLink: MIX_REACT_APP_SILVER_SNEAKERS_HREF, type: SSO,
+    name: "Fitness Programs", desc: "Fitness programs to keep you active", vendor: "SilverSneakers", img: "/react/images/icn-silver-sneakers.svg", featureName: SHOW_SILVER_SNEAKERS, routeLink: MIX_REACT_APP_SILVER_SNEAKERS_HREF, type: SSO,
   },
   {
-    name: "HealthEquity HSA", desc: "Discover ways to get more from your benefits  ", img: "/react/images/icn-health-equity.svg", featureName: SHOW_HEALTH_HSA, routeLink: MIX_REACT_APP_HEALTH_EQUITY_HREF, type: SSO,
+    name: "HSA", desc: "Discover ways to get more from your benefits  ", vendor: "HealthEquity HSA", img: "/react/images/icn-health-equity.svg", featureName: SHOW_HEALTH_HSA, routeLink: MIX_REACT_APP_HEALTH_EQUITY_HREF, type: SSO,
   },
   {
-    name: "Nations Hearing", desc: "Access hearing benefits and affordable hearing aids ", img: "/react/images/icn-nations-hearing.svg", featureName: SHOW_NATIONSHEARING, routeLink: MIX_REACT_APP_NATIONS_HEARING_HREF, type: SSO,
+    name: "Hearing Benefit", desc: "Access hearing benefits and affordable hearing aids ", vendor: "NationsHearing", img: "/react/images/icn-nations-hearing.svg", featureName: SHOW_NATIONSHEARING, routeLink: MIX_REACT_APP_NATIONS_HEARING_HREF, type: SSO,
   },
   {
-    name: "DentaQuest", desc: "Resources for oral health and wellness", img: "/react/images/icn-denta-quest.svg", featureName: SHOW_DENTAQUEST, routeLink: MIX_REACT_APP_DENTAQUEST_HREF, type: SSO,
+    name: "Dental Benefit", desc: "Resources for oral health and wellness", vendor: "DentaQuest", img: "/react/images/icn-denta-quest.svg", featureName: SHOW_DENTAQUEST, routeLink: MIX_REACT_APP_DENTAQUEST_HREF, type: SSO,
   },
   {
-    name: "OTC Network", desc: "Activate or check your Healthfirst OTC card balance", img: "/react/images/icn-otc-network.svg", featureName: SHOW_OTCNETWORK, routeLink: MIX_REACT_APP_OTC_NETWORK_HREF, type: SSO,
+    name: "OTC Network", desc: "Activate or check your Healthfirst OTC card balance", vendor: "TBD", img: "/react/images/icn-otc-network.svg", featureName: SHOW_OTCNETWORK, routeLink: MIX_REACT_APP_OTC_NETWORK_HREF, type: SSO,
   },
   {
-    name: "NationsOTC", desc: "Use your OTC card to order health/wellness products", img: "/react/images/icn-nation-otc.svg", featureName: SHOW_NATIONSOTC, routeLink: MIX_REACT_APP_NATIONS_OTC_HREF, type: SSO,
+    name: "NationsOTC", desc: "Use your OTC card to order health/wellness products", vendor: "TBD", img: "/react/images/icn-nation-otc.svg", featureName: SHOW_NATIONSOTC, routeLink: MIX_REACT_APP_NATIONS_OTC_HREF, type: SSO,
     
   }];
 
@@ -249,6 +249,7 @@ const SSOCards = () => {
               <LinkIcon alt="" src={row?.img} />
               <LinkVerbiage>{row?.name}</LinkVerbiage>
               <LinkDescription>{row?.desc}</LinkDescription>
+              <LinkVendor>{row?.vendor}</LinkVendor>
             </ExternalSiteLinkSSO>
           </LinkCard>
         );
@@ -388,7 +389,8 @@ export const Card = styled.div`
 `;
 
 const LinkCard = styled.div`
-  height:142px;
+  display: flex;
+  flex-direction: column;
   padding: 16px 8px 26px;
   border-radius: 4px;
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.10);
@@ -451,7 +453,7 @@ const LinkIcon = styled.img`
 `;
 
 const LinkVerbiage = styled.div`
-  margin: 8px 0 4px;
+  margin: 6px 0 0 0;
   font-size: 16px;
   font-weight: bold;
   font-stretch: normal;
@@ -463,7 +465,7 @@ const LinkVerbiage = styled.div`
 `;
 
 const LinkDescription = styled.div`
-  margin: 4px 0 0;
+  margin: 6px 0 0 0;
   font-size: 14px;
   font-weight: 300;
   font-stretch: normal;
@@ -473,6 +475,18 @@ const LinkDescription = styled.div`
   text-align: center;
   color: #474b55;
 
+`;
+
+const LinkVendor = styled.div`
+  margin: 6px 0 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 16px;
+  letter-spacing: normal;
+  text-align: center;
+  color: #757575;
 `;
 
 const SuggestionImage = styled.img`
