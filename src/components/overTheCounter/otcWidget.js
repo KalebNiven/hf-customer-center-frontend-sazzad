@@ -15,10 +15,6 @@ const otcWidgetLinks = {
     type: SSO,
     link: process.env.MIX_REACT_APP_OTC_NETWORK_HREF_V2
   },
-  navigateToMomsMeals: {
-    type: null,
-    link: "https://my.momsmeals.com/content/discounted.aspx?code=healthfirst"
-  },
   navigateToNationsOTC: {
     type: SSO,
     link: process.env.MIX_REACT_APP_NATIONS_OTC_HREF_V2
@@ -27,42 +23,10 @@ const otcWidgetLinks = {
     type: SSO,
     link: process.env.MIX_REACT_APP_OTC_NETWORK_HREF_V2
   },
-  navigateToGrowNYC: {
-    type: null,
-    link: "https://www.grownyc.org/greenmarket/ourmarkets"
-  },
   navigateToNationsBenefits: {
     type: SSO,
     link: process.env.MIX_REACT_APP_NATIONS_OTC_HREF_V2
-  },
-  navigateToCVS: {
-    type: null,
-    link: "https://www.cvs.com/store-locator/landing"
-  },
-  navigateToDuaneReade: {
-    type: null,
-    link: "https://www.walgreens.com/storelocator/find.jsp"
-  },
-  navigateToWalmart: {
-    type: null,
-    link: "https://www.walmart.com/store/finder"
-  },
-  navigateToFamilyDollar: {
-    type: null,
-    link: "https://www.familydollar.com/store-locator"
-  },
-  navigateToWalgreens: {
-    type: null,
-    link: "https://www.walgreens.com/storelocator/find.jsp"
-  },
-  navigateToDollarGeneral: {
-    type: null,
-    link: "http://www2.dollargeneral.com/About-Us/pages/storelocator.aspx"
-  },
-  navigateToRiteAid: {
-    type: null,
-    link: "https://www.riteaid.com/locations/"
-  },
+  }
 }
 const OTCWidget = () => {
 
@@ -95,21 +59,13 @@ const OTCWidget = () => {
       const{ identifier, type, url, action } = data;
       switch(action){
         case 'navigateToBenefitsCenter':
-        case 'navigateToMomsMeals':
         case 'navigateToNationsOTC':  
         case 'navigateToOTCNetwork': 
-        case 'navigateToGrowNYC': 
         case 'navigateToNationsBenefits': 
-        case 'navigateToCVS':
-        case 'navigateToDuaneReade':
-        case 'navigateToWalmart':
-        case 'navigateToFamilyDollar':
-        case 'navigateToWalgreens':
-        case 'navigateToDollarGeneral':
-        case 'navigateToRiteAid':
           handleExternalSiteClicked(otcWidgetLinks[action].link, otcWidgetLinks[action].type, action);
           break;
-        default: 
+        default:
+           handleExternalSiteClicked(url, type, action);
           return;
       }
     }
