@@ -78,7 +78,7 @@ function AppBarComponent() {
   const classes = useStyles(mobileDrawerTop)();
   const customerInfo = useSelector((state) => state.customerInfo);
   const [openUserCard, setOpenUserCard] = useState(false);
-  const userName = (`${customerInfo.data.firstName} ${customerInfo.data.lastName}`);
+  const userName = (`${customerInfo.data.firstName} ${customerInfo.data.lastName ? customerInfo.data.lastName : ""}`);
   const { firstName } = customerInfo.data;
   const [homeMobileItems, setHomeMobileItems] = useState(false);
   const [findCareMobileItems, setFindCareMobileItems] = useState(false);
