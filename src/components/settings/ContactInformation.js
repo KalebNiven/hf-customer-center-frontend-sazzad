@@ -232,7 +232,18 @@ const ContactInformation = () => {
 			<FormModalWrapper visible={verificationModalData}>
 				<ModalInnerWrapperCustom>
 					<FormModalContent>
-						<CloseIcon src="/react/images/icn-close.svg" onClick={() => setVerificationModalData(false)} />
+						<CloseIcon src="/react/images/icn-close.svg" onClick={() => {
+									window.localStorage.setItem("contactInfoNavIndex", JSON.stringify("1"))
+									const postVerifyErrorCopy = { ...postVerifyError }
+									setVerificationCode('')
+									setVerificationModalData(false)
+									setEmailAddressEditing(false)
+									setPhoneEditing(false)
+									postVerifyErrorCopy.error = false;
+									postVerifyErrorCopy.message = '';
+									setPostVerifyError(postVerifyErrorCopy)
+									dispatch(requestCustomerInfo());
+								}} />
 						<>
 							<HeaderCustom>
 								Enter Verification Code
