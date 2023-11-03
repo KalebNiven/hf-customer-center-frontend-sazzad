@@ -210,61 +210,59 @@ function AppBarComponent() {
 
   const getUserProfile = () => (
 
-    <>
-      <NavRightUser
-        tabIndex={0}
-        open={openUserCard}
-        onClick={() => setOpenUserCard(!openUserCard)}
-        onBlur={() => setOpenUserCard(false)}
-        >
-        <UserIcon alt="" src={`/react/images/icn-user.svg`} />
-        <UserName>{firstName?.toLowerCase()}</UserName>
-      </NavRightUser>
-      <UserCard onClick={(e) => e.stopPropagation()} open={openUserCard}>
-      <CardIcon alt="" src={`/react/images/icn-user.svg`} />
-      <InlineInnerContainer>
-        <Name>{userName}</Name>
-        <Member>
-          Member ID:
-          {customerInfo.data.memberId}
-        </Member>
-        <SetDiv>
-          <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/icn-gear.svg`} />
-          <Settings onClick={(e) => {
-            handleClick(e, '/settings', '', 'Account Settings', 'Account Settings');
-            setOpenUserCard(false);
-          }}
-          >
-            Account Settings
-          </Settings>
-        </SetDiv>
-        <DocLink />
-        {showReward
-            && (
-            <SetDiv>
-              <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/icn-coin.svg`} />
-              <Settings onClick={(e) => {
-                handleClick(e, '/my-rewards', '', 'My Rewards', 'My Rewards');
-                setOpenUserCard(false);
-              }}
-              >
-                My Rewards
-              </Settings>
-            </SetDiv>
-            )}
-      </InlineInnerContainer>
-      <HorizontalDivider />
-      <Logout
-        type="button"
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          handleClick(e, 'member-logout', '', 'Log Out', 'Log Out');
-        }}
+    <NavRightUser
+      tabIndex={0}
+      open={openUserCard}
+      onClick={() => setOpenUserCard(!openUserCard)}
+      onBlur={() => setOpenUserCard(false)}
       >
-        Log Out
-      </Logout>
+      <UserIcon alt="" src={`/react/images/icn-user.svg`} />
+      <UserName>{firstName?.toLowerCase()}</UserName>
+      <UserCard onClick={(e) => e.stopPropagation()} open={openUserCard}>
+        <CardIcon alt="" src={`/react/images/icn-user.svg`} />
+        <InlineInnerContainer>
+          <Name>{userName}</Name>
+          <Member>
+            Member ID:
+            {customerInfo.data.memberId}
+          </Member>
+          <SetDiv>
+            <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/icn-gear.svg`} />
+            <Settings onClick={(e) => {
+              handleClick(e, '/settings', '', 'Account Settings', 'Account Settings');
+              setOpenUserCard(false);
+            }}
+            >
+              Account Settings
+            </Settings>
+          </SetDiv>
+          <DocLink />
+          {showReward
+              && (
+              <SetDiv>
+                <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/icn-coin.svg`} />
+                <Settings onClick={(e) => {
+                  handleClick(e, '/my-rewards', '', 'My Rewards', 'My Rewards');
+                  setOpenUserCard(false);
+                }}
+                >
+                  My Rewards
+                </Settings>
+              </SetDiv>
+              )}
+        </InlineInnerContainer>
+        <HorizontalDivider />
+        <Logout
+          type="button"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            handleClick(e, 'member-logout', '', 'Log Out', 'Log Out');
+          }}
+        >
+          Log Out
+        </Logout>
       </UserCard>
-    </>
+    </NavRightUser>
 
   );
 
