@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { useSurveyContext } from '../../context/surveyContext'
 import Spinner from "../common/spinner";
 import { getLanguageFromUrl } from "../../utils/misc";
+import useLogError from "../../hooks/useLogError";
 const surveyId = 'hra-v2-survey';
 const widgetPage = "HRA";
 
@@ -12,6 +13,7 @@ const HRAWidget = () => {
   const history = useHistory();
   const { memberId } = useParams();
   const { surveyScript } = useSurveyContext();
+  const { logError } = useLogError();
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const jwt_token = customerInfo.id_token;
   const updatedJwt = (jwt_token === undefined ? jwt_token : jwt_token.replace('Bearer ', ''));
@@ -35,15 +37,37 @@ const HRAWidget = () => {
   useEffect(() => {
     if(!surveyScript) return;
 
-    const widget = new window.HraWidget(surveyId);
+    let widget;
+    
+    try {
+      widget = new window.HraWidget(surveyId);
 
-    if(!widget.isMounted({ widgetPage })) {
-      widget.mount(mountProps)
+      if(!widget.isMounted({ widgetPage })) {
+        widget.mount(mountProps)
+      }
+    } catch (error) {
+      (async () => {
+          try {
+              await logError(error);
+          } catch (err) {
+              console.error('Error caught: ', err.message);
+          }
+      })()
     }
 
     return () => {
-      if(widget.isMounted({ widgetPage })) {
-        widget.unmount(mountProps)
+      try {
+        if(widget.isMounted({ widgetPage })) {
+          widget.unmount(mountProps)
+        }
+      } catch (error) {
+        (async () => {
+            try {
+                await logError(error);
+            } catch (err) {
+                console.error('Error caught: ', err.message);
+            }
+        })()
       }
     }
   }, [surveyScript, mountProps]);
