@@ -34,6 +34,9 @@ import { ErrorBoundary } from "react-error-boundary";
 import UnrecoverableErrorAuthenticated from './components/errors/UnrecoverableErrorAuthenticated';
 import UnrecoverableErrorCommon from './components/errors/UnrecoverableErrorCommon';
 import MembershipNotfoundError from './pages/modals/memberShipNotFoundError';
+import SurveyScript from './components/scripts/SurveyScript';
+import DigitalSurvey from './components/common/DigitalSurvey';
+import { SurveyContextProvider } from './context/surveyContext';
 
 const { MIX_REACT_APP_MPSR_LOGIN_URL } = process.env;
 const { MIX_SPLITIO_KEY } = process.env;
@@ -117,11 +120,14 @@ const AuthenticatedUserWrapper = ({ children }) => {
             <FeatureFactory splitKey={MIX_SPLITIO_KEY} options={featureFlagOptions} uniqueId={customerId ? customerId : uuid} trafficType='user'>
                 <AppContextProvider>
                   <SSOModalContextProvider>
+                  <SurveyContextProvider>
                     <Wrapper>
                       { isLoading ? <LoadingOverlay isLoading={isLoading} /> : <>
                       <ExternalSiteModal />
                       <SSOModal />
                       <ScrollToTop />
+                      <SurveyScript />
+                      <DigitalSurvey />
                       {(memberId && customerId && id_token && nonce && !endpointsStrippedOfWrapper.includes(location.pathname)) && <ChatWidget memberId={memberId} jwt={id_token} nonce={nonce} customerId={customerId} />}
                       {(alertsList?.length > 0 && !endpointsStrippedOfWrapper.includes(location.pathname)) && <GlobalAlerts alertsList={alertsList} />}
                       <CoachMarksContextProvider>
@@ -147,6 +153,7 @@ const AuthenticatedUserWrapper = ({ children }) => {
                       </CoachMarksContextProvider>
                       </> }
                     </Wrapper>
+                  </SurveyContextProvider>
                   </SSOModalContextProvider>
                 </AppContextProvider>
               </FeatureFactory>

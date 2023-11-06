@@ -4,10 +4,12 @@ import { useSelector } from 'react-redux'
 import { getLanguageFromUrl } from '../../utils/misc';
 import { DIGITAL_SURVEY } from '../../constants/splits';
 import { useClient } from '@splitsoftware/splitio-react';
+import useLogError from '../../hooks/useLogError';
 
 // This Component is used to mount Digital Survey widget.
 const DigitalSurvey = () => {
     const { surveyScript, digitalSurveyWidget, setDigitalSurveyWidget } = useSurveyContext();
+    const { logError } = useLogError();
     const { memberId, id_token, customerId } = useSelector((state) => state.customerInfo.data);
     const token = (id_token === undefined ? id_token : id_token.replace('Bearer ', ''));
 
@@ -30,9 +32,19 @@ const DigitalSurvey = () => {
         if(treatment !== "on") return;
 
         if(surveyScript && !digitalSurveyWidget){
-            const widget = new window.HraWidget(mountProps);
-            setDigitalSurveyWidget(widget);
-            widget.deployTriggers(mountProps);
+            try {
+                const widget = new window.HraWidget(mountProps);
+                setDigitalSurveyWidget(widget);
+                widget.deployTriggers(mountProps);
+              } catch (error) {
+                (async () => {
+                    try {
+                        await logError(error);
+                    } catch (err) {
+                        console.error('Error caught: ', err.message);
+                    }
+                })()
+              }
         }
     }, [surveyScript, mountProps, treatment])
 
