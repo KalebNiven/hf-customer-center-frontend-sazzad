@@ -227,23 +227,26 @@ const ContactInformation = () => {
 
 
 	}
+
+	const handleCloseClick = () =>{
+		window.localStorage.setItem("contactInfoNavIndex", JSON.stringify("1"))
+		const postVerifyErrorCopy = { ...postVerifyError }
+		setVerificationCode('')
+		setVerificationModalData(false)
+		setEmailAddressEditing(false)
+		setPhoneEditing(false)
+		postVerifyErrorCopy.error = false;
+		postVerifyErrorCopy.message = '';
+		setPostVerifyError(postVerifyErrorCopy)
+		dispatch(requestCustomerInfo());
+	}
+
 	const verificationModal = () => {
 		return (
 			<FormModalWrapper visible={verificationModalData}>
 				<ModalInnerWrapperCustom>
 					<FormModalContent>
-						<CloseIcon src="/react/images/icn-close.svg" onClick={() => {
-									window.localStorage.setItem("contactInfoNavIndex", JSON.stringify("1"))
-									const postVerifyErrorCopy = { ...postVerifyError }
-									setVerificationCode('')
-									setVerificationModalData(false)
-									setEmailAddressEditing(false)
-									setPhoneEditing(false)
-									postVerifyErrorCopy.error = false;
-									postVerifyErrorCopy.message = '';
-									setPostVerifyError(postVerifyErrorCopy)
-									dispatch(requestCustomerInfo());
-								}} />
+						<CloseIcon src="/react/images/icn-close.svg" onClick={() => handleCloseClick()} />
 						<>
 							<HeaderCustom>
 								Enter Verification Code
@@ -271,18 +274,7 @@ const ContactInformation = () => {
 							}}>Send code again</LinkText></SendCodeText>
 							<ContactUsext>If you are still unable to verify, <LinkText resendCodeState={true} onClick={() => window.open("https://healthfirst.org/contact", "_blank")}>please contact us</LinkText></ContactUsext>
 							<FormButtonWrapper>
-								<StyledButtonCustom onClick={() => {
-									window.localStorage.setItem("contactInfoNavIndex", JSON.stringify("1"))
-									const postVerifyErrorCopy = { ...postVerifyError }
-									setVerificationCode('')
-									setVerificationModalData(false)
-									setEmailAddressEditing(false)
-									setPhoneEditing(false)
-									postVerifyErrorCopy.error = false;
-									postVerifyErrorCopy.message = '';
-									setPostVerifyError(postVerifyErrorCopy)
-									dispatch(requestCustomerInfo());
-								}} variant="secondary" >
+								<StyledButtonCustom onClick={() => handleCloseClick()} variant="secondary" >
 									Cancel
 								</StyledButtonCustom>
 								<Spacer></Spacer>
