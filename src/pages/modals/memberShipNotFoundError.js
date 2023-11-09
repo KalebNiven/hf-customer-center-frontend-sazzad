@@ -30,8 +30,8 @@ const MembershipNotfoundError = () => {
         Services.
       </SubHeader>
       <FormButtonWrapper>
-        <FormButton green={false} onClick={handleLogoutClick}>Logout</FormButton>
-        <FormButton green={true} onClick={handleContactInfo}>Contact Us</FormButton>
+        <StyledButton outlined= {true} onClick={handleLogoutClick}>Log Out</StyledButton>
+        <StyledButton onClick={handleContactInfo}>Contact Us</StyledButton>
       </FormButtonWrapper>
       </ModalInnerWrapperCustom>  
     </FormModalWrapper>
@@ -41,9 +41,67 @@ const MembershipNotfoundError = () => {
 
 export default MembershipNotfoundError;
 
+
+const StyledButton = styled.button`
+height: 40px;
+width: 126px;
+margin: 17px 12px 24px 0px;
+//padding: 8px 16px;
+border-radius: 4px;
+border: 1px solid #3e7128;
+background: ${props => props.outlined ? "#fff" : "#3e7128"};
+color: ${props => props.outlined ? "#3e7128" : "#fff"};
+text-transform: capitalize;
+cursor: pointer;
+font-weight: 400;
+font-size: 18px;
+
+
+
+@media only screen  and (max-width: 480px) {
+    width: 312px;
+    height: 40px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+
+
+&:hover {
+    background-color:  ${props => props.outlined ? "rgba(62, 113, 40, 0.05)" : "#517f3d"};
+}`;
+
+
+export const LogoutButton = styled.div`
+width: 81px;
+height: 16px;
+cursor:pointer;
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 16px;
+fontFamily: "museo-sans";
+margin: 40px 24px 36px 0px;
+color: #008BBF;
+background-color:#ffffff;
+border: solid 1px #3e7128;
+
+@media only screen  and (max-width: 480px) {
+    width: 81px;
+    height: 16px;
+   margin: auto;
+   margin-top: 26px;
+   margin-bottom: 30px;
+}
+
+`;
+
 const FormModalWrapper = styled(ModalWrapper)`
     transition: opacity 300ms ease-in-out;
-    background: rgba(0, 42, 74, 0.72);
+    background: #F4F4F4;
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.10);
+    border-radius: 4px;
+;
 
 `
 const ModalInnerWrapperCustom = styled(ModalInnerWrapper)`
@@ -55,7 +113,7 @@ border-radius: 4px;
 
 @media only screen  and (max-width: 480px) {
     width: 344px;
-    height: 380px;
+    height: 426px;
 }
 
 `;
@@ -70,8 +128,8 @@ const WarningImg = styled.img`
 `;
 const Header = styled.h1`
   margin: 16px 24px 12px;
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 600;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.6;
@@ -81,20 +139,24 @@ const Header = styled.h1`
 `;
 const SubHeader = styled.h3`
   margin: 12px 24px 16px;
-  font-size: 16px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.5;
+  line-height: 18px;
   letter-spacing: normal;
   text-align: center;
   color: #474b55;
 `;
-const FormButtonWrapper = styled(ButtonWrapper)`
-  margin-top: 2rem;
-  margin-bottom: 0rem;
-  text-align: center;
-`;
 const FormButton = styled(Button)`
   float: none !important;
+`;
+const FormButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  @media only screen and (max-width: 480px) {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
 `;
