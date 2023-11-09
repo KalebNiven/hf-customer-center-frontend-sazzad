@@ -21,10 +21,9 @@ const DigitalSurvey = () => {
         locale: getLanguageFromUrl(),
         onSurveyDoneClick: () => {},
         onSurveyDoneBackClick: () => {},
-        isEmbedded: true,
         parentElement: "#digital-survey",
-        widgetPage: 'HRA',
-        appId: 'cc',             
+        surveyType: 'Digital Survey',
+        appId: 'cc',
         memberId : memberId,
     }
 
@@ -35,7 +34,7 @@ const DigitalSurvey = () => {
             try {
                 const widget = new window.HraWidget(mountProps);
                 setDigitalSurveyWidget(widget);
-                widget.deployTriggers(mountProps);
+                widget.deployTriggers();
               } catch (error) {
                 (async () => {
                     try {
