@@ -40,7 +40,7 @@ const HRAWidget = () => {
     let widget;
     
     try {
-      widget = new window.HraWidget(surveyId);
+      widget = new window.HraWidget(mountProps);
 
       if(!widget.isMounted({ widgetPage })) {
         widget.mount(mountProps)
