@@ -135,10 +135,10 @@ const SSOCards = () => {
     name: "Dental Benefit", desc: "Resources for oral health and wellness", vendor: "DentaQuest", img: "/react/images/icn-denta-quest.svg", featureName: SHOW_DENTAQUEST, routeLink: MIX_REACT_APP_DENTAQUEST_HREF, type: SSO,
   },
   {
-    name: "OTC Network", desc: "Activate or check your Healthfirst OTC card balance", vendor: "TBD", img: "/react/images/icn-otc-network.svg", featureName: SHOW_OTCNETWORK, routeLink: MIX_REACT_APP_OTC_NETWORK_HREF, type: SSO,
+    name: "OTC Network", desc: "Activate or check your Healthfirst OTC card balance", vendor: "", img: "/react/images/icn-otc-network.svg", featureName: SHOW_OTCNETWORK, routeLink: MIX_REACT_APP_OTC_NETWORK_HREF, type: SSO,
   },
   {
-    name: "NationsOTC", desc: "Use your OTC card to order health/wellness products", vendor: "TBD", img: "/react/images/icn-nation-otc.svg", featureName: SHOW_NATIONSOTC, routeLink: MIX_REACT_APP_NATIONS_OTC_HREF, type: SSO,
+    name: "NationsOTC", desc: "Use your OTC card to order health/wellness products", vendor: "", img: "/react/images/icn-nation-otc.svg", featureName: SHOW_NATIONSOTC, routeLink: MIX_REACT_APP_NATIONS_OTC_HREF, type: SSO,
     
   }];
 
@@ -260,6 +260,7 @@ const SSOCards = () => {
               <LinkIcon alt="" src={row?.img} />
               <LinkVerbiage>{row?.name}</LinkVerbiage>
               <LinkDescription>{row?.desc}</LinkDescription>
+              <LinkVendor>{row?.vendor}</LinkVendor>
             </NoticeLink>
           </LinkCard>
         );
