@@ -2,6 +2,9 @@
 ## User Story or Defect Number
 [UserStory](http://link-goes-here) <!-- Add in the VersionOne US Number/DE Number and Link-->
 
+## Username used to test
+<!-- Provide Username that this was tested with -->
+
 ## Checklist before requesting a review
 - [ ] I have performed a self-review of my code
 - [ ] Do we need to implement segment analytics?
@@ -26,9 +29,6 @@
 
 ## Additional Info
 <!-- Additional changes required to reproduce / test in dev environment  -->
-
-## Username used to test
-<!-- Provide Username that this was tested with -->
 
 ## Todos
 - [ ] Change logs to be updated in Release folder 
