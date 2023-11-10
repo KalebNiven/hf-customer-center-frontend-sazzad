@@ -23,14 +23,14 @@ const HRAWidget = () => {
       appId: 'cc',
       token: updatedJwt,
       locale: getLanguageFromUrl(),
-      widgetPage: widgetPage,
+      surveyType: widgetPage,
       memberId: memberId,
       onSurveyDoneClick: () => {
         history.push('/my-health/annual-health-assessment')
       },
       onSurveyDoneBackClick: () => {
         history.push('/my-health/annual-health-assessment')
-      },                            
+      },
       parentElement: "#hra-widget",
   }
 
@@ -38,11 +38,11 @@ const HRAWidget = () => {
     if(!surveyScript) return;
 
     let widget;
-    
+
     try {
       widget = new window.HraWidget(mountProps);
 
-      if(!widget.isMounted({ widgetPage })) {
+      if(!widget.isMounted(widgetPage)) {
         widget.mount(mountProps)
       }
     } catch (error) {
@@ -57,8 +57,8 @@ const HRAWidget = () => {
 
     return () => {
       try {
-        if(widget.isMounted({ widgetPage })) {
-          widget.unmount(mountProps)
+        if(widget.isMounted(widgetPage)) {
+          widget.unmount(widgetPage)
         }
       } catch (error) {
         (async () => {
