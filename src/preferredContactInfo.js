@@ -163,7 +163,7 @@ const PreferredContactInfo = (props) => {
                 emailOptIn: true,
                 shouldUpdatePhoneInOkta: (selectedPhone?.number ? true : false),
                 primaryPhone:formatPhone((selectedPhone?.number ? selectedPhone.number : (preferenceCenterInfo?.data?.phones?.pm_primary !== undefined ? preferenceCenterInfo.data.phones.pm_primary : "")), 1),
-                primaryPhoneType:(selectedPhone?.type ? selectedPhone.type : (preferenceCenterInfo?.data?.phones?.pm_primary_type !== undefined && preferenceCenterInfo?.data?.phones?.pm_primary_type !== "" ? preferenceCenterInfo.data.phones.pm_primary_type : "mobile")),
+                primaryPhoneType:(selectedPhone?.type ? selectedPhone.type : "mobile"),
                 primaryPhoneCallOptIn: true,
                 primaryPhoneTextOptIn: true,
                 secondaryPhone:formatPhone((preferenceCenterInfo?.data?.phones?.pm_secondary !== undefined ? preferenceCenterInfo.data.phones.pm_secondary : ""), 1),
@@ -203,7 +203,7 @@ const PreferredContactInfo = (props) => {
             case 'phone':
                 if(preferenceCenterInfo?.data?.phones !== undefined){
                     if(preferenceCenterInfo?.data?.phones?.okta !== undefined && preferenceCenterInfo?.data?.phones?.okta != ''){
-                        contactsArr.push({number: preferenceCenterInfo.data.phones.okta, type: '', sourceType: 'okta'});
+                        contactsArr.push({number: preferenceCenterInfo.data.phones.okta, type: 'mobile', sourceType: 'okta'});
                     } 
                     if(preferenceCenterInfo?.data?.phones?.pm_primary !== undefined && preferenceCenterInfo?.data?.phones?.pm_primary != ''){
                         contactsArr.push({number: preferenceCenterInfo.data.phones.pm_primary, type: preferenceCenterInfo.data.phones.pm_primary_type, sourceType: 'pm'});
