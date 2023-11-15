@@ -26,3 +26,4 @@ To run the app with hot reload for development use ```npm run serve```. Your app
 - llaverty 20231003
 - llaverty 20231027
 - llaverty 20231115
+- llaverty 20231115b
