@@ -87,7 +87,7 @@ const CoverageBenefitsPage = () => {
                             <DependentBlock
                                 memberSelection={memberSelection}
                                 setMemberSelection={setMemberSelection}
-                                displayInactiveMembers={false}
+                                displayInactiveMembers={true}
                             />
                         </DependentBlockWrapper>
                     )}
