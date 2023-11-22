@@ -114,7 +114,11 @@ function PaymentPage() {
     if((plans === null || plans.length > 1) && (selectedPlan?.status === 'init' || paymentsModalState?.membership == null)) return;
     if (localStorage.getItem('okta-token-storage') == null || !splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control") return;
     let isRedirecting = false;
-
+    if(plans.length == 0){
+      isRedirecting = true;
+      history.goBack();
+      window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
+    }
     if(plans.length == 1){
       plans.forEach((plan) => {
         let planAttrs = {
