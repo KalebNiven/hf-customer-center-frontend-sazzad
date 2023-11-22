@@ -45,6 +45,12 @@ const DigitalSurvey = () => {
                 })()
               }
         }
+
+        return () => {
+            if(surveyScript && digitalSurveyWidget) {
+                digitalSurveyWidget.unmount('all')
+            }   
+        }
     }, [surveyScript, mountProps, treatment])
 
     return (
