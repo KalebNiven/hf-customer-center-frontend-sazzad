@@ -26,7 +26,11 @@ const otcWidgetLinks = {
   navigateToNationsBenefits: {
     type: SSO,
     link: process.env.MIX_REACT_APP_NATIONS_OTC_HREF_V2
-  }
+  },
+  navigateToConvey: {
+    type: SSO,
+    link: process.env.MIX_REACT_APP_CONVEY_HREF_V2
+  },
 }
 const OTCWidget = () => {
 
@@ -61,7 +65,8 @@ const OTCWidget = () => {
         case 'navigateToBenefitsCenter':
         case 'navigateToNationsOTC':  
         case 'navigateToOTCNetwork': 
-        case 'navigateToNationsBenefits': 
+        case 'navigateToNationsBenefits':
+        case 'navigateToConvey':
           handleExternalSiteClicked(otcWidgetLinks[action].link, otcWidgetLinks[action].type, action);
           break;
         default:
