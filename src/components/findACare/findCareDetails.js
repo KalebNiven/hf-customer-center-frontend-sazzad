@@ -127,13 +127,19 @@ const FindCareDetails = (props) => {
               ProviderDirectoryWidget.mount(mProps);
             }
           }
-    }, [customerInfo, location.result, pcpHousehold]);
 
-    useEffect(() => () => {
-        if (ProviderDirectoryWidget.isMounted(DETAILS)) {
-          ProviderDirectoryWidget.unmount(DETAILS);
-        }
-      });
+          return () => {
+            if (ProviderDirectoryWidget.isMounted(DETAILS)) {
+                    ProviderDirectoryWidget.unmount(DETAILS);
+            }
+          }
+    }, [customerInfo, location.result, pcpHousehold, digitalSurveyWidget]);
+
+    // useEffect(() => () => {
+    //     if (ProviderDirectoryWidget.isMounted(DETAILS)) {
+    //       ProviderDirectoryWidget.unmount(DETAILS);
+    //     }
+    //   });
 
     if (pcpHousehold.loading) return  <Wrapper><Spinner /></Wrapper>
 

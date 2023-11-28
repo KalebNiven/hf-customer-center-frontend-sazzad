@@ -55,7 +55,7 @@ export const getValidHRASurveryPlan = (hohplans) => {
 export const getLanguageFromUrl = () => {
   switch(window.location.host.split('.')[0]) {
     case "es":
-      return "es"
+      return "es-US"
     case "zh":
       return "zh"
     default:
