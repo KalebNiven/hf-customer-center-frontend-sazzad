@@ -61,6 +61,7 @@ import MobileFilterView from "./filterMobileView";
 import Pagination from "../common/pagination";
 import { NoDocument, DocErrors } from "./documentErrors";
 import { truncateString } from "../../utils/strings";
+import { useSplitEval } from "../../hooks/useSplitEval";
 
 const DocumentCenter = (props) => {
     const { featureconfig } = props ? props : {};
@@ -99,6 +100,7 @@ const DocumentCenter = (props) => {
     const dispatch = useDispatch();
     const customerInfo = useSelector((state) => state.customerInfo); 
     const [totalRecords, setTotalRecords] = useState(null);
+    const splitEval = useSplitEval();
 
    const setDocumentList = (documentList) => {
     setDisplayDocList(documentList)
@@ -706,12 +708,8 @@ const DocumentCenter = (props) => {
                 {paperlessStatusLoaded ? (
                     paperlessStatus ? (
                         <CurrentlyEnrolled>
-                            <FeatureTreatment
-                                treatmentName={SHOW_PAPERLESS_WIDGET}
-                                onLoad={() => {}}
-                                onTimedout={() => {}}
-                                attributes={props?.splitAttributesForPaperless}
-                            >
+                        {splitEval.evaluateSplitByName(SHOW_PAPERLESS_WIDGET) && 
+                            <>
                                 <Paperless>
                                     <LeafIcon src="/react/images/documents-leaf.svg"></LeafIcon>
                                     <span>
@@ -747,7 +745,8 @@ const DocumentCenter = (props) => {
                                     Only records from the past two years will be
                                     displayed below.
                                 </span>
-                            </FeatureTreatment>
+                            </>
+                            }
 
                             <DependentBlockWrapper className="no-print">
                                 {
@@ -783,67 +782,65 @@ const DocumentCenter = (props) => {
                         </CurrentlyEnrolled>
                     ) : (
                         <CurrentlyEnrolled>
-                            <FeatureTreatment
-                                treatmentName={SHOW_PAPERLESS_WIDGET}
-                                onLoad={() => {}}
-                                onTimedout={() => {}}
-                                attributes={props?.splitAttributesForPaperless} 
-                            >
-                                <Paperless>
-                                    <LeafIcon src="/react/images/documents-leaf.svg"></LeafIcon>
-                                    <span>
-                                        <span className="option">
+                            {
+                                splitEval.evaluateSplitByName(SHOW_PAPERLESS_WIDGET) && 
+                                <>
+                                    <Paperless>
+                                        <LeafIcon src="/react/images/documents-leaf.svg"></LeafIcon>
+                                        <span>
+                                            <span className="option">
+                                                Enroll in Paperless
+                                            </span>
+                                            .
+                                        </span>
+                                    </Paperless>
+                                    <p>
+                                        Enroll to get your documents online instead of
+                                        by mail, and save paper and time. Your documents
+                                        will be sent to your primary email address as
+                                        they become paperless and available online.
+                                    </p>
+
+                                    <a
+                                        style={{
+                                            cursor: "pointer",
+                                            color: "#008bbf !important",
+                                            fontWeight: "bold",
+                                            width: "fit-content",
+                                        }}
+                                        onClick={() => {
+                                            dispatch(setSelectIndexTab(2));
+                                            history.push({
+                                                pathname: "/settings",
+                                                state: {
+                                                    sideBarIndex: 2,
+                                                },
+                                            });
+                                        }}
+                                    >
+                                        <span
+                                            style={{
+                                                color: "#008bbf",
+                                                fontWeight: "bold",
+                                            }}
+                                            onClick={() => {
+                                                handleSegmentBtn(
+                                                    "Enroll in paperless",
+                                                    undefined,
+                                                    "enroll in paperless"
+                                                );
+                                            }}
+                                        >
                                             Enroll in Paperless
                                         </span>
-                                        .
+                                    </a>
+
+                                    <span className="text">
+                                        Only records from the past two years will be
+                                        displayed below.
                                     </span>
-                                </Paperless>
-                            <p>
-                                Enroll to get your documents online instead of
-                                by mail, and save paper and time. Your documents
-                                will be sent to your primary email address as
-                                they become paperless and available online.
-                            </p>
-
-                            <a
-                                style={{
-                                    cursor: "pointer",
-                                    color: "#008bbf !important",
-                                    fontWeight: "bold",
-                                    width: "fit-content",
-                                }}
-                                onClick={() => {
-                                    dispatch(setSelectIndexTab(2));
-                                    history.push({
-                                        pathname: "/settings",
-                                        state: {
-                                            sideBarIndex: 2,
-                                        },
-                                    });
-                                }}
-                            >
-                                <span
-                                    style={{
-                                        color: "#008bbf",
-                                        fontWeight: "bold",
-                                    }}
-                                    onClick={() => {
-                                        handleSegmentBtn(
-                                            "Enroll in paperless",
-                                            undefined,
-                                            "enroll in paperless"
-                                        );
-                                    }}
-                                >
-                                    Enroll in Paperless
-                                </span>
-                            </a>
-
-                            <span className="text">
-                                Only records from the past two years will be
-                                displayed below.
-                            </span>
-                            </FeatureTreatment>
+                                </>
+                            }
                             <DependentBlockWrapper className="no-print">
                                 {
                                     <DependentBlock
