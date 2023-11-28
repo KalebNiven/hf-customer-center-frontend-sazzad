@@ -16,7 +16,7 @@ import { MainContentContainer } from "../common/styles";
 import { useCoachMarksContext } from "../coachMarks/homePageCoachMarks/coachMarksContext";
 import { usePopperTooltip } from 'react-popper-tooltip';
 import { getRecertificationDate, isEligibleForRecertDate } from '../../utils/misc.js'
-
+import { useSplitEval } from "../../hooks/useSplitEval";
 const HomePage = () => {
   const { hasPassedTour } = useCoachMarksContext()
   const [openPaperLess,setOpenPaperLess] = useState(false)
@@ -45,6 +45,7 @@ const HomePage = () => {
 
   const timeHrs = Number(time.split(":")[0])
   const history = useHistory();
+  const splitEval = useSplitEval();
   let paperlessFlag = customerInfo?.data?.preferenceCenterPaperless?.status;
 
 
@@ -189,14 +190,9 @@ const HomePage = () => {
 
         <ModelContainer>
         {accountStatus ==="MEMBER" && !paperlessFlag && openPaperLess &&
-        <FeatureTreatment
-          treatmentName={SHOW_PAPERLESS_WIDGET}
-          onLoad={() => { }}
-          onTimedout={() => { }}
-          attributes={splitAttributes}
-        > 
+          splitEval.evaluateSplitByName(SHOW_PAPERLESS_WIDGET) && 
           <PaperlessModal/>
-          </FeatureTreatment>  }
+        }
         </ModelContainer>
         
       </InnerContainer> 

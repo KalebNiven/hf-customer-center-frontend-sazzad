@@ -13,6 +13,7 @@ import UpdatedContactInformation from "./UpdatedContactInformation";
 import { SHOW_CONTACT_INFO, SHOW_CONTACT_INFO_PM_WIDGET, SHOW_PAPERLESS_WIDGET } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import { useAppContext } from '../../AppContext';
+import { useSplitEval } from "../../hooks/useSplitEval";
 
 function AccountSettings() {
   const [selectIndex, setSelectIndex] = useState(0);
@@ -30,6 +31,7 @@ function AccountSettings() {
     accountStatus: customerInfo?.accountStatus,
   };
   const location = useLocation();
+  const splitEval = useSplitEval();
 
   useEffect(() => {
     if (window.localStorage.getItem("contactInfoNavIndex") !== null) {
@@ -233,13 +235,7 @@ function AccountSettings() {
                 {
                       leafItem.items.map((eachItem, itemIndex, items) => (
                         eachItem.segmentLabel === "Paperless" ? (
-                          <FeatureTreatment
-                            key={itemIndex}
-                            treatmentName={SHOW_PAPERLESS_WIDGET}
-                            onLoad={() => { }}
-                            onTimedout={() => { }}
-                            attributes={splitAttributes}
-                          >
+                          splitEval.evaluateSplitByName(SHOW_PAPERLESS_WIDGET) &&
                             <NavWrapper key={itemIndex} borderRadius={itemIndex === 0 ? "4px 4px 0 0" : itemIndex === items.length - 1 ? "0 0 4px 4px" : ""} onClick={() => navItemClick(eachItem, itemIndex, leafindex)} active={selectIndex === itemIndex && selectedLeafIndex === leafindex}>
                               <ImgBlock><ImgContent src={eachItem.imgContentSrc} background={eachItem.backgroundColor} backgroundPosition={eachItem.backgroundPosition} /></ImgBlock>
                               <Option>{eachItem.label}</Option>
@@ -247,7 +243,6 @@ function AccountSettings() {
                                 <IconImg alt="" src={eachItem.imgIconSrc} />
                               </InlineInnerFixedContainer>
                             </NavWrapper>
-                          </FeatureTreatment>
                         ) : (
                           <NavWrapper key={itemIndex} borderRadius={itemIndex === 0 ? "4px 4px 0 0" : itemIndex === items.length - 1 ? "0 0 4px 4px" : ""} onClick={() => navItemClick(eachItem, itemIndex, leafindex)} active={selectIndex === itemIndex && selectedLeafIndex === leafindex}>
                             <ImgBlock><ImgContent src={eachItem.imgContentSrc} background={eachItem.backgroundColor} backgroundPosition={eachItem.backgroundPosition} /></ImgBlock>
