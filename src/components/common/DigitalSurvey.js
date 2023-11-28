@@ -8,7 +8,7 @@ import useLogError from '../../hooks/useLogError';
 
 // This Component is used to mount Digital Survey widget.
 const DigitalSurvey = () => {
-    const { surveyScript, digitalSurveyWidget, setDigitalSurveyWidget } = useSurveyContext();
+    const { surveyScript, digitalSurveyWidget, setDigitalSurveyWidget, resetDigitalSurveyWidget } = useSurveyContext();
     const { logError } = useLogError();
     const { memberId, id_token, customerId } = useSelector((state) => state.customerInfo.data);
     const token = (id_token === undefined ? id_token : id_token.replace('Bearer ', ''));
@@ -33,8 +33,8 @@ const DigitalSurvey = () => {
         if(surveyScript && !digitalSurveyWidget){
             try {
                 const widget = new window.HraWidget(mountProps);
-                setDigitalSurveyWidget(widget);
                 widget.deployTriggers();
+                setDigitalSurveyWidget(widget);
               } catch (error) {
                 (async () => {
                     try {
@@ -47,9 +47,7 @@ const DigitalSurvey = () => {
         }
 
         return () => {
-            if(surveyScript && digitalSurveyWidget) {
-                digitalSurveyWidget.unmount('all')
-            }   
+            resetDigitalSurveyWidget()
         }
     }, [surveyScript, mountProps, treatment])
 
