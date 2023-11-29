@@ -1005,6 +1005,14 @@ function AppBarComponent() {
                        <Collapse in={homeMobileItems} timeout="auto" unmountOnExit key={myHomeObj.href} component="li">
                          <List>
                            {myHomeObj.childNavs && myHomeObj.childNavs.length > 0 && myHomeObj.childNavs.map((childNav, childInd) => (
+                            childNav.treatmentName === OTC_WIDGET_PAGE ?
+                              (
+                                splitEval.evaluateSplitByName(childNav.treatmentName) &&
+                                <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, childNav.href, 'child', childNav?.label)} button>
+                                  <ListItemIcon>{selectedChildTab === childNav.href ? <LogoImg alt="" src={childNav.activeIcon} /> : <LogoImg alt="" src={childNav.inactiveIcon} />}</ListItemIcon>
+                                  <ListItemText className={selectedChildTab === childNav.href ? 'child-tab-active' : 'child-tab-inactive'}>{childNav.label}</ListItemText>
+                                </ListItem>
+                              ):
                              childNav.treatmentName
                                ? (
                                  <FeatureTreatment
