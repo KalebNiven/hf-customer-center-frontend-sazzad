@@ -102,7 +102,7 @@ const CreateAccount = () => {
                     <MemberCardsContainer>
                         <MemberCard>
                     {!showRegistration  && !showMemberShip && <BackContainer>
-                                <BackIcon  onClick={() => handleClick()} src="img/dark/ico-back.svg"></BackIcon>
+                                <BackIcon  onClick={() => handleClick()} src="/react/images/dark/ico-back.svg"></BackIcon>
                                 <BackText onClick={() => handleClick()}>Back</BackText>
                             </BackContainer>}
                             
