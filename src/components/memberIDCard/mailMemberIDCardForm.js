@@ -261,6 +261,10 @@ const MailMemberIDCardForm = (props) => {
         setTimeout(() => {
             history.push("/idcard?survey=true");
         }, 1000);
+
+        setTimeout(() => {
+            triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.MAIL_ID_CARD)
+        }, 3000)
     };
 
     const submitForm = () => {
@@ -316,7 +320,6 @@ const MailMemberIDCardForm = (props) => {
             dispatch(requestSubmitMailMemberIDCardForm(filteredFormData));
         }
         setTimesSubmitted(timesSubmitted + 1);
-        if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.MAIL_ID_CARD);
     };
 
     const validateForm = () => {
