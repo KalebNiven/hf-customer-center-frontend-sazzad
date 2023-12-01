@@ -28,7 +28,7 @@ function HRA() {
 
     const memberships = [
         ...customerInfo.data.hohPlans.map(plan => ({ companyCode: plan.CompanyNumber, benefitPackage: plan.BenefitPackage, memberId: plan.MemberId })),
-        ...customerInfo.data.dependents.map(dep => ({ companyCode: dep.companyCode, benefitPackage: dep.benefitPackage, memberId: plan.memberId }))
+        ...customerInfo.data.dependents.map(dep => ({ companyCode: dep.companyCode, benefitPackage: dep.benefitPackage, memberId: dep.memberId }))
     ]
 
     if(widgetEligible(memberships, urlParams.memberId)) {
