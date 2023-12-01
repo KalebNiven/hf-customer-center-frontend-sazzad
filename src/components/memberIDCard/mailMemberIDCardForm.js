@@ -263,7 +263,7 @@ const MailMemberIDCardForm = (props) => {
         }, 1000);
 
         setTimeout(() => {
-            triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.MAIL_ID_CARD)
+            if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.MAIL_ID_CARD)
         }, 3000)
     };
 
