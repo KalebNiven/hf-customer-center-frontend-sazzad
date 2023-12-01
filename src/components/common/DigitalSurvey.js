@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSurveyContext } from '../../context/surveyContext'
 import { useSelector } from 'react-redux'
 import { getLanguageFromUrl } from '../../utils/misc';
@@ -8,27 +8,31 @@ import useLogError from '../../hooks/useLogError';
 
 // This Component is used to mount Digital Survey widget.
 const DigitalSurvey = () => {
+    const [mountProps, setMountProps] = useState(null);
     const { surveyScript, digitalSurveyWidget, setDigitalSurveyWidget, resetDigitalSurveyWidget } = useSurveyContext();
     const { logError } = useLogError();
     const { memberId, id_token, customerId } = useSelector((state) => state.customerInfo.data);
     const token = (id_token === undefined ? id_token : id_token.replace('Bearer ', ''));
-
     const splitHookClient = useClient(customerId === null ? 'Anonymous' : customerId);
     const { treatment } = splitHookClient.getTreatmentWithConfig(DIGITAL_SURVEY, {});
 
-    const mountProps = {
-        token: token,
-        locale: getLanguageFromUrl(),
-        onSurveyDoneClick: () => {},
-        onSurveyDoneBackClick: () => {},
-        parentElement: "#digital-survey",
-        surveyType: 'Digital Survey',
-        appId: 'cc',
-        memberId : memberId,
-    }
+    useEffect(() => {
+        if(!token || !memberId) return;
+        setMountProps({
+            token: token,
+            locale: getLanguageFromUrl(),
+            onSurveyDoneClick: () => {},
+            onSurveyDoneBackClick: () => {},
+            parentElement: "#digital-survey",
+            surveyType: 'Digital Survey',
+            appId: 'cc',
+            memberId : memberId,
+        })
+    }, [token, memberId])
 
     useEffect(() => {
         if(treatment !== "on") return;
+        if(!mountProps) return;
 
         if(surveyScript && !digitalSurveyWidget){
             try {
