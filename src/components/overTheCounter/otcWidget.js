@@ -29,7 +29,7 @@ const otcWidgetLinks = {
   },
   navigateToConvey: {
     type: SSO,
-    link: process.env.MIX_REACT_APP_CONVEY_HREF
+    link: process.env.MIX_REACT_APP_NATIONS_OTC_HREF_V2
   },
 }
 const OTCWidget = () => {
