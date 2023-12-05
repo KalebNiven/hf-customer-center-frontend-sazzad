@@ -69,6 +69,7 @@ const config = {
     }),
     new CopyPlugin({ patterns: [{ from: "public", to: "." }, { from: "src/images", to: "react/images" }] }),
     new CopyPlugin({ patterns: [{ from: "public", to: "." }, { from: "src/css", to: "css" }] }),
+    new CopyPlugin({ patterns: [{ from: path.join(__dirname, "src", "assets", process.env.MIX_REACT_ENVIRONMENT), to: "." }] }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
