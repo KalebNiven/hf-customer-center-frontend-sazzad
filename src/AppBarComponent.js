@@ -102,15 +102,13 @@ function AppBarComponent() {
   const [binderEnabled, setBinderEnabled] = useState(false);
   const [rewardsEnabled, setRewardsEnabled] = useState(false);
   const [reactPaymentsPortalEnabled, setReactPaymentsPortalEnabled] = useState(false);
-  const [healthAssessmentSurvey, setHealthAssessmentSurvey] = useState(false);
   const location = useLocation();
-  const { resetPaymentsModal} = usePaymentsModalContext();
+  const { resetPaymentsModal } = usePaymentsModalContext();
   const [loadSplit, setLoadSplit] = useState({ treatment: 'control', config: null });
   const otcCardType = generateCardType(customerInfo?.data?.hohPlans);
   const { MIX_REACT_APP_BINDER_SITE_HREF } = process.env;
   let nav;
   const splitEval = useSplitEval();
-  const [enableHealthAssessmentSurvey,setEnableHealthAssessmentSurvey]  = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? 'hidden' : null;
@@ -164,23 +162,17 @@ function AppBarComponent() {
       SHOW_MY_REWARDS,
       attributes,
     );
-    const showHealthAssessmentSurvey = splitHookClient.getTreatmentWithConfig(
-      SHOW_HEALTH_ASSESMENT_SURVEY,
-      attributes,
-    );
 
-    checkTreatment(paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment, showHealthAssessmentSurvey);
+    checkTreatment(paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment);
   };
 
-  const checkTreatment = (paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment, showHealthAssessmentSurvey) => {
+  const checkTreatment = (paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment) => {
     setLoadSplit(paymentsEnabledTreatment);
     if (!splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control" || showReactPaymentsPortal.treatment === "control") return;
     setPaymentsEnabled(paymentsEnabledTreatment.treatment === "off" ? false : paymentsEnabledTreatment.treatment === "on" ? setShowPaymentFlag(true) : false);
     setBinderEnabled(binderEnabledTreatment.treatment === "off" ? false : binderEnabledTreatment.treatment === "on" ? setShowPaymentFlag(true) : false);
     setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false);
     setReactPaymentsPortalEnabled(showReactPaymentsPortal.treatment === "off" ? false : showReactPaymentsPortal.treatment === "on");
-    setHealthAssessmentSurvey(showHealthAssessmentSurvey.treatment === "off" ? false : showHealthAssessmentSurvey.treatment === "on" ? setHealthAssessmentSurvey(true) : false);
-    if(showHealthAssessmentSurvey.treatment === "on" ){ setEnableHealthAssessmentSurvey(true)}
   };
 
   const getLangURLPrefix = (lang) => {
@@ -565,7 +557,7 @@ function AppBarComponent() {
           >
             {childNavs && childNavs.length > 0 && childNavs.map((eachNav, ind) => (
               //harcoding for this case, will need to revaluated using featureTreatment for nav items vs useSplitEval hook.
-              eachNav.treatmentName === OTC_WIDGET_PAGE ?
+              eachNav.treatmentName === OTC_WIDGET_PAGE || SHOW_HEALTH_ASSESMENT_SURVEY?
               (
                 splitEval.evaluateSplitByName(eachNav.treatmentName) &&  <Tab
                   label={eachNav.label}
@@ -575,7 +567,7 @@ function AppBarComponent() {
                 />
               )
               :
-              eachNav.treatmentName && (eachNav.treatmentName ===  SHOW_HEALTH_ASSESMENT_SURVEY && !enableHealthAssessmentSurvey)
+              eachNav.treatmentName
                 ? (
                   <FeatureTreatment
                     key={`${eachNav.treatmentName}_${ind}`}
@@ -1013,7 +1005,7 @@ function AppBarComponent() {
                        <Collapse in={homeMobileItems} timeout="auto" unmountOnExit key={myHomeObj.href} component="li">
                          <List>
                            {myHomeObj.childNavs && myHomeObj.childNavs.length > 0 && myHomeObj.childNavs.map((childNav, childInd) => (
-                            childNav.treatmentName === OTC_WIDGET_PAGE ?
+                            childNav.treatmentName === OTC_WIDGET_PAGE || SHOW_HEALTH_ASSESMENT_SURVEY?
                               (
                                 splitEval.evaluateSplitByName(childNav.treatmentName) &&
                                 <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, childNav.href, 'child', childNav?.label)} button>
@@ -1035,7 +1027,7 @@ function AppBarComponent() {
                                      <ListItemIcon>{selectedChildTab === childNav.href ? <LogoImg alt="" src={childNav.activeIcon} /> : <LogoImg alt="" src={childNav.inactiveIcon} />}</ListItemIcon>
                                      <ListItemText className={selectedChildTab === childNav.href ? 'child-tab-active' : 'child-tab-inactive'}>{childNav.label}</ListItemText>
                                    </ListItem>
-                                  </FeatureTreatment>
+                                 </FeatureTreatment>
                                ) : (
                                  <ListItem key={`${childNav.treatmentName}_${childInd}`} className={classes.gutters} onClick={(e) => handleClickMobile(e, childNav.href, 'child', childNav?.label, childNav?.labelForSegment)} button>
                                    <ListItemIcon>{selectedChildTab === childNav.href ? <LogoImg alt="" src={childNav.activeIcon} /> : <LogoImg alt="" src={childNav.inactiveIcon} />}</ListItemIcon>
@@ -1087,8 +1079,7 @@ function AppBarComponent() {
                       <Collapse in={myHealthMobileItems} timeout="auto" unmountOnExit key={myHealthObj.href} component="li">
                         <List>
                           {myHealthObj.childNavs && myHealthObj.childNavs.length > 0 && myHealthObj.childNavs.map((childNav, childInd) => (
-                            
-                            eachNav.treatmentName && ( childNav.treatmentName === SHOW_HEALTH_ASSESMENT_SURVEY &&  !enableHealthAssessmentSurvey )
+                            childNav.treatmentName
                               ? (
                                 <FeatureTreatment
                                   treatmentName={childNav.treatmentName}
