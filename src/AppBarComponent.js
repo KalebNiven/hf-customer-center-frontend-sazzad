@@ -557,7 +557,7 @@ function AppBarComponent() {
           >
             {childNavs && childNavs.length > 0 && childNavs.map((eachNav, ind) => (
               //harcoding for this case, will need to revaluated using featureTreatment for nav items vs useSplitEval hook.
-              eachNav.treatmentName === OTC_WIDGET_PAGE || SHOW_HEALTH_ASSESMENT_SURVEY?
+              eachNav.treatmentName === OTC_WIDGET_PAGE || eachNav.treatmentName === SHOW_HEALTH_ASSESMENT_SURVEY ?
               (
                 splitEval.evaluateSplitByName(eachNav.treatmentName) &&  <Tab
                   label={eachNav.label}
@@ -1005,7 +1005,7 @@ function AppBarComponent() {
                        <Collapse in={homeMobileItems} timeout="auto" unmountOnExit key={myHomeObj.href} component="li">
                          <List>
                            {myHomeObj.childNavs && myHomeObj.childNavs.length > 0 && myHomeObj.childNavs.map((childNav, childInd) => (
-                            childNav.treatmentName === OTC_WIDGET_PAGE || SHOW_HEALTH_ASSESMENT_SURVEY?
+                           childNav.treatmentName === OTC_WIDGET_PAGE || childNav.treatmentName === SHOW_HEALTH_ASSESMENT_SURVEY?
                               (
                                 splitEval.evaluateSplitByName(childNav.treatmentName) &&
                                 <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, childNav.href, 'child', childNav?.label)} button>
