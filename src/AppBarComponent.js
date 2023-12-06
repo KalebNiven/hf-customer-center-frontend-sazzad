@@ -1079,7 +1079,15 @@ function AppBarComponent() {
                       <Collapse in={myHealthMobileItems} timeout="auto" unmountOnExit key={myHealthObj.href} component="li">
                         <List>
                           {myHealthObj.childNavs && myHealthObj.childNavs.length > 0 && myHealthObj.childNavs.map((childNav, childInd) => (
-                            childNav.treatmentName
+                             childNav.treatmentName === SHOW_HEALTH_ASSESMENT_SURVEY?
+                             (
+                               splitEval.evaluateSplitByName(childNav.treatmentName) &&
+                               <ListItem className={classes.gutters} onClick={(e) => handleClickMobile(e, childNav.href, 'child', childNav?.label)} button>
+                                 <ListItemIcon>{selectedChildTab === childNav.href ? <LogoImg alt="" src={childNav.activeIcon} /> : <LogoImg alt="" src={childNav.inactiveIcon} />}</ListItemIcon>
+                                 <ListItemText className={selectedChildTab === childNav.href ? 'child-tab-active' : 'child-tab-inactive'}>{childNav.label}</ListItemText>
+                               </ListItem>
+                             ):
+                             childNav.treatmentName
                               ? (
                                 <FeatureTreatment
                                   treatmentName={childNav.treatmentName}
