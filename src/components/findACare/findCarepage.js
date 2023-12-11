@@ -9,7 +9,7 @@ import Spinner from "../common/spinner";
 
 const SEARCH_FOR_CARE = "SEARCH_FOR_CARE";
 
-const FindCare = (props) => {
+const FindCare = () => {
   const { MIX_REACT_APP_PROVIDER_API_KEY } = process.env;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -19,6 +19,7 @@ const FindCare = (props) => {
   useEffect(() => {
     if(pcpHousehold.data) return;
     dispatch(requestPcpHousehold())
+    sessionStorage.setItem("longLoad", false)
   }, [])
   
   const [isGlobalError,setGlobalError] = useState(false);  

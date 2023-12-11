@@ -222,10 +222,10 @@ function AppBarComponent() {
         <CardIcon alt="" src={`/react/images/icn-user.svg`} />
         <InlineInnerContainer>
           <Name>{userName}</Name>
+        {customerInfo.data.accountStatus === "MEMBER" ?( 
           <Member>
-            Member ID:
-            {customerInfo.data.memberId}
-          </Member>
+            Member ID: {customerInfo.data.memberId}  
+          </Member>) : <></> }
           <SetDiv>
             <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/icn-gear.svg`} />
             <Settings onClick={(e) => {
@@ -772,10 +772,11 @@ function AppBarComponent() {
           </IconContainer>
           <InlineInnerContainer>
             <Name>{userName}</Name>
-            <Member>
-              Member ID:
-              {customerInfo.data.memberId}
-            </Member>
+            {customerInfo.data.accountStatus === "MEMBER" ?( 
+          <Member>
+            Member ID: {customerInfo.data.memberId}  
+          </Member>) : <></> 
+           }
             <SetDiv>
               <SettImg alt="" src={`/react/images/icn-gear.svg`} />
               <Settings
