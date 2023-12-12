@@ -19,6 +19,9 @@ Parameters:
     Description: CloudFront CNAME 
     Type: String
     Default: customer-centr-frontend-dev.healthfirst.org
+  AwsContentSecurityPolicy:
+    Description: AWS ContentSecurityPolicy
+    Type: String 
  
 Resources:
 ##########################################################################
