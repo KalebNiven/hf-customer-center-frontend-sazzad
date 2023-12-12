@@ -22,7 +22,6 @@ Parameters:
   AwsContentSecurityPolicy:
     Description: AWS ContentSecurityPolicy
     Type: String 
-    Default: default-src 'self''unsafe-eval' healthfirst.org *.healthfirst.org *.google.com *.googletagmanager.com *.googleapis.com *.google-analytics.com *.typekit.net *.fontawesome.com *.gstatic.com *.cvshealth.com *.davisvision.com *.teladoc.com cdn.segment.com api.segment.io *.twilio.com siteintercept.qualtrics.com *.siteintercept.qualtrics.com; frame-src player.vimeo.com www.google.com identity-dev.healthfirst.org; frame-ancestors 'self'; object-src 'none'; img-src 'self' healthfirst.org *.healthfirst.org *.google-analytics.com maps.gstatic.com maps.googleapis.com *.typekit.net data: i.vimeocdn.com vimeocdn.com siteintercept.qualtrics.com; connect-src 'self' *.google-analytics.com *.healthfirst.org api.segment.io cdn.segment.com siteintercept.qualtrics.com maps.googleapis.com hf-cde-enterprise-customer-eapi-dev.us-e1.cloudhub.io wss://*.twilio.com *.oktapreview.com *.okta.com *.split.io *.execute-api.us-east-1.amazonaws.com hf-cde-preference-center-react-eapi-dev.us-e1.cloudhub.io
  
 Resources:
 ##########################################################################
