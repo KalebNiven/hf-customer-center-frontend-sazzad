@@ -236,6 +236,24 @@ function AppBarComponent() {
               Account Settings
             </Settings>
           </SetDiv>
+          <FeatureTreatment
+              treatmentName={SHOW_HEALTH_ASSESMENT_SURVEY}
+              onLoad={() => { }}
+              onTimedout={() => { }}
+              attributes={splitAttributes}
+          >
+            <SetDiv>
+              <SettImg alt="" src={`/react/images/icn-document-center.svg`} />
+              <Settings
+                  onClick={(e) => {
+                    handleClick(e, '/my-health/annual-health-assessment', '', 'Health Assessment', 'Health Assessment');
+                    setOpenUserCard(false);
+                  }}
+              >
+                Health Assessment
+              </Settings>
+            </SetDiv>
+          </FeatureTreatment>
           <DocLink />
           {showReward
               && (
@@ -418,7 +436,7 @@ function AppBarComponent() {
     }
     resetPaymentsModal();
     handleSegmentBtn(param, eachNavLabel, labelForSegment);
-    if (['/claims', '/authorizations', '/coverage-and-benefits', '/home', '/idcard', '/my-health', '/findcare', '/pcp', '/my-health/annual-health-assessment', '/my-health/my-health-checklist', '/my-health', '/my-health/community-resources', '/my-rewards', '/otc-widget'].some((x) => x === param)) {
+    if (['/claims', '/authorizations', '/coverage-and-benefits', '/home', '/idcard', '/my-health', '/findcare', '/pcp', '/my-health/annual-health-assessment', '/my-health/my-health-checklist', '/my-health', '/my-health/community-resources', '/my-rewards', '/otc-widget', '/my-health/annual-health-assessment'].some((x) => x === param)) {
       history.push(param);
     } else if (param === '/settings') {
       history.push({
@@ -784,6 +802,24 @@ function AppBarComponent() {
                 Account Settings
               </Settings>
             </SetDiv>
+            <FeatureTreatment
+              treatmentName={SHOW_HEALTH_ASSESMENT_SURVEY}
+              onLoad={() => { }}
+              onTimedout={() => { }}
+              attributes={splitAttributes}
+            >
+              <SetDiv>
+                <SettImg alt="" src={`/react/images/icn-document-center.svg`} />
+                <Settings
+                  onClick={(e) => {
+                    handleClick(e, '/my-health/annual-health-assessment', '', 'Health Assessment', 'Health Assessment');
+                    setOpenUserCard(false);
+                  }}
+                >
+                  Health Assessment
+                </Settings>
+              </SetDiv>
+            </FeatureTreatment>
             <DocLink />
             {showReward
               && (
