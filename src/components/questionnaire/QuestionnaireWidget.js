@@ -1,0 +1,54 @@
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { useSurveyContext } from '../../context/surveyContext'
+import Spinner from "../common/spinner";
+
+const QuestionnaireWidget = () => {
+  const { surveyScript } = useSurveyContext();
+
+  const mountProps = {
+    appId: 'cco',
+    surveyId: 'hra-v2-survey'
+  };
+
+  useEffect(() => {
+    if(!surveyScript) return;
+
+    let widget;
+
+    try {
+      widget = new window.HraWidget(mountProps);
+
+      if(!widget.isMounted()) {
+        widget.mount(mountProps)
+      }
+
+    } catch (error) {
+        console.error('Error caught: ', error.message);
+    }
+
+    return () => {
+      try {
+        if(widget.isMounted()) {
+          widget.unmount()
+        }
+      } catch (error) {
+        console.error('Error caught: ', error.message);
+      }
+    }
+  }, [surveyScript, mountProps]);
+
+  if(!surveyScript) return <Spinner />
+
+  return (
+    <Wrapper>
+        <div id='questionnaire-widget'></div>
+    </Wrapper>
+  )
+};
+
+const Wrapper = styled.div`
+  min-height: 100%;
+`;
+
+export default QuestionnaireWidget;

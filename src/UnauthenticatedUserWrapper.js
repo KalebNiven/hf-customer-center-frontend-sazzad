@@ -14,6 +14,8 @@ import styled from 'styled-components';
 import GlobalAlerts from './components/common/globalAlerts';
 import { ErrorBoundary } from "react-error-boundary";
 import UnrecoverableErrorUnauthenticated from './components/errors/UnrecoverableErrorUnauthenticated';
+import SurveyScript from './components/scripts/SurveyScript';
+import { SurveyContextProvider } from './context/surveyContext';
 
 const UnauthenticatedUserWrapper = ({ children }) => {
     // Reset Redux Store if not authenticated
@@ -30,11 +32,14 @@ const UnauthenticatedUserWrapper = ({ children }) => {
             <ErrorBoundary FallbackComponent={UnrecoverableErrorUnauthenticated}>
                 <FeatureFactory splitKey={MIX_SPLITIO_KEY} options={featureFlagOptions} uniqueId={uuid} trafficType='anonymous'>
                 {alertsList?.length > 0 && <GlobalAlerts alertsList={alertsList} />}
-                    <Wrapper>
-                        <ToastProvider>
-                            {children}
-                        </ToastProvider>
-                    </Wrapper>
+                    <SurveyContextProvider>
+                        <Wrapper>
+                            <SurveyScript />
+                            <ToastProvider>
+                                {children}
+                            </ToastProvider>
+                        </Wrapper>
+                    </SurveyContextProvider>
                 </FeatureFactory>
             </ErrorBoundary>
         </>

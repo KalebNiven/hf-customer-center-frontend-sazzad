@@ -106,6 +106,8 @@ export const OTC_WIDGET_PAGE = "CustomerCenter_OTCWidgetPage";
 export const DIGITAL_SURVEY = "CustomerCenter_Digital_Survey";
 export const HRA_WIDGET = "CustomerCenter_HealthAssessment_Widget";
 
+export const QUESTIONNAIRE_PAGE = "CustomerCenter_Questionnaire_Page";
+
 
 // return a list of the above featureflag names
 export const getFeatureFlagList = () => {
@@ -198,6 +200,7 @@ export const getFeatureFlagList = () => {
         HRA_WIDGET,
         SHOW_HEALTH_ASSESMENT_SURVEY_CARD,
         SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK
+        QUESTIONNAIRE_PAGE
     ];
 };
 
