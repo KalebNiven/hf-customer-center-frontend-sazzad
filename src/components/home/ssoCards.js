@@ -108,6 +108,9 @@ const SSOCards = () => {
       membershipStatus: customerInfo?.data?.membershipStatus,
     },
   },
+  {
+    featureName: SHOW_MYHEALTH, name: "View Forms and Documents", img: "/react/images/icn_formsanddocument.svg", routeLink: "forms-and-documents",
+  },
   ];
 
   const externalLinksData = [{
@@ -217,7 +220,7 @@ const SSOCards = () => {
                     </Card>
                   </ExternalSiteLink>
                 )
-                : (
+                : (               
                   <Card
                     className={row?.className}
                     onClick={() => handleSegmentBtn(row?.name, row?.routeLink, row?.name, row)}

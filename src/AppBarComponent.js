@@ -237,6 +237,16 @@ function AppBarComponent() {
             </Settings>
           </SetDiv>
           <DocLink />
+          <SetDiv>
+            <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/document.svg`} />
+            <Settings onClick={(e) => {
+              handleClick(e, 'forms-and-documents', '', 'Forms and Documents', 'Forms and Documents');
+              setOpenUserCard(false);
+            }}
+            >
+              Forms and Documents
+            </Settings>
+          </SetDiv>
           {showReward
               && (
               <SetDiv>
@@ -786,6 +796,14 @@ function AppBarComponent() {
               </Settings>
             </SetDiv>
             <DocLink />
+            <SetDiv>
+              <SettImg  alt="" src={`/react/images/document.svg`}/>
+              <Settings
+                onClick={(e) => handleClick(e, '/settings', '', 'Account Settings', 'Account Settings')}
+              >
+                Forms and Documents
+              </Settings>
+              </SetDiv>
             {showReward
               && (
               <SetDiv>
