@@ -8,7 +8,8 @@ const QuestionnaireWidget = () => {
 
   const mountProps = {
     appId: 'cco',
-    surveyId: 'hra-v2-survey'
+    surveyId: 'hra-v2-survey',
+    parentElement: "#questionnaire-widget",
   };
 
   useEffect(() => {
