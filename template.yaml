@@ -19,9 +19,9 @@ Parameters:
     Description: CloudFront CNAME 
     Type: String
     Default: customer-centr-frontend-dev.healthfirst.org
-  AwsContentSecurityPolicy:
-    Description: AWS ContentSecurityPolicy
-    Type: String 
+  # AwsContentSecurityPolicy:
+  #   Description: AWS ContentSecurityPolicy
+  #   Type: String 
  
 Resources:
 ##########################################################################
@@ -78,9 +78,10 @@ Resources:
                 Forward: none
           SmoothStreaming : false
           Compress: false
-          CustomHeaders:
-            HeaderName: Content-Security-Policy
-            HeaderValue:  !Ref AwsContentSecurityPolicy
+          ## Commenting this currently until we get an update from DEVOPS
+          # CustomHeaders:
+          #   HeaderName: Content-Security-Policy
+          #   HeaderValue:  !Ref AwsContentSecurityPolicy
         ## The certificate to use when viewers use HTTPS to request objects.
         ViewerCertificate:
           SslSupportMethod: sni-only
