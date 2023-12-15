@@ -65,6 +65,17 @@ export const MyDocuments = styled.div`
     padding: 0;
 `;
 
+export const SubTitle = styled.div`
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #003863;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    padding: 0;
+    font-style: normal;
+`;
+
 export const CurrentlyEnrolled = styled.div`
     display: flex;
     flex-direction: column;
