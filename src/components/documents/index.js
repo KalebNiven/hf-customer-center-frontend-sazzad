@@ -104,6 +104,7 @@ const DocumentCenter = (props) => {
 
    const setDocumentList = (documentList) => {
     setDisplayDocList(documentList)
+    console.log("documentList",documentList)
 
     }
 

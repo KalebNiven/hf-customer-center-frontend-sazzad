@@ -219,7 +219,7 @@ export const TableDataUI = styled.div`
         display: flex;
         flex-direction: row;
         gap: 10px;
-        padding: 20px 0 !important;
+        padding: 10px 0 !important;
     }
 
     .icon {
@@ -234,7 +234,7 @@ export const TableDataUI = styled.div`
         font-size: 14px;
         height: 100%;
         font-weight: 600;
-        color: #003863;
+        color: var(--Colors-Primary-Slate-500, #474B55);
         display: flex;
         align-items: center;
         text-transform: capitalize;
@@ -256,7 +256,7 @@ export const TableDataUI = styled.div`
         align-items: center;
         justify-content: flex-end;
         /* border: 2px solid red; */
-        padding: 20px !important;
+        padding: 10px !important;
         .download-icon {
              cursor: pointer;
          }
