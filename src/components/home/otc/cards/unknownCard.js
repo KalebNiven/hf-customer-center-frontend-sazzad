@@ -10,8 +10,57 @@ import {
 } from "./styles.js";
 import OTCBenefitsCenterButton from "./otcBenefitsCenterButton";
 import LearnMoreButton from "./learnMoreButton";
+import { FeatureTreatment } from "../../../../libs/featureFlags";
+import { OTC_WIDGET_PAGE } from '../../../../constants/splits'
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { generateCardType } from '../../../overTheCounter/utils';
+import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../../../constants/segment";
+import { AnalyticsTrack } from "../../../common/segment/analytics";
 
 const UnknownCard = ({ handleLearnMore, handleOTCRetryButton }) => {
+    const customerInfo = useSelector((state) => state.customerInfo);
+    const otcProfile = useSelector((state) => state.otcCard.profile);
+    const history = useHistory();
+
+    const handleSegmentBtn = (label) => {  
+        AnalyticsTrack(
+          label + " " + "Clicked",
+          customerInfo,
+          {
+            "raw_text": label,
+            "destination_url": label,
+            "description": label + " in Homepage",
+            "category": ANALYTICS_TRACK_CATEGORY.settings,
+            "type": ANALYTICS_TRACK_TYPE.buttonClicked,
+            "targetMemberId":customerInfo?.data.memberId,
+            "location": {
+              "desktop": {
+                "width": 960,
+                "value": "center"
+              },
+              "tablet": {
+                "width": 768,
+                "value": "center"
+              },
+              "mobile": {
+                "width": 0,
+                "value": "center"
+              }
+            }
+          }
+        );
+      }
+
+    const handleClick = () => {
+      handleSegmentBtn('Manage OTC'); 
+      history.push('/otc-widget');
+    }
+
+    const getTitle = (hohPlans) => {
+        let cardType = generateCardType(hohPlans);
+        return cardType;
+    }
     return (
         <Card>
             <OTCIcon alt="" src="/react/images/otc-icon.svg" />
@@ -35,10 +84,21 @@ const UnknownCard = ({ handleLearnMore, handleOTCRetryButton }) => {
                 </Paragraph>
             </CardBody>
             <CardFooter>
-                <FooterActions>
-                    <LearnMoreButton handleLearnMore={handleLearnMore} />
-                    <OTCBenefitsCenterButton />
-                </FooterActions>
+                <FooterActions style={{justifyContent: 'center'}}>
+                    <FeatureTreatment
+                    treatmentName={OTC_WIDGET_PAGE}
+                    onLoad={() => { }}
+                    onTimedout={() => { }}
+                    attributes={{
+                      planCode: customerInfo?.data?.planCode,
+                      companyCode: customerInfo?.data?.hohPlans[0]?.CompanyNumber,
+                      benefitPackage: customerInfo?.data?.hohPlans[0]?.BenefitPackage,
+                      membershipStatus: customerInfo?.data?.hohPlans[0]?.MembershipStatus,
+                    }}
+                    >
+                      <ActiveButton onClick={ () => handleClick() }>Manage {getTitle(customerInfo?.data.hohPlans)}</ActiveButton>
+                    </FeatureTreatment>
+                  </FooterActions>
             </CardFooter>
         </Card>
     );
