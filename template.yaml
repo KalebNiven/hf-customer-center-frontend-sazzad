@@ -38,6 +38,17 @@ Resources:
         OriginAccessControlOriginType: s3
         SigningBehavior: always
         SigningProtocol: sigv4
+        
+##########################################################################
+### CLOUDFRONT / RESPONSE HEADER POLICY ##################################
+##########################################################################
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig: ResponseHeadersPolicyConfig
+          ContentSecurityPolicy: "\"default-src \'self\' \'unsafe-eval\' healthfirst.org *.healthfirst.org *.google.com *.googletagmanager.com *.googleapis.com *.google-analytics.com *.typekit.net *.fontawesome.com *.gstatic.com *.cvshealth.com *.davisvision.com *.teladoc.com cdn.segment.com api.segment.io *.twilio.com siteintercept.qualtrics.com *.siteintercept.qualtrics.com; frame-src player.vimeo.com www.google.com identity-dev.healthfirst.org; frame-ancestors \'self\'; object-src \'none\'; img-src \'self\' healthfirst.org *.healthfirst.org *.google-analytics.com maps.gstatic.com maps.googleapis.com *.typekit.net data: i.vimeocdn.com vimeocdn.com siteintercept.qualtrics.com; connect-src \'self\' *.google-analytics.com *.healthfirst.org api.segment.io cdn.segment.com siteintercept.qualtrics.com maps.googleapis.com hf-cde-enterprise-customer-eapi-dev.us-e1.cloudhub.io wss://*.twilio.com *.oktapreview.com *.okta.com *.split.io *.execute-api.us-east-1.amazonaws.com hf-cde-preference-center-react-eapi-dev.us-e1.cloudhub.io"\"
+          Override: true
+  # Overide: A Boolean that determines whether CloudFront overrides the Content-Security-Policy HTTP response header received from the origin with the one specified in this response headers policy.
+  # Reference: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-responseheaderspolicy-contentsecuritypolicy.html
 ##########################################################################
 ### CLOUDFRONT / DISTRIBUTION ############################################
 ##########################################################################
@@ -78,10 +89,10 @@ Resources:
           SmoothStreaming : false
           Compress: false
           ## Commenting this currently until we get an update from DEVOPS
-          CustomHeaders:
-            HeaderName: Content-Security-Policy
-            HeaderValue:  !Ref AwsContentSecurityPolicy
-        # The certificate to use when viewers use HTTPS to request objects.
+          # CustomHeaders:
+          #   HeaderName: Content-Security-Policy
+          #   HeaderValue:  !Ref AwsContentSecurityPolicy
+        ## The certificate to use when viewers use HTTPS to request objects.
         ViewerCertificate:
           SslSupportMethod: sni-only
           MinimumProtocolVersion: TLSv1.2_2018
