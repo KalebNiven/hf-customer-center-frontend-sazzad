@@ -31,26 +31,6 @@ const Carousel = () => {
     prevArrow: <PrevArrow />,
   };
 
-  const getAssessmentLink = () => {
-    handleSegmentClick("/home","Take Assessment","Take Assessment", "button", "top", customerInfo ,"home") 
-    let hrefLink;
-    if (customerInfo.companyCode == "30" && ["SIGD", "SIGO", "SIGT"].some(x => x == customerInfo.benefitPackage)) {
-      hrefLink = { type: LINK_TYPE.external, link: "https://myhfsignaturesurvey.com/healthfirst/hralogin/" }
-    }
-    else if (customerInfo.companyCode == "30" && ["NY65", "IBP1", "CBP1", "LIP1", "DMCR"].some(x => x == customerInfo.benefitPackage)) {
-      hrefLink = { type: LINK_TYPE.external, link: "https://s.morpace.com/m170018&i.user1=2" }
-    }
-    else {
-      hrefLink = { type: LINK_TYPE.cc, link: `/hra/${customerInfo?.memberId}` }
-    };
-
-    if(hrefLink.type === LINK_TYPE.cc) {
-      history.push({ pathname: `${hrefLink.link}` })
-    } else {
-      window.location.href = hrefLink.link
-    }
-  }
-
   return (
     (showSlides && Array.isArray(slideItems) && slideItems.length > 0) &&
     <FeatureTreatment
@@ -95,20 +75,15 @@ const Carousel = () => {
                     </ContentText>
 
                     {
-                      item.linkVerbiage === "Take Assessment" ?
-                      <SlideLink onClick={() => getAssessmentLink() }>
-                        {item.linkVerbiage}
-                      </SlideLink>
-                      : item.linkType === 'External' ?
+                      item.linkType === 'External' ?
                       <ExternalSiteLink onClick={()=> 
                         handleSegmentClick("/home",item.linkVerbiageitem.slideTitle, "button", "top",customerInfo ,"home") }
                         link={item.slideLink} label={item.linkVerbiage} target="_blank" >
                         <SlideLink>
                           {item.linkVerbiage}
                         </SlideLink>  
-                      </ExternalSiteLink>
-                      :
-                      <SlideLink onClick={() => window.location.href = item.slideLink} >
+                      </ExternalSiteLink> :
+                      <SlideLink onClick={() => window.location.href = item.slideLink}>
                         {item.linkVerbiage}
                       </SlideLink>
                     }
