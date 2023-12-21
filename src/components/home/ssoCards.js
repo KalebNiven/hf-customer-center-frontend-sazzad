@@ -95,20 +95,6 @@ const SSOCards = () => {
     featureName: SHOW_ESTIMATECOST, name: "Estimate Cost", img: "/react/images/icon_calculator.svg", routeLink: "payments",
   },
   {
-    featureName: SHOW_DOC,
-    name: "View Document Center",
-    img: "/react/images/icon_claims.svg",
-    routeLink: "document-center",
-    className: "documentCenter-coachmark",
-    splitAttributes: {
-      lob: customerInfo?.data?.sessLobCode,
-      companyCode: customerInfo?.data?.hohPlans?.map((plan) => plan.CompanyNumber),
-      benefitPackage: customerInfo?.data?.hohPlans?.map((plan) => plan.BenefitPackage),
-      accountStatus: customerInfo?.data?.accountStatus,
-      membershipStatus: customerInfo?.data?.membershipStatus,
-    },
-  },
-  {
     featureName: SHOW_MYHEALTH, name: "View Forms and Documents", img: "/react/images/icn_formsanddocument.svg", routeLink: "forms-and-documents",
   },
   ];

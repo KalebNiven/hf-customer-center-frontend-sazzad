@@ -240,7 +240,7 @@ function AppBarComponent() {
           <SetDiv>
             <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/document.svg`} />
             <Settings onClick={(e) => {
-              handleClick(e, 'forms-and-documents', '', 'Forms and Documents', 'Forms and Documents');
+              handleClick(e, '/forms-and-documents', '', 'Forms and Documents', 'Forms and Documents');
               setOpenUserCard(false);
             }}
             >
@@ -428,7 +428,7 @@ function AppBarComponent() {
     }
     resetPaymentsModal();
     handleSegmentBtn(param, eachNavLabel, labelForSegment);
-    if (['/claims', '/authorizations', '/coverage-and-benefits', '/home', '/idcard', '/my-health', '/findcare', '/pcp', '/my-health/annual-health-assessment', '/my-health/my-health-checklist', '/my-health', '/my-health/community-resources', '/my-rewards', '/otc-widget'].some((x) => x === param)) {
+    if (['/forms-and-documents','/claims', '/authorizations', '/coverage-and-benefits', '/home', '/idcard', '/my-health', '/findcare', '/pcp', '/my-health/annual-health-assessment', '/my-health/my-health-checklist', '/my-health', '/my-health/community-resources', '/my-rewards', '/otc-widget'].some((x) => x === param)) {
       history.push(param);
     } else if (param === '/settings') {
       history.push({
@@ -728,7 +728,7 @@ function AppBarComponent() {
                     }
                 }
       >
-        <DocLinkComp {...props} />
+
       </FeatureTreatment>
     );
 
@@ -746,21 +746,6 @@ function AppBarComponent() {
           style={{ display: "inline-block", width: '19px', height: '19px' }}
           src={`/react/images/icn-document-center.svg`}
         />
-
-        <Settings
-          onClick={(e) => {
-            handleClick(
-              e,
-              "/document-center",
-              "",
-              "Document Center",
-              "Document Center",
-            );
-            setOpenUserCard(false);
-          }}
-        >
-          Document Center
-        </Settings>
       </SetDiv>
     );
   }

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Box, useMediaQuery, useTheme, Hidden } from "@material-ui/core";
 import Pagination from "../common/pagination";
 import DataTable from "react-data-table-component";
+import { useHistory } from 'react-router-dom';
+import LangSelectMenu from "../coverageBenefits/formsAndDocuments/langSelectMenu";
 import CommonlyUsedForm from "./commonlyUsedForm";
 import {
   Container,
@@ -37,6 +39,8 @@ import Tab from "@material-ui/core/Tab";
 
 const FormsAndDocuments = (props) => {
 
+  const history = useHistory();
+
 
   useEffect(() => {
     sessionStorage.setItem("longLoad", false)
@@ -47,9 +51,21 @@ const FormsAndDocuments = (props) => {
   const data =[{
     id: 7,
     Name: "Authorization to Release Protected Health Information (PHI) Form",
+    assetUrl: {
+      "id": 2877,
+      "en": "https://assets.healthfirst.org/pdf_1fd4ad0d7549be0427b802161e9b6a53",
+      "es": "https://assets.healthfirst.org/pdf_426097dde710d88b54514e837402e975",
+      "zh": "https://assets.healthfirst.org/pdf_22a8cb932fa1e222263aed4e4fc3105d"
+      }
     },{
       id: 7,
       Name: "Appointment of Representative (AOR) Form",
+      assetUrl: {
+        "id": 2878,
+        "en": "https://assets.healthfirst.org/pdf_93da4eb6aaf2c951021ef1e1f123854e",
+        "es": "https://assets.healthfirst.org/pdf_d31dd832ecc30538c5129a9c543b3961 ",
+        "zh": "https://assets.healthfirst.org/pdf_7ad5f3e6e8b3118ba8a67afc930b2946 "
+        }
     }]
 
   const [navItems, setNavItems] = useState([
@@ -59,7 +75,7 @@ const FormsAndDocuments = (props) => {
       label: "Forms and Plan Documents",
       labelForSegment: "Forms and Plan Documents",
       type: "logo",
-      href: "/home",
+      href: "/forms-and-documents",
       childNavs: [],
       coachmark: null,
       mobileCoachmark: null,
@@ -71,13 +87,17 @@ const FormsAndDocuments = (props) => {
       label: "Plan Communications",
       labelForSegment: "Plan Communications",
       type: "navItem",
-      href: "/home",
+      href: "/document-center",
       childNavs: null,
       coachmark: null,
       mobileCoachmark: "myPlanMobileNav-coachmark",
       treatmentName: null,
     },
   ]);
+
+  const [selectedTab, setSelectedTab] = useState(navItems[0].href);
+
+
 
   const customStyles = {
     headCells: {
@@ -187,13 +207,24 @@ const FormsAndDocuments = (props) => {
           <img
             className="download-icon"
             src="/react/images/download_pdf.svg"
-          />
+            onClick={() => 
+              window.open(row.assetUrl.en
+              )}
+          > 
+          </img>
         </a>
       ),
       name: "",
       maxWidth: "60px",
     },
   ];
+
+  const handleClick = (href) =>{
+    setSelectedTab(href)
+    history.push(href)
+  }
+
+
 
   return (
     <Container>
@@ -211,7 +242,8 @@ const FormsAndDocuments = (props) => {
             <Tab
               label={eachNav.label}
               value={eachNav.href}
-              className={true ? "child-tab-active" : "child-tab-inactive"}
+              onClick={() => handleClick(eachNav.href) }
+              className={selectedTab == eachNav.href ? "child-tab-active" : "child-tab-inactive"}
             />
           ))}
         </Tabs>
@@ -342,3 +374,5 @@ const Index = (props) => {
 };
 
 export default Index;
+
+const IconDownload = styled.div``
