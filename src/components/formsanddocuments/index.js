@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { Box, useMediaQuery, useTheme, Hidden } from "@material-ui/core";
 import Pagination from "../common/pagination";
 import DataTable from "react-data-table-component";
-import { useHistory } from 'react-router-dom';
-import LangSelectMenu from "../coverageBenefits/formsAndDocuments/langSelectMenu";
+import { useHistory } from "react-router-dom";
+import { LanguageSelect, Language } from "../common/styles";
+import DocGeneralBlock from "../coverageBenefits/formsAndDocuments/docGeneralBlock";
 import CommonlyUsedForm from "./commonlyUsedForm";
 import {
   Container,
@@ -38,35 +39,45 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 const FormsAndDocuments = (props) => {
-
   const history = useHistory();
-
+  const [RowId, setRowID] = useState();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [benfBtnIndex, setBenfBtnIndex] = useState(null);
+  const [genBtnIndex, setGenBtnIndex] = useState(null);
 
   useEffect(() => {
-    sessionStorage.setItem("longLoad", false)
-  }, [])
-
+    sessionStorage.setItem("longLoad", false);
+  }, []);
 
   // for test  purpose
-  const data =[{
-    id: 7,
-    Name: "Authorization to Release Protected Health Information (PHI) Form",
-    assetUrl: {
-      "id": 2877,
-      "en": "https://assets.healthfirst.org/pdf_1fd4ad0d7549be0427b802161e9b6a53",
-      "es": "https://assets.healthfirst.org/pdf_426097dde710d88b54514e837402e975",
-      "zh": "https://assets.healthfirst.org/pdf_22a8cb932fa1e222263aed4e4fc3105d"
-      }
-    },{
+  const data = [
+    {
+      id: 7,
+      Name: "Authorization to Release Protected Health Information (PHI) Form",
+      assetUrl: {
+        id: 2877,
+        en:
+          "https://assets.healthfirst.org/pdf_1fd4ad0d7549be0427b802161e9b6a53",
+        es:
+          "https://assets.healthfirst.org/pdf_426097dde710d88b54514e837402e975",
+        zh:
+          "https://assets.healthfirst.org/pdf_22a8cb932fa1e222263aed4e4fc3105d",
+      },
+    },
+    {
       id: 7,
       Name: "Appointment of Representative (AOR) Form",
       assetUrl: {
-        "id": 2878,
-        "en": "https://assets.healthfirst.org/pdf_93da4eb6aaf2c951021ef1e1f123854e",
-        "es": "https://assets.healthfirst.org/pdf_d31dd832ecc30538c5129a9c543b3961 ",
-        "zh": "https://assets.healthfirst.org/pdf_7ad5f3e6e8b3118ba8a67afc930b2946 "
-        }
-    }]
+        id: 2878,
+        en:
+          "https://assets.healthfirst.org/pdf_93da4eb6aaf2c951021ef1e1f123854e",
+        es:
+          "https://assets.healthfirst.org/pdf_d31dd832ecc30538c5129a9c543b3961 ",
+        zh:
+          "https://assets.healthfirst.org/pdf_7ad5f3e6e8b3118ba8a67afc930b2946 ",
+      },
+    },
+  ];
 
   const [navItems, setNavItems] = useState([
     {
@@ -97,8 +108,6 @@ const FormsAndDocuments = (props) => {
 
   const [selectedTab, setSelectedTab] = useState(navItems[0].href);
 
-
-
   const customStyles = {
     headCells: {
       style: {
@@ -123,13 +132,7 @@ const FormsAndDocuments = (props) => {
         width: "auto",
         padding: "0",
         outline: 0,
-        "&:hover": {
-          backgroundColor: "rgba(0,0,0,.05) !important",
-          border: "1px solid rgba(0,0,0,.05) !important",
-        },
-        "&:active": {
-          backgroundColor: "rgba(0,0,0,.1) !important",
-        },
+
       },
     },
     cells: {
@@ -142,35 +145,6 @@ const FormsAndDocuments = (props) => {
   };
 
   const MobileColumns = [
-    {
-      id: "download",
-      selector: (row) => (
-        <a
-          className="download"
-          onClick={(e) => {
-            handleSegmentBtn("Download button", row);
-
-            window.open(
-              `/documents/${
-                row.NodeID ? row.NodeID : row.DocumentID
-              }?isNodeId=${row.NodeID ? "true" : "false"}`,
-              "_blank"
-            );
-          }}
-        >
-          <img
-            className="download-icon"
-            src="/react/images/documents-download-icon.svg"
-          />
-        </a>
-      ),
-      name: "",
-      maxWidth: "60px",
-      minWidth: "0px",
-    },
-  ];
-
-  const columns = [
     {
       id: "Documents",
       selector: (row) => (
@@ -186,7 +160,6 @@ const FormsAndDocuments = (props) => {
           </div>
         </div>
       ),
-
     },
     {
       id: "download",
@@ -207,11 +180,16 @@ const FormsAndDocuments = (props) => {
           <img
             className="download-icon"
             src="/react/images/download_pdf.svg"
-            onClick={() => 
-              window.open(row.assetUrl.en
-              )}
-          > 
-          </img>
+            onClick={() => setRowID(row.assetUrl.id)}
+          ></img>
+          {console.log("row123", row.assetUrl)}
+          <LanguageSelect isOpen={row.assetUrl.id === RowId} last={false}>
+            <Language onClick={() => window.open(row.assetUrl.en)}>English</Language>
+
+            <Language onClick={() => window.open(row.assetUrl.es)}>Español</Language>
+
+            <Language onClick={() => window.open(row.assetUrl.zh)}>中文</Language>
+          </LanguageSelect>
         </a>
       ),
       name: "",
@@ -219,12 +197,67 @@ const FormsAndDocuments = (props) => {
     },
   ];
 
-  const handleClick = (href) =>{
-    setSelectedTab(href)
-    history.push(href)
-  }
+  const columns = [
+    {
+      id: "Documents",
+      selector: (row) => (
+        <div data-tag="allowRowEvents" className="iconWrapper">
+          <div data-tag="allowRowEvents" className="icon">
+            <img
+              data-tag="allowRowEvents"
+              src="/react/images/documents-pdf-icon.svg"
+            />
+          </div>
+          <div data-tag="allowRowEvents" className="name">
+            {row.Name}
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "download",
+      selector: "download",
+      cell: (row) => (
+        <a
+          className="download"
+          onClick={(e) => {
+            handleSegmentBtn("Download button", row);
+            window.open(
+              `/documents/${
+                row.NodeID ? row.NodeID : row.DocumentID
+              }?isNodeId=${row.NodeID ? "true" : "false"}`,
+              "_blank"
+            );
+          }}
+        >
+          <img
+            className="download-icon"
+            src="/react/images/download_pdf.svg"
+            onClick={() => setRowID(row.assetUrl.id)}
+          ></img>
+          {console.log("row123", row.assetUrl)}
+          <LanguageSelect isOpen={row.assetUrl.id === RowId} last={false}>
+            <Language onClick={() => window.open(row.assetUrl.en)}>English</Language>
 
+            <Language onClick={() => window.open(row.assetUrl.es)}>Español</Language>
 
+            <Language onClick={() => window.open(row.assetUrl.zh)}>中文</Language>
+          </LanguageSelect>
+        </a>
+      ),
+      name: "",
+      maxWidth: "60px",
+    },
+  ];
+
+  const handleClick = (href) => {
+    setSelectedTab(href);
+    history.push(href);
+  };
+
+  const showLangMenu = (docIndex, index) => {
+    docIndex ? setBenfBtnIndex(1) : setGenBtnIndex(1);
+}
 
   return (
     <Container>
@@ -242,15 +275,19 @@ const FormsAndDocuments = (props) => {
             <Tab
               label={eachNav.label}
               value={eachNav.href}
-              onClick={() => handleClick(eachNav.href) }
-              className={selectedTab == eachNav.href ? "child-tab-active" : "child-tab-inactive"}
+              onClick={() => handleClick(eachNav.href)}
+              className={
+                selectedTab == eachNav.href
+                  ? "child-tab-active"
+                  : "child-tab-inactive"
+              }
             />
           ))}
         </Tabs>
         <HrLine />
         <MyDocuments>Forms and Plan Document</MyDocuments>
         <SubTitle>Commonly Used Forms</SubTitle>
-        <CommonlyUsedForm/>
+        <CommonlyUsedForm />
         <SubTitle>General Forms</SubTitle>
         <TableDataUI>
           <Hidden only={["xs"]}>
@@ -289,7 +326,6 @@ const FormsAndDocuments = (props) => {
                 }
               }}
               defaultSortAsc={false}
-              highlightOnHover
               noDataComponent={<NoData />}
               style={{
                 boxShadow: "0 2px 8px 0 #d8d8d8",
@@ -312,7 +348,7 @@ const FormsAndDocuments = (props) => {
           <Hidden only={["xl", "lg", "md", "sm"]}>
             <DataTable
               noHeader={true}
-               data={data}
+              data={data}
               columns={MobileColumns}
               pagination
               paginationPerPage={10}
@@ -364,6 +400,7 @@ const FormsAndDocuments = (props) => {
             />
           </Hidden>
         </TableDataUI>
+        <DocGeneralBlock showLangMenu={showLangMenu} menuOpen={true} genBtnIndex={genBtnIndex} />
       </Main>
     </Container>
   );
@@ -375,4 +412,4 @@ const Index = (props) => {
 
 export default Index;
 
-const IconDownload = styled.div``
+//const IconDownload = styled.div``

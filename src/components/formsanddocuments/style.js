@@ -203,6 +203,7 @@ export const TableDataUI = styled.div`
 
     .rdt_TableHeadRow {
         border: 0;
+        display: none;
     }
     .rdt_TableCol {
         /* span{
