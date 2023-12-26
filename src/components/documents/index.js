@@ -259,7 +259,7 @@ const DocumentCenter = (props) => {
                         />
                     </div>
                     <div data-tag="allowRowEvents" className="name">
-                        {row.DocumentType ? replaceChars({word: row.DocumentType}) : ""}
+                    {row.DisplayDocumentTypeName ? row.DisplayDocumentTypeName : row.DocumentType ?  replaceChars({word: row.DocumentType}) : ""}
                     </div>
                 </div>
             ),
@@ -307,7 +307,7 @@ const DocumentCenter = (props) => {
         {
             id: "DocumentType",
             selector: "DocumentType",
-            cell: (row) => <>{row.DisplayDocumentTypeName ? row.DisplayDocumentTypeName : row.DocumentType ?  replaceChars({word: row.DocumentType}) : ""}</>,
+            cell: (row) => <>{row.DocumentType ?  replaceChars({word: row.DocumentType}) : ""}</>,
             name: "Document Type",
             sortable: true,
             sortFunction: (rowA, rowB) => {
