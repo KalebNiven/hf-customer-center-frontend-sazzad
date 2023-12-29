@@ -110,14 +110,16 @@ const MailIdCard = (props) => {
         case "FedEx":
           return 'https://www.fedex.com/fedextrack/?trknbr='+trackingCode;
         case "USPS":
-          return 'https://tools.usps.com/go/TrackConfirmAction?tLabels='+trackingCode;
+          return null;
+          // Removing the below as per business req
+          // return 'https://tools.usps.com/go/TrackConfirmAction?tLabels='+trackingCode;
         default:
           return null;
       }
     };
 
     const getLatestStatus = (statusDateId, status, statusDate, trackingCode, sla, mailingAddress, newAddress) => {
-      let carrier = (sla === 'Next day' ? 'FedEx' : 'USPS'); // Honestly not sure what responses this is gonna return either... contract isnt clear regarding this. Oh well hopefully this gets figured out during QA testing since that will hopefully involve stepping through the whole process if done right... Then again if done right we'd have good contracts... fingers crossed ¯\_(ツ)_/¯
+      let carrier = (sla === '1 Day SLA' ? 'FedEx' : 'USPS'); // Honestly not sure what responses this is gonna return either... contract isnt clear regarding this. Oh well hopefully this gets figured out during QA testing since that will hopefully involve stepping through the whole process if done right... Then again if done right we'd have good contracts... fingers crossed ¯\_(ツ)_/¯
       switch (status) {
         case "Request initiated":
           return {
