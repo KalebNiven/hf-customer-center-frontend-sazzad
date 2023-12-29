@@ -1,3 +1,6 @@
+// for testing 
+import FormsAndDocumentsModel from "./formsAndDocument";
+
 import React, { useState, useEffect, useRef } from "react";
 import { Box, useMediaQuery, useTheme, Hidden } from "@material-ui/core";
 import Pagination from "../common/pagination";
@@ -37,8 +40,13 @@ import {
 } from "./style";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import DocumentType from "./documentType";
 
 const FormsAndDocuments = (props) => {
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"))
+
   const history = useHistory();
   const [RowId, setRowID] = useState();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -261,8 +269,14 @@ const FormsAndDocuments = (props) => {
 
   return (
     <Container>
+      <MyDocuments isMobile = {isMobile} >Forms and Documents</MyDocuments>
+      {isMobile ? (
+        <>
+        <SubTitle>Select a Document Type</SubTitle>
+        <DocumentType/>
+        </>
+      ) :
       <Main>
-        <MyDocuments>Forms and Documents</MyDocuments>
         <Tabs
           value={false}
           TabIndicatorProps={{
@@ -401,7 +415,8 @@ const FormsAndDocuments = (props) => {
           </Hidden>
         </TableDataUI>
         <DocGeneralBlock showLangMenu={showLangMenu} menuOpen={true} genBtnIndex={genBtnIndex} />
-      </Main>
+      </Main>}
+      
     </Container>
   );
 };

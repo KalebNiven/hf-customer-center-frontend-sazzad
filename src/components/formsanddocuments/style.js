@@ -57,8 +57,8 @@ export const Main = styled.div`
 
 export const MyDocuments = styled.div`
     font-weight: 600;
-    font-size: 24px;
-    line-height: 32px;
+    font-size: ${(props) =>props.isMobile? "32px":"24px"};
+    line-height: ${(props) =>props.isMobile? "40px":"32px"};
     color: #003863;
     margin-bottom: 20px;
     margin-top: 40px;
