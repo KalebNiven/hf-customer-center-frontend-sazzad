@@ -7,7 +7,7 @@ const QuestionnaireWidget = () => {
   const { surveyScript } = useSurveyContext();
 
   const mountProps = {
-    appId: 'cco',
+    appId: 'HRA_PUBLIC',
     surveyId: 'hra-v2-survey',
     parentElement: "#questionnaire-widget",
   };
