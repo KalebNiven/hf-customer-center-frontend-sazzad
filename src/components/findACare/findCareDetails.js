@@ -21,6 +21,7 @@ const FindCareDetails = (props) => {
     const customerInfo = useSelector((state) => state.customerInfo.data);
     const { MIX_REACT_APP_PROVIDER_API_KEY } = process.env;
     const [isGlobalError,setGlobalError] = useState(false);
+    const language = localStorage.getItem('selectedLang');
 
     const pcpHousehold = useSelector(state => state.pcpHousehold)
 
@@ -85,7 +86,7 @@ const FindCareDetails = (props) => {
                 token: customerInfo.id_token,
                 apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
                 locationId: result,
-                lang: customerInfo.language || "en",
+                lang: language || "en",
                 onOtherLocClicked: handleOtherLocClicked,
                 onBackClicked: handleBackClicked,
                 onMakePCP: () => {},
