@@ -20,7 +20,7 @@ function HRA() {
     // Show Survey Widget
     const widgetEligible = (memberships, memberId) => {
         let eligible = false;
-        if(memberships.find(item => item.memberId === memberId && item.companyCode === "30" && item.benefitPackage === "LIP1")){
+        if(memberships.find(item => item.memberId === memberId && item.companyCode === "30" && ["LIP1", "DMCR"].includes(item.benefitPackage))){
             eligible = true;
         }
         return eligible;
