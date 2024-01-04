@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { requestFormsDocs } from '../../../store/actions';
-import DocBenefitsBlock from './docBenefitsBlock'
-import DocGeneralBlock from './docGeneralBlock'
+import { requestFormsDocs } from '../../../store/actions'; 
 import { Anchor } from '../styles'
 import Spinner from "../../common/spinner";
 import { AnalyticsTrack } from "../../common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../../constants/segment";
+import FormsAndDocumentBlock from "./formsAndDocumentBlock";
+
 
 const FormsAndDocuments = ({ selectedMemberId }) => {
     const { loading, documents } = useSelector((state) => state.coverageBenefits);
@@ -90,8 +90,9 @@ const FormsAndDocuments = ({ selectedMemberId }) => {
     return (
         loading && documents.length === 0 ? <Spinner/> : <>
             <Anchor id="forms-and-documents"></Anchor>
-            <DocBenefitsBlock showLangMenu={showLangMenu} menuOpen={menuOpen} benfBtnIndex={benfBtnIndex} />
-            <DocGeneralBlock showLangMenu={showLangMenu} menuOpen={menuOpen} genBtnIndex={genBtnIndex} />
+            <FormsAndDocumentBlock/>
+            {/* <DocBenefitsBlock showLangMenu={showLangMenu} menuOpen={menuOpen} benfBtnIndex={benfBtnIndex} />
+            <DocGeneralBlock showLangMenu={showLangMenu} menuOpen={menuOpen} genBtnIndex={genBtnIndex} /> */}
         </>
     )
 }

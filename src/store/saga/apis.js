@@ -1195,6 +1195,21 @@ export const verifyAddress = async (data) => {
   }
 }
 
+// forms and documents 
+export const ccFormsDocs = async(data) =>{
+  console.log("ccformsdataapi",data)
+  try {
+    return await LOFLv2(true).get('/cc-forms-docs', data)
+  } catch (error) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
+}
+
 // PCP Household
 export const getPcpHousehold = async () => {
   try {

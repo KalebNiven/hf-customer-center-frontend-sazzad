@@ -55,7 +55,8 @@ import {
   forgotPassword,
   setPassword,
   verifyAddress,
-  getPcpHousehold
+  getPcpHousehold,
+  ccFormsDocs
 } from "./apis";
 
 const formatNameCapitalize = (name) => {
@@ -1096,6 +1097,22 @@ export function* getPcpHousehld() {
   }
 }
 
+// FormsAndDocument
+function* watchCCFormsDocs() {
+  yield takeLatest(actionTypes.REQUEST_CC_FORMS_DOCS, getCCFormsDocs);
+}
+
+export function* getCCFormsDocs(payload){
+  try{
+    const data = yield call(ccFormsDocs, payload);
+    console.log("ccformsdata",data)
+    yield put(actions.receiveCCFormsDocs(data));
+  }catch (e){
+    yield put(actions.errorCCFormsDocs(e));
+  }
+}
+
+
 export default function* rootSaga() {
   yield all([
     watchClaimListSaga(),
@@ -1151,6 +1168,7 @@ export default function* rootSaga() {
     watchDocumentFileSaga(),
     watchGetOTCClaimReimbursementData(),
     watchVerifyAddressSaga(),
-    watchPcpHousehold()
+    watchPcpHousehold(),
+    watchCCFormsDocs()
   ]);
 }

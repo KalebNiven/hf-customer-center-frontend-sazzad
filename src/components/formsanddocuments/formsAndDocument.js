@@ -2,16 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import { MyDocuments, SubTitle } from "./style";
 
-const FormsAndDocumentsModel = ({onBack}) => {
+const FormsAndDocumentsModel = ({ onBack }) => {
   return (
     <Container>
       <Wrapper>
-        <ButtonText onClick={() => onBack(false)}>Back</ButtonText>
+        <ButtonWrapper>
+          <ButtonImg src="/react/images/back_arrow.svg" />
+          <ButtonText onClick={() => onBack(false)}>Back</ButtonText>
+        </ButtonWrapper>
       </Wrapper>
       <MyDocuments>Forms and Documents</MyDocuments>
       <SubTitle>Commonly Used Forms</SubTitle>
       <FormsWrapper>
-        <DownloadImg src="/react/images/documents-pdf-icon.svg" />
+        <CommonImg src="/react/images/documents-pdf-icon.svg" />
         <DocumentType>
           Authorization to Release Protected Health Information (PHI)
         </DocumentType>
@@ -25,7 +28,7 @@ const FormsAndDocumentsModel = ({onBack}) => {
       <SubTitle>General Forms</SubTitle>
       <FormsWrapper>
         <GeneralFormWrapper>
-          <img src="/react/images/documents-pdf-icon.svg"></img>
+          <FormImg src="/react/images/documents-pdf-icon.svg"></FormImg>
           <GeneralFormText>
             Authorization to release protected health information (without
             substance abuse information)
@@ -41,8 +44,14 @@ export default FormsAndDocumentsModel;
 
 const Container = styled.div``;
 
+const ButtonImg = styled.img``;
+
+const FormImg = styled.img`
+  margin-top: -41px;
+`;
+
 const GeneralFormText = styled.div`
-margin-left: 10px;
+  margin-left: 10px;
   color: var(--Colors-Primary-Slate-500, #474b55);
   font-feature-settings: "clig" off, "liga" off;
   font-family: "museo-sans", san-serif;
@@ -59,11 +68,18 @@ const GeneralFormWrapper = styled.div`
 
 const DownloadImg = styled.img`
   margin-top: 5px;
+  margin-left: -16px;
 `;
 
+const CommonImg = styled.img`
+  margin-top: 5px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+`;
 const Wrapper = styled.div`
   width: fit-content;
-  display: flex;
   padding: 8px;
   flex-direction: column;
   justify-content: center;
@@ -77,6 +93,7 @@ const Wrapper = styled.div`
 `;
 
 const ButtonText = styled.div`
+  padding: 3px;
   color: var(--Colors-Primary-Cerulean-500, #008bbf);
   font-family: "museo-sans", san-serif;
   font-size: 14px;
