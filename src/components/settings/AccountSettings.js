@@ -220,9 +220,9 @@ function AccountSettings() {
   return (
     <Container>
       <TitleName>
-        {customerInfo.firstName}
+        {customerInfo?.hohPlans[0]?.FirstName}
         {' '}
-        {customerInfo.lastName}
+        {customerInfo?.hohPlans[0]?.LastName}
       </TitleName>
       <SubTitle>{customerInfo?.hohPlans?.[0]?.PlanName?.toLowerCase()}</SubTitle>
       <HorizontalDivider />
