@@ -20,6 +20,7 @@ const FindCarePCP = (props) => {
     useEffect(() => {
         if(pcpHousehold.data) return;
         dispatch(requestPcpHousehold())
+            sessionStorage.setItem("longLoad", false)
     }, [])
 
     const handleChangePCP = () => {
