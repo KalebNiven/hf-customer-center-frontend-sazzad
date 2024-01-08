@@ -1,42 +1,88 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { MyDocuments, SubTitle } from "./style";
+import { useDispatch, useSelector } from "react-redux";
+import { requestCCFormsDocs } from "../../store/actions";
 
 const FormsAndDocumentsModel = ({ onBack }) => {
+  const dispatch = useDispatch();
+  const ccForms = useSelector((state) => state.ccFormsDoc);
+  const customerInfo = useSelector((state) => state.customerInfo);
+
+  // useEffect(() => {
+  //   const data = {
+  //     memberId: customerInfo.data.memberId,
+  //     benefitPackage: customerInfo.data.benefitPackage,
+  //     companyCode: customerInfo.data.companyCode,
+  //     lob: customerInfo.data.sessLobCode,
+  //     groupNumber: customerInfo.data.groupNumber,
+  //     year: 2024
+  //   };
+  //   dispatch(requestCCFormsDocs(data));
+  // }, []);
+
   return (
     <Container>
-      <Wrapper>
-        <ButtonWrapper>
-          <ButtonImg src="/react/images/back_arrow.svg" />
-          <ButtonText onClick={() => onBack(false)}>Back</ButtonText>
-        </ButtonWrapper>
-      </Wrapper>
-      <MyDocuments>Forms and Documents</MyDocuments>
-      <SubTitle>Commonly Used Forms</SubTitle>
-      <FormsWrapper>
-        <CommonImg src="/react/images/documents-pdf-icon.svg" />
-        <DocumentType>
-          Authorization to Release Protected Health Information (PHI)
-        </DocumentType>
-        <Text>
-          Complete this form if you want to give someone (such as a family
-          member, caregiver, or another company) access to your health or
-          coverage information.
-        </Text>
-        <DownloadImg src="/react/images/download_pdf.svg" />
-      </FormsWrapper>
-      <SubTitle>General Forms</SubTitle>
-      <FormsWrapper>
-        <GeneralFormWrapper>
-          <FormImg src="/react/images/documents-pdf-icon.svg"></FormImg>
-          <GeneralFormText>
-            Authorization to release protected health information (without
-            substance abuse information)
-          </GeneralFormText>
-        </GeneralFormWrapper>
-        <DownloadImg src="/react/images/download_pdf.svg" />
-      </FormsWrapper>
+      {ccForms?.ccFormsDocDetails?.data != null ? (
+        <>
+          <Wrapper>
+            <ButtonWrapper>
+              <ButtonImg src="/react/images/back_arrow.svg" />
+              <ButtonText onClick={() => onBack(false)}>Back</ButtonText>
+            </ButtonWrapper>
+          </Wrapper>
+          <MyDocuments>Forms and Documents</MyDocuments>
+          <SubTitle>Commonly Used Forms</SubTitle>
+          {ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms.map(
+            (item) => (
+              <FormsWrapper>
+                <CommonImg src="/react/images/documents-pdf-icon.svg" />
+                <DocumentType>{item.Name}</DocumentType>
+                <Text>
+                  Complete this form if you want to give someone (such as a
+                  family member, caregiver, or another company) access to your
+                  health or coverage information.
+                </Text>
+                <DownloadImg src="/react/images/download_pdf.svg" />
+              </FormsWrapper>
+            )
+          )}
+
+          <SubTitle>General Forms</SubTitle>
+          {ccForms?.ccFormsDocDetails?.data[0].cc_general_forms.map(
+            (item) => (
+           <DocsList data={item} />
+          )
+          )}
+          <SubTitle>Plan Documents</SubTitle>
+          {ccForms?.ccFormsDocDetails?.data[0].cc_plan_documents.map(
+            (item) => (
+           <DocsList data={item} />
+          )
+          )}
+          <SubTitle>Additional Resources</SubTitle>
+          {ccForms?.ccFormsDocDetails?.data[0].cc_additional_resources.map(
+            (item) => (
+           <DocsList data={item} />
+          )
+          )}
+        </>
+      ) : null}
     </Container>
+  );
+};
+
+const DocsList = (props) => {
+  return (
+    <FormsWrapper>
+      <GeneralFormWrapper>
+        <FormImg src="/react/images/documents-pdf-icon.svg"></FormImg>
+        <GeneralFormText>
+          {props.data.Name}
+        </GeneralFormText>
+      </GeneralFormWrapper>
+      <DownloadImg src="/react/images/download_pdf.svg" />
+    </FormsWrapper>
   );
 };
 
@@ -103,6 +149,7 @@ const ButtonText = styled.div`
 `;
 
 const FormsWrapper = styled.div`
+  margin-bottom: 3rem;
   padding: 16px;
   background: var(--Colors-Neutrals-White, #fff);
 

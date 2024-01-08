@@ -9,6 +9,7 @@ const CommonlyUsedForm = (props) => {
     <>
       {props.data.map((item) => (
         <Container>
+          <DocImage src="/react/images/documents-pdf-icon.svg"/>
           <Title>{item.Name}</Title>
           <Content>
             Complete this form if you want to give someone (such as a family
@@ -36,6 +37,8 @@ const CommonlyUsedForm = (props) => {
 };
 
 export default CommonlyUsedForm;
+
+const DocImage = styled.img``;
 
 const Wrapper = styled.div`
 display: ${(props) => (props.isOpen ? "block" : "none")};
@@ -68,12 +71,13 @@ const Image = styled.img`
 `;
 
 const Title = styled.div`
+height: 3rem;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
   color: #003863;
   margin-bottom: 20px;
-  margin-top: 40px;
+  margin-top:5px;
   padding: 0;
   font-style: normal;
 `;

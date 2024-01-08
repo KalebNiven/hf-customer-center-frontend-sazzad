@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
-  ccFormsDocDetails: {},
+  ccFormsDocDetails: [],
   ccFormsDocLoading: false,
   error: ""
 };
@@ -11,7 +11,7 @@ export default function ccFormsDoc(state = initialState, action) {
     case actionTypes.REQUEST_CC_FORMS_DOCS: {
       return {
         ...state,
-        ccFormsDocDetails: {},
+        ccFormsDocDetails: [],
         ccFormsDocLoading: true,
         error: ""
       };
@@ -20,15 +20,17 @@ export default function ccFormsDoc(state = initialState, action) {
       switch (action.payload.status) {
         case 'ERROR':
           {
+            console.log("i am here error ")
             return {
               ...state,
-              ccFormsDocDetails: {},
+              ccFormsDocDetails: [],
               ccFormsDocLoading: false,
               error: action.payload.errorData
             };
           }
         default:
           {
+            console.log("i am here defaukt success ");
             return {
               ...state,
               ccFormsDocDetails: action.payload.data,
@@ -39,6 +41,10 @@ export default function ccFormsDoc(state = initialState, action) {
       }
     }
     default:
-      return state;
+      {
+        console.log("i am here defaukt last   ")
+        return state;
+      }
+      
   }
 };

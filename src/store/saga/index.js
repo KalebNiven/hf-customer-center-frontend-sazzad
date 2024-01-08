@@ -1105,7 +1105,6 @@ function* watchCCFormsDocs() {
 export function* getCCFormsDocs(payload){
   try{
     const data = yield call(ccFormsDocs, payload);
-    console.log("ccformsdata",data)
     yield put(actions.receiveCCFormsDocs(data));
   }catch (e){
     yield put(actions.errorCCFormsDocs(e));
