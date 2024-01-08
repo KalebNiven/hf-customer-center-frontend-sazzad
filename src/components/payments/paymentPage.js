@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useClient } from "@splitsoftware/splitio-react";
 import { useHistory } from "react-router-dom";
 import GlobalStyle from "../../styles/GlobalStyle";
@@ -12,6 +12,7 @@ import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner";
 import { PaymentsModalContext, PaymentsModalContextProvider, usePaymentsModalContext } from "../../context/paymentsModalContext";
 import MemberSelectionModal from "./memberSelectionModal";
+import { requestSelectPlan } from "../../store/actions";
 
 function PaymentPage() {
   const { MIX_REACT_APP_BINDER_SITE_HREF } = process.env;
@@ -39,6 +40,7 @@ function PaymentPage() {
     accountStatus,
     companyCode,
   });
+  const dispatch = useDispatch();
   const history = useHistory();
   const splitHookClient = useClient();
   const { treatment } = splitHookClient.getTreatmentWithConfig(SHOW_PAYMENTS_REACT_APP, splitAttributes); // defaults to 'control'
@@ -108,6 +110,13 @@ function PaymentPage() {
       displayMembersModal('link', 'Payments');
     }
   });
+
+  useEffect(() => {
+    if(customerInfo?.data?.hohPlans[0]?.MembershipKey == null) return;
+    if(customerInfo?.data?.hohPlans.length === 1){
+      dispatch(requestSelectPlan(customerInfo?.data?.hohPlans[0]?.MembershipKey));
+    }
+  }, [customerInfo]);
 
   // ACL Redirect
   useEffect(() => {
