@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useRef,useState} from "react";
 import styled from "styled-components";
 import { MyDocuments, SubTitle } from "./style";
 import { useDispatch, useSelector } from "react-redux";
 import { requestCCFormsDocs } from "../../store/actions";
+import useOnClickOutside from "../documents/useOnClickOutside";
+import { LanguageSelect, Language } from "../common/styles";
 
 const FormsAndDocumentsModel = ({ onBack }) => {
   const dispatch = useDispatch();
@@ -21,6 +23,21 @@ const FormsAndDocumentsModel = ({ onBack }) => {
   //   dispatch(requestCCFormsDocs(data));
   // }, []);
 
+  const [rowID, setRowId] = useState();
+  const ref = useRef();
+  useOnClickOutside(ref, (event) => {
+    //if(event.toElement.contains())
+    console.log(
+      "event",
+      event.target.contains(ref.current),
+      ref.current,
+      event.target
+    );
+    if (event.target.contains(ref.current)) {
+      setRowId();
+    }
+  });
+
   return (
     <Container>
       {ccForms?.ccFormsDocDetails?.data != null ? (
@@ -36,14 +53,31 @@ const FormsAndDocumentsModel = ({ onBack }) => {
           {ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms.map(
             (item) => (
               <FormsWrapper>
-                <CommonImg src="/react/images/documents-pdf-icon.svg" />
+                <CommonImg  src="/react/images/documents-pdf-icon.svg" />
                 <DocumentType>{item.Name}</DocumentType>
                 <Text>
                   Complete this form if you want to give someone (such as a
                   family member, caregiver, or another company) access to your
                   health or coverage information.
                 </Text>
-                <DownloadImg src="/react/images/download_pdf.svg" />
+                <DownloadImg onClick={() => setRowId(item.id)} src="/react/images/download_pdf.svg" />
+                <LangWrapper isOpen={item.id === rowID} last={false}>
+            <Language 
+              onClick={() => {
+                window.open(item.assetUrl.en);
+              }}
+            >
+              English
+            </Language>
+
+            <Language onClick={() => window.open(item.assetUrl.es)}>
+              Spanish
+            </Language>
+
+            <Language ref={ref} onClick={() => window.open(item.assetUrl.zh)}>
+              Chinese
+            </Language>
+          </LangWrapper>
               </FormsWrapper>
             )
           )}
@@ -73,6 +107,20 @@ const FormsAndDocumentsModel = ({ onBack }) => {
 };
 
 const DocsList = (props) => {
+  const [rowName, setRowName] = useState();
+  const ref = useRef();
+  useOnClickOutside(ref, (event) => {
+    //if(event.toElement.contains())
+    console.log(
+      "event",
+      event.target.contains(ref.current),
+      ref.current,
+      event.target
+    );
+    if (event.target.contains(ref.current)) {
+      setRowName();
+    }
+  });
   return (
     <FormsWrapper>
       <GeneralFormWrapper>
@@ -81,7 +129,24 @@ const DocsList = (props) => {
           {props.data.Name}
         </GeneralFormText>
       </GeneralFormWrapper>
-      <DownloadImg src="/react/images/download_pdf.svg" />
+      <DownloadImg  onClick={() => setRowName(props.data.Name)} src="/react/images/download_pdf.svg" />
+      <LangWrapper isOpen={props.data.Name === rowName} last={false}>
+            <Language 
+              onClick={() => {
+                window.open(props.data.assetUrl.en);
+              }}
+            >
+              English
+            </Language>
+
+            <Language onClick={() => window.open(props.data.assetUrl.es)}>
+              Spanish
+            </Language>
+
+            <Language ref={ref} onClick={() => window.open(props.data.assetUrl.zh)}>
+              Chinese
+            </Language>
+          </LangWrapper>
     </FormsWrapper>
   );
 };
@@ -93,7 +158,21 @@ const Container = styled.div``;
 const ButtonImg = styled.img``;
 
 const FormImg = styled.img`
-  margin-top: -41px;
+  //margin-top: -41px;
+`;
+
+const LangWrapper = styled.div`
+  display: ${(props) => (props.isOpen ? "block" : "none")};
+  position: absolute;
+  //margin: ${(props) => (props.last ? "5px -80px" : "25px -80px")};
+  border-radius: 4px;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.23);
+  background-color: #ffffff;
+  list-style-type: none;
+  padding: 4px 0;
+  z-index: 1;
+  width: 132px;
+  bottom: ${(props) => (props.last ? "100%" : "")};
 `;
 
 const GeneralFormText = styled.div`

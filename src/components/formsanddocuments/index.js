@@ -1,6 +1,7 @@
 // for testing
 import FormsAndDocumentsModel from "./formsAndDocument";
 import styled from "styled-components";
+import useOnClickOutside from "../documents/useOnClickOutside";
 
 import React, { useState, useEffect, useRef } from "react";
 import { Box, useMediaQuery, useTheme, Hidden } from "@material-ui/core";
@@ -64,7 +65,7 @@ const FormsAndDocuments = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [benfBtnIndex, setBenfBtnIndex] = useState(null);
   const [genBtnIndex, setGenBtnIndex] = useState(null);
-  const languageModelRef = useRef(null);
+  const languageModelRef = useRef();
   const [selectedTab, setSelectedTab] = useState(navItems[0].href);
   const ccForms = useSelector((state) => state.ccFormsDoc);
   const customerInfo = useSelector((state) => state.customerInfo);
@@ -100,7 +101,7 @@ const FormsAndDocuments = (props) => {
   };
 
   return (
-    <Container ref={languageModelRef}>
+    <Container>
       <MyDocuments isMobile={isMobile}>Forms and Documents</MyDocuments>
       {ccForms?.ccFormsDocDetails?.data != null ? (
         <>
@@ -180,23 +181,17 @@ const DocsList = (props) => {
 
   const languageModelRef = useRef(null);
 
-  useEffect(() => {
-    console.log("clicked outside useeffect ",languageModelRef)
-    document.addEventListener("mousedown", handleClickOutside,true);
-    const handleClickOutside = (event) => {
-      if (
-        languageModelRef.current &&
-        !languageModelRef.current.contains(event.target)
-      ) {
-        console.log("clicked outside ",event.target)
-        setRowName("");
-      }
-    };
-    
-
-    // return () => {
-    //   document.removeEventListener("click", handleClickOutside);
-    // };
+  useOnClickOutside(languageModelRef, (event) => {
+    //if(event.toElement.contains())
+    console.log(
+      "event",
+      event.target.contains(languageModelRef.current),
+      languageModelRef.current,
+      event.target
+    );
+    if (event.target.contains(languageModelRef.current)) {
+      setRowName();
+    }
   });
 
   const customStyles = {
@@ -256,34 +251,35 @@ const DocsList = (props) => {
       selector: "download",
       cell: (row) => (
         <a
-        ref={languageModelRef}
+          ref={languageModelRef}
           className="download"
           onClick={() => {
-             
             setIsOpen(true), setRowName(row.Name);
           }}
         >
           <img
-            
             className="download-icon"
             src="/react/images/download_pdf.svg"
-            
           ></img>
-         
-            <LanguageSelect isOpen={row.Name === RowName}  last={false}>
-              <Language onClick={() => window.open(row.assetUrl.en)}>
-                English
-              </Language>
 
-              <Language onClick={() => window.open(row.assetUrl.es)}>
-                Spanish
-              </Language>
+          <LanguageSelect isOpen={row.Name === RowName} last={false}>
+            <Language
+              onClick={() => {
+                console.log("clicked ");
+                window.open(row.assetUrl.en);
+              }}
+            >
+              English
+            </Language>
 
-              <Language onClick={() => window.open(row.assetUrl.zh)}>
-                Chinese
-              </Language>
-            </LanguageSelect>
-    
+            <Language onClick={() => window.open(row.assetUrl.es)}>
+              Spanish
+            </Language>
+
+            <Language onClick={() => window.open(row.assetUrl.zh)}>
+              Chinese
+            </Language>
+          </LanguageSelect>
         </a>
       ),
       name: "",
@@ -304,20 +300,20 @@ const DocsList = (props) => {
           onChangePage={(page) => {
             if (page) {
               const segmentMessage = `Page No. ${page}`;
-             // handleSegmentBtn("PageChangeButton", undefined, segmentMessage);
+              // handleSegmentBtn("PageChangeButton", undefined, segmentMessage);
             }
           }}
           onChangeRowsPerPage={(currentRowsPerPage) => {
             if (currentRowsPerPage) {
               const segmentMessage = `No. of Documents per page ${currentRowsPerPage}`;
-             // handleSegmentBtn("DocumentsPerPage", undefined, segmentMessage);
+              // handleSegmentBtn("DocumentsPerPage", undefined, segmentMessage);
             }
           }}
           defaultSortField="CreationDate"
           onSort={({ name }) => {
             if (name) {
               const segmentMessage = `${name} sort`;
-            //  handleSegmentBtn(segmentMessage, undefined, segmentMessage);
+              //  handleSegmentBtn(segmentMessage, undefined, segmentMessage);
             }
           }}
           defaultSortAsc={false}
