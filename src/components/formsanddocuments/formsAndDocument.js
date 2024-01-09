@@ -1,4 +1,4 @@
-import React, { useEffect ,useRef,useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { MyDocuments, SubTitle } from "./style";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,53 +53,58 @@ const FormsAndDocumentsModel = ({ onBack }) => {
           {ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms.map(
             (item) => (
               <FormsWrapper>
-                <CommonImg  src="/react/images/documents-pdf-icon.svg" />
+                <CommonImg src="/react/images/documents-pdf-icon.svg" />
                 <DocumentType>{item.Name}</DocumentType>
                 <Text>
                   Complete this form if you want to give someone (such as a
                   family member, caregiver, or another company) access to your
                   health or coverage information.
                 </Text>
-                <DownloadImg onClick={() => setRowId(item.id)} src="/react/images/download_pdf.svg" />
+                <DownloadImg
+                  onClick={() => setRowId(item.id)}
+                  src="/react/images/download_pdf.svg"
+                />
                 <LangWrapper isOpen={item.id === rowID} last={false}>
-            <Language 
-              onClick={() => {
-                window.open(item.assetUrl.en);
-              }}
-            >
-              English
-            </Language>
+                  <Language
+                    onClick={() => {
+                      window.open(item.assetUrl.en);
+                    }}
+                  >
+                    English
+                  </Language>
 
-            <Language onClick={() => window.open(item.assetUrl.es)}>
-              Spanish
-            </Language>
+                  <Language onClick={() => window.open(item.assetUrl.es)}>
+                    Spanish
+                  </Language>
 
-            <Language ref={ref} onClick={() => window.open(item.assetUrl.zh)}>
-              Chinese
-            </Language>
-          </LangWrapper>
+                  <Language
+                    ref={ref}
+                    onClick={() => window.open(item.assetUrl.zh)}
+                  >
+                    Chinese
+                  </Language>
+                </LangWrapper>
               </FormsWrapper>
             )
           )}
 
           <SubTitle>General Forms</SubTitle>
-          {ccForms?.ccFormsDocDetails?.data[0].cc_general_forms.map(
+          <DocsList
+            data={ccForms?.ccFormsDocDetails?.data[0].cc_general_forms}
+          />
+          {/* {ccForms?.ccFormsDocDetails?.data[0].cc_general_forms.map(
             (item) => (
-           <DocsList data={item} />
+           
           )
-          )}
+          )} */}
           <SubTitle>Plan Documents</SubTitle>
-          {ccForms?.ccFormsDocDetails?.data[0].cc_plan_documents.map(
-            (item) => (
-           <DocsList data={item} />
-          )
-          )}
+          <DocsList
+            data={ccForms?.ccFormsDocDetails?.data[0].cc_plan_documents}
+          />
           <SubTitle>Additional Resources</SubTitle>
-          {ccForms?.ccFormsDocDetails?.data[0].cc_additional_resources.map(
-            (item) => (
-           <DocsList data={item} />
-          )
-          )}
+          <DocsList
+            data={ccForms?.ccFormsDocDetails?.data[0].cc_additional_resources}
+          />
         </>
       ) : null}
     </Container>
@@ -107,7 +112,7 @@ const FormsAndDocumentsModel = ({ onBack }) => {
 };
 
 const DocsList = (props) => {
-  const [rowName, setRowName] = useState();
+  const [rowName, setRowName] = useState("");
   const ref = useRef();
   useOnClickOutside(ref, (event) => {
     //if(event.toElement.contains())
@@ -118,36 +123,87 @@ const DocsList = (props) => {
       event.target
     );
     if (event.target.contains(ref.current)) {
-      setRowName();
+      setRowName("");
     }
   });
+
+  const handleOpen = (item) => {
+    if (
+      (item.assetUrl.en != null || item.assetUrl.en != "") &&
+      (item.assetUrl.es === null || item.assetUrl.es === "") &&
+      (item.assetUrl.zh === null || item.assetUrl.zh === "")
+    ) {
+      window.open(item.assetUrl.en);
+      setRowName("")
+    }
+  };
+
   return (
-    <FormsWrapper>
-      <GeneralFormWrapper>
-        <FormImg src="/react/images/documents-pdf-icon.svg"></FormImg>
-        <GeneralFormText>
-          {props.data.Name}
-        </GeneralFormText>
-      </GeneralFormWrapper>
-      <DownloadImg  onClick={() => setRowName(props.data.Name)} src="/react/images/download_pdf.svg" />
-      <LangWrapper isOpen={props.data.Name === rowName} last={false}>
-            <Language 
-              onClick={() => {
-                window.open(props.data.assetUrl.en);
-              }}
-            >
-              English
-            </Language>
+    <>
+      {props.data.map((item) => (
+        <FormsWrapper>
+          <GeneralFormWrapper>
+            <FormImg src="/react/images/documents-pdf-icon.svg"></FormImg>
+            <GeneralFormText>{item.Name}</GeneralFormText>
+          </GeneralFormWrapper>
+          <DownloadImg
+            onClick={() => {
+              setRowName(item.Name), handleOpen(item);
+            }}
+            src="/react/images/download_pdf.svg"
+          />
+          <LangWrapper isOpen={item.Name === rowName} last={false}>
+            {item.assetUrl.en != null && item.assetUrl.en != "" && (
+              <Language
+                onClick={() => {
+                  window.open(item.assetUrl.en);
+                }}
+              >
+                English
+              </Language>
+            )}
 
-            <Language onClick={() => window.open(props.data.assetUrl.es)}>
-              Spanish
-            </Language>
+            {item.assetUrl.es != null && item.assetUrl.es != "" && (
+              <Language onClick={() => window.open(item.assetUrl.es)}>
+                Spanish
+              </Language>
+            )}
 
-            <Language ref={ref} onClick={() => window.open(props.data.assetUrl.zh)}>
-              Chinese
-            </Language>
+            {item.assetUrl.zh != null && item.assetUrl.zh != "" && (
+              <Language ref={ref} onClick={() => window.open(item.assetUrl.zh)}>
+                Chinese
+              </Language>
+            )}
           </LangWrapper>
-    </FormsWrapper>
+        </FormsWrapper>
+      ))}
+      ;
+    </>
+  );
+};
+
+const LangModel = (props) => {
+  return (
+    <LangWrapper isOpen={props.data.Name === props.rowName} last={false}>
+      <Language
+        onClick={() => {
+          window.open(props.data.assetUrl.en);
+        }}
+      >
+        English
+      </Language>
+
+      <Language onClick={() => window.open(props.data.assetUrl.es)}>
+        Spanish
+      </Language>
+
+      <Language
+        ref={props.ref}
+        onClick={() => window.open(props.data.assetUrl.zh)}
+      >
+        Chinese
+      </Language>
+    </LangWrapper>
   );
 };
 
@@ -228,7 +284,7 @@ const ButtonText = styled.div`
 `;
 
 const FormsWrapper = styled.div`
-  margin-bottom: 3rem;
+  margin-bottom: 8px;
   padding: 16px;
   background: var(--Colors-Neutrals-White, #fff);
 

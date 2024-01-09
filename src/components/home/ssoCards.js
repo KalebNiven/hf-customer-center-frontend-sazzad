@@ -8,7 +8,7 @@ import { useAppContext } from '../../AppContext';
 import {
   SHOW_DOC,
   SHOW_MANAGE_PRESCRIPTIONS, SHOW_VISION_BENEFITS, SHOW_VISION_BENEFITS_EYEMED, SHOW_LAUNCH_TELEDOC, SHOW_SILVER_SNEAKERS,
-  SHOW_HEALTH_HSA, SHOW_NATIONSHEARING, SHOW_DENTAQUEST, SHOW_OTCNETWORK, SHOW_NATIONSOTC, SHOW_PRIMARY_CARE_PROVIDER,
+  SHOW_HEALTH_HSA, SHOW_NATIONSHEARING, SHOW_DENTAQUEST, SHOW_OTCNETWORK, SHOW_NATIONSOTC, SHOW_PRIMARY_CARE_PROVIDER,SHOW_CC_FORMS_AND_DOCS,
   SHOW_COVERAGE_AND_BENEFITS, SHOW_CLAIMS, SHOW_AUTHS, SHOW_MYHEALTH, SHOW_ESTIMATECOST, SHOW_SUGGESTION_CARDS, SHOW_EXTERNAL_LINK_CARDS, SHOW_COST_ESTIMATOR_WIDGET, SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS, SHOW_MY_REWARDS,
 } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
@@ -95,7 +95,7 @@ const SSOCards = () => {
     featureName: SHOW_ESTIMATECOST, name: "Estimate Cost", img: "/react/images/icon_calculator.svg", routeLink: "payments",
   },
   {
-    featureName: SHOW_MYHEALTH, name: "View Forms and Documents", img: "/react/images/icn_formsanddocument.svg", routeLink: "forms-and-documents",
+    featureName: SHOW_CC_FORMS_AND_DOCS, name: "View Forms and Documents", img: "/react/images/icn_formsanddocument.svg", routeLink: "forms-and-documents",
   },
   ];
 

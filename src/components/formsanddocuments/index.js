@@ -1,10 +1,8 @@
-// for testing
-import FormsAndDocumentsModel from "./formsAndDocument";
 import styled from "styled-components";
 import useOnClickOutside from "../documents/useOnClickOutside";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Box, useMediaQuery, useTheme, Hidden } from "@material-ui/core";
+import { useMediaQuery, useTheme, Hidden } from "@material-ui/core";
 import Pagination from "../common/pagination";
 import DataTable from "react-data-table-component";
 import { useHistory } from "react-router-dom";
@@ -83,21 +81,11 @@ const FormsAndDocuments = (props) => {
   }, []);
 
   useEffect(() => {
-    if (ccForms?.ccFormsDocDetails?.data != null) {
-      console.log("ccFormsDocDetails", ccForms?.ccFormsDocDetails?.data[0]);
-    }
-  }, [ccForms]);
-
-  useEffect(() => {
     sessionStorage.setItem("longLoad", false);
   }, []);
 
   const handleClick = (href) => {
     setSelectedTab(href);
-  };
-
-  const showLangMenu = (docIndex, index) => {
-    docIndex ? setBenfBtnIndex(1) : setGenBtnIndex(1);
   };
 
   return (
@@ -294,44 +282,13 @@ const DocsList = (props) => {
           noHeader={true}
           data={props.data}
           columns={columns}
-          pagination
-          paginationPerPage={10}
-          paginationComponent={Pagination}
-          onChangePage={(page) => {
-            if (page) {
-              const segmentMessage = `Page No. ${page}`;
-              // handleSegmentBtn("PageChangeButton", undefined, segmentMessage);
-            }
-          }}
-          onChangeRowsPerPage={(currentRowsPerPage) => {
-            if (currentRowsPerPage) {
-              const segmentMessage = `No. of Documents per page ${currentRowsPerPage}`;
-              // handleSegmentBtn("DocumentsPerPage", undefined, segmentMessage);
-            }
-          }}
-          defaultSortField="CreationDate"
-          onSort={({ name }) => {
-            if (name) {
-              const segmentMessage = `${name} sort`;
-              //  handleSegmentBtn(segmentMessage, undefined, segmentMessage);
-            }
-          }}
           defaultSortAsc={false}
           noDataComponent={<NoData />}
           style={{
             boxShadow: "0 2px 8px 0 #d8d8d8",
             borderRadius: "4px",
             display: "inline",
-          }}
-          // onRowClicked={(row) => {
-          //  // handleSegmentBtn("Download button", row);
-          //   window.open(
-          //     `/documents/${
-          //       row.NodeID ? row.NodeID : row.DocumentID
-          //     }?isNodeId=${row.NodeID ? "true" : "false"}`,
-          //     "_blank"
-          //   );
-          // }}
+          }} 
           customStyles={customStyles}
         />
       </Hidden>
@@ -344,8 +301,6 @@ const Index = (props) => {
 };
 
 export default Index;
-
-//const IconDownload = styled.div``
 
 const Wrapper = styled.div`
   display: flex;
