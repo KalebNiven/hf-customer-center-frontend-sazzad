@@ -83,6 +83,10 @@ const HRAWidget = () => {
 
 const Wrapper = styled.div`
   min-height: 100%;
+  
+  #hra-widget{
+    height: 100%;
+  }
 `;
 
 export default HRAWidget;
