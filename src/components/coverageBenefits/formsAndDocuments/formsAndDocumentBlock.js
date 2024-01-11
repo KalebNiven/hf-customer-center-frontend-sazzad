@@ -1,8 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Name, MainCard, DocName } from "../styles";
-import LangSelectMenu from "./langSelectMenu";
-import styled from "styled-components";
+ import { MainCard, DocName } from "../styles";
+ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 

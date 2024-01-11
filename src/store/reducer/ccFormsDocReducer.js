@@ -20,8 +20,7 @@ export default function ccFormsDoc(state = initialState, action) {
       switch (action.payload.status) {
         case 'ERROR':
           {
-            console.log("i am here error ")
-            return {
+             return {
               ...state,
               ccFormsDocDetails: [],
               ccFormsDocLoading: false,
@@ -30,8 +29,7 @@ export default function ccFormsDoc(state = initialState, action) {
           }
         default:
           {
-            console.log("i am here defaukt success ");
-            return {
+             return {
               ...state,
               ccFormsDocDetails: action.payload.data,
               ccFormsDocLoading: false,
@@ -42,8 +40,7 @@ export default function ccFormsDoc(state = initialState, action) {
     }
     default:
       {
-        console.log("i am here defaukt last   ")
-        return state;
+         return state;
       }
       
   }

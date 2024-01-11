@@ -1,38 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 import styled from "styled-components";
 import { MyDocuments, SubTitle } from "./style";
 import { useDispatch, useSelector } from "react-redux";
-import { requestCCFormsDocs } from "../../store/actions";
-import useOnClickOutside from "../documents/useOnClickOutside";
-import { LanguageSelect, Language } from "../common/styles";
-
+ import useOnClickOutside from "../documents/useOnClickOutside";
+ 
 const FormsAndDocumentsModel = ({ onBack }) => {
   const dispatch = useDispatch();
   const ccForms = useSelector((state) => state.ccFormsDoc);
-  const customerInfo = useSelector((state) => state.customerInfo);
-
-  // useEffect(() => {
-  //   const data = {
-  //     memberId: customerInfo.data.memberId,
-  //     benefitPackage: customerInfo.data.benefitPackage,
-  //     companyCode: customerInfo.data.companyCode,
-  //     lob: customerInfo.data.sessLobCode,
-  //     groupNumber: customerInfo.data.groupNumber,
-  //     year: 2024
-  //   };
-  //   dispatch(requestCCFormsDocs(data));
-  // }, []);
-
   const [rowID, setRowId] = useState();
   const ref = useRef();
   useOnClickOutside(ref, (event) => {
-    //if(event.toElement.contains())
-    console.log(
-      "event",
-      event.target.contains(ref.current),
-      ref.current,
-      event.target
-    );
     if (event.target.contains(ref.current)) {
       setRowId();
     }
@@ -115,13 +92,6 @@ const DocsList = (props) => {
   const [rowName, setRowName] = useState("");
   const ref = useRef();
   useOnClickOutside(ref, (event) => {
-    //if(event.toElement.contains())
-    console.log(
-      "event",
-      event.target.contains(ref.current),
-      ref.current,
-      event.target
-    );
     if (event.target.contains(ref.current)) {
       setRowName("");
     }
