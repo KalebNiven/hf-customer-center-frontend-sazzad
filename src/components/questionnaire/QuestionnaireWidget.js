@@ -50,6 +50,10 @@ const QuestionnaireWidget = () => {
 
 const Wrapper = styled.div`
   min-height: 100%;
+
+  #questionnaire-widget{
+    height: 100%;
+  }
 `;
 
 export default QuestionnaireWidget;
