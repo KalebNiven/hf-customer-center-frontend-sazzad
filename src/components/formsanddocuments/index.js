@@ -217,6 +217,17 @@ const DocsList = (props) => {
     },
   };
 
+  const handleOpen = (item) => {
+    if (
+      (item.assetUrl.en != null || item.assetUrl.en != "") &&
+      (item.assetUrl.es === null || item.assetUrl.es === "") &&
+      (item.assetUrl.zh === null || item.assetUrl.zh === "")
+    ) {
+      window.open(item.assetUrl.en);
+      setRowName("")
+    }
+  };
+
   const columns = [
     {
       id: "Documents",
@@ -242,7 +253,7 @@ const DocsList = (props) => {
           ref={languageModelRef}
           className="download"
           onClick={() => {
-            setIsOpen(true), setRowName(row.Name);
+            setIsOpen(true), setRowName(row.Name),handleOpen(row)
           }}
         >
           <img
@@ -251,22 +262,28 @@ const DocsList = (props) => {
           ></img>
 
           <LanguageSelect isOpen={row.Name === RowName} last={false}>
-            <Language
-              onClick={() => {
-                console.log("clicked ");
-                window.open(row.assetUrl.en);
-              }}
-            >
-              English
-            </Language>
+            {row.assetUrl.en != null && row.assetUrl.en != "" && (
+              <Language
+                onClick={() => {
+                  console.log("clicked ");
+                  window.open(row.assetUrl.en);
+                }}
+              >
+                English
+              </Language>
+            )}
 
-            <Language onClick={() => window.open(row.assetUrl.es)}>
-              Spanish
-            </Language>
+            {row.assetUrl.es != null && row.assetUrl.es != "" && (
+              <Language onClick={() => window.open(row.assetUrl.es)}>
+                Spanish
+              </Language>
+            )}
 
-            <Language onClick={() => window.open(row.assetUrl.zh)}>
-              Chinese
-            </Language>
+            {row.assetUrl.zh != null && row.assetUrl.zh != "" && (
+              <Language onClick={() => window.open(row.assetUrl.zh)}>
+                Chinese
+              </Language>
+            )}
           </LanguageSelect>
         </a>
       ),
@@ -288,7 +305,7 @@ const DocsList = (props) => {
             boxShadow: "0 2px 8px 0 #d8d8d8",
             borderRadius: "4px",
             display: "inline",
-          }} 
+          }}
           customStyles={customStyles}
         />
       </Hidden>
