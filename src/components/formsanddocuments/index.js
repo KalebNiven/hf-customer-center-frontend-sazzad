@@ -128,13 +128,12 @@ const FormsAndDocuments = (props) => {
                 <DocumentsCenterPage />
               ) : (
                 <>
-                  <MyDocuments>Forms and Plan Document</MyDocuments>
+                  <MyDocuments>Forms and Plan Documents</MyDocuments>
                   <SubTitle>Commonly Used Forms</SubTitle>
                   <Wrapper>
                     <CommonlyUsedForm
                       data={
-                        ccForms?.ccFormsDocDetails?.data[0]
-                          .cc_commonly_used_forms
+                        ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms
                       }
                     />
                   </Wrapper>
