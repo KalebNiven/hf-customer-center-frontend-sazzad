@@ -198,7 +198,7 @@ const ContactInformation = () => {
 		verifyEmailContactInfo(payload, true).then(res => {
 			setVerificationModalData(emailAddress)
 			setCurrentModal('email')
-		}).catch(err => console.log(err)).finally(() => {
+		}).catch(err => {}).finally(() => {
 			setEmailAddressVerifying(false);
 		})
 	}
@@ -212,7 +212,6 @@ const ContactInformation = () => {
 			setVerificationModalData(phoneNumberHashed)
 			setCurrentModal('sms')
 		}).catch(err => {
-			console.log(err)
 		}).finally(() => {
 			setPhoneVerifying(false);
 		})
@@ -223,7 +222,7 @@ const ContactInformation = () => {
 		}
 		const responseData = resendCodeContactInfo(payload, customerInfo.csrf).then(res => {
 			setResendVerificationCodeRes(responseData)
-		}).catch(err => console.log(err))
+		}).catch(err => {})
 
 
 	}

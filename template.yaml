@@ -40,6 +40,23 @@ Resources:
         SigningProtocol: sigv4
         
 ##########################################################################
+### CLOUDFRONT / RESPONSE HEADER POLICY ##################################
+##########################################################################
+  CustomerCenterResponseHeadersPolicy:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: CustomerCenterResponseHeadersPolicy
+        Comment: We will add CustomerCenter Response Header Policy here 
+        SecurityHeadersConfig:
+          ContentSecurityPolicy:
+            ContentSecurityPolicy: !Ref AwsContentSecurityPolicy
+            Override: true
+  # Overide: A Boolean that determines whether CloudFront overrides the Content-Security-Policy HTTP response header received from the origin with the one specified in this response headers policy.
+  # Reference:https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/creating-response-headers-policies.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-responseheaderspolicy-contentsecuritypolicy.html
+
+##########################################################################
 ### CLOUDFRONT / DISTRIBUTION ############################################
 ##########################################################################
   Distribution:
@@ -78,9 +95,10 @@ Resources:
                 Forward: none
           SmoothStreaming : false
           Compress: false
-          CustomHeaders:
-            HeaderName: Content-Security-Policy
-            HeaderValue:  !Ref AwsContentSecurityPolicy
+          ## Commenting this currently until we get an update from DEVOPS
+          # CustomHeaders:
+          #   HeaderName: Content-Security-Policy
+          #   HeaderValue:  !Ref AwsContentSecurityPolicy
         ## The certificate to use when viewers use HTTPS to request objects.
         ViewerCertificate:
           SslSupportMethod: sni-only

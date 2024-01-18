@@ -48,6 +48,7 @@ import AnnualHealthAssessmentPage from "./pages/my-health/AnnualHealthAssessment
 import MyRewardsPage from "./pages/my-health/MyRewardsPage";
 import OTCWidgetPage from "./pages/otc/OTCWidgetPage";
 import FormsAndDocumentPage from "./pages/forms-and-documents/FormsAndDocumentPage";
+import QuestionnaireLIPPage from './pages/questionnaire/QuestionnairePage'
 
 const AppWrapper = () => {
     const { authState, oktaAuth } = useOktaAuth();
@@ -64,6 +65,7 @@ const AppWrapper = () => {
                         <Route exact path="/register" component={RegisterPage}/>
                         <Route exact path='/forgotUsername' component={ForgotUserNamePage} />
                         <Route exact path='/forgotPassword' component={ForgotPasswordPage} />
+                        <Route exact path='/questionnaire/:lob' component={QuestionnaireLIPPage} />
                         {/* Util Routes */}
                         <Route exact path="/" component={() => <Redirect to="/login" />}/>
                         {/* Important: 404 Page must be the very last route! */}

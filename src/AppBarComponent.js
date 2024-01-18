@@ -96,6 +96,7 @@ function AppBarComponent() {
     currentStep, setCurrentStep, run, setRun, setIsStart,
   } = useCoachMarksContext();
   const [showReward, setShowReward] = useState(false);
+  const [showHealthAssessment, setShowHealthAssessment] = useState(false);
   const appBarRef = useRef(null);
   const [appBarPosition, setAppBarPosition] = useState("relative");
   const [paymentsEnabled, setPaymentsEnabled] = useState(false);
@@ -168,10 +169,14 @@ function AppBarComponent() {
       attributes,
     );
 
-    checkTreatment(paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment, showFormsAndDocs);
+    const healthAssessmentSurveyTreatment = splitHookClient.getTreatmentWithConfig(
+      SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK,
+      attributes
+    );
+    checkTreatment(paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment,showFormsAndDocs, healthAssessmentSurveyTreatment);
   };
 
-  const checkTreatment = (paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment, showFormsAndDocs) => {
+  const checkTreatment = (paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment, showFormsAndDocs, healthAssessmentSurveyTreatment) => {
     setLoadSplit(paymentsEnabledTreatment);
     if (!splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control" || showReactPaymentsPortal.treatment === "control") return;
     setPaymentsEnabled(paymentsEnabledTreatment.treatment === "off" ? false : paymentsEnabledTreatment.treatment === "on" ? setShowPaymentFlag(true) : false);
@@ -179,6 +184,7 @@ function AppBarComponent() {
     setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false);
     setReactPaymentsPortalEnabled(showReactPaymentsPortal.treatment === "off" ? false : showReactPaymentsPortal.treatment === "on");
     setFormsAndDocument(showFormsAndDocs.treatment === "off" ? false : showFormsAndDocs.treatment === "on");
+    setShowHealthAssessment(healthAssessmentSurveyTreatment.treatment === "off" ? false : healthAssessmentSurveyTreatment.treatment === "on");
   };
 
   const getLangURLPrefix = (lang) => {
@@ -242,6 +248,17 @@ function AppBarComponent() {
               Account Settings
             </Settings>
           </SetDiv>
+            {showHealthAssessment && <SetDiv>
+              <SettImg alt="" src={`/react/images/icn-document-center.svg`} />
+              <Settings
+                  onClick={(e) => {
+                    handleClick(e, '/my-health/annual-health-assessment', '', 'Health Assessment', 'Health Assessment');
+                    setOpenUserCard(false);
+                  }}
+              >
+                Health Assessment
+              </Settings>
+            </SetDiv>}
           <DocLink />
           {showFormsAndDocument
               && (
@@ -437,7 +454,7 @@ function AppBarComponent() {
     }
     resetPaymentsModal();
     handleSegmentBtn(param, eachNavLabel, labelForSegment);
-    if (['/forms-and-documents','/claims', '/authorizations', '/coverage-and-benefits', '/home', '/idcard', '/my-health', '/findcare', '/pcp', '/my-health/annual-health-assessment', '/my-health/my-health-checklist', '/my-health', '/my-health/community-resources', '/my-rewards', '/otc-widget'].some((x) => x === param)) {
+    if (['/forms-and-documents','/claims', '/authorizations', '/coverage-and-benefits', '/home', '/idcard', '/my-health', '/findcare', '/pcp', '/my-health/annual-health-assessment', '/my-health/my-health-checklist', '/my-health', '/my-health/community-resources', '/my-rewards', '/otc-widget', '/my-health/annual-health-assessment'].some((x) => x === param)) {
       history.push(param);
     } else if (param === '/settings') {
       history.push({
@@ -789,6 +806,17 @@ function AppBarComponent() {
                 Account Settings
               </Settings>
             </SetDiv>
+            {showHealthAssessment && <SetDiv>
+              <SettImg alt="" src={`/react/images/icn-document-center.svg`} />
+              <Settings
+                  onClick={(e) => {
+                    handleClick(e, '/my-health/annual-health-assessment', '', 'Health Assessment', 'Health Assessment');
+                    setOpenUserCard(false);
+                  }}
+              >
+                Health Assessment
+              </Settings>
+            </SetDiv>}
             <DocLink />
             {showFormsAndDocument
               && (

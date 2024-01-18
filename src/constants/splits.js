@@ -9,6 +9,10 @@ export const SHOW_MORE_TOOLS = "CustomerCenter_ShowMoreTools";
 export const SHOW_ID_CARD = "CustomerCenter_ShowIDCard";
 export const SHOW_HEALTH_ASSESMENT_SURVEY =
     "CustomerCenter_ShowHealthAssesmentSurvey";
+export const SHOW_HEALTH_ASSESMENT_SURVEY_CARD =
+    "CustomerCenter_ShowHealthAssesmentSurvey_Card";
+export const SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK =
+    "CustomerCenter_ShowHealthAssesmentSurvey_UserCard";
 export const SHOW_COACH_MARKS = "CustomerCenter_ShowCoachMarks";
 export const SHOW_MEMBER_ID_CARD = "CustomerCenter_ShowMemberIdCard";
 export const SHOW_MAIL_ID_CARD = "CustomerCenter_ShowMailIdCard";
@@ -102,6 +106,8 @@ export const OTC_WIDGET_PAGE = "CustomerCenter_OTCWidgetPage";
 export const DIGITAL_SURVEY = "CustomerCenter_Digital_Survey";
 export const HRA_WIDGET = "CustomerCenter_HealthAssessment_Widget";
 export const SHOW_CC_FORMS_AND_DOCS = "CustomerCenter_ShowCCFormsAndDocs";
+export const QUESTIONNAIRE_PAGE = "CustomerCenter_Questionnaire_Page";
+
 
 // return a list of the above featureflag names
 export const getFeatureFlagList = () => {
@@ -192,7 +198,10 @@ export const getFeatureFlagList = () => {
         OTC_WIDGET_PAGE,
         DIGITAL_SURVEY,
         HRA_WIDGET,
-        SHOW_CC_FORMS_AND_DOCS
+        SHOW_CC_FORMS_AND_DOCS,
+        SHOW_HEALTH_ASSESMENT_SURVEY_CARD,
+        SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK,
+        QUESTIONNAIRE_PAGE
     ];
 };
 
