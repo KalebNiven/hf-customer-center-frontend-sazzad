@@ -10,8 +10,23 @@ import {
     ANALYTICS_TRACK_TYPE,
     ANALYTICS_TRACK_CATEGORY,
 } from "../../constants/segment";
+import { COMMUNITY_RESOURCES_LEGACY } from '../../constants/splits'
+import { FeatureTreatment } from '../../libs/featureFlags'
 
-const NowPowSection = () => {
+export default () => {
+    return (
+        <FeatureTreatment
+            treatmentName={COMMUNITY_RESOURCES_LEGACY}
+            onLoad={() => {}}
+            onTimedout={() => {}}
+            attributes={{}}
+        >
+            <NowPowSection />
+        </FeatureTreatment>
+    )
+}
+
+function NowPowSection() {
     const [showMore, setShowMore] = useState(false);
     const [splitData, setSplitData] = useState([]);
     const [enteredZip, setEnteredZip] = useState("");
@@ -461,5 +476,3 @@ const ShowMore = styled.div`
         text-decoration: underline;
     }
 `;
-
-export default NowPowSection;

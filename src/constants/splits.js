@@ -108,6 +108,9 @@ export const HRA_WIDGET = "CustomerCenter_HealthAssessment_Widget";
 
 export const QUESTIONNAIRE_PAGE = "CustomerCenter_Questionnaire_Page";
 
+export const COMMUNITY_RESOURCES_WIDGET = "CustomerCenter_Community_Resources_Widget";
+export const COMMUNITY_RESOURCES_LEGACY = "CustomerCenter_Community_Resources_Legacy";
+
 
 // return a list of the above featureflag names
 export const getFeatureFlagList = () => {
@@ -200,7 +203,9 @@ export const getFeatureFlagList = () => {
         HRA_WIDGET,
         SHOW_HEALTH_ASSESMENT_SURVEY_CARD,
         SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK,
-        QUESTIONNAIRE_PAGE
+        QUESTIONNAIRE_PAGE,
+        COMMUNITY_RESOURCES_WIDGET,
+        COMMUNITY_RESOURCES_LEGACY
     ];
 };
 
