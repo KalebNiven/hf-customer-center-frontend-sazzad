@@ -1,30 +1,96 @@
-import React, {  useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import { MyDocuments, SubTitle } from "./style";
 import { useDispatch, useSelector } from "react-redux";
- import useOnClickOutside from "../documents/useOnClickOutside";
- 
+import useOnClickOutside from "../documents/useOnClickOutside";
+import {
+  Language,
+  DependentBlockWrapper,
+} from "../common/styles";
+import DependentBlock from "../common/dependentBlock";
+import Spinner from "../common/spinner";
+import { requestCCFormsDocs } from "../../store/actions";
+
 const FormsAndDocumentsModel = ({ onBack }) => {
   const dispatch = useDispatch();
   const ccForms = useSelector((state) => state.ccFormsDoc);
   const [rowID, setRowId] = useState();
   const ref = useRef();
+  const [memberSelection, setMemberSelection] = useState({});
+  const customerInfo = useSelector((state) => state.customerInfo);
+
+  const { memberId } = memberSelection;
+
+  useEffect(() => {
+    if (memberId) {
+      const data = {
+        memberId: memberSelection.memberId
+          ? memberSelection.memberId
+          : memberSelection.memberId,
+        benefitPackage: memberSelection.benefitPackage
+          ? memberSelection.benefitPackage
+          : memberSelection.benefitPackage,
+        companyCode: memberSelection.membcompanyCodeerId
+          ? memberSelection.companyCode
+          : memberSelection.CompanyNumber,
+        lob: memberSelection.lob ? memberSelection.lob : memberSelection.lob,
+        groupNumber: memberSelection.groupNumber
+          ? memberSelection.groupNumber
+          : memberSelection.groupNumber,
+        year: 2024,
+      };
+      dispatch(requestCCFormsDocs(data));
+    }
+  }, [memberId]);
+
   useOnClickOutside(ref, (event) => {
     if (event.target.contains(ref.current)) {
       setRowId();
     }
   });
 
+  useEffect(() => {
+    setMemberSelection({
+      ...memberSelection,
+      memberId: customerInfo.data.memberId,
+      planName: customerInfo.data.planName,
+      membershipStatus: customerInfo.data.membershipStatus,
+      membershipEffectiveDate: customerInfo.data.membershipEffectiveDate,
+      membershipExpirationDate: customerInfo.data.membershipExpirationDate,
+      companyCode: customerInfo.data.companyCode,
+      lob: customerInfo.data.sessLobCode,
+      groupNumber: customerInfo.data.groupNumber,
+      benefitPackage: customerInfo.data.benefitPackage,
+      firstName: customerInfo.data.firstName,
+      lastName: customerInfo.data.lastName,
+    });
+  }, [customerInfo]);
+
   return (
     <Container>
+      <Wrapper>
+        <ButtonWrapper>
+          <ButtonImg src="/react/images/back_arrow.svg" />
+          <ButtonText onClick={() => onBack(false)}>Back</ButtonText>
+        </ButtonWrapper>
+      </Wrapper>
+
+      <DependentBlockWrapper>
+        {
+          <DependentBlock
+            memberSelection={memberSelection}
+            setMemberSelection={setMemberSelection}
+            halfWidth
+            activeOnly={
+              memberSelection?.accountStatus === "active" ? false : true
+            }
+            minorsOnly={true}
+            activeDepsOnly={false}
+          />
+        }
+      </DependentBlockWrapper>
       {ccForms?.ccFormsDocDetails?.data != null ? (
         <>
-          <Wrapper>
-            <ButtonWrapper>
-              <ButtonImg src="/react/images/back_arrow.svg" />
-              <ButtonText onClick={() => onBack(false)}>Back</ButtonText>
-            </ButtonWrapper>
-          </Wrapper>
           <MyDocuments>Forms and Documents</MyDocuments>
           <SubTitle>Commonly Used Forms</SubTitle>
           {ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms.map(
@@ -69,11 +135,6 @@ const FormsAndDocumentsModel = ({ onBack }) => {
           <DocsList
             data={ccForms?.ccFormsDocDetails?.data[0].cc_general_forms}
           />
-          {/* {ccForms?.ccFormsDocDetails?.data[0].cc_general_forms.map(
-            (item) => (
-           
-          )
-          )} */}
           <SubTitle>Plan Documents</SubTitle>
           <DocsList
             data={ccForms?.ccFormsDocDetails?.data[0].cc_plan_documents}
@@ -83,7 +144,11 @@ const FormsAndDocumentsModel = ({ onBack }) => {
             data={ccForms?.ccFormsDocDetails?.data[0].cc_additional_resources}
           />
         </>
-      ) : null}
+      ) : (
+        <ProgressWrapper>
+          <Spinner />
+        </ProgressWrapper>
+      )}
     </Container>
   );
 };
@@ -283,4 +348,10 @@ const Text = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: 20px; /* 142.857% */
+`;
+
+const ProgressWrapper = styled.div`
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;

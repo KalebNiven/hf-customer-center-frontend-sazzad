@@ -1202,8 +1202,8 @@ export const ccFormsDocs = async(data) =>{
     return await LOFLv2(true).get('/cc-forms-docs', { params: {
       memberId: data.payload.memberId,
       benefitPackage: data.payload.benefitPackage,
-      companyCode: data.payload.companyCode,
-      lob: data.payload.lob,
+      companyCode: data.payload.companyCode?data.payload.companyCode: 42,
+      lob: data.payload.lob?data.payload.lob:"QSVP",
       year: data.payload.year, 
       groupNumber: data.payload.groupNumber
     }

@@ -13,7 +13,7 @@ const FormsAndDocumentBlock = () => {
       <DocCard>
         <DocName documents>Looking for Forms & Documents?</DocName>
         <DocContext>We’ve moved Forms & Documents to another page. </DocContext>
-        <Wrapper onClick={() => history.push("/forms-and-documents")}>
+        <Wrapper onClick={() =>window.location.href = window.location.origin+"/forms-and-documents" }>
             <Img src="/react/images/document_img.svg"></Img>
           <Text>View Form and Documents</Text>
         </Wrapper>
