@@ -4,7 +4,6 @@ import styled, { keyframes } from "styled-components";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { requestSubmitMailMemberIDCardForm, requestVerifyAddress} from "../../store/actions/index";
 import { RESET_VERIFY_ADDRESS } from "../../store/actions/actionTypes";
-import { useQualtrics, qualtricsAction } from "../../hooks/useQualtrics";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
 import {
@@ -72,7 +71,6 @@ const MailMemberIDCardForm = (props) => {
 
     const [timesSubmitted, setTimesSubmitted] = useState(0); 
     
-    useQualtrics(qualtricsAction.MAIL_ME_ID_CARD);
     const { digitalSurveyWidget, triggerDigitalSurveyByEventName, DIGITAL_SURVEY_EVENTS } = useSurveyContext();
 
     useEffect(() => {

@@ -13,7 +13,6 @@ import DropdownSelect from "../common/dropdownSelect";
 import * as CONSTANTS from '../../constants/common';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { useQualtrics , qualtricsAction} from '../../hooks/useQualtrics';	
 import { makeStyles } from '@material-ui/core/styles';
 import { StyledButton, MemberDropDownSelect, MemberDropDownSelectWrapper } from '../common/styles';
 import { requestSubmitClaimDetails, submitAttestationAgreement } from '../../store/actions';
@@ -155,7 +154,6 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
 	let { dependents = [], hohPlans } = customerInfo;
 	const { hoh, dependents: dependentsAddresses } = customerDemographicsInfo
 
-	useQualtrics(qualtricsAction.SUBMIT_CLAIM)
 	const { digitalSurveyWidget, triggerDigitalSurveyByEventName, DIGITAL_SURVEY_EVENTS } = useSurveyContext();
  
 	const hohAddressObj = Array.isArray(hoh) ? hoh[0].info.addresses[0] : {};
