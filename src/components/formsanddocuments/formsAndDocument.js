@@ -3,10 +3,7 @@ import styled from "styled-components";
 import { MyDocuments, SubTitle } from "./style";
 import { useDispatch, useSelector } from "react-redux";
 import useOnClickOutside from "../documents/useOnClickOutside";
-import {
-  Language,
-  DependentBlockWrapper,
-} from "../common/styles";
+import { Language, DependentBlockWrapper } from "../common/styles";
 import DependentBlock from "../common/dependentBlock";
 import Spinner from "../common/spinner";
 import { requestCCFormsDocs } from "../../store/actions";
@@ -30,7 +27,7 @@ const FormsAndDocumentsModel = ({ onBack }) => {
         benefitPackage: memberSelection.benefitPackage
           ? memberSelection.benefitPackage
           : memberSelection.benefitPackage,
-        companyCode: memberSelection.membcompanyCodeerId
+        companyCode: memberSelection.companyCode
           ? memberSelection.companyCode
           : memberSelection.CompanyNumber,
         lob: memberSelection.lob ? memberSelection.lob : memberSelection.lob,
@@ -169,7 +166,7 @@ const DocsList = (props) => {
       (item.assetUrl.zh === null || item.assetUrl.zh === "")
     ) {
       window.open(item.assetUrl.en);
-      setRowName("")
+      setRowName("");
     }
   };
 

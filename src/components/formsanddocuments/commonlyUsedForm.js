@@ -89,7 +89,7 @@ const Title = styled.div`
   height: 3rem;
   font-weight: 600;
   font-size: 16px;
-  line-height: 24px;
+  line-height: 21px;
   color: #003863;
   margin-bottom: 20px;
   margin-top: 5px;

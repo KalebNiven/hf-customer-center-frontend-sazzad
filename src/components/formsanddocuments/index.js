@@ -74,7 +74,7 @@ const FormsAndDocuments = (props) => {
         benefitPackage: memberSelection.benefitPackage
           ? memberSelection.benefitPackage
           : memberSelection.benefitPackage,
-        companyCode: memberSelection.membcompanyCodeerId
+        companyCode: memberSelection.companyCode
           ? memberSelection.companyCode
           : memberSelection.CompanyNumber,
         lob: memberSelection.lob ? memberSelection.lob : memberSelection.lob,
@@ -149,7 +149,7 @@ const FormsAndDocuments = (props) => {
             {selectedTab === "/document-center" ? (
               <DocumentsCenterPage />
             ) : (
-              <>
+              <Main>
                 <MyDocuments>Forms and Plan Documents</MyDocuments>
                 <DependentBlockWrapper>
                   {
@@ -167,41 +167,44 @@ const FormsAndDocuments = (props) => {
                     />
                   }
                 </DependentBlockWrapper>
-              </>
-            )}
-            <>
-              {ccForms?.ccFormsDocDetails?.data != null ? (
-                <Main>
-                  <SubTitle>Commonly Used Forms</SubTitle>
-                  <Wrapper>
-                    <CommonlyUsedForm
+                {ccForms?.ccFormsDocDetails?.data != null ? (
+                  <Main>
+                    <SubTitle>Commonly Used Forms</SubTitle>
+                    <Wrapper>
+                      <CommonlyUsedForm
+                        data={
+                          ccForms?.ccFormsDocDetails?.data[0]
+                            .cc_commonly_used_forms
+                        }
+                      />
+                    </Wrapper>
+                    <SubTitle>General Forms</SubTitle>
+                    <DocsList
                       data={
-                        ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms
+                        ccForms?.ccFormsDocDetails?.data[0].cc_general_forms
                       }
                     />
-                  </Wrapper>
-                  <SubTitle>General Forms</SubTitle>
-                  <DocsList
-                    data={ccForms?.ccFormsDocDetails?.data[0].cc_general_forms}
-                  />
-                  <SubTitle>Plan Documents</SubTitle>
-                  <DocsList
-                    data={ccForms?.ccFormsDocDetails?.data[0].cc_plan_documents}
-                  />
-                  <SubTitle>Additional Resources</SubTitle>
-                  <DocsList
-                    data={
-                      ccForms?.ccFormsDocDetails?.data[0]
-                        .cc_additional_resources
-                    }
-                  />
-                </Main>
-              ) : (
-                <ProgressWrapper>
-                  <Spinner />
-                </ProgressWrapper>
-              )}
-            </>
+                    <SubTitle>Plan Documents</SubTitle>
+                    <DocsList
+                      data={
+                        ccForms?.ccFormsDocDetails?.data[0].cc_plan_documents
+                      }
+                    />
+                    <SubTitle>Additional Resources</SubTitle>
+                    <DocsList
+                      data={
+                        ccForms?.ccFormsDocDetails?.data[0]
+                          .cc_additional_resources
+                      }
+                    />
+                  </Main>
+                ) : (
+                  <ProgressWrapper>
+                    <Spinner />
+                  </ProgressWrapper>
+                )}
+              </Main>
+            )}
           </Main>
         )}
       </>
