@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import { LanguageSelect, Language } from "../common/styles";
 import CommonlyUsedForm from "./commonlyUsedForm";
 import DependentBlock from "../common/dependentBlock";
+import { FeatureTreatment } from "../../libs/featureFlags";
 import {
   Container,
   Main,
@@ -25,7 +26,8 @@ import DocumentType from "./documentType";
 import DocumentsCenterPage from "../../pages/documents-center/DocumentsCenterPage";
 import { useDispatch, useSelector } from "react-redux";
 import { requestCCFormsDocs } from "../../store/actions";
-
+import { SHOW_DOC,SHOW_CC_FORMS_AND_DOCS} from "../../constants/splits";
+ 
 const FormsAndDocuments = (props) => {
   const dispatch = useDispatch();
 
@@ -40,7 +42,7 @@ const FormsAndDocuments = (props) => {
       childNavs: [],
       coachmark: null,
       mobileCoachmark: null,
-      treatmentName: null,
+      treatmentName: SHOW_CC_FORMS_AND_DOCS ,
     },
     {
       activeIcon: `/react/images/icn-my-plan-active.svg`,
@@ -52,7 +54,7 @@ const FormsAndDocuments = (props) => {
       childNavs: null,
       coachmark: null,
       mobileCoachmark: "myPlanMobileNav-coachmark",
-      treatmentName: null,
+      treatmentName: SHOW_DOC,
     },
   ]);
 
@@ -86,6 +88,7 @@ const FormsAndDocuments = (props) => {
       dispatch(requestCCFormsDocs(data));
     }
   }, [memberId]);
+  
 
   useEffect(() => {
     setMemberSelection({
@@ -112,6 +115,14 @@ const FormsAndDocuments = (props) => {
     setSelectedTab(href);
   };
 
+  const splitAttributes = {
+    companyCode: customerInfo.data?.companyCode,
+    benefitPackage: customerInfo.data?.benefitPackage,
+    lob: customerInfo.data?.sessLobCode,
+    membershipStatus: customerInfo.data?.membershipStatus,
+    accountStatus: customerInfo.data?.accountStatus,
+}; 
+
   return (
     <Container>
       <MyDocuments isMobile={isMobile}>Forms and Documents</MyDocuments>
@@ -132,16 +143,25 @@ const FormsAndDocuments = (props) => {
               style={{ display: "inline-flex" }}
             >
               {navItems.map((eachNav, index) => (
-                <Tab
-                  label={eachNav.label}
-                  value={eachNav.href}
-                  onClick={() => handleClick(eachNav.href)}
-                  className={
-                    selectedTab == eachNav.href
-                      ? "child-tab-active"
-                      : "child-tab-inactive"
-                  }
-                />
+                <FeatureTreatment
+                  key="forms_and_document_page_feature"
+                  treatmentNames={[eachNav.treatmentName]}
+                  treatmentName= {eachNav.treatmentName}
+                  onLoad={() => {}}
+                  onTimedout={() => {}}
+                  attributes={memberSelection}
+                >
+                  <Tab
+                    label={eachNav.label}
+                    value={eachNav.href}
+                    onClick={() => handleClick(eachNav.href)}
+                    className={
+                      selectedTab == eachNav.href
+                        ? "child-tab-active"
+                        : "child-tab-inactive"
+                    }
+                  />
+                </FeatureTreatment>
               ))}
             </Tabs>
             <HrLine />
