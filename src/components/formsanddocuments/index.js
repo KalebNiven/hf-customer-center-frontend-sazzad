@@ -83,7 +83,7 @@ const FormsAndDocuments = (props) => {
         groupNumber: memberSelection.groupNumber
           ? memberSelection.groupNumber
           : memberSelection.groupNumber,
-        year: 2024,
+        year: memberSelection.memberYear,
       };
       dispatch(requestCCFormsDocs(data));
     }
@@ -104,6 +104,7 @@ const FormsAndDocuments = (props) => {
       benefitPackage: customerInfo.data.benefitPackage,
       firstName: customerInfo.data.firstName,
       lastName: customerInfo.data.lastName,
+      memberYear: customerInfo.data.memberYear,
     });
   }, [customerInfo]);
 
@@ -114,14 +115,6 @@ const FormsAndDocuments = (props) => {
   const handleClick = (href) => {
     setSelectedTab(href);
   };
-
-  const splitAttributes = {
-    companyCode: customerInfo.data?.companyCode,
-    benefitPackage: customerInfo.data?.benefitPackage,
-    lob: customerInfo.data?.sessLobCode,
-    membershipStatus: customerInfo.data?.membershipStatus,
-    accountStatus: customerInfo.data?.accountStatus,
-}; 
 
   return (
     <Container>
@@ -235,6 +228,7 @@ const FormsAndDocuments = (props) => {
 const DocsList = (props) => {
   const [isOpen, setIsOpen] = useState();
   const [RowName, setRowName] = useState();
+  const [downloadImage,setDownloadImage] = useState("/react/images/download_pdf.svg");
 
   const languageModelRef = useRef(null);
 
@@ -325,13 +319,19 @@ const DocsList = (props) => {
           className="download"
           onClick={() => {
             setIsOpen(true), setRowName(row.Name), handleOpen(row);
+            setDownloadImage("/react/images/download_blue.svg");
           }}
         >
-          <img
+          {row.Name === RowName ? (<img
+            className="download-icon"
+            src="/react/images/download_blue.svg"
+          ></img>):(
+            <img
             className="download-icon"
             src="/react/images/download_pdf.svg"
           ></img>
-
+          )
+          }
           <LanguageSelect isOpen={row.Name === RowName} last={false}>
             {row.assetUrl.en != null && row.assetUrl.en != "" && (
               <Language

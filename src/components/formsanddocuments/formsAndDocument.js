@@ -34,7 +34,7 @@ const FormsAndDocumentsModel = ({ onBack }) => {
         groupNumber: memberSelection.groupNumber
           ? memberSelection.groupNumber
           : memberSelection.groupNumber,
-        year: 2024,
+        year: memberSelection.memberYear,
       };
       dispatch(requestCCFormsDocs(data));
     }
@@ -60,15 +60,16 @@ const FormsAndDocumentsModel = ({ onBack }) => {
       benefitPackage: customerInfo.data.benefitPackage,
       firstName: customerInfo.data.firstName,
       lastName: customerInfo.data.lastName,
+      memberYear: customerInfo.data.memberYear
     });
   }, [customerInfo]);
 
   return (
     <Container>
-      <Wrapper>
+      <Wrapper onClick={() => onBack(false)}>
         <ButtonWrapper>
           <ButtonImg src="/react/images/back_arrow.svg" />
-          <ButtonText onClick={() => onBack(false)}>Back</ButtonText>
+          <ButtonText>Back</ButtonText>
         </ButtonWrapper>
       </Wrapper>
 
@@ -178,12 +179,23 @@ const DocsList = (props) => {
             <FormImg src="/react/images/documents-pdf-icon.svg"></FormImg>
             <GeneralFormText>{item.Name}</GeneralFormText>
           </GeneralFormWrapper>
+          
+         {item.Name === rowName ? (
+          <DownloadImg
+          onClick={() => {
+            setRowName(item.Name), handleOpen(item);
+          }}
+          src="/react/images/download_blue.svg"
+        />
+
+         ) :(
           <DownloadImg
             onClick={() => {
               setRowName(item.Name), handleOpen(item);
             }}
             src="/react/images/download_pdf.svg"
           />
+         )}
           <LangWrapper isOpen={item.Name === rowName} last={false}>
             {item.assetUrl.en != null && item.assetUrl.en != "" && (
               <Language
@@ -245,8 +257,7 @@ const Container = styled.div``;
 
 const ButtonImg = styled.img``;
 
-const FormImg = styled.img`
-`;
+const FormImg = styled.img``;
 
 const LangWrapper = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
@@ -290,6 +301,7 @@ const ButtonWrapper = styled.div`
   display: flex;
 `;
 const Wrapper = styled.div`
+  cursor: pointer;
   width: fit-content;
   padding: 8px;
   flex-direction: column;
