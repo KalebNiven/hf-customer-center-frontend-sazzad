@@ -25,7 +25,7 @@ export const sendErrorLog = async (error) => {
     const res = await LOFLv2(true).post('/report', payload, config);
     return res.data;
   } catch (error) {
-    console.error('Error logging error: ', error.message)
+    console.error('Error caught: ', error.message)
     return error.message;
   }
 };
@@ -35,10 +35,10 @@ export const getClaimsList = async () => {
     return LOFLv2(true).get('claims');
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -48,10 +48,10 @@ export const getClaimsDetails = async (memberId, claimId) => {
     return LOFLv2(true).get(`claims/${memberId}/${claimId}`);
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -62,10 +62,10 @@ export const getClaimsEOB = async (memberId, claimId) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -75,10 +75,10 @@ export const getAuthorizationList = async () => {
     return LOFLv2(true).get('auths');
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -88,10 +88,10 @@ export const getPhysicalIdCarda = async (memberId) => {
     return LOFLv2(true).get('physical-id-card/' + memberId);
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -103,7 +103,7 @@ export const getDigitalIdCarda = async (memberId) => {
     try {
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -113,10 +113,10 @@ export const getAuthorizationsDetails = async (selectedAuth) => {
     return LOFLv2(true).get('auths/' + selectedAuth.authorizationId);
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -127,10 +127,10 @@ export const getCustomerOOP = async () => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -141,10 +141,10 @@ export const getPcpStatus = async (memberId) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -155,10 +155,10 @@ export const getPcpDetails = async (pcpDetails) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -180,10 +180,10 @@ export const getCoverageBenefitsData = async (memberId) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -203,10 +203,10 @@ export const getCustomerDemographicsInfoData = async (customerId) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -217,10 +217,10 @@ export const getFormsDocsData = async (memberId) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -231,10 +231,10 @@ export const getHraQuestionsList = async (memberId) => {
     return res.data[0];
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -245,10 +245,10 @@ export const submitHraSurvey = async (data) => {
     return res.data
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -259,10 +259,10 @@ export const getHraStatus = async (memberId) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -273,10 +273,10 @@ export const getHraPartials = async (memberId) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -290,10 +290,10 @@ export const saveHraSurveyResponseToDB = async (data) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -311,10 +311,10 @@ export const getHraStatuses = async (headOfHouseholdMemberId, dependents) => {
     return allData;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -325,11 +325,11 @@ export const submitMailMemberIDCardForm = async (data) => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -341,11 +341,11 @@ export const submitClaimPayloadApi = async (data) => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -357,11 +357,11 @@ export const submitAttestationAgreementAPI = async (data) => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -373,11 +373,11 @@ export const getMailMemberIDCardStatus = async (memberId) => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -395,10 +395,10 @@ export const getHraStatusesLocalOnly = async (memberIds) => {
     return allData;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -412,10 +412,10 @@ export const getMemberAnswers = async (memberIdsList) => {
     return allData.map(data => data.data);
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -429,10 +429,10 @@ export const getAllRecomendedResources = async (dataPairList) => {
     return allData.map(data => data.data);
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -469,10 +469,10 @@ export const getCategDetails = async (data) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -500,10 +500,10 @@ export const getCategDetailsAll = async (data) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -529,10 +529,10 @@ export const getIndMapDetails = async (data) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -546,10 +546,10 @@ export const getIndMapDetails = async (data) => {
       return res.data;
     } catch (error) {
       try {
-        console.error('Error logging error: ', error.message)
+        console.error('Error caught: ', error.message)
         await sendErrorLog(error)
       } catch (error) {
-        console.error('Error logging error: ', error.message)
+        console.error('Error caught: ', error.message)
       }
     }
   }
@@ -560,10 +560,10 @@ export const getIndMapDetails = async (data) => {
       return res.data;
     } catch (error) {
       try {
-        console.error('Error logging error: ', error.message)
+        console.error('Error caught: ', error.message)
         await sendErrorLog(error)
       } catch (error) {
-        console.error('Error logging error: ', error.message)
+        console.error('Error caught: ', error.message)
       }
     }
   }
@@ -579,11 +579,11 @@ export const getIndMapDetails = async (data) => {
         return res;
       } catch (error) {
         try {
-          console.error('Error logging error: ', error.message)
+          console.error('Error caught: ', error.message)
           await sendErrorLog(error)
           return error.response;
         } catch (err) {
-          console.error('Error logging error: ', err.message)
+          console.error('Error caught: ', err.message)
           return error.response;
         }
       }
@@ -602,11 +602,11 @@ export const submitPreferredContactInfo = async (data, csrf) => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -618,11 +618,11 @@ export const getPreferenceCenterInfo = async () => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -643,11 +643,11 @@ export const requestMFACode = async (data, mfaToken) => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -666,11 +666,11 @@ export const requestUserMFACode = async (data, mfaToken) => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -688,11 +688,11 @@ export const requestRegister = async(data,mfaToken) =>{
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -710,11 +710,11 @@ export const requestMFAFactors = async(mfaToken) =>{
     return res;
   } catch(error){
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -731,11 +731,11 @@ export const verifyMFACode = async (data, mfaToken,channel) => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -752,11 +752,11 @@ export const verifyUserMFACode = async (data, mfaToken) => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -773,11 +773,11 @@ export const createUsernamePassword = async (data,mfaVerifiedAuth) => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -790,11 +790,11 @@ export const getGlobalAlerts = async () => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -806,10 +806,10 @@ export const getUserName = async () => {
     return await LOFLv2(true).get('settings/getUserName');
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -827,10 +827,10 @@ export const changeUserName = async ({ data, csrf }) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -848,10 +848,10 @@ export const changePassword = async ({ data, csrf }) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -862,10 +862,10 @@ export const updateEmailContactInfo = async (email) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -876,10 +876,10 @@ export const updatePhoneContactInfo = async (phoneNum) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -889,10 +889,10 @@ export const verifyPhoneContactInfo = async (payload, authenticated = false) => 
     return await LOFLv2(authenticated).post('settings/resend-verification-code', payload).then((response) => response.data);
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -902,10 +902,10 @@ export const verifyEmailContactInfo = async (payload, authenticated = false) => 
     return await LOFLv2(authenticated).post('settings/resend-verification-code', payload).then((response) => response.data);
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -915,12 +915,12 @@ export const verifyContactInfo = async (payload) => {
     return await LOFLv2(true).post('verify-code', payload).then((response) => response.data);
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (error) {
       return error.response;
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       return error.response;
     }
   }
@@ -938,10 +938,10 @@ export const resendCodeContactInfo = async (payload, csrf) => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -951,10 +951,10 @@ export const reportErrorService = async (membershipKey) => {
     return await LOFLv2(true).post('/report-membership', membershipKey)
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -966,10 +966,10 @@ export const submitPlanForExternalLink = async (payload) => {
     return res;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -980,10 +980,10 @@ export const getCoverageBenefitsVideos = async (language, companyCode, benefitPa
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -994,10 +994,10 @@ export const getOTCProfile = async () => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -1014,11 +1014,11 @@ export const activateOTCCard = async (cardNumber) => {
     return { status: res.status, data: res.data};
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return { status: error.response.status, data: error.response.data};
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return { status: error.response.status, data: error.response.data};
     }
   }
@@ -1030,10 +1030,10 @@ export const getOTCCardMeta = async () => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -1044,10 +1044,10 @@ export const getOTCClaimReimbursementData = async () => {
     return res.data;
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 } 
@@ -1066,11 +1066,11 @@ export const forgotUsername = async (data, mfaToken="") => {
     return { status: res.status, data: res.data.data};
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -1089,11 +1089,11 @@ export const forgotPassword = async (data, mfaToken="") => {
     return { status: res.status, data: res.data.data};
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -1112,11 +1112,11 @@ export const setPassword = async (data, mfaToken="") => {
     return { status: res.status, data: res.data.data};
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
       return error.response;
     } catch (err) {
-      console.error('Error logging error: ', err.message)
+      console.error('Error caught: ', err.message)
       return error.response;
     }
   }
@@ -1144,10 +1144,10 @@ export const getDocuments = async (data) => {
     })
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -1166,10 +1166,10 @@ export const getDocumentFile = async (data) => {
     })
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 };
@@ -1188,10 +1188,10 @@ export const verifyAddress = async (data) => {
     return res.data;
   } catch (err) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -1210,10 +1210,10 @@ export const ccFormsDocs = async(data) =>{
     })
   } catch (error) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
@@ -1225,10 +1225,10 @@ export const getPcpHousehold = async () => {
     return res.data;
   } catch (err) {
     try {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
       await sendErrorLog(error)
     } catch (error) {
-      console.error('Error logging error: ', error.message)
+      console.error('Error caught: ', error.message)
     }
   }
 }
