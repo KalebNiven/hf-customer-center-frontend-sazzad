@@ -446,7 +446,6 @@ export const DocText = styled.span`
 export const LanguageSelect = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   position: absolute;
-  //margin: ${(props) => (props.last ? '5px -80px' : '25px -80px')};
   top: 44px;
   border-radius: 4px;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.23);;
