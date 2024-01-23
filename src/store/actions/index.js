@@ -247,6 +247,28 @@ export const errorFormsDocs = (error) => ({
     },
 });
 
+//FormsAndDocument
+export const requestCCFormsDocs = (data) =>({
+    type: actionTypes.REQUEST_CC_FORMS_DOCS,
+    payload:data,
+});
+
+export const receiveCCFormsDocs = (data) => ({
+    type: actionTypes.RECEIVE_CC_FORMS_DOCS,
+    payload: {
+        status: "SUCCESS",
+        data,
+    },
+});
+
+export const errorCCFormsDocs = (error) =>  ({
+    type: actionTypes.RECEIVE_CC_FORMS_DOCS,
+    payload: {
+        status: "ERROR",
+        errorData: error,
+    },
+});
+
 export const requestPcpDetails = (pcpDetails) => ({
     type: actionTypes.REQUEST_PCP_UPDATE,
     payload: {
@@ -1168,6 +1190,8 @@ export const errorVerifyAddress = (error) => ({
         errorData: error,
     },
 });
+
+
 
 // PCP Household
 export const requestPcpHousehold = () => ({

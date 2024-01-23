@@ -105,7 +105,7 @@ export const OTC_WIDGET_PAGE = "CustomerCenter_OTCWidgetPage";
 
 export const DIGITAL_SURVEY = "CustomerCenter_Digital_Survey";
 export const HRA_WIDGET = "CustomerCenter_HealthAssessment_Widget";
-
+export const SHOW_CC_FORMS_AND_DOCS = "CustomerCenter_ShowCCFormsAndDocs";
 export const QUESTIONNAIRE_PAGE = "CustomerCenter_Questionnaire_Page";
 
 export const COMMUNITY_RESOURCES_WIDGET = "CustomerCenter_Community_Resources_Widget";
@@ -201,6 +201,7 @@ export const getFeatureFlagList = () => {
         OTC_WIDGET_PAGE,
         DIGITAL_SURVEY,
         HRA_WIDGET,
+        SHOW_CC_FORMS_AND_DOCS,
         SHOW_HEALTH_ASSESMENT_SURVEY_CARD,
         SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK,
         QUESTIONNAIRE_PAGE,

@@ -104,7 +104,6 @@ const DocumentCenter = (props) => {
 
    const setDocumentList = (documentList) => {
     setDisplayDocList(documentList)
-
     }
 
     const getDocuments = (memberInfo, type, startDate, endDate, overrides) => {

@@ -446,19 +446,19 @@ export const DocText = styled.span`
 export const LanguageSelect = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   position: absolute;
-  margin: ${(props) => (props.last ? '5px -80px' : '25px -80px')};
+  top: 44px;
   border-radius: 4px;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.23);;
   background-color: #ffffff;
   list-style-type: none;
   padding: 4px 0;
   z-index: 1;
-  width: 100px;
+  width: 132px;
   bottom: ${(props) => (props.last ? '100%' : '')};
 
 `;
 export const Language = styled.div`
-  padding: 8px 12px 8px 16px;
+  padding: 8px 12px 3px 14px;
   font-size: 16px;
   font-weight: 300;
   font-stretch: normal;
