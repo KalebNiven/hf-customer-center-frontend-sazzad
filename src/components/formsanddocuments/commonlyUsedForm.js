@@ -15,8 +15,8 @@ const CommonlyUsedForm = (props) => {
   });
   return (
     <>
-      {props.data.map((item) => (
-        <Container>
+      {props.data.map((item, i) => (
+        <Container key={i}>
           <DocImage src="/react/images/documents-pdf-icon.svg" />
           <Title>{item.Name}</Title>
           <Content>
