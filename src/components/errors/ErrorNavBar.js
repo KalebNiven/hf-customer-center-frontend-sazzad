@@ -62,7 +62,7 @@ const ErrorNavBar = () => {
   const customerInfo = useSelector((state) => state.customerInfo);
   const [openUserCard, setOpenUserCard] = useState(false);
   const userName = (customerInfo.data.firstName + " " + customerInfo.data.lastName)
-  const firstName = (customerInfo.data.firstName)
+  const firstName = customerInfo?.data?.hohPlans[0] ? customerInfo.data.hohPlans[0].FirstName : (customerInfo.data.firstName)
   const [homeMobileItems, setHomeMobileItems] = useState(false);
   const [findCareMobileItems, setFindCareMobileItems] = useState(false);
   const history = useHistory();
