@@ -246,7 +246,6 @@ const Container = styled.div``;
 const ButtonImg = styled.img``;
 
 const FormImg = styled.img`
-  //margin-top: -41px;
 `;
 
 const LangWrapper = styled.div`
