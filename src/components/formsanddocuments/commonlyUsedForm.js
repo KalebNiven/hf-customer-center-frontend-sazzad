@@ -8,7 +8,6 @@ const CommonlyUsedForm = (props) => {
 
   const [rowID, setRowId] = useState();
   useOnClickOutside(ref, (event) => {
-    //if(event.toElement.contains())
     if (event.target.contains(ref.current)) {
       setRowId();
     }
