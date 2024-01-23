@@ -96,7 +96,6 @@ function AppBarComponent() {
     currentStep, setCurrentStep, run, setRun, setIsStart,
   } = useCoachMarksContext();
   const [showReward, setShowReward] = useState(false);
-  const [showHealthAssessment, setShowHealthAssessment] = useState(false);
   const appBarRef = useRef(null);
   const [appBarPosition, setAppBarPosition] = useState("relative");
   const [paymentsEnabled, setPaymentsEnabled] = useState(false);
@@ -177,7 +176,6 @@ function AppBarComponent() {
     setBinderEnabled(binderEnabledTreatment.treatment === "off" ? false : binderEnabledTreatment.treatment === "on" ? setShowPaymentFlag(true) : false);
     setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false);
     setReactPaymentsPortalEnabled(showReactPaymentsPortal.treatment === "off" ? false : showReactPaymentsPortal.treatment === "on");
-    setShowHealthAssessment(healthAssessmentSurveyTreatment.treatment === "off" ? false : healthAssessmentSurveyTreatment.treatment === "on");
   };
 
   const getLangURLPrefix = (lang) => {
@@ -241,7 +239,7 @@ function AppBarComponent() {
               Account Settings
             </Settings>
           </SetDiv>
-            {showHealthAssessment && <SetDiv>
+            {splitEval.evaluateSplitByName(SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK) && <SetDiv>
               <SettImg alt="" src={`/react/images/icn-document-center.svg`} />
               <Settings
                   onClick={(e) => {
@@ -801,7 +799,7 @@ function AppBarComponent() {
                 Account Settings
               </Settings>
             </SetDiv>
-            {showHealthAssessment && <SetDiv>
+            {splitEval.evaluateSplitByName(SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK) && <SetDiv>
               <SettImg alt="" src={`/react/images/icn-document-center.svg`} />
               <Settings
                   onClick={(e) => {

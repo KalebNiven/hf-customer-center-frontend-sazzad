@@ -25,6 +25,7 @@ export const useSplitEval = () => {
             };
             let { treatment } = splitHookClient.getTreatmentWithConfig(splitFeatureName, splitAttributes);
             showFeature = (showFeature || treatment === "on");
+        if(splitFeatureName === "CustomerCenter_ShowHealthAssesmentSurvey_UserCard") console.log('CustomerCenter_ShowHealthAssesmentSurvey_UserCard', treatment)
         });
 
         return showFeature;
