@@ -172,8 +172,8 @@ const DocsList = (props) => {
 
   return (
     <>
-      {props.data.map((item) => (
-        <FormsWrapper>
+      {props.data.map((item, i) => (
+        <FormsWrapper key={i}>
           <GeneralFormWrapper>
             <FormImg src="/react/images/documents-pdf-icon.svg"></FormImg>
             <GeneralFormText>{item.Name}</GeneralFormText>
