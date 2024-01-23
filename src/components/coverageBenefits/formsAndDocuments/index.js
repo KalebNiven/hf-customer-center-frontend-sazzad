@@ -91,8 +91,6 @@ const FormsAndDocuments = ({ selectedMemberId }) => {
         loading && documents.length === 0 ? <Spinner/> : <>
             <Anchor id="forms-and-documents"></Anchor>
             <FormsAndDocumentBlock/>
-            {/* <DocBenefitsBlock showLangMenu={showLangMenu} menuOpen={menuOpen} benfBtnIndex={benfBtnIndex} />
-            <DocGeneralBlock showLangMenu={showLangMenu} menuOpen={menuOpen} genBtnIndex={genBtnIndex} /> */}
         </>
     )
 }
