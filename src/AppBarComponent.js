@@ -17,7 +17,7 @@ import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/sty
 import { useClient } from "@splitsoftware/splitio-react";
 import LongLoadSpinner from "./components/common/longLoadSpinner";
 import {
-  SHOW_DOC, SHOW_CLAIMS, SHOW_AUTHS, SHOW_COVERAGE_AND_BENEFITS, SHOW_MEMBER_ID_CARD, SHOW_PRIMARY_CARE_PROVIDER, SHOW_MYHEALTH, SHOW_HOME, SHOW_PAYMENTS, SHOW_PAYMENTS_REACT_APP, PAYMENTS_ACL, BINDER_ACL, SHOW_PCP_SUB_NAV, SHOW_TRANSLATION_LINKS, SHOW_HEALTH_ASSESMENT_SURVEY, SHOW_MY_HEALTH_CHECKLIST, SHOW_NOW_POW, OTC_WIDGET_PAGE, SHOW_MY_REWARDS, SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK,
+  SHOW_DOC, SHOW_CLAIMS, SHOW_AUTHS, SHOW_COVERAGE_AND_BENEFITS, SHOW_MEMBER_ID_CARD,SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK, SHOW_PRIMARY_CARE_PROVIDER, SHOW_MYHEALTH, SHOW_HOME, SHOW_PAYMENTS, SHOW_PAYMENTS_REACT_APP, PAYMENTS_ACL, BINDER_ACL, SHOW_PCP_SUB_NAV, SHOW_TRANSLATION_LINKS, SHOW_HEALTH_ASSESMENT_SURVEY, SHOW_MY_HEALTH_CHECKLIST, SHOW_NOW_POW, OTC_WIDGET_PAGE, SHOW_MY_REWARDS,SHOW_CC_FORMS_AND_DOCS,
 } from "./constants/splits";
 import { FeatureTreatment } from "./libs/featureFlags";
 import { useAppContext } from './AppContext';
@@ -99,6 +99,7 @@ function AppBarComponent() {
   const appBarRef = useRef(null);
   const [appBarPosition, setAppBarPosition] = useState("relative");
   const [paymentsEnabled, setPaymentsEnabled] = useState(false);
+  const [showFormsAndDocument,setFormsAndDocument] = useState(false);
   const [binderEnabled, setBinderEnabled] = useState(false);
   const [rewardsEnabled, setRewardsEnabled] = useState(false);
   const [reactPaymentsPortalEnabled, setReactPaymentsPortalEnabled] = useState(false);
@@ -162,20 +163,26 @@ function AppBarComponent() {
       SHOW_MY_REWARDS,
       attributes,
     );
+    const showFormsAndDocs = splitHookClient.getTreatmentWithConfig(
+      SHOW_CC_FORMS_AND_DOCS,
+      attributes,
+    );
+
     const healthAssessmentSurveyTreatment = splitHookClient.getTreatmentWithConfig(
       SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK,
       attributes
     );
-    checkTreatment(paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment, healthAssessmentSurveyTreatment);
+    checkTreatment(paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment,showFormsAndDocs, healthAssessmentSurveyTreatment);
   };
 
-  const checkTreatment = (paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment, healthAssessmentSurveyTreatment) => {
+  const checkTreatment = (paymentsEnabledTreatment, binderEnabledTreatment, showReactPaymentsPortal, rewardsEnabledTreatment, showFormsAndDocs, healthAssessmentSurveyTreatment) => {
     setLoadSplit(paymentsEnabledTreatment);
     if (!splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control" || showReactPaymentsPortal.treatment === "control") return;
     setPaymentsEnabled(paymentsEnabledTreatment.treatment === "off" ? false : paymentsEnabledTreatment.treatment === "on" ? setShowPaymentFlag(true) : false);
     setBinderEnabled(binderEnabledTreatment.treatment === "off" ? false : binderEnabledTreatment.treatment === "on" ? setShowPaymentFlag(true) : false);
     setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false);
     setReactPaymentsPortalEnabled(showReactPaymentsPortal.treatment === "off" ? false : showReactPaymentsPortal.treatment === "on");
+    setFormsAndDocument(showFormsAndDocs.treatment === "off" ? false : showFormsAndDocs.treatment === "on");
   };
 
   const getLangURLPrefix = (lang) => {
@@ -251,6 +258,19 @@ function AppBarComponent() {
               </Settings>
             </SetDiv>}
           <DocLink />
+          {showFormsAndDocument
+              && (
+          <SetDiv>
+            <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/document.svg`} />
+            <Settings onClick={(e) => {
+              handleClick(e, '/forms-and-documents', '', 'Forms and Documents', 'Forms and Documents');
+              setOpenUserCard(false);
+            }}
+            >
+              Forms and Documents
+            </Settings>
+          </SetDiv>
+          )}
           {showReward
               && (
               <SetDiv>
@@ -432,7 +452,7 @@ function AppBarComponent() {
     }
     resetPaymentsModal();
     handleSegmentBtn(param, eachNavLabel, labelForSegment);
-    if (['/claims', '/authorizations', '/coverage-and-benefits', '/home', '/idcard', '/my-health', '/findcare', '/pcp', '/my-health/annual-health-assessment', '/my-health/my-health-checklist', '/my-health', '/my-health/community-resources', '/my-rewards', '/otc-widget', '/my-health/annual-health-assessment'].some((x) => x === param)) {
+    if (['/forms-and-documents','/claims', '/authorizations', '/coverage-and-benefits', '/home', '/idcard', '/my-health', '/findcare', '/pcp', '/my-health/annual-health-assessment', '/my-health/my-health-checklist', '/my-health', '/my-health/community-resources', '/my-rewards', '/otc-widget', '/my-health/annual-health-assessment'].some((x) => x === param)) {
       history.push(param);
     } else if (param === '/settings') {
       history.push({
@@ -732,7 +752,7 @@ function AppBarComponent() {
                     }
                 }
       >
-        <DocLinkComp {...props} />
+
       </FeatureTreatment>
     );
 
@@ -750,21 +770,6 @@ function AppBarComponent() {
           style={{ display: "inline-block", width: '19px', height: '19px' }}
           src={`/react/images/icn-document-center.svg`}
         />
-
-        <Settings
-          onClick={(e) => {
-            handleClick(
-              e,
-              "/document-center",
-              "",
-              "Document Center",
-              "Document Center",
-            );
-            setOpenUserCard(false);
-          }}
-        >
-          Document Center
-        </Settings>
       </SetDiv>
     );
   }
@@ -811,6 +816,17 @@ function AppBarComponent() {
               </Settings>
             </SetDiv>}
             <DocLink />
+            {showFormsAndDocument
+              && (
+            <SetDiv>
+              <SettImg  alt="" src={`/react/images/document.svg`}/>
+              <Settings
+                onClick={(e) => handleClick(e, '/forms-and-documents', '', 'Account Settings', 'Account Settings')}
+              >
+                Forms and Documents
+              </Settings>
+              </SetDiv>
+               )}
             {showReward
               && (
               <SetDiv>

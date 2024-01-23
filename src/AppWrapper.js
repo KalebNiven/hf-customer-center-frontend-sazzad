@@ -47,6 +47,7 @@ import MyHealthCheckListPage from "./pages/my-health/MyHealthCheckListPage";
 import AnnualHealthAssessmentPage from "./pages/my-health/AnnualHealthAssessmentPage"; 
 import MyRewardsPage from "./pages/my-health/MyRewardsPage";
 import OTCWidgetPage from "./pages/otc/OTCWidgetPage";
+import FormsAndDocumentPage from "./pages/forms-and-documents/FormsAndDocumentPage";
 import QuestionnaireLIPPage from './pages/questionnaire/QuestionnairePage'
 
 const AppWrapper = () => {
@@ -89,6 +90,7 @@ const AppWrapper = () => {
                         <SecureRoute exact path="/coverage-and-benefits" component={CoverageAndBenefitsPage} />
                         <SecureRoute exact path="/documents/:id" component={DocumentsCenterDetailsPage} />
                         <SecureRoute exact path="/document-center" component={DocumentsCenterPage} />
+                        <SecureRoute exact path="/forms-and-documents" component={FormsAndDocumentPage} />
                         <SecureRoute exact path="/communityResources" component={CommunityResourcesPage} />
                         <SecureRoute exact path="/communityResources/category" component={CommunityResourcesCategoryPage} />
                         <SecureRoute exact path="/communityResources/details" component={CommunityResourcesDetailsPage} />

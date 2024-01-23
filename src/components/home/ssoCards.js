@@ -8,7 +8,7 @@ import { useAppContext } from '../../AppContext';
 import {
   SHOW_DOC,
   SHOW_MANAGE_PRESCRIPTIONS, SHOW_VISION_BENEFITS, SHOW_VISION_BENEFITS_EYEMED, SHOW_LAUNCH_TELEDOC, SHOW_SILVER_SNEAKERS,
-  SHOW_HEALTH_HSA, SHOW_NATIONSHEARING, SHOW_DENTAQUEST, SHOW_OTCNETWORK, SHOW_NATIONSOTC, SHOW_PRIMARY_CARE_PROVIDER,
+  SHOW_HEALTH_HSA, SHOW_NATIONSHEARING, SHOW_DENTAQUEST, SHOW_OTCNETWORK, SHOW_NATIONSOTC, SHOW_PRIMARY_CARE_PROVIDER, SHOW_CC_FORMS_AND_DOCS,
   SHOW_COVERAGE_AND_BENEFITS, SHOW_CLAIMS, SHOW_AUTHS, SHOW_MYHEALTH, SHOW_ESTIMATECOST, SHOW_SUGGESTION_CARDS, SHOW_EXTERNAL_LINK_CARDS, SHOW_COST_ESTIMATOR_WIDGET, SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS, SHOW_MY_REWARDS, SHOW_HEALTH_ASSESMENT_SURVEY, SHOW_HEALTH_ASSESMENT_SURVEY_CARD,
 } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
@@ -95,18 +95,7 @@ const SSOCards = () => {
     featureName: SHOW_ESTIMATECOST, name: "Estimate Cost", img: "/react/images/icon_calculator.svg", routeLink: "payments",
   },
   {
-    featureName: SHOW_DOC,
-    name: "View Document Center",
-    img: "/react/images/icon_claims.svg",
-    routeLink: "document-center",
-    className: "documentCenter-coachmark",
-    splitAttributes: {
-      lob: customerInfo?.data?.sessLobCode,
-      companyCode: customerInfo?.data?.hohPlans?.map((plan) => plan.CompanyNumber),
-      benefitPackage: customerInfo?.data?.hohPlans?.map((plan) => plan.BenefitPackage),
-      accountStatus: customerInfo?.data?.accountStatus,
-      membershipStatus: customerInfo?.data?.membershipStatus,
-    },
+    featureName: SHOW_CC_FORMS_AND_DOCS, name: "View Forms and Documents", img: "/react/images/icn_formsanddocument.svg", routeLink: "forms-and-documents",
   },
   {
     featureName: SHOW_HEALTH_ASSESMENT_SURVEY_CARD, name: "Health Assessment", img: "/react/images/icon_claims.svg", routeLink: "my-health/annual-health-assessment",
@@ -220,7 +209,7 @@ const SSOCards = () => {
                     </Card>
                   </ExternalSiteLink>
                 )
-                : (
+                : (               
                   <Card
                     className={row?.className}
                     onClick={() => handleSegmentBtn(row?.name, row?.routeLink, row?.name, row)}

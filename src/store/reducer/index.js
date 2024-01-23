@@ -41,7 +41,8 @@ import userMfaVerify from "./userMfaVerifyReducer";
 import pcp from "./pcpReducer";
 import selectPlan from "./selectPlanReducer";
 import verifyAddress from "./verifyAddressReducer";
-import pcpHousehold from './pcpHousehold'
+import pcpHousehold from './pcpHousehold';
+import ccFormsDoc from "./ccFormsDocReducer";
 
 const appReducer = combineReducers({
   claim,
@@ -85,7 +86,8 @@ const appReducer = combineReducers({
   pcp,
   selectPlan,
   verifyAddress,
-  pcpHousehold
+  pcpHousehold,
+  ccFormsDoc
 });
 
 export default (state, action) => {

@@ -35,6 +35,14 @@ export const MainHeader = styled.div`
   }
 `;
 
+export const  DocName = styled.div`
+color: #003863;
+font-size: 18px;
+font-style: normal;
+font-weight: 600;
+line-height: 24px; /* 133.333% */
+`;
+
 export const Name = styled.div`
   font-size: 20px;
   font-weight: 500;

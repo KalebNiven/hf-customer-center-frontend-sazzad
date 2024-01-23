@@ -1186,6 +1186,7 @@ export const getDocumentFile = async (data) => {
 };
 
 export const verifyAddress = async (data) => {
+ 
   try {
     const res = await LOFLv2(true).get(`/verify-address`, { params: {
       addr1: data.payload.streetAddress,
@@ -1197,6 +1198,28 @@ export const verifyAddress = async (data) => {
     });
     return res.data;
   } catch (err) {
+    try {
+      console.error('Error caught: ', error.message)
+      await sendErrorLog(error)
+    } catch (error) {
+      console.error('Error caught: ', error.message)
+    }
+  }
+}
+
+// forms and documents 
+export const ccFormsDocs = async(data) =>{
+  try {
+    return await LOFLv2(true).get('/cc-forms-docs', { params: {
+      memberId: data.payload.memberId,
+      benefitPackage: data.payload.benefitPackage,
+      companyCode: data.payload.companyCode,
+      lob: data.payload.lob,
+      year: data.payload.year, 
+      groupNumber: data.payload.groupNumber
+    }
+    })
+  } catch (error) {
     try {
       console.error('Error caught: ', error.message)
       await sendErrorLog(error)
