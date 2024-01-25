@@ -23,8 +23,8 @@ function AccountSettings() {
   const customerInfoData = useSelector((state) => state.customerInfo);
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const { openPaperLess, setOpenPaperLess } = useAppContext();
-  const firstName = customerInfo?.hohPlans[0] ? customerInfo?.hohPlans[0].FirstName : customerInfo.firstName;
-  const lastName = customerInfo?.hohPlans[0] ? customerInfo?.hohPlans[0].lastName : customerInfo.lastName;
+  const firstName = customerInfo?.hohPlans[0] ? customerInfo?.hohPlans[0].FirstName : customerInfo?.firstName;
+  const lastName = customerInfo?.hohPlans[0] ? customerInfo?.hohPlans[0].lastName : customerInfo?.lastName;
   const splitAttributes = {
     lob: customerInfo?.sessLobCode,
     companyCode: customerInfo?.companyCode,
