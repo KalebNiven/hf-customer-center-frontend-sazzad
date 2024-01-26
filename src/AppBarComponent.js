@@ -17,7 +17,7 @@ import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/sty
 import { useClient } from "@splitsoftware/splitio-react";
 import LongLoadSpinner from "./components/common/longLoadSpinner";
 import {
-  SHOW_DOC, SHOW_CLAIMS, SHOW_AUTHS, SHOW_COVERAGE_AND_BENEFITS, SHOW_MEMBER_ID_CARD,SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK, SHOW_PRIMARY_CARE_PROVIDER, SHOW_MYHEALTH, SHOW_HOME, SHOW_PAYMENTS, SHOW_PAYMENTS_REACT_APP, PAYMENTS_ACL, BINDER_ACL, SHOW_PCP_SUB_NAV, SHOW_TRANSLATION_LINKS, SHOW_HEALTH_ASSESMENT_SURVEY, SHOW_MY_HEALTH_CHECKLIST, SHOW_NOW_POW, OTC_WIDGET_PAGE, SHOW_MY_REWARDS,SHOW_CC_FORMS_AND_DOCS,
+  SHOW_DOC, SHOW_CLAIMS, SHOW_AUTHS, SHOW_COVERAGE_AND_BENEFITS, SHOW_MEMBER_ID_CARD, SHOW_PRIMARY_CARE_PROVIDER, SHOW_MYHEALTH, SHOW_HOME, SHOW_PAYMENTS, SHOW_PAYMENTS_REACT_APP, PAYMENTS_ACL, BINDER_ACL, SHOW_PCP_SUB_NAV, SHOW_TRANSLATION_LINKS, SHOW_HEALTH_ASSESMENT_SURVEY, SHOW_MY_HEALTH_CHECKLIST, SHOW_NOW_POW, OTC_WIDGET_PAGE, SHOW_MY_REWARDS,SHOW_CC_FORMS_AND_DOCS,SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK
 } from "./constants/splits";
 import { FeatureTreatment } from "./libs/featureFlags";
 import { useAppContext } from './AppContext';
@@ -265,11 +265,11 @@ function AppBarComponent() {
           <SetDiv>
             <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/document.svg`} />
             <Settings onClick={(e) => {
-              handleClick(e, '/forms-and-documents', '', 'Forms and Documents', 'Forms and Documents');
+              handleClick(e, '/document-center', '', 'Document Center', 'Document Center');
               setOpenUserCard(false);
             }}
             >
-              Forms and Documents
+             Document Center
             </Settings>
           </SetDiv>
           )}
@@ -772,6 +772,20 @@ function AppBarComponent() {
           style={{ display: "inline-block", width: '19px', height: '19px' }}
           src={`/react/images/icn-document-center.svg`}
         />
+         <Settings
+          onClick={(e) => {
+            handleClick(
+              e,
+              "/document-center",
+              "",
+              "Document Center",
+              "Document Center",
+            );
+            setOpenUserCard(false);
+          }}
+        >
+          Document Center
+        </Settings>
       </SetDiv>
     );
   }
@@ -823,9 +837,9 @@ function AppBarComponent() {
             <SetDiv>
               <SettImg  alt="" src={`/react/images/document.svg`}/>
               <Settings
-                onClick={(e) => handleClick(e, '/forms-and-documents', '', 'Account Settings', 'Account Settings')}
+                onClick={(e) => handleClick(e, '/document-center', '', 'Account Settings', 'Account Settings')}
               >
-                Forms and Documents
+               Document Center
               </Settings>
               </SetDiv>
                )}

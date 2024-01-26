@@ -26,8 +26,9 @@ import DocumentType from "./documentType";
 import DocumentsCenterPage from "../../pages/documents-center/DocumentsCenterPage";
 import { useDispatch, useSelector } from "react-redux";
 import { requestCCFormsDocs } from "../../store/actions";
-import { SHOW_DOC,SHOW_CC_FORMS_AND_DOCS} from "../../constants/splits";
- 
+import { SHOW_DOC, SHOW_CC_FORMS_AND_DOCS } from "../../constants/splits";
+import { NoFormsAndDocument } from "./formsAndDocumentErrors";
+
 const FormsAndDocuments = (props) => {
   const dispatch = useDispatch();
 
@@ -42,7 +43,7 @@ const FormsAndDocuments = (props) => {
       childNavs: [],
       coachmark: null,
       mobileCoachmark: null,
-      treatmentName: SHOW_CC_FORMS_AND_DOCS ,
+      treatmentName: SHOW_CC_FORMS_AND_DOCS,
     },
     {
       activeIcon: `/react/images/icn-my-plan-active.svg`,
@@ -88,7 +89,6 @@ const FormsAndDocuments = (props) => {
       dispatch(requestCCFormsDocs(data));
     }
   }, [memberId]);
-  
 
   useEffect(() => {
     setMemberSelection({
@@ -139,7 +139,7 @@ const FormsAndDocuments = (props) => {
                 <FeatureTreatment
                   key="forms_and_document_page_feature"
                   treatmentNames={[eachNav.treatmentName]}
-                  treatmentName= {eachNav.treatmentName}
+                  treatmentName={eachNav.treatmentName}
                   onLoad={() => {}}
                   onTimedout={() => {}}
                   attributes={memberSelection}
@@ -180,42 +180,50 @@ const FormsAndDocuments = (props) => {
                     />
                   }
                 </DependentBlockWrapper>
-                {ccForms?.ccFormsDocDetails?.data != null ? (
-                  <Main>
-                    <SubTitle>Commonly Used Forms</SubTitle>
-                    <Wrapper>
-                      <CommonlyUsedForm
-                        data={
-                          ccForms?.ccFormsDocDetails?.data[0]
-                            .cc_commonly_used_forms
-                        }
-                      />
-                    </Wrapper>
-                    <SubTitle>General Forms</SubTitle>
-                    <DocsList
-                      data={
-                        ccForms?.ccFormsDocDetails?.data[0].cc_general_forms
-                      }
-                    />
-                    <SubTitle>Plan Documents</SubTitle>
-                    <DocsList
-                      data={
-                        ccForms?.ccFormsDocDetails?.data[0].cc_plan_documents
-                      }
-                    />
-                    <SubTitle>Additional Resources</SubTitle>
-                    <DocsList
-                      data={
-                        ccForms?.ccFormsDocDetails?.data[0]
-                          .cc_additional_resources
-                      }
-                    />
-                  </Main>
+                 {((ccForms.ccFormsDocDetails?.data?.length === 0 || ccForms.ccFormsDocDetails?.data?.length === undefined) &&  ccForms.ccFormsDocLoading === false) ? (
+                  <NoFormsAndDocument />
                 ) : (
-                  <ProgressWrapper>
-                    <Spinner />
-                  </ProgressWrapper>
+                  <>
+                    {(ccForms?.ccFormsDocDetails?.data != null &&  ccForms.ccFormsDocLoading === false) ? (
+                      <Main>
+                        <SubTitle>Commonly Used Forms</SubTitle>
+                        <Wrapper>
+                          <CommonlyUsedForm
+                            data={
+                              ccForms?.ccFormsDocDetails?.data[0]
+                                .cc_commonly_used_forms
+                            }
+                          />
+                        </Wrapper>
+                        <SubTitle>General Forms</SubTitle>
+                        <DocsList
+                          data={
+                            ccForms?.ccFormsDocDetails?.data[0].cc_general_forms
+                          }
+                        />
+                        <SubTitle>Plan Documents</SubTitle>
+                        <DocsList
+                          data={
+                            ccForms?.ccFormsDocDetails?.data[0]
+                              .cc_plan_documents
+                          }
+                        />
+                        <SubTitle>Additional Resources</SubTitle>
+                        <DocsList
+                          data={
+                            ccForms?.ccFormsDocDetails?.data[0]
+                              .cc_additional_resources
+                          }
+                        />
+                      </Main>
+                    ) : (
+                      <ProgressWrapper>
+                        <Spinner />
+                      </ProgressWrapper>
+                    )}
+                  </>
                 )}
+                
               </Main>
             )}
           </Main>
@@ -228,7 +236,9 @@ const FormsAndDocuments = (props) => {
 const DocsList = (props) => {
   const [isOpen, setIsOpen] = useState();
   const [RowName, setRowName] = useState();
-  const [downloadImage,setDownloadImage] = useState("/react/images/download_pdf.svg");
+  const [downloadImage, setDownloadImage] = useState(
+    "/react/images/download_pdf.svg"
+  );
 
   const languageModelRef = useRef(null);
 
@@ -322,16 +332,17 @@ const DocsList = (props) => {
             setDownloadImage("/react/images/download_blue.svg");
           }}
         >
-          {row.Name === RowName ? (<img
-            className="download-icon"
-            src="/react/images/download_blue.svg"
-          ></img>):(
-            <img
-            className="download-icon"
-            src="/react/images/download_pdf.svg"
-          ></img>
-          )
-          }
+          {row.Name === RowName ? (
+            <DownloadImg
+              className="download-icon"
+              src="/react/images/download_blue.svg"
+            ></DownloadImg>
+          ) : (
+            <DownloadImg
+              className="download-icon"
+              src="/react/images/download_pdf.svg"
+            ></DownloadImg>
+          )}
           <LanguageSelect isOpen={row.Name === RowName} last={false}>
             {row.assetUrl.en != null && row.assetUrl.en != "" && (
               <Language
@@ -432,4 +443,8 @@ const ProgressWrapper = styled.div`
   width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
+`;
+
+const DownloadImg = styled.img`
+  margin-left: -81px;
 `;

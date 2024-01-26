@@ -221,7 +221,6 @@ const DocsList = (props) => {
           </LangWrapper>
         </FormsWrapper>
       ))}
-      ;
     </>
   );
 };

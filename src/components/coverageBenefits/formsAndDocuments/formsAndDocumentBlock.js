@@ -1,13 +1,9 @@
 import React from "react";
- import { MainCard, DocName } from "../styles";
- import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { MainCard, DocName } from "../styles";
+import styled from "styled-components";
 
 
 const FormsAndDocumentBlock = () => {
-
-    const history = useHistory();
-
   return (
     <MainCard>
       <DocCard>
