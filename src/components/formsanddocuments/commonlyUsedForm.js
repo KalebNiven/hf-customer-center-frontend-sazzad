@@ -23,10 +23,18 @@ const CommonlyUsedForm = (props) => {
             member, caregiver, or another company) access to your health or
             coverage information.
           </Content>
-          <Image
+          {item.id === rowID ?(
+            <Image
+            onClick={() => setRowId(item.id)}
+            src="/react/images/download_blue.svg"
+          />
+          ):(
+            <Image
             onClick={() => setRowId(item.id)}
             src="/react/images/download_pdf.svg"
           />
+          )}
+          
           <Wrapper isOpen={item.id === rowID} last={false}>
             <Language
               onClick={() => {

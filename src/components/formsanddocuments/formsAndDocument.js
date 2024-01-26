@@ -7,6 +7,7 @@ import { Language, DependentBlockWrapper } from "../common/styles";
 import DependentBlock from "../common/dependentBlock";
 import Spinner from "../common/spinner";
 import { requestCCFormsDocs } from "../../store/actions";
+import { NoFormsAndDocument } from "./formsAndDocumentErrors";
 
 const FormsAndDocumentsModel = ({ onBack }) => {
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ const FormsAndDocumentsModel = ({ onBack }) => {
       benefitPackage: customerInfo.data.benefitPackage,
       firstName: customerInfo.data.firstName,
       lastName: customerInfo.data.lastName,
-      memberYear: customerInfo.data.memberYear
+      memberYear: customerInfo.data.memberYear,
     });
   }, [customerInfo]);
 
@@ -87,65 +88,83 @@ const FormsAndDocumentsModel = ({ onBack }) => {
           />
         }
       </DependentBlockWrapper>
-      {ccForms?.ccFormsDocDetails?.data != null ? (
-        <>
-          <MyDocuments>Forms and Documents</MyDocuments>
-          <SubTitle>Commonly Used Forms</SubTitle>
-          {ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms.map(
-            (item) => (
-              <FormsWrapper>
-                <CommonImg src="/react/images/documents-pdf-icon.svg" />
-                <DocumentType>{item.Name}</DocumentType>
-                <Text>
-                  Complete this form if you want to give someone (such as a
-                  family member, caregiver, or another company) access to your
-                  health or coverage information.
-                </Text>
-                <DownloadImg
-                  onClick={() => setRowId(item.id)}
-                  src="/react/images/download_pdf.svg"
-                />
-                <LangWrapper isOpen={item.id === rowID} last={false}>
-                  <Language
-                    onClick={() => {
-                      window.open(item.assetUrl.en);
-                    }}
-                  >
-                    English
-                  </Language>
-
-                  <Language onClick={() => window.open(item.assetUrl.es)}>
-                    Spanish
-                  </Language>
-
-                  <Language
-                    ref={ref}
-                    onClick={() => window.open(item.assetUrl.zh)}
-                  >
-                    Chinese
-                  </Language>
-                </LangWrapper>
-              </FormsWrapper>
-            )
-          )}
-
-          <SubTitle>General Forms</SubTitle>
-          <DocsList
-            data={ccForms?.ccFormsDocDetails?.data[0].cc_general_forms}
-          />
-          <SubTitle>Plan Documents</SubTitle>
-          <DocsList
-            data={ccForms?.ccFormsDocDetails?.data[0].cc_plan_documents}
-          />
-          <SubTitle>Additional Resources</SubTitle>
-          <DocsList
-            data={ccForms?.ccFormsDocDetails?.data[0].cc_additional_resources}
-          />
-        </>
+      {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
+        ccForms.ccFormsDocDetails?.data?.length === undefined) &&
+      ccForms.ccFormsDocLoading === false ? (
+        <NoFormsAndDocument />
       ) : (
-        <ProgressWrapper>
-          <Spinner />
-        </ProgressWrapper>
+        <>
+          {(ccForms?.ccFormsDocDetails?.data != null &&  ccForms.ccFormsDocLoading === false) ? (
+            <>
+              <MyDocuments>Forms and Documents</MyDocuments>
+              <SubTitle>Commonly Used Forms</SubTitle>
+              {ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms.map(
+                (item) => (
+                  <FormsWrapper>
+                    <CommonImg src="/react/images/documents-pdf-icon.svg" />
+                    <DocumentType>{item.Name}</DocumentType>
+                    <Text>
+                      Complete this form if you want to give someone (such as a
+                      family member, caregiver, or another company) access to
+                      your health or coverage information.
+                    </Text>
+                    {item.id === rowID ?(
+                       <DownloadImg
+                       onClick={() => setRowId(item.id)}
+                       src="/react/images/download_blue.svg"
+                     />
+                    ):(
+                       <DownloadImg
+                       onClick={() => setRowId(item.id)}
+                       src="/react/images/download_pdf.svg"
+                     />
+                    )}
+                   
+                    <LangWrapper isOpen={item.id === rowID} last={false}>
+                      <Language
+                        onClick={() => {
+                          window.open(item.assetUrl.en);
+                        }}
+                      >
+                        English
+                      </Language>
+
+                      <Language onClick={() => window.open(item.assetUrl.es)}>
+                        Spanish
+                      </Language>
+
+                      <Language
+                        ref={ref}
+                        onClick={() => window.open(item.assetUrl.zh)}
+                      >
+                        Chinese
+                      </Language>
+                    </LangWrapper>
+                  </FormsWrapper>
+                )
+              )}
+
+              <SubTitle>General Forms</SubTitle>
+              <DocsList
+                data={ccForms?.ccFormsDocDetails?.data[0].cc_general_forms}
+              />
+              <SubTitle>Plan Documents</SubTitle>
+              <DocsList
+                data={ccForms?.ccFormsDocDetails?.data[0].cc_plan_documents}
+              />
+              <SubTitle>Additional Resources</SubTitle>
+              <DocsList
+                data={
+                  ccForms?.ccFormsDocDetails?.data[0].cc_additional_resources
+                }
+              />
+            </>
+          ) : (
+            <ProgressWrapper>
+              <Spinner />
+            </ProgressWrapper>
+          )}
+        </>
       )}
     </Container>
   );
@@ -179,23 +198,22 @@ const DocsList = (props) => {
             <FormImg src="/react/images/documents-pdf-icon.svg"></FormImg>
             <GeneralFormText>{item.Name}</GeneralFormText>
           </GeneralFormWrapper>
-          
-         {item.Name === rowName ? (
-          <DownloadImg
-          onClick={() => {
-            setRowName(item.Name), handleOpen(item);
-          }}
-          src="/react/images/download_blue.svg"
-        />
 
-         ) :(
-          <DownloadImg
-            onClick={() => {
-              setRowName(item.Name), handleOpen(item);
-            }}
-            src="/react/images/download_pdf.svg"
-          />
-         )}
+          {item.Name === rowName ? (
+            <DownloadImg
+              onClick={() => {
+                setRowName(item.Name), handleOpen(item);
+              }}
+              src="/react/images/download_blue.svg"
+            />
+          ) : (
+            <DownloadImg
+              onClick={() => {
+                setRowName(item.Name), handleOpen(item);
+              }}
+              src="/react/images/download_pdf.svg"
+            />
+          )}
           <LangWrapper isOpen={item.Name === rowName} last={false}>
             {item.assetUrl.en != null && item.assetUrl.en != "" && (
               <Language
@@ -290,6 +308,8 @@ const GeneralFormWrapper = styled.div`
 const DownloadImg = styled.img`
   margin-top: 5px;
   margin-left: -16px;
+  //height: 32px;
+  //width: 144px;
 `;
 
 const CommonImg = styled.img`
