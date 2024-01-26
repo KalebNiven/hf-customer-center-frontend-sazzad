@@ -63,6 +63,11 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
+        CacheBehaviors:
+          - PathPattern: /*
+            TargetOriginId: MyS3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            ResponseHeadersPolicyId: !Ref CustomerCenterResponseHeadersPolicy
         Origins:
         - DomainName: !Join [ ., [ !Ref S3BucketName, s3.amazonaws.com ] ]
           Id: !Join [ -, [ S3, !Ref S3BucketName ] ]
