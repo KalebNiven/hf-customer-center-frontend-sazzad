@@ -18,22 +18,20 @@ export const sendErrorLog = async (error) => {
       cookieEnabled: navigator.cookieEnabled,
     }
 
-    const userDetails = {
-      // we could pass and Object {} with user details like companyCode, benefitPackage etc.
-      // ideally I want to retrieve it from within this function as I don't wanna pass anything into it except error itself
-    }
+    const localStorageOKTA = JSON.parse(localStorage.getItem('okta-token-storage'));
+    const clientId = localStorageOKTA?.idToken?.clientId;
 
     const payload = {
+      clientId: clientId || null, // this is okta clientId
       errorName: error.name,
       errorMessage: error.message,
       errorStack: JSON.stringify(error.stack),
       errorPage: window.location.href,
-      appVersion: null, // ideally I want to retrieve it from within this function as I don't wanna pass anything into it except error itself
+      appVersion: null,
       clientDetails,
-      userDetails 
     }
 
-    const res = await LOFLv2(true).post('/report', payload, config);
+    const res = await LOFLv2(clientId ? true : false).post(clientId ? '/report' : '/report-anon', payload, config);
     return res.data;
   } catch (error) {
     console.error('Error caught: ', error.message)
