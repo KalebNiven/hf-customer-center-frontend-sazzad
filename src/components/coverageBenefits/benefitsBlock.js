@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from "react-redux";
-import { MainCard, InnerCard, Icon, BlueHeader, Row, HorizontalDivider, CostData, SubCategory, DataBlock, Benefits } from './styles';
+import { MainCard, InnerCard, Icon, BlueHeader, Row, HorizontalDivider, CostData, DataBlock, Benefits } from './styles';
 import { getFormattedCopay } from './utils';
 
 const BenefitsBlock = () => {

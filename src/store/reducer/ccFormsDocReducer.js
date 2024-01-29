@@ -2,7 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
   ccFormsDocDetails: [],
-  ccFormsDocLoading: false,
+  ccFormsDocLoading: true,
   error: ""
 };
 

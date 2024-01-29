@@ -251,8 +251,8 @@ export const TableDataUI = styled.div`
     }
 
     .download {
-        height: 100%;
-        width: 100%;
+        height: 56px;
+        width: 168px;
         display: flex;
         align-items: center;
         justify-content: flex-end;
@@ -575,7 +575,7 @@ export const Day = styled(IconButton)`
 `;
 
 export const NoDocumentError = styled.div`
-    max-width: 484px;
+    max-width: 548px;
     padding: 24px;
     display: flex;
     justify-content: center;

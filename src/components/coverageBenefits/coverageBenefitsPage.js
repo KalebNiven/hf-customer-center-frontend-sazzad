@@ -12,7 +12,6 @@ import {
 import FormsAndDocuments from "./formsAndDocuments";
 import ValidLOBBlock from "./validLOBBlock";
 import {
-    SHOW_CC_FORMS_AND_DOCS,
     SHOW_COVERAGE_AND_BENEFITS,
     SHOW_COVERAGE_AND_BENEFITS_VIDEOS,
 } from "../../constants/splits";
@@ -112,15 +111,8 @@ const CoverageBenefitsPage = () => {
                             >
                             </CoverageBenefitsVideoCards>
                         </FeatureTreatment>
-                        <FeatureTreatment
-                            treatmentName={SHOW_CC_FORMS_AND_DOCS}
-                            onLoad={() => {}}
-                            onTimedout={() => {}}
-                            attributes={splitAttributes}
-                        >
                             <StyledHeader>Forms & Documents</StyledHeader>
                             <FormsAndDocuments selectedMemberId={memberId} />
-                        </FeatureTreatment>
                     </Wrapper>
                 </InnerContainer>
             </FeatureTreatment>

@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { requestFormsDocs } from '../../../store/actions'; 
+import { requestFormsDocs } from '../../../store/actions';
+import DocBenefitsBlock from './docBenefitsBlock'
+import DocGeneralBlock from './docGeneralBlock'
 import { Anchor } from '../styles'
 import Spinner from "../../common/spinner";
 import { AnalyticsTrack } from "../../common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../../constants/segment";
 import FormsAndDocumentBlock from "./formsAndDocumentBlock";
-
+import { FeatureTreatment } from "./../../../libs/featureFlags";
+import {
+    SHOW_CC_FORMS_AND_DOCS,SHOW_FORMS_AND_DOCS
+} from "./../../../constants/splits"
 
 const FormsAndDocuments = ({ selectedMemberId }) => {
     const { loading, documents } = useSelector((state) => state.coverageBenefits);
@@ -86,11 +91,35 @@ const FormsAndDocuments = ({ selectedMemberId }) => {
     const showLangMenu = (docIndex, index) => {
         docIndex ? setBenfBtnIndex(index) : setGenBtnIndex(index);
     }
+    
+    const splitAttributes = {
+        lob: customerInfo.data.sessLobCode,
+        companyCode: customerInfo.data.companyCode,
+        benefitPackage: customerInfo.data.benefitPackage,
+        membershipStatus: customerInfo.data.membershipStatus,
+        accountStatus: customerInfo.data.accountStatus,
+    };
 
     return (
         loading && documents.length === 0 ? <Spinner/> : <>
             <Anchor id="forms-and-documents"></Anchor>
+            <FeatureTreatment
+                            treatmentName={SHOW_FORMS_AND_DOCS}
+                            onLoad={() => {}}
+                            onTimedout={() => {}}
+                            attributes={splitAttributes}
+                        >
+            <DocBenefitsBlock showLangMenu={showLangMenu} menuOpen={menuOpen} benfBtnIndex={benfBtnIndex} />
+            <DocGeneralBlock showLangMenu={showLangMenu} menuOpen={menuOpen} genBtnIndex={genBtnIndex} />
+            </FeatureTreatment>
+            <FeatureTreatment
+                            treatmentName={SHOW_CC_FORMS_AND_DOCS}
+                            onLoad={() => {}}
+                            onTimedout={() => {}}
+                            attributes={splitAttributes}
+                        >
             <FormsAndDocumentBlock/>
+            </FeatureTreatment>
         </>
     )
 }
