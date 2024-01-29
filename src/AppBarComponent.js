@@ -78,8 +78,8 @@ function AppBarComponent() {
   const classes = useStyles(mobileDrawerTop)();
   const customerInfo = useSelector((state) => state.customerInfo);
   const [openUserCard, setOpenUserCard] = useState(false);
-  const userName = (`${customerInfo.data.firstName} ${customerInfo.data.lastName ? customerInfo.data.lastName : ""}`);
-  const { firstName } = customerInfo.data;
+  const userName = (`${customerInfo.data.hohPlans[0].FirstName} ${customerInfo.data.hohPlans[0].LastName ? customerInfo.data.hohPlans[0].LastName : ""}`);
+  const firstName  = customerInfo.data.hohPlans[0].FirstName;
   const [homeMobileItems, setHomeMobileItems] = useState(false);
   const [findCareMobileItems, setFindCareMobileItems] = useState(false);
   const [myHealthMobileItems, setmyHealthMobileItems] = useState(false);
@@ -96,7 +96,6 @@ function AppBarComponent() {
     currentStep, setCurrentStep, run, setRun, setIsStart,
   } = useCoachMarksContext();
   const [showReward, setShowReward] = useState(false);
-  const [showHealthAssessment, setShowHealthAssessment] = useState(false);
   const appBarRef = useRef(null);
   const [appBarPosition, setAppBarPosition] = useState("relative");
   const [paymentsEnabled, setPaymentsEnabled] = useState(false);
@@ -188,10 +187,9 @@ function AppBarComponent() {
     setBinderEnabled(binderEnabledTreatment.treatment === "off" ? false : binderEnabledTreatment.treatment === "on" ? setShowPaymentFlag(true) : false);
     setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false);
     setReactPaymentsPortalEnabled(showReactPaymentsPortal.treatment === "off" ? false : showReactPaymentsPortal.treatment === "on");
-    setFormsAndDocument(showFormsAndDocs.treatment === "off" ? false :true);
     setDocumentCenter(showDocument.treatment === "off"?false:true);
     setShowHealthAssessment(healthAssessmentSurveyTreatment.treatment === "off" ? false : healthAssessmentSurveyTreatment.treatment === "on");
-    console.log(showFormsAndDocs.treatment ,showFormsAndDocument,"treatment")
+    setFormsAndDocument(showFormsAndDocs.treatment === "off" ? false : showFormsAndDocs.treatment === "on");
   };
 
   const getLangURLPrefix = (lang) => {
@@ -255,7 +253,7 @@ function AppBarComponent() {
               Account Settings
             </Settings>
           </SetDiv>
-            {showHealthAssessment && <SetDiv>
+            {splitEval.evaluateSplitByName(SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK) && <SetDiv>
               <SettImg alt="" src={`/react/images/icn-document-center.svg`} />
               <Settings
                   onClick={(e) => {
@@ -840,7 +838,7 @@ function AppBarComponent() {
                 Account Settings
               </Settings>
             </SetDiv>
-            {showHealthAssessment && <SetDiv>
+            {splitEval.evaluateSplitByName(SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK) && <SetDiv>
               <SettImg alt="" src={`/react/images/icn-document-center.svg`} />
               <Settings
                   onClick={(e) => {

@@ -13,13 +13,24 @@ export const sendErrorLog = async (error) => {
 
     const clientDetails = {
       userAgent: navigator.userAgent,
+      deviceType: navigator.userAgentData ? navigator.userAgentData.platform : "Unknown",
+      OS: navigator.platform,
       cookieEnabled: navigator.cookieEnabled,
     }
 
+    const userDetails = {
+      // we could pass and Object {} with user details like companyCode, benefitPackage etc.
+      // ideally I want to retrieve it from within this function as I don't wanna pass anything into it except error itself
+    }
+
     const payload = {
+      errorName: error.name,
       errorMessage: error.message,
+      errorStack: JSON.stringify(error.stack),
       errorPage: window.location.href,
-      clientDetails
+      appVersion: null, // ideally I want to retrieve it from within this function as I don't wanna pass anything into it except error itself
+      clientDetails,
+      userDetails 
     }
 
     const res = await LOFLv2(true).post('/report', payload, config);

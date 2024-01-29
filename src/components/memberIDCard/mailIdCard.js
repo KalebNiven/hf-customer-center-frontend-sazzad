@@ -8,6 +8,7 @@ import {AnalyticsPage, AnalyticsTrack } from "../../components/common/segment/an
 import MailIdCardButton from './mailIdCardButton'
 import MailMemberIDCardForm from './mailMemberIDCardForm'
 import moment from "moment";
+import { useAppContext } from "../../AppContext";
 
 
 const MailIdCard = (props) => {
@@ -17,6 +18,7 @@ const MailIdCard = (props) => {
     const customerDemographicsInfo = useSelector( (state) => state.customerDemographicsInfo.data);
     const [renderIdCardForm, setRenderIdCardForm] = useState(false);
     const [latestStatusRecord, setLatestStatusRecord] = useState(null);
+    const { externalSiteModal, setExternalSiteModal } = useAppContext();
 
     const handleSegmentBtn = (label) => { 
  
@@ -52,6 +54,17 @@ const MailIdCard = (props) => {
     }
 
     const handleClickToCarrierSite = (url) => { 
+      let externalSiteData = {
+        ...externalSiteModal, 
+        isVisible: true, 
+        link: url, 
+        target: "_blank", 
+        segmentPageCategory: ANALYTICS_TRACK_CATEGORY.memberIdCard, 
+        segmentTargetMemberId: props?.memberSelection?.memberId, 
+        label: 'navigateToFedexTracking',
+      };
+  
+      setExternalSiteModal(externalSiteData);
       // TODO Segment
     }
 
@@ -238,7 +251,7 @@ const MailIdCard = (props) => {
                     {(latestStatusRecord['trackingCodeURL'] != null && latestStatusRecord['trackingCode'] != null) ?
                       <TrackingContainer>
                         <TrackingIcon alt="" src="/react/images/delivery.svg" />
-                        <TrackingVerbiage>Tracking # <TrackingLink href={latestStatusRecord['trackingCodeURL']} target='_blank' rel='noreferrer noopener' onClick={() => handleClickToCarrierSite(latestStatusRecord['trackingCodeURL'])}>{latestStatusRecord['trackingCode']}</TrackingLink></TrackingVerbiage>
+                        <TrackingVerbiage>Tracking # <TrackingLink rel='noreferrer noopener' onClick={() => handleClickToCarrierSite(latestStatusRecord['trackingCodeURL'])}>{latestStatusRecord['trackingCode']}</TrackingLink></TrackingVerbiage>
                       </TrackingContainer>
                     : null
                     }
@@ -419,7 +432,7 @@ const TrackingVerbiage = styled.p`
   line-height: 1.5rem;
   color: #474B55;
 `;
-const TrackingLink = styled.a`
+const TrackingLink = styled.span`
   display: inline;
   font-size: 0.875rem;
   font-style: normal;

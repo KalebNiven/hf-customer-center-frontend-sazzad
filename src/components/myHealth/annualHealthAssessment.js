@@ -85,7 +85,7 @@ const AnnualHealthAssessment = () => {
             };
         } else if (
             checkObj.companyCode == "30" &&
-            ["NY65", "IBP1", "CBP1", "DMCR"].some(
+            ["NY65", "IBP1", "CBP1"].some(
                 (x) => x == checkObj.benefitPackage
             )
         ) {
@@ -95,7 +95,7 @@ const AnnualHealthAssessment = () => {
             };
         } else if (
             checkObj.companyCode == "30" &&
-            ["LIP1"].some(
+            ["LIP1", "DMCR"].some(
                 (x) => x == checkObj.benefitPackage
             )
         ) {
