@@ -20,7 +20,7 @@ const HomePageCoachMarks = () => {
   const { drawerOpen, setDrawerOpen } = useAppContext()
   const { run, setRun, isEnd, setIsEnd, isStart, setIsStart, currentStep, setCurrentStep, hasPassedTour, setHasPassedTour, steps, setSteps, screenWidth, setScreenWidth, menuIsOpen, setMenuIsOpen } = useCoachMarksContext()
   const [latestExistedStep, setLatestExistedStep] = useState(null)
-  const firstName = customerInfo.data.hohPlans[0].FirstName;
+  const firstName = customerInfo?.data?.hohPlans[0] ? customerInfo.data.hohPlans[0].FirstName : customerInfo?.data?.firstName
   // check if tour was already taken by the user
   useEffect(() => {
     if(memberId) {
