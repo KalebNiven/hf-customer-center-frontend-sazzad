@@ -103,9 +103,6 @@ Resources:
           AllowedMethods: 
             - GET
             - HEAD
-          CachedMethods: 
-            - GET
-            - HEAD
           ForwardedValues: 
               QueryString: false
               Cookies:
