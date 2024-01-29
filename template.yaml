@@ -65,7 +65,7 @@ Resources:
       DistributionConfig:
         CacheBehaviors:
           - PathPattern: /*
-            TargetOriginId: MyS3Origin
+            TargetOriginId: !Join [ -, [ S3, !Ref S3BucketName ] ]
             ViewerProtocolPolicy: redirect-to-https
             ResponseHeadersPolicyId: !Ref CustomerCenterResponseHeadersPolicy
         Origins:
