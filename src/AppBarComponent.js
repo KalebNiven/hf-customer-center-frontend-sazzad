@@ -187,10 +187,9 @@ function AppBarComponent() {
     setBinderEnabled(binderEnabledTreatment.treatment === "off" ? false : binderEnabledTreatment.treatment === "on" ? setShowPaymentFlag(true) : false);
     setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false);
     setReactPaymentsPortalEnabled(showReactPaymentsPortal.treatment === "off" ? false : showReactPaymentsPortal.treatment === "on");
+    setFormsAndDocument(showFormsAndDocs.treatment === "off" ? false :true);
     setDocumentCenter(showDocument.treatment === "off"?false:true);
-    setShowHealthAssessment(healthAssessmentSurveyTreatment.treatment === "off" ? false : healthAssessmentSurveyTreatment.treatment === "on");
-    setFormsAndDocument(showFormsAndDocs.treatment === "off" ? false : showFormsAndDocs.treatment === "on");
-  };
+   };
 
   const getLangURLPrefix = (lang) => {
     switch (lang) {
