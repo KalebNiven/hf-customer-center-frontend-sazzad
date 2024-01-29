@@ -76,6 +76,7 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
+  height:290px;
   margin-right: 3rem;
   max-width: 54%;
   padding: 24px;
@@ -84,6 +85,9 @@ const Container = styled.div`
 
   /* lvl-1 */
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+  @media only screen and (min-width: 760px) {
+    height: 245px;
+} ;
 `;
 
 const Image = styled.img`
