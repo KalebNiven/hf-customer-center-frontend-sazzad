@@ -71,12 +71,12 @@ Resources:
             AllowedMethods: 
             - GET
             - HEAD
-          ForwardedValues: 
+            ForwardedValues: 
               QueryString: false
               Cookies:
                 Forward: none
-          SmoothStreaming : false
-          Compress: false
+            SmoothStreaming : false
+            Compress: false
         Origins:
         - DomainName: !Join [ ., [ !Ref S3BucketName, s3.amazonaws.com ] ]
           Id: !Join [ -, [ S3, !Ref S3BucketName ] ]
@@ -100,9 +100,9 @@ Resources:
           AllowedMethods: 
             - GET
             - HEAD
-         CachedMethods: 
-          - GET
-          - HEAD
+          CachedMethods: 
+            - GET
+            - HEAD
           ForwardedValues: 
               QueryString: false
               Cookies:
