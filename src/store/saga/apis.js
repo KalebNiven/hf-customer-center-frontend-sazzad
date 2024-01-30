@@ -22,7 +22,7 @@ export const sendErrorLog = async (error) => {
     const clientId = localStorageOKTA?.idToken?.clientId;
 
     const payload = {
-      clientId: clientId || null, // this is okta clientId
+      oClientId: clientId || null, // this is okta clientId
       errorName: error.name,
       errorMessage: error.message,
       errorStack: JSON.stringify(error.stack),
