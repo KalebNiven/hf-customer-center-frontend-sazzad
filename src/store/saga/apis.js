@@ -31,7 +31,7 @@ export const sendErrorLog = async (error) => {
       clientDetails,
     }
 
-    const res = await LOFLv2(clientId ? true : false).post(clientId ? '/report' : '/report-anon', payload, config);
+    const res = await LOFLv2(oktaClientId ? true : false).post(oktaClientId ? '/report' : '/report-anon', payload, config);
     return res.data;
   } catch (error) {
     console.error('Error caught: ', error.message)
