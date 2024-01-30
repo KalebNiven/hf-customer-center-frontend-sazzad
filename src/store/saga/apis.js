@@ -19,10 +19,10 @@ export const sendErrorLog = async (error) => {
     }
 
     const localStorageOKTA = JSON.parse(localStorage.getItem('okta-token-storage'));
-    const clientId = localStorageOKTA?.idToken?.clientId;
+    const oktaClientId = localStorageOKTA?.idToken?.clientId;
 
     const payload = {
-      clientId: clientId || null, // this is okta clientId
+      oktaClientId: oktaClientId || null,
       errorName: error.name,
       errorMessage: error.message,
       errorStack: JSON.stringify(error.stack),
@@ -31,7 +31,7 @@ export const sendErrorLog = async (error) => {
       clientDetails,
     }
 
-    const res = await LOFLv2(clientId ? true : false).post(clientId ? '/report' : '/report-anon', payload, config);
+    const res = await LOFLv2(oktaClientId ? true : false).post(oktaClientId ? '/report' : '/report-anon', payload, config);
     return res.data;
   } catch (error) {
     console.error('Error caught: ', error.message)
