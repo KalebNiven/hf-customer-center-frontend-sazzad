@@ -19,9 +19,9 @@ Parameters:
     Description: CloudFront CNAME 
     Type: String
     Default: customer-centr-frontend-dev.healthfirst.org
-  AwsContentSecurityPolicy:
-    Description: AWS ContentSecurityPolicy
-    Type: String 
+  # AwsContentSecurityPolicy:
+  #   Description: AWS ContentSecurityPolicy
+  #   Type: String 
  
 Resources:
 ##########################################################################
@@ -40,43 +40,12 @@ Resources:
         SigningProtocol: sigv4
         
 ##########################################################################
-### CLOUDFRONT / RESPONSE HEADER POLICY ##################################
-##########################################################################
-  CustomerCenterResponseHeadersPolicy:
-    Type: AWS::CloudFront::ResponseHeadersPolicy
-    Properties:
-      ResponseHeadersPolicyConfig:
-        Name: CustomerCenterResponseHeadersPolicy
-        Comment: We will add CustomerCenter Response Header Policy here 
-        SecurityHeadersConfig:
-          ContentSecurityPolicy:
-            ContentSecurityPolicy: !Ref AwsContentSecurityPolicy
-            Override: true
-  # Overide: A Boolean that determines whether CloudFront overrides the Content-Security-Policy HTTP response header received from the origin with the one specified in this response headers policy.
-  # Reference:https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/creating-response-headers-policies.html
-  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-responseheaderspolicy-contentsecuritypolicy.html
-
-##########################################################################
 ### CLOUDFRONT / DISTRIBUTION ############################################
 ##########################################################################
   Distribution:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
-        CacheBehaviors:
-          - PathPattern: /*
-            TargetOriginId: !Join [ -, [ S3, !Ref S3BucketName ] ]
-            ViewerProtocolPolicy: redirect-to-https
-            ResponseHeadersPolicyId: !Ref CustomerCenterResponseHeadersPolicy
-            AllowedMethods: 
-            - GET
-            - HEAD
-            ForwardedValues: 
-              QueryString: false
-              Cookies:
-                Forward: none
-            SmoothStreaming : false
-            Compress: false
         Origins:
         - DomainName: !Join [ ., [ !Ref S3BucketName, s3.amazonaws.com ] ]
           Id: !Join [ -, [ S3, !Ref S3BucketName ] ]
