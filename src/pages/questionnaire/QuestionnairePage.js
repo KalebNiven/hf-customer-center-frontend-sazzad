@@ -6,11 +6,12 @@ import { useParams } from 'react-router-dom'
 
 export default () => {
     const { lob } = useParams();
-    const splitAttributes = { lob };
+    const formattedLob = lob.toUpperCase()
+    const splitAttributes = { lob: formattedLob };
 
     return (
         <PublicPageLayout splitFeatureName={QUESTIONNAIRE_PAGE} attributes={splitAttributes}>
-            <Questionnaire lob={lob} />
+            <Questionnaire lob={formattedLob} />
         </PublicPageLayout>
     )
 }
