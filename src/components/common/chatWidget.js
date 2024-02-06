@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { SHOW_CHAT_WIDGET } from '../../constants/splits'
 import { FeatureTreatment } from "../../libs/featureFlags";
 import useLogError from '../../hooks/useLogError';
+import { useSurveyContext } from '../../context/surveyContext';
 
 export const ChatWidget = ({ memberId, jwt, nonce }) => {
     const customerInfo = useSelector((state) => state.customerInfo);
@@ -41,7 +42,16 @@ export const ChatWidget = ({ memberId, jwt, nonce }) => {
 export const ChatWidgetScript = ({ memberId, removeChatWidget, jwt, nonce }) => {
     const { MIX_CHAT_WIDGET_BASE_URL } = process.env;
     const { logError } = useLogError();
+    const { digitalSurveyWidget, triggerDigitalSurveyByEventName, DIGITAL_SURVEY_EVENTS } = useSurveyContext();
 
+    const handleChatWindowClosed = (isChatClosed) => {
+    // Trigger the survey
+        if(isChatClosed){
+           setTimeout(() => {
+            if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.CHAT)
+        }, 3000)
+          }
+    };
     // Chat Widget Integration
     useEffect(() => {
         if(!removeChatWidget) {
@@ -56,7 +66,8 @@ export const ChatWidgetScript = ({ memberId, removeChatWidget, jwt, nonce }) => 
                         token: jwt.slice(7), // Slice Bearer part
                         nonce: nonce,
                         caller: "web",
-                        memberId: memberId
+                        memberId: memberId,
+                        onChatWindowClosed: handleChatWindowClosed
                     })
                 } catch (error) {
                     (async () => {
