@@ -100,7 +100,6 @@ function AppBarComponent() {
   const [appBarPosition, setAppBarPosition] = useState("relative");
   const [paymentsEnabled, setPaymentsEnabled] = useState(false);
   const [showFormsAndDocument,setFormsAndDocument] = useState(false);
-  const [showDocumentCenter,setDocumentCenter] = useState(false);
   const [binderEnabled, setBinderEnabled] = useState(false);
   const [rewardsEnabled, setRewardsEnabled] = useState(false);
   const [reactPaymentsPortalEnabled, setReactPaymentsPortalEnabled] = useState(false);
@@ -188,7 +187,6 @@ function AppBarComponent() {
     setRewardsEnabled(rewardsEnabledTreatment.treatment === "off" ? false : rewardsEnabledTreatment.treatment === "on" ? setShowReward(true) : false);
     setReactPaymentsPortalEnabled(showReactPaymentsPortal.treatment === "off" ? false : showReactPaymentsPortal.treatment === "on");
     setFormsAndDocument(showFormsAndDocs.treatment === "off" ? false :true);
-    setDocumentCenter(showDocument.treatment === "off"?false:true);
    };
 
   const getLangURLPrefix = (lang) => {
@@ -277,19 +275,7 @@ function AppBarComponent() {
             </Settings>
           </SetDiv>
           )}
-          {showDocumentCenter
-              && (
-          <SetDiv>
-            <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/document.svg`} />
-            <Settings onClick={(e) => {
-              handleClick(e, '/document-center', '', 'Document Center', 'Document Center');
-              setOpenUserCard(false);
-            }}
-            >
-             Document Center
-            </Settings>
-          </SetDiv>
-           )}
+
           {showReward
               && (
               <SetDiv>
@@ -771,7 +757,7 @@ function AppBarComponent() {
                     }
                 }
       >
-
+        <DocLinkComp {...props} />
       </FeatureTreatment>
     );
 
@@ -789,7 +775,7 @@ function AppBarComponent() {
           style={{ display: "inline-block", width: '19px', height: '19px' }}
           src={`/react/images/icn-document-center.svg`}
         />
-         <Settings
+        <Settings
           onClick={(e) => {
             handleClick(
               e,
@@ -860,19 +846,7 @@ function AppBarComponent() {
               </Settings>
               </SetDiv>
                )}
-                {showDocumentCenter
-              && (
-               <SetDiv>
-            <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/document.svg`} />
-            <Settings onClick={(e) => {
-              handleClick(e, '/document-center', '', 'Document Center', 'Document Center');
-              setOpenUserCard(false);
-            }}
-            >
-             Document Center
-            </Settings>
-          </SetDiv>
-           )}
+
             {showReward
               && (
               <SetDiv>
