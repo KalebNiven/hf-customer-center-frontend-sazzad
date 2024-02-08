@@ -46,10 +46,8 @@ export const ChatWidgetScript = ({ memberId, removeChatWidget, jwt, nonce }) => 
 
     const handleChatWindowClosed = (isChatClosed) => {
     // Trigger the survey
-        if(isChatClosed){
-           setTimeout(() => {
-            if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.CHAT)
-        }, 3000)
+        if(isChatClosed && digitalSurveyWidget){
+             triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.CHAT)
           }
     };
     // Chat Widget Integration
