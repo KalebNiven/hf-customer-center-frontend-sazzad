@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from 'styled-components';
 import { useDispatch, useSelector } from "react-redux";
 import { ModalWrapper, ModalInnerWrapper, ModalContent, CloseIcon, ButtonWrapper } from "../../styles/commonStyles";
@@ -30,17 +30,7 @@ const MemberSelectionModal = () => {
         history.replace('/home');
     }
 
-    splitHookClient.on(splitHookClient.Event.SDK_READY, function() {
-        getPlansWithPayments();
-    });
-
-    useEffect(() => {
-        if(splitHookClient.Event.SDK_READY){
-            getPlansWithPayments();
-        }
-    }, []);
-
-    const checkACLs = (plan, accountStatus) => {
+    const checkACLs = useCallback((plan, accountStatus) => {
         let planAttrs = {
           memberId: plan?.MemberId,
           lob: plan?.LOBCode,
@@ -52,9 +42,9 @@ const MemberSelectionModal = () => {
         let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, planAttrs);
         let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, planAttrs);
         return (paymentsEnabledTreatment.treatment === "on" || binderEnabledTreatment.treatment === "on");
-    }
+    },[]);
 
-    const getPlansWithPayments = () => {
+    const getPlansWithPayments = useCallback(() => {
         let filteredPlans = [];
         customerInfo.hohPlans.forEach((plan) => {
             if(checkACLs(plan, customerInfo?.accountStatus)){
@@ -62,7 +52,16 @@ const MemberSelectionModal = () => {
             }
         });
         setPlans(filteredPlans);
-    }
+    },[customerInfo, checkACLs, setPlans]);
+
+
+    useEffect(()=>{
+        if(!splitHookClient.Event.SDK_READY) return;
+        splitHookClient.on(splitHookClient.Event.SDK_READY, function() {
+            getPlansWithPayments();
+        });
+        //TODO: return splitHookClient unmount cb
+    },[getPlansWithPayments]);
 
     return (
         <div>
@@ -124,7 +123,7 @@ const FormModalWrapper = styled(ModalWrapper)`
 `
 
 const ModalInnerWrapperCustom = styled(ModalInnerWrapper)`
-    
+
 `;
 
 const FormModalContent = styled(ModalContent)`
@@ -191,7 +190,7 @@ const MembersList = styled.div`
         ::-webkit-scrollbar-thumb:hover {
           background: #c3c3ce;
         }
-  
+
 `;
 
 const Card = styled.div`
@@ -204,8 +203,8 @@ const Card = styled.div`
   background-color: #ffffff;
   border: solid 1px #d8d8d8;
   background-color: ${props => props.enable ? '#ffffff' : '#A8ABAC'};
-  
-  
+
+
   &:hover {
     ${props => props.enable ? `
         cursor:pointer;
