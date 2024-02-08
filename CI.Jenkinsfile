@@ -76,7 +76,6 @@ pipeline{
         PIPELINE_CommonAppKvVersion = "${CommonAppKvVersion}"
         PIPELINE_ConsulEnvironment = "${consulEnvironment}"
         PIPELINE_ManifestGenModuleVersion = "${manifestGenModuleVersion}"
-        PATH = "~/.nvm/versions/node/v14.4.0/bin/:$PATH"
     }
     stages{
         stage('Get Dependencies'){
