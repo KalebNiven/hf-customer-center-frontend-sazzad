@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - name: node-v20
+      image: 543733427846.dkr.ecr.us-east-1.amazonaws.com/cicd/hf-cicd:node-v20-ubi8-latest
+      imagePullPolicy: Always
+      command:
+        - sleep
+      args:
+        - 99d
+      tty: false
