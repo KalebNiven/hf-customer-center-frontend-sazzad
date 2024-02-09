@@ -134,6 +134,13 @@ pipeline{
                     sh "wget  https://artifactory.healthfirst.org/artifactory/IAC-PLATFORM-COMMON/Veracode/${CONSUL_IACCommonVeracodeVersion}/deleteOldSandbox.py"
                     //Download SNOW Module 
                     getArtifactoryFolder("IAC-PLATFORM-COMMON/Snow/${SNOW_MODULE_VERSION}", "${CONSUL_cimodulesfolder}/")
+
+                    println "--------- NPM Version ---------"
+                    sh 'npm -version'
+                    println "--------- Node Version ----------"
+                    sh 'node --version'
+                    println ''
+                    
                 }
             }
             post{
