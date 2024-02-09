@@ -215,11 +215,15 @@ const SSOCards = () => {
               {row?.routeLink === 'payments' && costEstimatorWidgetEnabled !== null && costEstimatorWidgetEnabled !== true
 
                 ? (
-                  <ExternalSiteLink link="https://hfcostlookup.org/" label="hfcostlookup" target="_blank" styles={{ display: "flex" }}>
+                  <ExternalSiteLink 
+                    link="https://hfcostlookup.org/" 
+                    label="hfcostlookup" 
+                    target="_blank" 
+                    styles={{ display: "flex", width: innerWidth > 668 ? "calc(50% - 12px)" : "100%" }}
+                  >
                     <Card>
                       <SuggestionImage alt="" src={row?.img} />
                       <SuggestionVerbiage>{row?.name}</SuggestionVerbiage>
-                      <SizedBox />
                     </Card>
                   </ExternalSiteLink>
                 )
@@ -352,31 +356,6 @@ const ExternalLinkCardRow = styled.div`
   gap:8px;
 `;
 
-const SizedBox = styled.div`
-width:143px;
-heigth:56px;
-border-radius: 4px;
-box-shadow: 0 2px 8px 0 #d8d8d8;
-background-color: #ffffff;
- &:hover{
-    cursor:pointer;
-    background-color: #f3f3f3;
-  }
-  &:focus {
-    cursor:pointer;
-    background-color: #e6e6e6;
-  }
-
-  @media only screen and (max-width: 1024px) {
-    width:95px;
-  }
-  @media only screen and (max-width: 768px) {
-    width:115px;
-  }
-  @media only screen and (max-width: 425px) {
-    width:222px;
-  }
-`;
 export const Card = styled.div`
   padding: 16px;
   border-radius: 4px;
