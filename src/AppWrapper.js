@@ -105,8 +105,6 @@ const AppWrapper = () => {
                         <SecureRoute path="/hra/:memberId" component={HRAPage} />
                         <SecureRoute exact path="/settings" component={SettingsPage} />
                         <SecureRoute exact path="/costEstimator" component={CostEstimatorPage} />
-                        {/* <SecureRoute exact path="/otc/learn-more" component={OTCLearnMorePage} />
-                        <SecureRoute exact path="/otc/activate-card" component={OTCActivatePage} /> */}
                         <SecureRoute path="/signatureChecklist" component={SignatureChecklistPage} />
                         <SecureRoute exact path='/addMembership' component={AddMembershipPage} />
                         <SecureRoute exact path="/selectPreferredContacts" component={SelectPreferredContactsPage} />
