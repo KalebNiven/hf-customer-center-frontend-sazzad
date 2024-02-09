@@ -139,7 +139,6 @@ pipeline{
                     sh 'npm -version'
                     println "--------- Node Version ----------"
                     sh 'node --version'
-                    println ''
                     
                 }
             }
