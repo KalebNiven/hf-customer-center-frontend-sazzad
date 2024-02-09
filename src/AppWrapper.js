@@ -30,7 +30,6 @@ import CommunityResourcesCategoryPage from './pages/my-health/community-resource
 import CommunityResourcesDetailsPage from './pages/my-health/community-resources/CommunityResourcesDetailsPage';
 import CommunityResourcesPage from './pages//my-health/community-resources/CommunityResourcesPage';
 import OTCLearnMorePage from './pages/otc/OTCLearnMorePage';
-import OTCActivatePage from './pages/otc/OTCActivatePage';
 import SettingsPage from './pages/settings/SettingsPage';
 import CostEstimatorPage from './pages/cost-estimator/CostEstimatorPage';
 import SignatureChecklistPage from './pages/signature-checklist/SignatureChecklistPage';
