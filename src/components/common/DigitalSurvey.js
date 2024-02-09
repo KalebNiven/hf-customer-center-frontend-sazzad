@@ -13,8 +13,8 @@ const DigitalSurvey = () => {
     const { logError } = useLogError();
     const { memberId, id_token, customerId } = useSelector((state) => state.customerInfo.data);
     const token = (id_token === undefined ? id_token : id_token.replace('Bearer ', ''));
-    const splitHookClient = useClient(customerId === null ? 'Anonymous' : customerId);
-    const { treatment } = splitHookClient.getTreatmentWithConfig(DIGITAL_SURVEY, {});
+    const splitHookClient = useClient();
+    const { treatment } = splitHookClient.getTreatmentWithConfig(DIGITAL_SURVEY);
 
     useEffect(() => {
         if(!token || !memberId) return;

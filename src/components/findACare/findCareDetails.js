@@ -88,13 +88,9 @@ const FindCareDetails = (props) => {
                 onBackClicked: handleBackClicked,
                 onMakePCP: () => {},
                 onPcpUpdateComplete: () => {
-
-                Cookies.set('ChangeYourPCP','true',{expires:1}) 
-                setTimeout(() => {
+                  Cookies.set('ChangeYourPCP','true',{expires:1}) 
                   if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.PCP_UPDATE)
                   dispatch(requestPcpHousehold()); 
-                }, 5000)
-                  
                 }
             }
             return mountProps
