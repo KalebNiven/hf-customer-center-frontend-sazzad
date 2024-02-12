@@ -6,7 +6,7 @@ const DIGITAL_SURVEY_EVENTS = {
     CLAIM_SUBMITTED: 'CLAIM_SUBMITTED',
     MAIL_ID_CARD: 'MAIL_ID_CARD',
     PCP_UPDATE: 'PCP_UPDATE',
-    CHAT: 'CHAT' 
+    CHAT: 'CC_CHAT' 
 }
 
 export const SurveyContextProvider = ({ children }) => {
