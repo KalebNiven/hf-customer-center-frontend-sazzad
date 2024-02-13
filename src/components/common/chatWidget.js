@@ -40,16 +40,20 @@ export const ChatWidget = ({ memberId, jwt, nonce }) => {
 }
 
 export const ChatWidgetScript = ({ memberId, removeChatWidget, jwt, nonce }) => {
+ 
     const { MIX_CHAT_WIDGET_BASE_URL } = process.env;
     const { logError } = useLogError();
     const { digitalSurveyWidget, triggerDigitalSurveyByEventName, DIGITAL_SURVEY_EVENTS } = useSurveyContext();
-
-    const handleChatWindowClosed = (isChatClosed) => {
-    // Trigger the survey
-        if(isChatClosed && digitalSurveyWidget){
-             triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.CHAT)
-          }
+   
+    const handleChatWindowClosed = () => {
+      // Trigger the survey
+      if (digitalSurveyWidget)
+        triggerDigitalSurveyByEventName(
+          digitalSurveyWidget,
+          DIGITAL_SURVEY_EVENTS.CHAT
+        );
     };
+
     // Chat Widget Integration
     useEffect(() => {
         if(!removeChatWidget) {
@@ -107,7 +111,7 @@ export const ChatWidgetScript = ({ memberId, removeChatWidget, jwt, nonce }) => 
                 })()
             }
         }
-    }, [memberId, jwt, nonce])
+    }, [memberId, jwt, nonce, digitalSurveyWidget])
 
     return <></>
 }
