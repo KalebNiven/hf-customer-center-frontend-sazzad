@@ -23,21 +23,9 @@ const PaymentPortal = () => {
   useEffect(()=>{
     const uniqueHash = (+new Date).toString(16); //to prevent caching
 
-    const tailwindCSS = document.createElement('link');
-    tailwindCSS.className='hf--payments--bundle';
-    tailwindCSS.href = `https://${MIX_REACT_PAYMENTS_BASE_URL}/dist/tailwind-bundle.css`;
-    tailwindCSS.rel= 'stylesheet';
-    document.head.insertBefore(tailwindCSS, document.head.childNodes[0]);
-
-    const appLink = document.createElement('link');
-    appLink.className='hf--payments--bundle';
-    appLink.href = `https://${MIX_REACT_PAYMENTS_BASE_URL}/dist/payments-bundle.css?h=${uniqueHash}`;
-    appLink.rel= 'stylesheet';
-    document.head.appendChild(appLink);
-
     const script = document.createElement('script');
     script.className='hf--payments--bundle';
-    script.src = `https://${MIX_REACT_PAYMENTS_BASE_URL}/dist/payments-bundle.js?h=${uniqueHash}`;
+    script.src = `https://${MIX_REACT_PAYMENTS_BASE_URL}/payments-asset-loader-app.js?h=${uniqueHash}`;
     script.setAttribute('defer','defer'); //adding a value to defer to ensure it registers
     script.onerror = () => setIsError(true);
     document.head.appendChild(script);
