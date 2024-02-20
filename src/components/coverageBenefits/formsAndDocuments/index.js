@@ -10,7 +10,7 @@ import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../../constan
 import FormsAndDocumentBlock from "./formsAndDocumentBlock";
 import { FeatureTreatment } from "./../../../libs/featureFlags";
 import {
-    SHOW_CC_FORMS_AND_DOCS,SHOW_FORMS_AND_DOCS
+    SHOW_FORMS_AND_DOCS
 } from "./../../../constants/splits"
 
 const FormsAndDocuments = ({ selectedMemberId }) => {
@@ -105,15 +105,6 @@ const FormsAndDocuments = ({ selectedMemberId }) => {
             <Anchor id="forms-and-documents"></Anchor>
             <FeatureTreatment
                             treatmentName={SHOW_FORMS_AND_DOCS}
-                            onLoad={() => {}}
-                            onTimedout={() => {}}
-                            attributes={splitAttributes}
-                        >
-            <DocBenefitsBlock showLangMenu={showLangMenu} menuOpen={menuOpen} benfBtnIndex={benfBtnIndex} />
-            <DocGeneralBlock showLangMenu={showLangMenu} menuOpen={menuOpen} genBtnIndex={genBtnIndex} />
-            </FeatureTreatment>
-            <FeatureTreatment
-                            treatmentName={SHOW_CC_FORMS_AND_DOCS}
                             onLoad={() => {}}
                             onTimedout={() => {}}
                             attributes={splitAttributes}

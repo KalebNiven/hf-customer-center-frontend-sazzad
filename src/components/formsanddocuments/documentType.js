@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import FormsAndDocumentsModel from "./formsAndDocument";
 import { FeatureTreatment } from "../../libs/featureFlags";
-import { SHOW_DOC,SHOW_CC_FORMS_AND_DOCS} from "../../constants/splits";
+import { SHOW_DOC,SHOW_FORMS_AND_DOCS} from "../../constants/splits";
 import { useSelector } from "react-redux";
 
 const DocumentType = () => {
@@ -14,9 +14,9 @@ const DocumentType = () => {
   const splitAttributes = {
     memberId: customerInfo.data.memberId,
     customerId: customerInfo.data.customerId,
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
+    lob: customerInfo.data.sessLobCode, 
+    companyCode: customerInfo.data.hohPlans?.map(plan => plan.CompanyNumber),
+    benefitPackage: customerInfo.data.hohPlans?.map(plan => plan.BenefitPackage),
     membershipStatus: customerInfo.data.membershipStatus,
     accountStatus: customerInfo.data.accountStatus,
   };
@@ -31,8 +31,8 @@ const DocumentType = () => {
         <>
         <FeatureTreatment
                   key="forms_and_document_page_feature"
-                  treatmentNames={SHOW_CC_FORMS_AND_DOCS}
-                  treatmentName= {SHOW_CC_FORMS_AND_DOCS}
+                  treatmentNames={SHOW_FORMS_AND_DOCS}
+                  treatmentName= {SHOW_FORMS_AND_DOCS}
                   onLoad={() => {}}
                   onTimedout={() => {}}
                   attributes={splitAttributes}
