@@ -9,6 +9,7 @@ import DataTable from "react-data-table-component";
 import CommonlyUsedForm from "./commonlyUsedForm";
 import DependentBlock from "../common/dependentBlock";
 import { FeatureTreatment } from "../../libs/featureFlags";
+import { useClient } from "@splitsoftware/splitio-react";
 import {
   Container,
   Main,
@@ -66,6 +67,23 @@ const FormsAndDocuments = (props) => {
   const ccForms = useSelector((state) => state.ccFormsDoc);
   const customerInfo = useSelector((state) => state.customerInfo);
   const { memberId } = memberSelection;
+  const [loadSplit, setLoadSplit] = useState({ treatment: 'control', config: null });
+
+  useEffect(() => {
+    if (loadSplit.treatment !== "control") return;
+    setTab()
+  }, [loadSplit]);
+
+  const setTab = () =>{
+    const plansAndDocumentTreatment = splitHookClient.getTreatmentWithConfig(
+      SHOW_FORMS_AND_DOCS,
+      splitAttributes,
+    );
+   
+    if(plansAndDocumentTreatment.treatment === "off" || plansAndDocumentTreatment.treatment === "control" ){
+      setSelectedTab(navItems[1].href);
+    }
+  }
 
 
   const splitAttributes = {
@@ -77,6 +95,7 @@ const FormsAndDocuments = (props) => {
     membershipStatus: customerInfo.data.membershipStatus,
     accountStatus: customerInfo.data.accountStatus,
   };
+  const splitHookClient = useClient();
 
   useEffect(() => {
     if (memberId) {
