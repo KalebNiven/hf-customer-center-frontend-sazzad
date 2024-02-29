@@ -1,0 +1,74 @@
+name: "Check Consul Variables"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+env:
+  NODE_VERSION: 20.11
+
+jobs:
+  check-consul-vars:
+    runs-on: [ prod-k8s-dind ]
+    container:
+      # An optimization to this action would be using a
+      # container that already has node, git, etc. installed
+      image: registry.access.redhat.com/ubi8/ubi
+      options: --user root
+
+    steps:
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install Git
+        id: install-git
+        run: |
+          yum -y install git
+        shell: bash
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Make repo safe
+        id: make-repo-safe
+        run: |
+          git config --global --add safe.directory $GITHUB_WORKSPACE
+
+      - name: Get Git diff
+        id: git-diff
+        run: |
+          git diff HEAD^ HEAD > temp_diff_output.txt
+        shell: bash
+
+      - name: Check for consul variables
+        id: check-for-jinja-changes
+        run: node scripts/check-consul-vars.js temp_diff_output.txt
+        continue-on-error: true
+
+      # Note that this step checks for a failure of the previous action. This is why we set continue-on-error
+      # to be true. An enhancement of this action would instead set some outout from the previous step that
+      # this step, or subsequent steps, could use to determine if consul changes exist in the .jinja2 files
+      # or even if consul variables are being used in code e.g. const { MIX_MY_CONSUL_VAR } = process.env;
+      - name: Label PR if jinja2 files changed
+        if: steps.check-for-jinja-changes.outcome == 'failure'
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # One limitation of this action, as implemented, is that it doesn't
+          # remove the Consul label from a PR if the most recent commit of a
+          # PR has removed all instances of diffs in the jinja files.
+          script: |
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Consul']
+            })
