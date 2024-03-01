@@ -38,7 +38,7 @@ const Carousel = () => {
     }
     // The single quotes in the title comes back from the API as unicode, which we need to replace
     const escapedTitle = item.slideTitle?.replace(/[\u2018\u2019]/g, "'");
-    handleSegmentClick("/home", item.linkVerbiage, escapedTitle, "button", "top", customerInfo , "home"); 
+    handleSegmentClick("/home", item.linkVerbiage, escapedTitle, "link", "top", customerInfo , "home"); 
   }
 
   return (
