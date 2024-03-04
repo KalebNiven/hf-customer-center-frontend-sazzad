@@ -123,11 +123,11 @@ const FormsAndDocuments = (props) => {
   useEffect(() => {
     setMemberSelection({
       ...memberSelection,
-      memberId: customerInfo.data.hohPlans[0].MemberId,
-      planName: customerInfo.data.hohPlans[0].PlanName,
-      membershipStatus: customerInfo.data.hohPlans[0].MembershipStatus,
-      membershipEffectiveDate: customerInfo.data.hohPlans[0].MembershipEffectiveDate,
-      membershipExpirationDate: customerInfo.data.hohPlans[0].MembershipExpirationDate,
+      memberId: customerInfo?.data?.hohPlans[0]?.MemberId,
+      planName: customerInfo?.data?.hohPlans[0]?.PlanName,
+      membershipStatus: customerInfo?.data?.hohPlans[0]?.MembershipStatus,
+      membershipEffectiveDate: customerInfo?.data?.hohPlans[0]?.MembershipEffectiveDate,
+      membershipExpirationDate: customerInfo?.data?.hohPlans[0]?.MembershipExpirationDate,
       companyCode: customerInfo.data.companyCode,
       lob: customerInfo.data.sessLobCode,
       groupNumber: customerInfo.data.hohPlans[0].GroupNumber,
