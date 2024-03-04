@@ -15,8 +15,8 @@ const DocumentType = () => {
     memberId: customerInfo.data.memberId,
     customerId: customerInfo.data.customerId,
     lob: customerInfo.data.sessLobCode, 
-    companyCode: customerInfo.data.hohPlans?.map(plan => plan.CompanyNumber),
-    benefitPackage: customerInfo.data.hohPlans?.map(plan => plan.BenefitPackage),
+    companyCode: customerInfo.data.hohPlans?.find(plan => plan.CompanyNumber),
+    benefitPackage: customerInfo.data.hohPlans?.find(plan => plan.BenefitPackage),
     membershipStatus: customerInfo.data.membershipStatus,
     accountStatus: customerInfo.data.accountStatus,
   };
