@@ -87,13 +87,13 @@ const FormsAndDocuments = (props) => {
 
 
   const splitAttributes = {
-    memberId: customerInfo.data.memberId,
-    customerId: customerInfo.data.customerId,
-    lob: customerInfo.data.sessLobCode, 
-    companyCode: customerInfo.data.hohPlans?.map(plan => plan.CompanyNumber),
-    benefitPackage: customerInfo.data.hohPlans?.map(plan => plan.BenefitPackage),
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
+    memberId: customerInfo?.data?.memberId,
+    customerId: customerInfo?.data?.customerId,
+    lob: customerInfo?.data?.sessLobCode, 
+    companyCode: customerInfo?.data?.hohPlans?.map(plan => plan?.CompanyNumber),
+    benefitPackage: customerInfo?.data?.hohPlans?.map(plan => plan?.BenefitPackage),
+    membershipStatus: customerInfo?.data?.membershipStatus,
+    accountStatus: customerInfo?.data?.accountStatus,
   };
   const splitHookClient = useClient();
 
