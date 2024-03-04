@@ -130,11 +130,11 @@ const FormsAndDocuments = (props) => {
       membershipExpirationDate: customerInfo?.data?.hohPlans[0]?.MembershipExpirationDate,
       companyCode: customerInfo.data.companyCode,
       lob: customerInfo.data.sessLobCode,
-      groupNumber: customerInfo.data.hohPlans[0].GroupNumber,
-      benefitPackage: customerInfo.data.hohPlans[0].BenefitPackage,
-      firstName: customerInfo.data.hohPlans[0].FirstName,
-      lastName:  customerInfo.data.hohPlans[0].LastName,
-      memberYear: customerInfo.data.hohPlans[0].memberYear,
+      groupNumber: customerInfo?.data?.hohPlans[0]?.GroupNumber,
+      benefitPackage: customerInfo?.data?.hohPlans[0]?.BenefitPackage,
+      firstName: customerInfo?.data?.hohPlans[0]?.FirstName,
+      lastName:  customerInfo?.data?.hohPlans[0]?.LastName,
+      memberYear: customerInfo?.data?.hohPlans[0]?.memberYear,
     });
   }, [customerInfo]);
 
