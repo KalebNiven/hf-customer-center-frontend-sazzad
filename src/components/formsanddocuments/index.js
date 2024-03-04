@@ -110,9 +110,7 @@ const FormsAndDocuments = (props) => {
           ? memberSelection.companyCode
           : memberSelection.CompanyNumber,
         lob: memberSelection.lob ? memberSelection.lob : memberSelection.lob,
-        groupNumber: memberSelection.groupNumber
-          ? memberSelection.groupNumber
-          : memberSelection.groupNumber,
+        groupNumber: memberSelection?.groupNumber
         membershipStatus: memberSelection?.membershipStatus
         year: memberSelection.memberYear,
       };
