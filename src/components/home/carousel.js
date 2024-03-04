@@ -16,10 +16,10 @@ const Carousel = () => {
 
   const history = useHistory();
   const slideItems = useSelector((state) => state.homeDetails.carouselItems);
-  const customerInfo = useSelector((state) => state.customerInfo.data);
+  const customerInfo = useSelector((state) => state.customerInfo);
   const { innerWidth } = useAppContext();
   const LINK_TYPE = { external: "External", cc: "CC" }
-  const { showSlides, setShowSlides } = useHomeContext()
+  const { showSlides, setShowSlides } = useHomeContext();
   const settings = {
     dots: false,
     infinite: true,
@@ -30,6 +30,18 @@ const Carousel = () => {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
+  const onCarouselActionClick = (item) => {
+    const { linkType, slideLink,  slideTitle, linkVerbiage } = item;
+    if (linkType !== LINK_TYPE.external) {
+      // Check if absolute vs relative URL
+      slideLink.indexOf("://") > 0 || slideLink.indexOf("//") === 0
+      ? window.location.href = slideLink
+      : history.push(slideLink);
+    }
+    // The single quotes in the title comes back from the API as unicode, which we need to replace to quote
+    const escapedTitle = slideTitle?.replace(/[\u2018\u2019]/g, "'");
+    handleSegmentClick("/home", linkVerbiage, escapedTitle, "link", "top", customerInfo , "home"); 
+  }
 
   return (
     (showSlides && Array.isArray(slideItems) && slideItems.length > 0) &&
@@ -76,14 +88,12 @@ const Carousel = () => {
 
                     {
                       item.linkType === 'External' ?
-                      <ExternalSiteLink onClick={()=> 
-                        handleSegmentClick("/home",item.linkVerbiageitem.slideTitle, "button", "top",customerInfo ,"home") }
-                        link={item.slideLink} label={item.linkVerbiage} target="_blank" >
-                        <SlideLink>
+                      <ExternalSiteLink link={item.slideLink} label={item.linkVerbiage} target="_blank" >
+                        <SlideLink onClick={()=> onCarouselActionClick(item)}>
                           {item.linkVerbiage}
                         </SlideLink>  
                       </ExternalSiteLink> :
-                      <SlideLink onClick={() => window.location.href = item.slideLink}>
+                      <SlideLink onClick={() => onCarouselActionClick(item)} >
                         {item.linkVerbiage}
                       </SlideLink>
                     }
