@@ -113,9 +113,7 @@ const FormsAndDocuments = (props) => {
         groupNumber: memberSelection.groupNumber
           ? memberSelection.groupNumber
           : memberSelection.groupNumber,
-        membershipStatus: memberSelection.membershipStatus
-        ? memberSelection.membershipStatus
-        : memberSelection.membershipStatus,
+        membershipStatus: memberSelection?.membershipStatus
         year: memberSelection.memberYear,
       };
       dispatch(requestCCFormsDocs(data));
