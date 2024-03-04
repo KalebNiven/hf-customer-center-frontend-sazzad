@@ -32,9 +32,10 @@ const Carousel = () => {
   };
   const onCarouselActionClick = (item) => {
     if (item.linkType !== LINK_TYPE.external) {
-      item.slideLink?.startsWith('/')
-        ? history.push(item.slideLink)
-        : window.location.href = item.slideLink;
+      // Check if absolute vs relative URL
+      item.slideLink.indexOf("://") > 0 || item.slideLink.indexOf("//") === 0
+      ? window.location.href = item.slideLink
+      : history.push(item.slideLink);
     }
     // The single quotes in the title comes back from the API as unicode, which we need to replace
     const escapedTitle = item.slideTitle?.replace(/[\u2018\u2019]/g, "'");
