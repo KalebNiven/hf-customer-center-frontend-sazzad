@@ -31,15 +31,16 @@ const Carousel = () => {
     prevArrow: <PrevArrow />,
   };
   const onCarouselActionClick = (item) => {
-    if (item.linkType !== LINK_TYPE.external) {
+    const { linkType, slideLink,  slideTitle, linkVerbiage } = item;
+    if (linkType !== LINK_TYPE.external) {
       // Check if absolute vs relative URL
-      item.slideLink.indexOf("://") > 0 || item.slideLink.indexOf("//") === 0
-      ? window.location.href = item.slideLink
-      : history.push(item.slideLink);
+      slideLink.indexOf("://") > 0 || slideLink.indexOf("//") === 0
+      ? window.location.href = slideLink
+      : history.push(slideLink);
     }
-    // The single quotes in the title comes back from the API as unicode, which we need to replace
-    const escapedTitle = item.slideTitle?.replace(/[\u2018\u2019]/g, "'");
-    handleSegmentClick("/home", item.linkVerbiage, escapedTitle, "link", "top", customerInfo , "home"); 
+    // The single quotes in the title comes back from the API as unicode, which we need to replace to quote
+    const escapedTitle = slideTitle?.replace(/[\u2018\u2019]/g, "'");
+    handleSegmentClick("/home", linkVerbiage, escapedTitle, "link", "top", customerInfo , "home"); 
   }
 
   return (
