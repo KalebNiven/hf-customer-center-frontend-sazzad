@@ -280,7 +280,7 @@ const DocsList = (props) => {
   const languageModelRef = useRef(null);
 
   useOnClickOutside(languageModelRef, (event) => {
-    if (event.target.contains(languageModelRef.current)) {
+    if(event.target.id !== "download" && event.target.id !== "languageSelection"){
       setRowName();
     }
   });
@@ -380,9 +380,10 @@ const DocsList = (props) => {
               src="/react/images/download_pdf.svg"
             ></DownloadImg>
           )}
-          <LanguageSelect isOpen={row.Name === RowName} last={false}>
+          <LanguageSelect id="languageSelection" isOpen={row.Name === RowName} last={false}>
             {row.assetUrl.en != null && row.assetUrl.en != "" && (
               <Language
+              id="languageSelection"
                 onClick={() => {
                   handleSegmentClick(
                     row.assetUrl.en,
@@ -402,6 +403,7 @@ const DocsList = (props) => {
 
             {row.assetUrl.es != null && row.assetUrl.es != "" && (
               <Language
+              id="languageSelection"
                 onClick={() => {
                   handleSegmentClick(
                     row.assetUrl.es,
@@ -421,6 +423,7 @@ const DocsList = (props) => {
 
             {row.assetUrl.zh != null && row.assetUrl.zh != "" && (
               <Language
+              id="languageSelection"
                 onClick={() => {
                   handleSegmentClick(
                     row.assetUrl.zh,
