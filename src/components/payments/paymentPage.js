@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useClient } from "@splitsoftware/splitio-react";
@@ -7,18 +7,25 @@ import GlobalStyle from "../../styles/GlobalStyle";
 import { AnalyticsPage, AnalyticsTrack } from "../common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import PaymentPortal from "./paymentPortal";
-import { PAYMENTS_ACL, BINDER_ACL, SHOW_PAYMENTS_REACT_APP } from '../../constants/splits';
+import {
+  PAYMENTS_ACL,
+  BINDER_ACL,
+  SHOW_PAYMENTS_REACT_APP,
+  SHOW_BINDER_REACT_APP,
+} from '../../constants/splits';
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner";
 import { PaymentsModalContext, PaymentsModalContextProvider, usePaymentsModalContext } from "../../context/paymentsModalContext";
 import MemberSelectionModal from "./memberSelectionModal";
 import { requestSelectPlan } from "../../store/actions";
+import BinderPortal from "./binderPortal";
 
 function PaymentPage() {
   const { MIX_REACT_APP_BINDER_SITE_HREF } = process.env;
   const { MIX_REACT_APP_PAYMENT_SITE_HREF } = process.env;
   const { paymentsModalState, setPaymentsModalState, resetPaymentsModal } = usePaymentsModalContext();
-  const [showPortal, setShowPortal] = useState(false);
+  const [showPaymentPortal, setShowPaymentPortal] = useState(false);
+  const [showBinderPortal, setShowBinderPortal] = useState(false);
   const [loading, setLoading] = useState(true);
   const customerInfo = useSelector((state) => state.customerInfo);
   const [plans, setPlans] = useState(null);
@@ -43,7 +50,8 @@ function PaymentPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const splitHookClient = useClient();
-  const { treatment } = splitHookClient.getTreatmentWithConfig(SHOW_PAYMENTS_REACT_APP, splitAttributes); // defaults to 'control'
+  const displayReactPaymentsTreatment = splitHookClient.getTreatmentWithConfig(SHOW_PAYMENTS_REACT_APP, splitAttributes); // defaults to 'control'
+  const displayReactBinderTreatment = splitHookClient.getTreatmentWithConfig(SHOW_BINDER_REACT_APP, splitAttributes);
   let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, splitAttributes);
   let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes);
   useEffect(() => {
@@ -59,8 +67,25 @@ function PaymentPage() {
 
   const showNewPaymentsApp = useMemo(() => {
     if (!(splitHookClient && splitHookClient.Event.SDK_READY)) return false;
-    return treatment === "on";
-  }, [splitHookClient, treatment]);
+    return displayReactPaymentsTreatment.treatment === "on";
+  }, [splitHookClient, displayReactPaymentsTreatment]);
+
+  const showReactBinder = useMemo(() => {
+    if (!(splitHookClient && splitHookClient.Event.SDK_READY)) return false;
+    console.log('displayReactBinderTreatment', displayReactBinderTreatment)
+    return displayReactBinderTreatment.treatment === "on";
+  }, [splitHookClient, displayReactBinderTreatment]);
+
+  console.log('showReactBinder', showReactBinder, splitAttributes)
+
+  const onShowBinder = useCallback((isPageLoad = false) => {
+    if (showReactBinder) return setShowBinderPortal(true);
+    if (!isPageLoad) return handleSegmentBtn("First premium payment", MIX_REACT_APP_BINDER_SITE_HREF);
+    history.goBack();
+    window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
+    setLoading(true);
+  }, [showReactBinder, setShowBinderPortal, handleSegmentBtn, setLoading, history]);
+
 
   const checkACLs = (plan, accountStatus) => {
     let planAttrs = {
@@ -123,11 +148,8 @@ function PaymentPage() {
     if((plans === null || plans.length > 1) && (selectedPlan?.status === 'init' || paymentsModalState?.membership == null)) return;
     if (localStorage.getItem('okta-token-storage') == null || !splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control") return;
     let isRedirecting = false;
-    if(plans.length == 0){
-      isRedirecting = true;
-      history.goBack();
-      window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
-    }
+    if(plans.length == 0) onShowBinder(true);
+
     if(plans.length == 1){
       plans.forEach((plan) => {
         let planAttrs = {
@@ -142,7 +164,7 @@ function PaymentPage() {
         let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, planAttrs);
         if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") {
           if (showNewPaymentsApp) {
-            setShowPortal(showNewPaymentsApp);
+            setShowPaymentPortal(showNewPaymentsApp);
           } else {
             isRedirecting = true;
             history.goBack();
@@ -150,9 +172,8 @@ function PaymentPage() {
           }
         }
         if (paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "on") {
-          isRedirecting = true;
-          history.goBack();
-          window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
+          if(showReactBinder) setShowBinderPortal(true);
+          else onShowBinder(true);
         }
       })
     }
@@ -169,7 +190,7 @@ function PaymentPage() {
       let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, planAttrs);
       if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") {
         if (showNewPaymentsApp) {
-          setShowPortal(showNewPaymentsApp);
+          setShowPaymentPortal(showNewPaymentsApp);
         } else {
           isRedirecting = true;
           history.goBack();
@@ -177,9 +198,7 @@ function PaymentPage() {
         }
       }
       if (paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "on") {
-        isRedirecting = true;
-        history.goBack();
-        window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
+        onShowBinder(true);
       }
     }
     setLoading(isRedirecting);
@@ -224,11 +243,19 @@ function PaymentPage() {
 
   const handleMonthlyPaymentBtnClick = () => {
     handleSegmentBtn("Monthly premium payment", !showNewPaymentsApp && MIX_REACT_APP_PAYMENT_SITE_HREF);
-    setShowPortal(showNewPaymentsApp);
+    setShowPaymentPortal(showNewPaymentsApp);
   };
   if (paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "off") return (<GlobalError />);
 
-  if (showPortal) {
+  if (showBinderPortal) {
+    return (
+      <PaymentPortalWrapper>
+        <BinderPortal />
+      </PaymentPortalWrapper>
+    );
+  }
+
+  if (showPaymentPortal) {
     return (
       <PaymentPortalWrapper>
         <Banner>
@@ -275,7 +302,7 @@ function PaymentPage() {
                 <Card>
                   <Heading>First premium payment for a new plan</Heading>
                   <Description>Make your first payment for your new plan. This payment will confirm your enrollment so you can start using your benefits. </Description>
-                  <FirstPaymentButton onClick={() => handleSegmentBtn("First premium payment", MIX_REACT_APP_BINDER_SITE_HREF)}>First Premium Payment</FirstPaymentButton>
+                  <FirstPaymentButton onClick={onShowBinder}>First Premium Payment</FirstPaymentButton>
                 </Card>
               </RightContainer>
             </InnerContainer>
@@ -491,7 +518,7 @@ const BrandingInnerContainer = styled.div`
 `;
 
 const BrandingLeftContainer = styled.div`
- 
+
   display: block;
   width:950px;
     @media only screen and (max-width: 960px) {
@@ -503,11 +530,11 @@ const BrandingLeftContainer = styled.div`
       margin: 0 16px;
       width:calc(100% - 32px);
     };
-   
+
 `;
 
 const LeafIcon = styled.img`
-  width: 240px; 
+  width: 240px;
   float: left;
   margin-left: -144px;
   object-fit: contain;

@@ -50,6 +50,7 @@ export const SHOW_SIGNATURE_CHECKLIST = "CustomerCenter_Signature_Checklist";
 export const SHOW_YEARTODATE_CLAIMS = "CustomerCenter_YeartoDate";
 export const SHOW_BENEFIT_GRID = "CustomerCenter_Benefitgrid";
 export const SHOW_PAYMENTS_REACT_APP = "CustomerCenter_ReactPaymentPortal";
+export const SHOW_BINDER_REACT_APP = "CustomerCenter_ReactBinder";
 export const SHOW_COVERAGE_AND_BENEFITS_VIDEOS =
     "CustomerCenter_CoverageAndBenefitsVideos";
 export const SHOW_CLAIMS_EXPLANATION_OF_BENEFITS =
@@ -160,6 +161,7 @@ export const getFeatureFlagList = () => {
         SHOW_PCP_SUB_NAV,
         SHOW_SIGNATURE_CHECKLIST,
         SHOW_PAYMENTS_REACT_APP,
+        SHOW_BINDER_REACT_APP,
         SHOW_COVERAGE_AND_BENEFITS_VIDEOS,
         SHOW_CLAIMS_EXPLANATION_OF_BENEFITS,
         SHOW_OTC_CARD_HOME_PAGE,
