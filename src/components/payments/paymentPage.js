@@ -111,6 +111,7 @@ function PaymentPage() {
     setShowPaymentPortal(showNewPaymentsApp);
 
     if (isBtnClick) return handleSegmentBtn(customerInfo, "Monthly premium payment", !showNewPaymentsApp && MIX_REACT_APP_PAYMENT_SITE_HREF);
+    // else on page load ACL checks
     if (!showNewPaymentsApp) {
       setLoading(true);
       history.goBack();
@@ -120,6 +121,7 @@ function PaymentPage() {
 
   const onShowBinder = useCallback((isBtnClick = true) => {
     setShowBinderPortal(showReactBinder);
+
     if (isBtnClick) return handleSegmentBtn(customerInfo, "First premium payment", !showReactBinder && MIX_REACT_APP_BINDER_SITE_HREF);
     // else on page load ACL checks
     if (!showReactBinder) {
@@ -189,7 +191,7 @@ function PaymentPage() {
   useEffect(() => {
     if((plans === null || plans.length > 1) && (selectedPlan?.status === 'init' || paymentsModalState?.membership == null)) return;
     if (localStorage.getItem('okta-token-storage') == null || !splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control") return;
-    if (plans.length === 0) onShowBinder(true);
+    if (plans.length === 0) onShowBinder(false);
 
     if(plans.length == 1){
       plans.forEach((plan) => {
