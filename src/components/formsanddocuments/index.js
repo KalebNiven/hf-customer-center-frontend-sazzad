@@ -110,8 +110,8 @@ const FormsAndDocuments = (props) => {
           ? memberSelection.companyCode
           : memberSelection.CompanyNumber,
         lob: memberSelection.lob ? memberSelection.lob : memberSelection.lob,
-        groupNumber: memberSelection?.groupNumber
-        membershipStatus: memberSelection?.membershipStatus
+        groupNumber: memberSelection?.groupNumber,
+        membershipStatus: memberSelection?.membershipStatus,
         year: memberSelection.memberYear,
       };
       dispatch(requestCCFormsDocs(data));

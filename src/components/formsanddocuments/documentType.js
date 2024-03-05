@@ -20,7 +20,6 @@ const DocumentType = () => {
     membershipStatus: customerInfo.data.membershipStatus,
     accountStatus: customerInfo.data.accountStatus,
   };
-
   return (
     <Container>
       {enableFormsAndDocument ? (

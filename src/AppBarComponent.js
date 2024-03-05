@@ -261,7 +261,6 @@ function AppBarComponent() {
                 Health Assessment
               </Settings>
             </SetDiv>}
-          <DocLink />
           {showFormsAndDocument
               && (
           <SetDiv>
@@ -739,58 +738,6 @@ function AppBarComponent() {
     );
   };
 
-  function DocLink(props) {
-    const featureTreatment = (
-      <FeatureTreatment
-        key="12313213"
-        treatmentNames={[SHOW_DOC]}
-        treatmentName={SHOW_DOC}
-        onLoad={() => {}}
-        onTimedout={() => {}}
-        attributes={
-                    {
-                      lob: customerInfo.data?.sessLobCode,
-                      membershipStatus: customerInfo.data?.membershipStatus,
-                      accountStatus: customerInfo.data?.accountStatus,
-                      companyCode: customerInfo.data?.hohPlans?.map((plan) => plan.CompanyNumber),
-                      benefitPackage: customerInfo.data?.hohPlans?.map((plan) => plan.BenefitPackage),
-                    }
-                }
-      >
-      </FeatureTreatment>
-    );
-
-    return featureTreatment;
-  }
-
-  function DocLinkComp(props) {
-    const { featureconfig } = props || {};
-    useEffect(() => {}, [featureconfig]);
-
-    return (
-      <SetDiv>
-        <SettImg
-          alt=""
-          style={{ display: "inline-block", width: '19px', height: '19px' }}
-          src={`/react/images/icn-document-center.svg`}
-        />
-        <Settings
-          onClick={(e) => {
-            handleClick(
-              e,
-              "/document-center",
-              "",
-              "Document Center",
-              "Document Center",
-            );
-            setOpenUserCard(false);
-          }}
-        >
-          Document Center
-        </Settings>
-      </SetDiv>
-    );
-  }
   // Iterate over all HohPlans - Check those any of those come back as true - display payments.both false - dont display
 
   const displayNavMenu = () => {
@@ -833,7 +780,6 @@ function AppBarComponent() {
                 Health Assessment
               </Settings>
             </SetDiv>}
-            <DocLink />
             {showFormsAndDocument
               && (
             <SetDiv>
