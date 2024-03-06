@@ -5,11 +5,11 @@ import Spinner from "../common/spinner";
 import React, { useState, useEffect, useRef } from "react";
 import { useMediaQuery, useTheme, Hidden } from "@material-ui/core";
 import DataTable from "react-data-table-component";
-import { useHistory } from "react-router-dom";
-import { LanguageSelect, Language } from "../common/styles";
+ import { LanguageSelect, Language } from "../common/styles";
 import CommonlyUsedForm from "./commonlyUsedForm";
 import DependentBlock from "../common/dependentBlock";
 import { FeatureTreatment } from "../../libs/featureFlags";
+import { useClient } from "@splitsoftware/splitio-react";
 import {
   Container,
   Main,
@@ -26,7 +26,7 @@ import DocumentType from "./documentType";
 import DocumentsCenterPage from "../../pages/documents-center/DocumentsCenterPage";
 import { useDispatch, useSelector } from "react-redux";
 import { requestCCFormsDocs } from "../../store/actions";
-import { SHOW_DOC, SHOW_CC_FORMS_AND_DOCS } from "../../constants/splits";
+import { SHOW_DOC, SHOW_FORMS_AND_DOCS } from "../../constants/splits";
 import { NoFormsAndDocument } from "./formsAndDocumentErrors";
 
 const FormsAndDocuments = (props) => {
@@ -43,7 +43,7 @@ const FormsAndDocuments = (props) => {
       childNavs: [],
       coachmark: null,
       mobileCoachmark: null,
-      treatmentName: SHOW_CC_FORMS_AND_DOCS,
+      treatmentName: SHOW_FORMS_AND_DOCS,
     },
     {
       activeIcon: `/react/images/icn-my-plan-active.svg`,
@@ -68,6 +68,29 @@ const FormsAndDocuments = (props) => {
   const customerInfo = useSelector((state) => state.customerInfo);
   const { memberId } = memberSelection;
 
+  const setTab = () =>{
+    const plansAndDocumentTreatment = splitHookClient.getTreatmentWithConfig(
+      SHOW_FORMS_AND_DOCS,
+      splitAttributes,
+    );
+   
+    if(plansAndDocumentTreatment.treatment === "off" || plansAndDocumentTreatment.treatment === "control" ){
+      setSelectedTab(navItems[1].href);
+    }
+  }
+
+
+  const splitAttributes = {
+    memberId: customerInfo?.data?.memberId,
+    customerId: customerInfo?.data?.customerId,
+    lob: customerInfo?.data?.sessLobCode, 
+    companyCode: customerInfo?.data?.hohPlans?.map(plan => plan?.CompanyNumber),
+    benefitPackage: customerInfo?.data?.hohPlans?.map(plan => plan?.BenefitPackage),
+    membershipStatus: customerInfo?.data?.membershipStatus,
+    accountStatus: customerInfo?.data?.accountStatus,
+  };
+  const splitHookClient = useClient();
+
   useEffect(() => {
     if (memberId) {
       const data = {
@@ -81,9 +104,8 @@ const FormsAndDocuments = (props) => {
           ? memberSelection.companyCode
           : memberSelection.CompanyNumber,
         lob: memberSelection.lob ? memberSelection.lob : memberSelection.lob,
-        groupNumber: memberSelection.groupNumber
-          ? memberSelection.groupNumber
-          : memberSelection.groupNumber,
+        groupNumber: memberSelection?.groupNumber,
+        membershipStatus: memberSelection?.membershipStatus,
         year: memberSelection.memberYear,
       };
       dispatch(requestCCFormsDocs(data));
@@ -93,22 +115,23 @@ const FormsAndDocuments = (props) => {
   useEffect(() => {
     setMemberSelection({
       ...memberSelection,
-      memberId: customerInfo.data.memberId,
-      planName: customerInfo.data.planName,
-      membershipStatus: customerInfo.data.membershipStatus,
-      membershipEffectiveDate: customerInfo.data.membershipEffectiveDate,
-      membershipExpirationDate: customerInfo.data.membershipExpirationDate,
+      memberId: customerInfo?.data?.hohPlans[0]?.MemberId,
+      planName: customerInfo?.data?.hohPlans[0]?.PlanName,
+      membershipStatus: customerInfo?.data?.hohPlans[0]?.MembershipStatus,
+      membershipEffectiveDate: customerInfo?.data?.hohPlans[0]?.MembershipEffectiveDate,
+      membershipExpirationDate: customerInfo?.data?.hohPlans[0]?.MembershipExpirationDate,
       companyCode: customerInfo.data.companyCode,
       lob: customerInfo.data.sessLobCode,
-      groupNumber: customerInfo.data.groupNumber,
-      benefitPackage: customerInfo.data.benefitPackage,
-      firstName: customerInfo.data.firstName,
-      lastName: customerInfo.data.lastName,
-      memberYear: customerInfo.data.memberYear,
+      groupNumber: customerInfo?.data?.hohPlans[0]?.GroupNumber,
+      benefitPackage: customerInfo?.data?.hohPlans[0]?.BenefitPackage,
+      firstName: customerInfo?.data?.hohPlans[0]?.FirstName,
+      lastName:  customerInfo?.data?.hohPlans[0]?.LastName,
+      memberYear: customerInfo?.data?.hohPlans[0]?.memberYear,
     });
   }, [customerInfo]);
 
   useEffect(() => {
+    setTab()
     sessionStorage.setItem("longLoad", false);
   }, []);
 
@@ -142,7 +165,7 @@ const FormsAndDocuments = (props) => {
                   treatmentName={eachNav.treatmentName}
                   onLoad={() => {}}
                   onTimedout={() => {}}
-                  attributes={memberSelection}
+                  attributes={splitAttributes}
                 >
                   <Tab
                     label={eachNav.label}
@@ -162,6 +185,14 @@ const FormsAndDocuments = (props) => {
             {selectedTab === "/document-center" ? (
               <DocumentsCenterPage />
             ) : (
+              <FeatureTreatment
+              key="forms_and_document_page_feature"
+              treatmentNames={SHOW_FORMS_AND_DOCS}
+              treatmentName={SHOW_FORMS_AND_DOCS}
+              onLoad={() => {}}
+              onTimedout={() => {}}
+              attributes={splitAttributes}
+            >
               <Main>
                 <MyDocuments>Forms and Plan Documents</MyDocuments>
                 <DependentBlockWrapper>
@@ -175,7 +206,7 @@ const FormsAndDocuments = (props) => {
                           ? false
                           : true
                       }
-                      minorsOnly={true}
+                      minorsOnly={false}
                       activeDepsOnly={false}
                     />
                   }
@@ -225,6 +256,7 @@ const FormsAndDocuments = (props) => {
                 )}
                 
               </Main>
+              </FeatureTreatment>
             )}
           </Main>
         )}
@@ -243,7 +275,7 @@ const DocsList = (props) => {
   const languageModelRef = useRef(null);
 
   useOnClickOutside(languageModelRef, (event) => {
-    if (event.target.contains(languageModelRef.current)) {
+    if(event.target.id !== "download" && event.target.id !== "languageSelection"){
       setRowName();
     }
   });
@@ -343,9 +375,10 @@ const DocsList = (props) => {
               src="/react/images/download_pdf.svg"
             ></DownloadImg>
           )}
-          <LanguageSelect isOpen={row.Name === RowName} last={false}>
+          <LanguageSelect id="languageSelection" isOpen={row.Name === RowName} last={false}>
             {row.assetUrl.en != null && row.assetUrl.en != "" && (
               <Language
+              id="languageSelection"
                 onClick={() => {
                   handleSegmentClick(
                     row.assetUrl.en,
@@ -365,6 +398,7 @@ const DocsList = (props) => {
 
             {row.assetUrl.es != null && row.assetUrl.es != "" && (
               <Language
+              id="languageSelection"
                 onClick={() => {
                   handleSegmentClick(
                     row.assetUrl.es,
@@ -384,6 +418,7 @@ const DocsList = (props) => {
 
             {row.assetUrl.zh != null && row.assetUrl.zh != "" && (
               <Language
+              id="languageSelection"
                 onClick={() => {
                   handleSegmentClick(
                     row.assetUrl.zh,
