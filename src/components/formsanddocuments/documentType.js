@@ -14,9 +14,9 @@ const DocumentType = () => {
   const splitAttributes = {
     memberId: customerInfo.data.memberId,
     customerId: customerInfo.data.customerId,
-    lob: customerInfo.data.sessLobCode, 
-    companyCode: customerInfo.data.hohPlans?.find(plan => plan.CompanyNumber),
-    benefitPackage: customerInfo.data.hohPlans?.find(plan => plan.BenefitPackage),
+    lob: customerInfo?.data?.sessLobCode, 
+    companyCode: customerInfo?.data?.hohPlans?.find(plan => plan.CompanyNumber),
+    benefitPackage: customerInfo?.data?.hohPlans?.find(plan => plan.BenefitPackage),
     membershipStatus: customerInfo.data.membershipStatus,
     accountStatus: customerInfo.data.accountStatus,
   };
