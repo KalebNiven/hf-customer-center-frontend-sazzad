@@ -67,12 +67,6 @@ const FormsAndDocuments = (props) => {
   const ccForms = useSelector((state) => state.ccFormsDoc);
   const customerInfo = useSelector((state) => state.customerInfo);
   const { memberId } = memberSelection;
-  const [loadSplit, setLoadSplit] = useState({ treatment: 'control', config: null });
-
-  useEffect(() => {
-    if (loadSplit.treatment !== "control") return;
-    setTab()
-  }, [loadSplit]);
 
   const setTab = () =>{
     const plansAndDocumentTreatment = splitHookClient.getTreatmentWithConfig(
@@ -137,6 +131,7 @@ const FormsAndDocuments = (props) => {
   }, [customerInfo]);
 
   useEffect(() => {
+    setTab()
     sessionStorage.setItem("longLoad", false);
   }, []);
 
