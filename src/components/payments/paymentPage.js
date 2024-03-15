@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useClient } from "@splitsoftware/splitio-react";
@@ -7,18 +7,56 @@ import GlobalStyle from "../../styles/GlobalStyle";
 import { AnalyticsPage, AnalyticsTrack } from "../common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import PaymentPortal from "./paymentPortal";
-import { PAYMENTS_ACL, BINDER_ACL, SHOW_PAYMENTS_REACT_APP } from '../../constants/splits';
+import {
+  PAYMENTS_ACL,
+  BINDER_ACL,
+  SHOW_PAYMENTS_REACT_APP,
+  SHOW_BINDER_REACT_APP,
+} from '../../constants/splits';
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner";
 import { PaymentsModalContext, PaymentsModalContextProvider, usePaymentsModalContext } from "../../context/paymentsModalContext";
 import MemberSelectionModal from "./memberSelectionModal";
 import { requestSelectPlan } from "../../store/actions";
+import BinderPortal from "./binderPortal";
+
+const handleSegmentBtn = (customerInfo, label, link = null) => {
+  AnalyticsPage();
+  AnalyticsTrack(
+    `${label} button clicked`,
+    customerInfo,
+    {
+      raw_text: label,
+      destination_url: link,
+      description: `${label} button clicked`,
+      category: ANALYTICS_TRACK_CATEGORY.payments,
+      type: ANALYTICS_TRACK_TYPE.buttonClicked,
+      targetMemberId: customerInfo?.data?.memberId,
+      location: {
+        desktop: {
+          width: 960,
+          value: "left",
+        },
+        tablet: {
+          width: 768,
+          value: "right",
+        },
+        mobile: {
+          width: 0,
+          value: "right",
+        },
+      },
+    },
+  );
+  if (link) window.location.href = link;
+};
 
 function PaymentPage() {
   const { MIX_REACT_APP_BINDER_SITE_HREF } = process.env;
   const { MIX_REACT_APP_PAYMENT_SITE_HREF } = process.env;
   const { paymentsModalState, setPaymentsModalState, resetPaymentsModal } = usePaymentsModalContext();
-  const [showPortal, setShowPortal] = useState(false);
+  const [showPaymentPortal, setShowPaymentPortal] = useState(false);
+  const [showBinderPortal, setShowBinderPortal] = useState(false);
   const [loading, setLoading] = useState(true);
   const customerInfo = useSelector((state) => state.customerInfo);
   const [plans, setPlans] = useState(null);
@@ -43,9 +81,11 @@ function PaymentPage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const splitHookClient = useClient();
-  const { treatment } = splitHookClient.getTreatmentWithConfig(SHOW_PAYMENTS_REACT_APP, splitAttributes); // defaults to 'control'
+  const displayReactPaymentsTreatment = splitHookClient.getTreatmentWithConfig(SHOW_PAYMENTS_REACT_APP, splitAttributes); // defaults to 'control'
+  const displayReactBinderTreatment = splitHookClient.getTreatmentWithConfig(SHOW_BINDER_REACT_APP, splitAttributes);
   let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, splitAttributes);
   let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, splitAttributes);
+
   useEffect(() => {
     sessionStorage.setItem("longLoad", false);
     if(splitHookClient.Event.SDK_READY){
@@ -59,8 +99,37 @@ function PaymentPage() {
 
   const showNewPaymentsApp = useMemo(() => {
     if (!(splitHookClient && splitHookClient.Event.SDK_READY)) return false;
-    return treatment === "on";
-  }, [splitHookClient, treatment]);
+    return displayReactPaymentsTreatment.treatment === "on";
+  }, [splitHookClient, displayReactPaymentsTreatment]);
+
+  const showReactBinder = useMemo(() => {
+    if (!(splitHookClient && splitHookClient.Event.SDK_READY)) return false;
+    return displayReactBinderTreatment.treatment === "on";
+  }, [splitHookClient, displayReactBinderTreatment]);
+
+  const onShowPaymentPortal = useCallback((isBtnClick = true) => {
+    setShowPaymentPortal(showNewPaymentsApp);
+
+    if (isBtnClick) return handleSegmentBtn(customerInfo, "Monthly premium payment", !showNewPaymentsApp && MIX_REACT_APP_PAYMENT_SITE_HREF);
+    // else on page load ACL checks
+    if (!showNewPaymentsApp) {
+      setLoading(true);
+      history.goBack();
+      window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
+    }
+  }, [memberId, showNewPaymentsApp, setLoading, history]);
+
+  const onShowBinder = useCallback((isBtnClick = true) => {
+    setShowBinderPortal(showReactBinder);
+
+    if (isBtnClick) return handleSegmentBtn(customerInfo, "First premium payment", !showReactBinder && MIX_REACT_APP_BINDER_SITE_HREF);
+    // else on page load ACL checks
+    if (!showReactBinder) {
+      setLoading(true);
+      history.goBack();
+      window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
+    }
+  }, [showReactBinder, setShowBinderPortal, setLoading, history]);
 
   const checkACLs = (plan, accountStatus) => {
     let planAttrs = {
@@ -122,12 +191,8 @@ function PaymentPage() {
   useEffect(() => {
     if((plans === null || plans.length > 1) && (selectedPlan?.status === 'init' || paymentsModalState?.membership == null)) return;
     if (localStorage.getItem('okta-token-storage') == null || !splitHookClient || paymentsEnabledTreatment.treatment === "control" || binderEnabledTreatment.treatment === "control") return;
-    let isRedirecting = false;
-    if(plans.length == 0){
-      isRedirecting = true;
-      history.goBack();
-      window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
-    }
+    if (plans.length === 0) onShowBinder(false);
+
     if(plans.length == 1){
       plans.forEach((plan) => {
         let planAttrs = {
@@ -140,20 +205,8 @@ function PaymentPage() {
         };
         let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, planAttrs);
         let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, planAttrs);
-        if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") {
-          if (showNewPaymentsApp) {
-            setShowPortal(showNewPaymentsApp);
-          } else {
-            isRedirecting = true;
-            history.goBack();
-            window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
-          }
-        }
-        if (paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "on") {
-          isRedirecting = true;
-          history.goBack();
-          window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
-        }
+        if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") onShowPaymentPortal(false);
+        else if (paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "on") onShowBinder(false);
       })
     }
     else if(paymentsModalState?.membership){
@@ -167,22 +220,10 @@ function PaymentPage() {
       };
       let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, planAttrs);
       let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(BINDER_ACL, planAttrs);
-      if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") {
-        if (showNewPaymentsApp) {
-          setShowPortal(showNewPaymentsApp);
-        } else {
-          isRedirecting = true;
-          history.goBack();
-          window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
-        }
-      }
-      if (paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "on") {
-        isRedirecting = true;
-        history.goBack();
-        window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
-      }
+      if (paymentsEnabledTreatment.treatment === "on" && binderEnabledTreatment.treatment === "off") onShowPaymentPortal(false);
+      else if (paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "on") onShowBinder(false);
     }
-    setLoading(isRedirecting);
+    setLoading(false);
   }, [splitHookClient, paymentsEnabledTreatment, binderEnabledTreatment, selectedPlan]);
 
   const displayMembersModal = (routeLink, externalLinkName) => {
@@ -191,44 +232,17 @@ function PaymentPage() {
     });
   };
 
-  const handleSegmentBtn = (label, link) => {
-    AnalyticsPage();
-    AnalyticsTrack(
-      `${label} ` + `button clicked`,
-      customerInfo,
-      {
-        raw_text: label,
-        destination_url: link,
-        description: `${label} button clicked`,
-        category: ANALYTICS_TRACK_CATEGORY.payments,
-        type: ANALYTICS_TRACK_TYPE.buttonClicked,
-        targetMemberId: memberId,
-        location: {
-          desktop: {
-            width: 960,
-            value: "left",
-          },
-          tablet: {
-            width: 768,
-            value: "right",
-          },
-          mobile: {
-            width: 0,
-            value: "right",
-          },
-        },
-      },
-    );
-    if (link) window.location.href = link;
-  };
-
-  const handleMonthlyPaymentBtnClick = () => {
-    handleSegmentBtn("Monthly premium payment", !showNewPaymentsApp && MIX_REACT_APP_PAYMENT_SITE_HREF);
-    setShowPortal(showNewPaymentsApp);
-  };
   if (paymentsEnabledTreatment.treatment === "off" && binderEnabledTreatment.treatment === "off") return (<GlobalError />);
 
-  if (showPortal) {
+  if (showBinderPortal) {
+    return (
+      <PaymentPortalWrapper>
+        <BinderPortal />
+      </PaymentPortalWrapper>
+    );
+  }
+
+  if (showPaymentPortal) {
     return (
       <PaymentPortalWrapper>
         <Banner>
@@ -268,14 +282,14 @@ function PaymentPage() {
                 <Card>
                   <Heading>Monthly premium payment</Heading>
                   <Description>Make ongoing monthly payments towards your premium plan.</Description>
-                  <PaymentButton onClick={handleMonthlyPaymentBtnClick}>Monthly Premium Payment</PaymentButton>
+                  <PaymentButton onClick={onShowPaymentPortal}>Monthly Premium Payment</PaymentButton>
                 </Card>
               </LeftContainer>
               <RightContainer>
                 <Card>
                   <Heading>First premium payment for a new plan</Heading>
                   <Description>Make your first payment for your new plan. This payment will confirm your enrollment so you can start using your benefits. </Description>
-                  <FirstPaymentButton onClick={() => handleSegmentBtn("First premium payment", MIX_REACT_APP_BINDER_SITE_HREF)}>First Premium Payment</FirstPaymentButton>
+                  <FirstPaymentButton onClick={onShowBinder}>First Premium Payment</FirstPaymentButton>
                 </Card>
               </RightContainer>
             </InnerContainer>
@@ -491,7 +505,7 @@ const BrandingInnerContainer = styled.div`
 `;
 
 const BrandingLeftContainer = styled.div`
- 
+
   display: block;
   width:950px;
     @media only screen and (max-width: 960px) {
@@ -503,11 +517,11 @@ const BrandingLeftContainer = styled.div`
       margin: 0 16px;
       width:calc(100% - 32px);
     };
-   
+
 `;
 
 const LeafIcon = styled.img`
-  width: 240px; 
+  width: 240px;
   float: left;
   margin-left: -144px;
   object-fit: contain;
