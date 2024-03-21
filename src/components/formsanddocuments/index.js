@@ -62,7 +62,6 @@ const FormsAndDocuments = (props) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const [memberSelection, setMemberSelection] = useState({});
-  const languageModelRef = useRef();
   const [selectedTab, setSelectedTab] = useState(navItems[0].href);
   const ccForms = useSelector((state) => state.ccFormsDoc);
   const customerInfo = useSelector((state) => state.customerInfo);
@@ -315,24 +314,18 @@ const DocsList = (props) => {
     },
   };
 
-  const handleOpen = (item) => {
-    if (
-      (item.assetUrl.en != null || item.assetUrl.en != "") &&
-      (item.assetUrl.es === null || item.assetUrl.es === "") &&
-      (item.assetUrl.zh === null || item.assetUrl.zh === "")
-    ) {
-      window.open(item.assetUrl.en);
-      handleSegmentClick(
-        item.assetUrl.en,
-        item.Name,
-        link.Name + " Link Clicked",
-        "link",
-        "bottom",
-        "",
-        "formsAndDocument"
-      );
-      setRowName("");
-    }
+  const handleOpenDocument = (documentName, documentUrl) => {
+    handleSegmentClick(
+      documentUrl,
+      documentName,
+      documentName + " Link Clicked",
+      "link",
+      "bottom",
+      "",
+      "formsAndDocument"
+    );
+    setRowName();
+    window.open(documentUrl);
   };
 
   const columns = [
@@ -356,40 +349,33 @@ const DocsList = (props) => {
       id: "download",
       selector: "download",
       cell: (row) => (
-        <a
-          ref={languageModelRef}
-          className="download"
-          onClick={() => {
-            setIsOpen(true), setRowName(row.Name);
-            setDownloadImage("/react/images/download_blue.svg");
-          }}
-        >
-          {row.Name === RowName ? (
-            <DownloadImg
-              className="download-icon"
-              src="/react/images/download_blue.svg"
-            ></DownloadImg>
-          ) : (
-            <DownloadImg
-              className="download-icon"
-              src="/react/images/download_pdf.svg"
-            ></DownloadImg>
-          )}
+        <>
+          <a
+              ref={languageModelRef}
+              className="download"
+              onClick={() => {
+              setIsOpen(true), setRowName(row.Name);
+              setDownloadImage("/react/images/download_blue.svg");
+            }}
+          >
+            {row.Name === RowName ? (
+              <DownloadImg
+                className="download-icon"
+                src="/react/images/download_blue.svg"
+              ></DownloadImg>
+            ) : (
+              <DownloadImg
+                className="download-icon"
+                src="/react/images/download_pdf.svg"
+              ></DownloadImg>
+            )}
+          </a>
           <LanguageSelect id="languageSelection" isOpen={row.Name === RowName} last={false}>
             {row.assetUrl.en != null && row.assetUrl.en != "" && (
               <Language
-              id="languageSelection"
+                id="languageSelection"
                 onClick={() => {
-                  handleSegmentClick(
-                    row.assetUrl.en,
-                    row.Name,
-                    row.Name + " Link Clicked",
-                    "link",
-                    "bottom",
-                    "",
-                    "formsAndDocument"
-                  );
-                  window.open(row.assetUrl.en);
+                  handleOpenDocument(row.name, row.assetUrl.en);
                 }}
               >
                 English
@@ -398,18 +384,9 @@ const DocsList = (props) => {
 
             {row.assetUrl.es != null && row.assetUrl.es != "" && (
               <Language
-              id="languageSelection"
+                id="languageSelection"
                 onClick={() => {
-                  handleSegmentClick(
-                    row.assetUrl.es,
-                    row.Name,
-                    row.Name + " Link Clicked",
-                    "link",
-                    "bottom",
-                    "",
-                    "formsAndDocument"
-                  );
-                  window.open(row.assetUrl.es);
+                  handleOpenDocument(row.name, row.assetUrl.es);
                 }}
               >
                 Spanish
@@ -418,25 +395,16 @@ const DocsList = (props) => {
 
             {row.assetUrl.zh != null && row.assetUrl.zh != "" && (
               <Language
-              id="languageSelection"
+                id="languageSelection"
                 onClick={() => {
-                  handleSegmentClick(
-                    row.assetUrl.zh,
-                    row.Name,
-                    row.Name + " Link Clicked",
-                    "link",
-                    "bottom",
-                    "",
-                    "formsAndDocument"
-                  );
-                  window.open(row.assetUrl.zh);
+                  handleOpenDocument(row.name, row.assetUrl.zh);
                 }}
               >
                 Chinese
               </Language>
             )}
           </LanguageSelect>
-        </a>
+        </>
       ),
       name: "",
       maxWidth: "60px",
