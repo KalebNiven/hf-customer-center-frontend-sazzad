@@ -360,7 +360,7 @@ const DocsList = (props) => {
           ref={languageModelRef}
           className="download"
           onClick={() => {
-            setIsOpen(true), setRowName(row.Name), handleOpen(row);
+            setIsOpen(true), setRowName(row.Name);
             setDownloadImage("/react/images/download_blue.svg");
           }}
         >

@@ -185,6 +185,7 @@ const DocsList = (props) => {
       (item.assetUrl.es === null || item.assetUrl.es === "") &&
       (item.assetUrl.zh === null || item.assetUrl.zh === "")
     ) {
+      window.open(item.assetUrl.en);
       setRowName("");
     }
   };
