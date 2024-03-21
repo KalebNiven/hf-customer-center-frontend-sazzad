@@ -314,6 +314,20 @@ const DocsList = (props) => {
     },
   };
 
+  const handleOpenDocument = (documentName, documentUrl) => {
+    handleSegmentClick(
+      documentUrl,
+      documentName,
+      documentName + " Link Clicked",
+      "link",
+      "bottom",
+      "",
+      "formsAndDocument"
+    );
+    setRowName();
+    window.open(documentUrl);
+  };
+
   const columns = [
     {
       id: "Documents",
@@ -361,17 +375,7 @@ const DocsList = (props) => {
               <Language
                 id="languageSelection"
                 onClick={() => {
-                  handleSegmentClick(
-                    row.assetUrl.en,
-                    row.Name,
-                    row.Name + " Link Clicked",
-                    "link",
-                    "bottom",
-                    "",
-                    "formsAndDocument"
-                  );
-                  window.open(row.assetUrl.en);
-                  setRowName();
+                  handleOpenDocument(row.name, row.assetUrl.en);
                 }}
               >
                 English
@@ -382,17 +386,7 @@ const DocsList = (props) => {
               <Language
                 id="languageSelection"
                 onClick={() => {
-                  handleSegmentClick(
-                    row.assetUrl.es,
-                    row.Name,
-                    row.Name + " Link Clicked",
-                    "link",
-                    "bottom",
-                    "",
-                    "formsAndDocument"
-                  );
-                  setRowName();
-                  window.open(row.assetUrl.es);
+                  handleOpenDocument(row.name, row.assetUrl.es);
                 }}
               >
                 Spanish
@@ -403,17 +397,7 @@ const DocsList = (props) => {
               <Language
                 id="languageSelection"
                 onClick={() => {
-                  handleSegmentClick(
-                    row.assetUrl.zh,
-                    row.Name,
-                    row.Name + " Link Clicked",
-                    "link",
-                    "bottom",
-                    "",
-                    "formsAndDocument"
-                  );
-                  setRowName();
-                  window.open(row.assetUrl.zh);
+                  handleOpenDocument(row.name, row.assetUrl.zh);
                 }}
               >
                 Chinese
