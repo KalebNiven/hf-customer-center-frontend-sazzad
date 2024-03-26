@@ -27,6 +27,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import {useToaster} from "../../hooks/useToaster";
 import FormSuccessCard from "./registration/formSuccess";
+import FormSuccessMedicaidCard from "./registration/formSuccessMedicaid";
 import { useRefreshOktaToken } from "../../hooks/useRefreshOktaToken";
 
 const NO_MATCHES_FOUND_ERROR = "We didn't find any matches. Please check your entries and try again, or contact us for assistance."
@@ -467,6 +468,8 @@ const AddMemberPage = () => {
                 )
             case 'success': 
                 return <FormSuccessCard message="Membership added successfully!" delayedCallback={handleSuccess}/>;
+            case 'successMedicaid': 
+                return <FormSuccessMedicaidCard handleCloseCallback={handleSuccess}/>;
         }
     };
 
