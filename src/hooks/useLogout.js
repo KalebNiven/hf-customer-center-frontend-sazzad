@@ -23,7 +23,6 @@ export const useLogout = () => {
       sessionStorage.removeItem('skipAddMembership');
       sessionStorage.removeItem('visitedPrefCenterSync');
       ProviderDirectoryWidget.invalidateStore();
-      dispatch(requestResetState());
     } catch (err) {
       console.log('Error caught: ', err.message)
     }
