@@ -16,14 +16,14 @@ const FormSuccessMedicaidCard = ({handleCloseCallback}) =>{
     return (
         <MemberCardsContainer>
             <MemberCard>
-            <Image src="/react/images/clock.svg" color="green"></Image>
+                <Image src="/react/images/clock.svg" color="green"></Image>
                 <Text>Your membership has been attached, but we still need to verify your account.</Text>
-                <SubText>Thank you for attaching your membership. You will be contacted within 72 hours to verify and activate your account before you can log in.</SubText>
+                <SubText>Your username and password have been created, but you still need to verify your account before you can log in. Call Member Services or we can contact you within 72 hours to activate your account</SubText>
                 <FormButtonWrapper>
-                <FormButton green={false} onClick={handleDoneBtn}>
-                    Done
-                </FormButton>
-            </FormButtonWrapper>
+                    <FormButton green={false} onClick={handleDoneBtn}>
+                        Done
+                    </FormButton>
+                </FormButtonWrapper>
             </MemberCard>
         </MemberCardsContainer>
 

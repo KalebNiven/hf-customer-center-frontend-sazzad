@@ -39,6 +39,10 @@ const AddMemberPage = () => {
             value: "",
             error: null,
         },
+        firstName: {
+            value: "",
+            error: null,
+        },
         lastName: {
             value: "",
             error: null,
@@ -103,6 +107,7 @@ const AddMemberPage = () => {
     useEffect(() => {
         if(
             accountInfo["memberId"].value.length > 0 &&
+            accountInfo["firstName"].value.length > 0 &&
             accountInfo["lastName"].value.length > 0 &&
             accountInfo["zipcode"].value.length > 0 &&
             accountInfo["dateofBirth"].value.length > 0
@@ -149,6 +154,15 @@ const AddMemberPage = () => {
                     }
                     break;
 
+                case "firstName":
+                    if (value.value.length === 0) {
+                        handleAccountInfo(
+                            key,
+                            "First Name is Required",
+                            value.value
+                        );
+                    }
+                    break;
                 case "lastName":
                     if (value.value.length === 0) {
                         handleAccountInfo(
@@ -200,6 +214,7 @@ const AddMemberPage = () => {
         }
         if (
             accountInfo["memberId"].error === null &&
+            accountInfo["firstName"].error === null &&
             accountInfo["lastName"].error === null &&
             accountInfo["zipcode"].error === null &&
             accountInfo["dateofBirth"].error === null
@@ -207,6 +222,7 @@ const AddMemberPage = () => {
            
             const data = {
                 memberId: accountInfo.memberId.value,
+                firstName: accountInfo.firstName.value,
                 lastName: accountInfo.lastName.value,
                 DOBFULL: accountInfo.dateofBirth.value,
                 zipCode: accountInfo.zipcode.value,
@@ -314,6 +330,47 @@ const AddMemberPage = () => {
                             <AdditionalInfo>
                                 Additional Info
                             </AdditionalInfo>
+                            <InputWrapper>
+                                <InputHeader>First Name</InputHeader>
+                                <Input
+                                    type="text"
+                                    placeholder="Enter First Name"
+                                    value={membershipInfo["firstName"].value}
+                                    onChange={(e) => {
+                                        if (e.target.value.length > 0) {
+                                            const nameRegex = new RegExp(
+                                                "[A-Za-z]"
+                                            );
+                                            if (!nameRegex.test(e.target.value)) {
+                                                setMembershipInfo({
+                                                    ...membershipInfo,
+                                                    firstName: {
+                                                        value: e.target.value,
+                                                        error:
+                                                            "Invalid Name Format",
+                                                    },
+                                                });
+                                            } else {
+                                                handleMemberInfo(e, "firstName");
+                                            }
+                                        } else {
+                                            setMembershipInfo({
+                                                ...membershipInfo,
+                                                firstName: {
+                                                    value: e.target.value,
+                                                    error: null,
+                                                },
+                                            });
+                                        }
+                                    }}
+                                    error={membershipInfo["firstName"].error}
+                                />
+                                {membershipInfo["firstName"].error && (
+                                    <InputErrorMsg>
+                                        {membershipInfo["firstName"].error}
+                                    </InputErrorMsg>
+                                )}
+                            </InputWrapper>
                             <InputWrapper>
                                 <InputHeader>Last Name</InputHeader>
                                 <Input
