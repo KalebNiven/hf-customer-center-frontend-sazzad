@@ -6,7 +6,7 @@ import {
     MemberCard,
 } from "../styles";
 import { Button, ButtonWrapper } from "../../../styles/commonStyles";
-import { useLogout } from "src/hooks/useLogout";
+import { useLogout } from "../../../hooks/useLogout";
 
 const FormSuccessMedicareCard = ({handleCloseCallback}) =>{
     
