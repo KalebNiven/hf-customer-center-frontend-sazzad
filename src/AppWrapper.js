@@ -119,9 +119,9 @@ const AppWrapper = () => {
                         <SecureRoute exact path="/sessionExpired" component={Logout} />
                         <SecureRoute exact path="/selectLanguage" component={HandleLanguageSelection} />
                         <SecureRoute exact path="/otc-widget" component={OTCWidgetPage} />
-                        
-                        <SecureRoute exact path="/success-medicare" component={FormSuccessMedicareCard} />
 
+                        <SecureRoute exact path="/success-medicare" component={FormSuccessMedicareCard} />
+                        
                         { /* ! This is doesn't seem to be a correct implementation... */ }
                         <SecureRoute exact path='/permissionDenied' component={() => <GlobalError />} />
                         <SecureRoute exact path="/login" component={() => <Redirect to="/home" />} />

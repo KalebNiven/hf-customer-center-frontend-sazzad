@@ -72,7 +72,6 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
 
     const handleSuccess = () => {
         logoutApi();
-        console.log("inside the handle");
         setTimeout(() => {
             history.push('/login');
         }, 3000);
@@ -99,11 +98,9 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                 setShowSuccessModal(true);
             
             } else if (addMembership.success === "success_medicare"){
-                console.log("inside the success medicare");
-                // logoutApi();
                 closeModal();
-                setSubmitClicked(false);                
-                history.push('/success-medicare');                
+                setSubmitClicked(false);             
+                history.push('/success-medicare');       
                 // setShowMedicareMessage(true);
                 // medicareMessageAndLogout();
                 // return <FormSuccessMedicareCard handleCloseCallback={handleSuccess}/>;

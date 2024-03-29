@@ -15,11 +15,16 @@ const FormSuccessMedicareCard = ({handleCloseCallback}) =>{
     const handleDoneBtn = () => {
         // handleCloseCallback();
         logoutApi();
-        console.log("inside the handle");
         setTimeout(() => {
             history.push('/login');
         }, 3000);
     }
+
+    useEffect(() => {
+        setTimeout(() => {
+            logoutApi(); 
+        }, 5000);
+    }, [])
 
     return (
         <MemberCardsContainer>
