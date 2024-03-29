@@ -6,11 +6,19 @@ import {
     MemberCard,
 } from "../styles";
 import { Button, ButtonWrapper } from "../../../styles/commonStyles";
+import { useLogout } from "src/hooks/useLogout";
 
 const FormSuccessMedicareCard = ({handleCloseCallback}) =>{
+    
+    const logoutApi = useLogout();
 
     const handleDoneBtn = () => {
-        handleCloseCallback();
+        // handleCloseCallback();
+        logoutApi();
+        console.log("inside the handle");
+        setTimeout(() => {
+            history.push('/login');
+        }, 3000);
     }
 
     return (
