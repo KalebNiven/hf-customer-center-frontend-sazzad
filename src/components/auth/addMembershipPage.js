@@ -27,8 +27,10 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import {useToaster} from "../../hooks/useToaster";
 import FormSuccessCard from "./registration/formSuccess";
-import FormSuccessMedicaidCard from "./registration/formSuccessMedicaid";
+import FormSuccessMedicareCard from "./registration/formSuccessMedicaid";
 import { useRefreshOktaToken } from "../../hooks/useRefreshOktaToken";
+import { useLogout } from "../../hooks/useLogout";
+
 
 const NO_MATCHES_FOUND_ERROR = "We didn't find any matches. Please check your entries and try again, or contact us for assistance."
 const MEMBER_TAKEN_ERROR = "This membership is already associated with another account. Please contact us for assistance."
@@ -71,6 +73,8 @@ const AddMemberPage = () => {
     const history = useHistory();
     const {addToast} = useToaster();
     const refreshOktaToken = useRefreshOktaToken();
+    const logoutApi = useLogout();
+
 
     useEffect(() => {
         if(accountStatus === 'MEMBER'){
@@ -97,6 +101,9 @@ const AddMemberPage = () => {
                     notificationLink: 'https://healthfirst.org/contact',
                     notificationLinkText: 'contact us'
                 });
+            }
+            if (addMembership.success === "success_medicare"){
+                setStep('success_medicare');
             }
             else if(addMembership.success === "success"){
                 setStep("success");
@@ -281,10 +288,10 @@ const AddMemberPage = () => {
     };
 
     const handleSuccess = () => {
-        refreshOktaToken(() => {
-            dispatch(requestCustomerInfo()); 
-            history.push('/home');
-        });
+        logoutApi();
+        setTimeout(() => {
+            history.push('/login');
+        }, 3000);
     };
     
     const renderStep = (step) => {
@@ -525,8 +532,8 @@ const AddMemberPage = () => {
                 )
             case 'success': 
                 return <FormSuccessCard message="Membership added successfully!" delayedCallback={handleSuccess}/>;
-            case 'successMedicaid': 
-                return <FormSuccessMedicaidCard handleCloseCallback={handleSuccess}/>;
+            case 'success_medicare': 
+                return <FormSuccessMedicareCard handleCloseCallback={handleSuccess}/>;
         }
     };
 

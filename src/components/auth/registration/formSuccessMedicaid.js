@@ -7,7 +7,7 @@ import {
 } from "../styles";
 import { Button, ButtonWrapper } from "../../../styles/commonStyles";
 
-const FormSuccessMedicaidCard = ({handleCloseCallback}) =>{
+const FormSuccessMedicareCard = ({handleCloseCallback}) =>{
 
     const handleDoneBtn = () => {
         handleCloseCallback();
@@ -30,7 +30,7 @@ const FormSuccessMedicaidCard = ({handleCloseCallback}) =>{
     );
 }
 
-export default FormSuccessMedicaidCard;
+export default FormSuccessMedicareCard;
 
 const Image = styled.img`
 height:100.33px;

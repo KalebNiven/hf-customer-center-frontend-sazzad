@@ -8,6 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { requestAddMembership } from "../../store/actions";
 import { useHomeContext } from './homeContext';
 import { useRefreshOktaToken } from '../../hooks/useRefreshOktaToken';
+import { useLogout } from "../../hooks/useLogout";
+import FormSuccessMedicareCard from '../auth/registration/formSuccessMedicaid';
+import { useHistory } from "react-router-dom";
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+// import useRedirect from 'src/hooks/useRedirect';
 
 
 
@@ -42,9 +47,14 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
     const customerInfo = useSelector((state) => state.customerInfo.data);
     const addMembership = useSelector((state) => state.addMembership);
     const [submitClicked, setSubmitClicked] = useState(false);
+    const [showMedicareMessage, setShowMedicareMessage] = useState(false);
     const [showMemberIdImg, setShowMemberIdImg] = useState(false);
     const { showSuccessModal, setShowSuccessModal } = useHomeContext();
     const refreshOktaToken = useRefreshOktaToken();
+    const logoutApi = useLogout();
+    const history = useHistory();
+
+
 
     const clearState = () => {
         setMembershipInfo({ ...initialState });
@@ -55,10 +65,30 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
         }, 3000);
     }, [toastr])
 
+
+    const medicareMessageAndLogout = () => {
+        return <FormSuccessMedicareCard handleCloseCallback={handleSuccess}/>;
+    };
+
+    const handleSuccess = () => {
+        logoutApi();
+        console.log("inside the handle");
+        setTimeout(() => {
+            history.push('/login');
+        }, 3000);
+    }
+
+
+    // useEffect(() => {
+    //     if (showMedicareMessage === true){
+    //         useRedirect()
+    //     }
+    // }, [showMedicareMessage])
+
     useEffect(() => {
         const { loading } = addMembership;
         if (!loading && submitClicked) {
-            if(addMembership.error === "" && (addMembership.success === "success" || addMembership.success === "successMedicaid")){
+            if(addMembership.error === "" && (addMembership.success === "success")){
                 // window.location.reload();
                 // closeModal();
                 // setToastr(true);
@@ -68,6 +98,14 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                 setSubmitClicked(false);
                 setShowSuccessModal(true);
             
+            } else if (addMembership.success === "success_medicare"){
+                console.log("inside the success medicare");
+                // logoutApi();
+                closeModal();
+                setSubmitClicked(false);
+                setShowMedicareMessage(true);
+                // medicareMessageAndLogout();
+                // return <FormSuccessMedicareCard handleCloseCallback={handleSuccess}/>;
             }
             else{
                 if (addMembership.error === 'no_matches_found') {
@@ -203,6 +241,11 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
     }
 
     return (
+
+        <>
+            {
+                showMedicareMessage ? <FormSuccessMedicareCard handleCloseCallback={handleSuccess}/> :
+            
 
         <div>
 
@@ -588,6 +631,10 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                        )
                        : null )}
         </div>
+
+        }
+
+        </>
     )
 }
 
