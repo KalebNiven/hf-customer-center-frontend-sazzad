@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import {
-    ModalWrapper, ModalInnerWrapper, ModalContent, CloseIcon, ButtonWrapper
+    ModalWrapper, ModalInnerWrapper, ModalContent, CloseIcon, Button, ButtonWrapper
 } from "../../styles/commonStyles";
 import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
 import { requestAddMembership } from "../../store/actions";
 import { useHomeContext } from './homeContext';
 import { useRefreshOktaToken } from '../../hooks/useRefreshOktaToken';
+import { useLogout } from "../../hooks/useLogout";
+import FormSuccessMedicareCard from '../auth/registration/formSuccessMedicaid';
+import { useHistory } from "react-router-dom";
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+// import useRedirect from 'src/hooks/useRedirect';
 
 
 
@@ -42,9 +47,14 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
     const customerInfo = useSelector((state) => state.customerInfo.data);
     const addMembership = useSelector((state) => state.addMembership);
     const [submitClicked, setSubmitClicked] = useState(false);
+    const [showMedicareMessage, setShowMedicareMessage] = useState(false);
     const [showMemberIdImg, setShowMemberIdImg] = useState(false);
     const { showSuccessModal, setShowSuccessModal } = useHomeContext();
     const refreshOktaToken = useRefreshOktaToken();
+    const logoutApi = useLogout();
+    const history = useHistory();
+
+
 
     const clearState = () => {
         setMembershipInfo({ ...initialState });
@@ -55,10 +65,29 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
         }, 3000);
     }, [toastr])
 
+
+    const medicareMessageAndLogout = () => {
+        return <FormSuccessMedicareCard handleCloseCallback={handleSuccess}/>;
+    };
+
+    const handleSuccess = () => {
+        logoutApi();
+        setTimeout(() => {
+            history.push('/login');
+        }, 3000);
+    }
+
+
+    // useEffect(() => {
+    //     if (showMedicareMessage === true){
+    //         useRedirect()
+    //     }
+    // }, [showMedicareMessage])
+
     useEffect(() => {
         const { loading } = addMembership;
         if (!loading && submitClicked) {
-            if(addMembership.error === "" && addMembership.success === "success"){
+            if(addMembership.error === "" && (addMembership.success === "success")){
                 // window.location.reload();
                 // closeModal();
                 // setToastr(true);
@@ -68,6 +97,13 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                 setSubmitClicked(false);
                 setShowSuccessModal(true);
             
+            } else if (addMembership.success === "success_medicare"){
+                closeModal();
+                setSubmitClicked(false);             
+                history.push('/success-medicare');       
+                // setShowMedicareMessage(true);
+                // medicareMessageAndLogout();
+                // return <FormSuccessMedicareCard handleCloseCallback={handleSuccess}/>;
             }
             else{
                 if (addMembership.error === 'no_matches_found') {
@@ -75,6 +111,10 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                     accountInfo['memberId'] = {
                         value:  accountInfo['memberId'].value,
                         error: "Make sure that all information matches your enrollment form."
+                    }
+                    accountInfo['firstName'] = {
+                        value:  accountInfo['firstName'].value,
+                        error: " "
                     }
                     accountInfo['lastName'] = {
                         value:  accountInfo['lastName'].value,
@@ -95,6 +135,10 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                     accountInfo['memberId'] = {
                         value:  accountInfo['memberId'].value,
                         error: "This Member ID is already attached to an existing account. Please log in to that account to view your plan information. "
+                    }
+                    accountInfo['firstName'] = {
+                        value:  accountInfo['firstName'].value,
+                        error: " "
                     }
                     accountInfo['lastName'] = {
                         value:  accountInfo['lastName'].value,
@@ -151,6 +195,7 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
             }
         }
         if (accountInfo['memberId'].error || accountInfo['zipcode'].error
+            || accountInfo['firstName'].error
              || accountInfo['lastName'].error
             || accountInfo['dateofBirth'].error) {
             setMembershipInfo(accountInfo);
@@ -160,6 +205,7 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
             let membershipDetails = {
                 entryPoint: 'modal',
                 memberId: membershipInfo['memberId'].value,
+                firstName: membershipInfo['firstName'].value,
                 lastName: membershipInfo['lastName'].value,
                 DOBFULL: membershipInfo['dateofBirth'].value,
                 zipCode: membershipInfo['zipcode'].value
@@ -193,9 +239,7 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
     }
 
     return (
-
         <div>
-
             {
                 showModal === true ?
 
@@ -234,6 +278,10 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                                                             ...membershipInfo,
                                                             memberId: {
                                                                 value: e.target.value,
+                                                                error: null
+                                                            },
+                                                            firstName: {
+                                                                value: membershipInfo["firstName"].value,
                                                                 error: null
                                                             },
                                                             lastName: {
@@ -276,6 +324,57 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                                         </InputWrapper>
                                         <AdditionalInfo>Additional Information</AdditionalInfo>
                                         <InputWrapper>
+                                            <InputHeader>First Name</InputHeader>
+                                            <Input type="text" placeholder="Enter First Name"
+                                                value={membershipInfo["firstName"].value}
+                                                onChange={(e) => {
+                                                    if(submitClicked)
+                                                        {
+                                                        setMembershipInfo({
+                                                            ...membershipInfo,
+                                                            memberId: {
+                                                                value: membershipInfo["memberId"].value,
+                                                                error: null
+                                                            },
+                                                            firstName: {
+                                                                value: e.target.value,
+                                                                error: null
+                                                            },
+                                                            lastName: {
+                                                                value: membershipInfo["lastName"].value,
+                                                                error: null
+                                                            },
+                                                            dateofBirth: {
+                                                                value: membershipInfo["dateofBirth"].value,
+                                                                error: null
+                                                            },
+                                                            zipcode: {
+                                                                value: membershipInfo["zipcode"].value,
+                                                                error: null
+                                                            }
+                                                        })
+                                                        setSubmitClicked(false);
+                                                    }
+                                                    else{
+                                                        setMembershipInfo({
+                                                            ...membershipInfo,
+                                                            firstName: {
+                                                                value: e.target.value,
+                                                                error: null
+                                                            }
+                                                        })
+                                                    }
+                                                    //if(!!e.target.value.match(/[a-zA-Z]+/g)){
+                                                    
+                                                    //}
+
+                                                }
+                                                }
+                                                error={membershipInfo["lastName"].error}
+                                            />
+                                            {membershipInfo["lastName"].error && <InputErrorMsg>{membershipInfo["lastName"].error}</InputErrorMsg>}
+                                        </InputWrapper>
+                                        <InputWrapper>
                                             <InputHeader>Last Name</InputHeader>
                                             <Input type="text" placeholder="Enter Last Name"
                                                 value={membershipInfo["lastName"].value}
@@ -286,6 +385,10 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                                                             ...membershipInfo,
                                                             memberId: {
                                                                 value: membershipInfo["memberId"].value,
+                                                                error: null
+                                                            },
+                                                            firstName: {
+                                                                value: membershipInfo["firstName"].value,
                                                                 error: null
                                                             },
                                                             lastName: {
@@ -350,6 +453,10 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                                                                 value: membershipInfo["memberId"].value,
                                                                 error: null
                                                             },
+                                                            firstName: {
+                                                                value: membershipInfo["firstName"].value,
+                                                                error: null
+                                                            },
                                                             lastName: {
                                                                 value: membershipInfo["lastName"].value,
                                                                 error: null
@@ -380,6 +487,10 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                                                                 },
                                                                 memberId: {
                                                                     value: membershipInfo["memberId"].value,
+                                                                    error: null
+                                                                },
+                                                                firstName: {
+                                                                    value: membershipInfo["firstName"].value,
                                                                     error: null
                                                                 },
                                                                 lastName: {
@@ -421,6 +532,10 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                                                             ...membershipInfo,
                                                             memberId: {
                                                                 value: membershipInfo["memberId"].value,
+                                                                error: null
+                                                            },
+                                                            firstName: {
+                                                                value: membershipInfo["firstName"].value,
                                                                 error: null
                                                             },
                                                             lastName: {
@@ -471,6 +586,7 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                                                 onClick={() =>  handleClick()}
                                                 disabled={
                                                         membershipInfo["memberId"].value === '' ||
+                                                        membershipInfo["firstName"].value === '' ||
                                                         membershipInfo["lastName"].value === '' ||
                                                         membershipInfo["dateofBirth"].value === null ||
                                                         membershipInfo["zipcode"].value === '' 
@@ -483,12 +599,28 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
                             </FormModalContent>
                         </ModalInnerWrapperCustom>
                     </FormModalWrapper>
-                     :(showSuccessModal ? <SuccessModalWrapper><SuccessModalInnerWrapper>
+                     :(showSuccessModal ? 
+                     (addMembership.success === "successMedicaid" ? 
+                     <SuccessModalWrapper><SuccessModalInnerWrapper>
+                        <CloseIcon alt = "" src="/react/images/icn-close.svg" onClick={() => onContinue()} />
+                        <ClockIcon src="/react/images/clock.svg" color="green"></ClockIcon>
+                        <SuccessMsg>Your membership has been attached, but we still need to verify your account.</SuccessMsg>
+                        <SubSuccessMsg>Your username and password have been created, but you still need to verify your account before you can log in. Call Member Services or we can contact you within 72 hours to activate your account</SubSuccessMsg>
+                        <FormButtonWrapperSuccessMedicaid>
+                            <FormButton green={false} onClick={() => onContinue()}>
+                                Done
+                            </FormButton>
+                        </FormButtonWrapperSuccessMedicaid>
+                       </SuccessModalInnerWrapper></SuccessModalWrapper> 
+                       :
+                     <SuccessModalWrapper><SuccessModalInnerWrapper>
                         <CloseIcon alt = "" src="/react/images/icn-close.svg" onClick={() => onContinue()} />
                        <CheckIcon alt = "" src = "/react/images/icn-green-tick.svg"/>
                        <SuccessMsg>Your Membership has been added successfully!</SuccessMsg>
                        <Continue onClick = {() => onContinue()} >Continue</Continue>
-                       </SuccessModalInnerWrapper></SuccessModalWrapper> : null )}
+                       </SuccessModalInnerWrapper></SuccessModalWrapper> 
+                       )
+                       : null )}
         </div>
     )
 }
@@ -836,6 +968,37 @@ padding: 24px;
 }
 `;
 
+const ClockIcon = styled.img`
+  width: 73px;
+  height: 73px;
+  flex-grow: 0;
+  margin: 31px auto 0px;
+  object-fit: contain;
+`;
 
+const SubSuccessMsg = styled.div`
+    font-style: normal;
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
+    color: #003863;
+    margin-top: 23px;
+    font-weight: 100;
+    margin-bottom: 4rem;
+`;
+
+const FormButtonWrapperSuccessMedicaid = styled(ButtonWrapper)`
+  margin-top: 2rem; 
+  margin-bottom: 0rem;
+  text-align: center;
+`;
+const FormButton = styled(Button)`
+  float: none!important;
+  margin-left: 0;
+  width: 100%;
+  font-weight: 500;
+  margin-bottom: .2rem;
+  cursor: pointer;
+`;
 
 export default AddMembershipModal;

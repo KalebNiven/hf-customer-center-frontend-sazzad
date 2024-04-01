@@ -128,6 +128,7 @@ const memberForm = ({ onBack, handleContinue, isProceedTocrediantials ,memberInf
         if(!memberRegister.loading && isContinue){
             setFormSubmissions(formSubmissions + 1);
             if (memberRegister?.data?.mfaToken != null ) {
+                //console.log(memberRegister);
                 isProceedTocrediantials(true);
             }else if(memberRegister?.error?.message == "Failed recaptcha check"){
                 setGrVersion("V2")

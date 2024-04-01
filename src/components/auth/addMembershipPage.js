@@ -27,7 +27,10 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import {useToaster} from "../../hooks/useToaster";
 import FormSuccessCard from "./registration/formSuccess";
+import FormSuccessMedicareCard from "./registration/formSuccessMedicaid";
 import { useRefreshOktaToken } from "../../hooks/useRefreshOktaToken";
+import { useLogout } from "../../hooks/useLogout";
+
 
 const NO_MATCHES_FOUND_ERROR = "We didn't find any matches. Please check your entries and try again, or contact us for assistance."
 const MEMBER_TAKEN_ERROR = "This membership is already associated with another account. Please contact us for assistance."
@@ -35,6 +38,10 @@ const MEMBER_TAKEN_ERROR = "This membership is already associated with another a
 const AddMemberPage = () => {
     const initialState = {
         memberId: {
+            value: "",
+            error: null,
+        },
+        firstName: {
             value: "",
             error: null,
         },
@@ -66,6 +73,8 @@ const AddMemberPage = () => {
     const history = useHistory();
     const {addToast} = useToaster();
     const refreshOktaToken = useRefreshOktaToken();
+    const logoutApi = useLogout();
+
 
     useEffect(() => {
         if(accountStatus === 'MEMBER'){
@@ -93,6 +102,9 @@ const AddMemberPage = () => {
                     notificationLinkText: 'contact us'
                 });
             }
+            if (addMembership.success === "success_medicare"){
+                setStep('success_medicare');
+            }
             else if(addMembership.success === "success"){
                 setStep("success");
             }
@@ -102,6 +114,7 @@ const AddMemberPage = () => {
     useEffect(() => {
         if(
             accountInfo["memberId"].value.length > 0 &&
+            accountInfo["firstName"].value.length > 0 &&
             accountInfo["lastName"].value.length > 0 &&
             accountInfo["zipcode"].value.length > 0 &&
             accountInfo["dateofBirth"].value.length > 0
@@ -148,6 +161,15 @@ const AddMemberPage = () => {
                     }
                     break;
 
+                case "firstName":
+                    if (value.value.length === 0) {
+                        handleAccountInfo(
+                            key,
+                            "First Name is Required",
+                            value.value
+                        );
+                    }
+                    break;
                 case "lastName":
                     if (value.value.length === 0) {
                         handleAccountInfo(
@@ -199,6 +221,7 @@ const AddMemberPage = () => {
         }
         if (
             accountInfo["memberId"].error === null &&
+            accountInfo["firstName"].error === null &&
             accountInfo["lastName"].error === null &&
             accountInfo["zipcode"].error === null &&
             accountInfo["dateofBirth"].error === null
@@ -206,6 +229,7 @@ const AddMemberPage = () => {
            
             const data = {
                 memberId: accountInfo.memberId.value,
+                firstName: accountInfo.firstName.value,
                 lastName: accountInfo.lastName.value,
                 DOBFULL: accountInfo.dateofBirth.value,
                 zipCode: accountInfo.zipcode.value,
@@ -264,10 +288,10 @@ const AddMemberPage = () => {
     };
 
     const handleSuccess = () => {
-        refreshOktaToken(() => {
-            dispatch(requestCustomerInfo()); 
-            history.push('/home');
-        });
+        logoutApi();
+        setTimeout(() => {
+            history.push('/login');
+        }, 3000);
     };
     
     const renderStep = (step) => {
@@ -313,6 +337,47 @@ const AddMemberPage = () => {
                             <AdditionalInfo>
                                 Additional Info
                             </AdditionalInfo>
+                            <InputWrapper>
+                                <InputHeader>First Name</InputHeader>
+                                <Input
+                                    type="text"
+                                    placeholder="Enter First Name"
+                                    value={membershipInfo["firstName"].value}
+                                    onChange={(e) => {
+                                        if (e.target.value.length > 0) {
+                                            const nameRegex = new RegExp(
+                                                "[A-Za-z]"
+                                            );
+                                            if (!nameRegex.test(e.target.value)) {
+                                                setMembershipInfo({
+                                                    ...membershipInfo,
+                                                    firstName: {
+                                                        value: e.target.value,
+                                                        error:
+                                                            "Invalid Name Format",
+                                                    },
+                                                });
+                                            } else {
+                                                handleMemberInfo(e, "firstName");
+                                            }
+                                        } else {
+                                            setMembershipInfo({
+                                                ...membershipInfo,
+                                                firstName: {
+                                                    value: e.target.value,
+                                                    error: null,
+                                                },
+                                            });
+                                        }
+                                    }}
+                                    error={membershipInfo["firstName"].error}
+                                />
+                                {membershipInfo["firstName"].error && (
+                                    <InputErrorMsg>
+                                        {membershipInfo["firstName"].error}
+                                    </InputErrorMsg>
+                                )}
+                            </InputWrapper>
                             <InputWrapper>
                                 <InputHeader>Last Name</InputHeader>
                                 <Input
@@ -467,6 +532,8 @@ const AddMemberPage = () => {
                 )
             case 'success': 
                 return <FormSuccessCard message="Membership added successfully!" delayedCallback={handleSuccess}/>;
+            case 'success_medicare': 
+                return <FormSuccessMedicareCard handleCloseCallback={handleSuccess}/>;
         }
     };
 
