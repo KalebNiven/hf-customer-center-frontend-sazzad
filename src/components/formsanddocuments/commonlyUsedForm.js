@@ -34,21 +34,27 @@ const CommonlyUsedForm = (props) => {
             src="/react/images/download_pdf.svg"
           />
           )}
-          
           <Wrapper isOpen={item.id === rowID} last={false}>
             <Language
               onClick={() => {
                 window.open(item.assetUrl.en);
+                setRowId();
               }}
             >
               English
             </Language>
 
-            <Language onClick={() => window.open(item.assetUrl.es)}>
+            <Language onClick={() => {
+              window.open(item.assetUrl.es);
+              setRowId();
+              }}>
               Spanish
             </Language>
 
-            <Language ref={ref} onClick={() => window.open(item.assetUrl.zh)}>
+            <Language ref={ref} onClick={() => {
+              window.open(item.assetUrl.zh);
+              setRowId();
+            }}>
               Chinese
             </Language>
           </Wrapper>
