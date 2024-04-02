@@ -16,6 +16,10 @@ export const Container = styled.div`
     height: 100%;
     margin-bottom: 1rem;
     padding: 0px 20px;
+
+    @media only screen and (max-width: 600px) {
+        padding: 0;
+    }
 `;
 
 export const TopOptions = styled.div`
@@ -70,13 +74,7 @@ export const CurrentlyEnrolled = styled.div`
     flex-direction: column;
     gap: 8px;
     margin-bottom: 20px;
-
     padding: 0;
-
-    @media only screen and (max-width: 600px) {
-        padding: 0px 20px;
-    }
-
     p {
         font-weight: 400;
         font-size: 14px;
