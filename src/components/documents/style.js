@@ -15,11 +15,7 @@ export const Container = styled.div`
     width: 100%;
     height: 100%;
     margin-bottom: 1rem;
-    padding: 0px 20px;
-
-    @media only screen and (max-width: 600px) {
-        padding: 0;
-    }
+    padding: 0;
 `;
 
 export const TopOptions = styled.div`
