@@ -144,7 +144,6 @@ const FormsAndDocuments = (props) => {
       <>
         {isMobile ? (
           <>
-            <SubTitle>Select a Document Type</SubTitle>
             <DocumentType />
           </>
         ) : (
@@ -440,6 +439,12 @@ export default Index;
 
 const Wrapper = styled.div`
   display: flex;
+  @media only screen and (min-width: 768px) and (max-width: 1024px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 8px;
+  }
 `;
 
 const ProgressWrapper = styled.div`
