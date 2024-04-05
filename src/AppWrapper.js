@@ -48,6 +48,7 @@ import MyRewardsPage from "./pages/my-health/MyRewardsPage";
 import OTCWidgetPage from "./pages/otc/OTCWidgetPage";
 import FormsAndDocumentPage from "./pages/forms-and-documents/FormsAndDocumentPage";
 import QuestionnaireLIPPage from './pages/questionnaire/QuestionnairePage'
+import MemberIDCardWidgetPage from "./pages/member-id-card/MemberIDCardWidgetPage";
 
 const AppWrapper = () => {
     const { authState, oktaAuth } = useOktaAuth();
@@ -97,7 +98,7 @@ const AppWrapper = () => {
                         <SecureRoute exact path="/search" component={FindCareSearchPage} />
                         <SecureRoute exact path="/details" component={FindCareDetailsPage} />
                         <SecureRoute exact path="/pcp" component={FindCarePCPPage} />
-                        <SecureRoute exact path="/idcard" component={MemberIDCardPage} />
+                        <SecureRoute exact path="/idcard" component={MemberIDCardWidgetPage} />
                         <SecureRoute exact path="/home" component={HomePage} />
                         <SecureRoute exact path="/payments" component={PaymentsPage} />
                         <SecureRoute exact path="/my-health" component={MyHealthPage}/>
