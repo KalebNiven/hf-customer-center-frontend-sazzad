@@ -245,6 +245,14 @@ const DocumentCenter = (props) => {
         return finalResult
     }
    
+    const getDocTypeImage = (documentName) => {
+        let imagePath = '';
+        if (documentName) {
+            const extension = documentName.split('.').pop().toUpperCase();
+            imagePath = `/react/images/fileTypes/${extension}.svg`;
+        }
+        return imagePath;
+    }
     
     const columns = [
         {
@@ -254,7 +262,7 @@ const DocumentCenter = (props) => {
                     <div data-tag="allowRowEvents" className="icon">
                         <img
                             data-tag="allowRowEvents"
-                            src="/react/images/documents-pdf-icon.svg"
+                            src={getDocTypeImage(row?.DocumentName)}
                         />
                     </div>
                     <div data-tag="allowRowEvents" className="name">
