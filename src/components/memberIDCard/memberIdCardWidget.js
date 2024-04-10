@@ -5,6 +5,7 @@ import { useAppContext } from "../../AppContext";
 import { ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import { loadExternalScript } from "../../utils/externalScripts";
 import useLogError from "../../hooks/useLogError";
+import { useLocation } from "react-router-dom";
 
 const MEMBER_ID_CARD_WIDGET_SCRIPT_ID = 'MemberIdCardWidgetScript';
 
@@ -12,12 +13,14 @@ const MemberIdCardWidget = () => {
 
   const { MIX_REACT_TRAILBLAZER_WIDGET_BASE_URL } = process.env;
   const customerInfo = useSelector((state) => state.customerInfo.data);
-  const memberId = customerInfo?.hohPlans[0]?.MemberId;
+  const location = useLocation();
+//   const memberId = customerInfo?.hohPlans[0]?.MemberId;
   const jwt_token = customerInfo.id_token
   const updatedJwt = (jwt_token === undefined ? jwt_token : jwt_token.replace('Bearer ', ''));
   const [existingScript, setExistingScript] = useState(document.getElementById(MEMBER_ID_CARD_WIDGET_SCRIPT_ID));
   const { externalSiteModal, setExternalSiteModal } = useAppContext();
   const { logError } = useLogError();
+  const memberId = location?.state?.dependentMemberId ? location?.state?.dependentMemberId : customerInfo?.hohPlans[0]?.MemberId;
 
 
   const handleExternalSiteClicked = (link, action) => {
