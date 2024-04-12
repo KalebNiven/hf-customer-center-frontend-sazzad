@@ -25,7 +25,7 @@ const config = {
   entry: "./src/index.js",
   output: {
     path: distDir,
-    filename: "[name].js",
+    filename: "[name].[contenthash].js",
     sourceMapFilename: "[name].js.map",
     chunkFilename: "[id].[chunkhash].js",
   },
