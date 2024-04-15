@@ -14,7 +14,6 @@ const MemberIdCardWidget = () => {
   const { MIX_REACT_TRAILBLAZER_WIDGET_BASE_URL } = process.env;
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const location = useLocation();
-//   const memberId = customerInfo?.hohPlans[0]?.MemberId;
   const jwt_token = customerInfo.id_token
   const updatedJwt = (jwt_token === undefined ? jwt_token : jwt_token.replace('Bearer ', ''));
   const [existingScript, setExistingScript] = useState(document.getElementById(MEMBER_ID_CARD_WIDGET_SCRIPT_ID));
@@ -38,21 +37,15 @@ const MemberIdCardWidget = () => {
   };
   const events = {
     onNavigateToTrackingClicked: (data) => {
-        // Primary usage is to handle click to tracking info site
         const {url, action} = data
-        // You can put our code here
         handleExternalSiteClicked(url, action);
       },
       onNavigateToLocationClicked: (data) => {
-        // Primary usage is to handle click to google maps provider location
         const {url, action} = data
-        // You can put our code here
         handleExternalSiteClicked(url, action);
       },
       onNavigateToAppstoreClicked: (data) => {
-        // Primary usage is to handle click to apple app store
         const {url, action} = data
-        // You can put our code here
         handleExternalSiteClicked(url, action);
       }
   }  
@@ -70,8 +63,8 @@ const MemberIdCardWidget = () => {
   useEffect(() => {
     if(existingScript){
       try {
+        //attempt to mount the widget if the script exists
         window.IDCardWidget.mount(mountProps);
-        sessionStorage.setItem("longLoad", false);
       } catch (error) {
         (async () => {
             try {
