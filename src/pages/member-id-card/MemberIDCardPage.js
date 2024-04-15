@@ -14,9 +14,9 @@ export default () => {
 
     switch(memberIdCardPageTreatment){
         case 'on': 
-            return <MemberIDCardPage />;
-        case 'show_widget': 
             return <MemberIdCardWidget />;
+        case 'legacy': 
+            return <MemberIDCardPage />;
         case 'off': 
             return <PermissionDenied />;
         case "control":
