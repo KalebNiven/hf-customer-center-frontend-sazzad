@@ -73,8 +73,8 @@ const config = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: !isProduction ? "[name].css" : "[name].[hash].css",
-      chunkFilename: !isProduction ? "[id].css" : "[id].[hash].css",
+      filename: !isProduction ? "[name].css" : "[name].[contenthash].css",
+      chunkFilename: !isProduction ? "[id].css" : "[id].[contenthash].css",
     }),
   ].filter((i) => i),
   module: {
