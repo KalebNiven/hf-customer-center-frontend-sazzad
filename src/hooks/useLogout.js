@@ -1,11 +1,8 @@
 import { useOktaAuth } from '@okta/okta-react';
-import { useDispatch } from "react-redux";
-import { requestResetState } from '../store/actions';
 import { useHistory } from "react-router-dom";
 
 export const useLogout = () => {
-  const { oktaAuth, authState } = useOktaAuth();
-  const dispatch = useDispatch();
+  const { oktaAuth } = useOktaAuth();
   const history = useHistory();
 
   return async function() {
@@ -13,7 +10,7 @@ export const useLogout = () => {
     try {
       history.push('/login')
       sessionStorage.removeItem('from');
-      await oktaAuth.signOut({ postLogoutRedirectUri: window.location.origin + '/login' })
+      await oktaAuth.signOut({ postLogoutRedirectUri: window.location.origin + '/login' });
       oktaAuth.tokenManager.clear();
       localStorage.removeItem("identifySegmentFlag");
       sessionStorage.removeItem("currentMemberId");
@@ -22,6 +19,7 @@ export const useLogout = () => {
       sessionStorage.removeItem(`persist:${process.env.MIX_REACT_PAYMENTS_BASE_URL}`);
       sessionStorage.removeItem('skipAddMembership');
       sessionStorage.removeItem('visitedPrefCenterSync');
+      sessionStorage.removeItem("isNotificationModalClosed");
       ProviderDirectoryWidget.invalidateStore();
     } catch (err) {
       console.log('Error caught: ', err.message)
