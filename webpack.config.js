@@ -25,7 +25,7 @@ const config = {
   entry: "./src/index.js",
   output: {
     path: distDir,
-    filename: "[name].js",
+    filename: "[name].[contenthash].js",
     sourceMapFilename: "[name].js.map",
     chunkFilename: "[id].[chunkhash].js",
   },
@@ -73,8 +73,8 @@ const config = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: !isProduction ? "[name].css" : "[name].[hash].css",
-      chunkFilename: !isProduction ? "[id].css" : "[id].[hash].css",
+      filename: !isProduction ? "[name].css" : "[name].[contenthash].css",
+      chunkFilename: !isProduction ? "[id].css" : "[id].[contenthash].css",
     }),
   ].filter((i) => i),
   module: {
