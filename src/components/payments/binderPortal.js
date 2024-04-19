@@ -16,7 +16,7 @@ const BinderPortal = () => {
   const accessToken = localStorageOKTA.accessToken.accessToken;
   const idToken = localStorageOKTA.idToken.idToken;
   const memberData = useSelector(state => state.customerInfo);
-  const memberId = paymentsModalState?.membership?.MemberId ?? memberData?.data?.memberId ?? 'undefined';
+  const memberId = paymentsModalState?.membership?.MemberId ?? memberData?.data?.memberId ?? '';
 
   useEffect(()=>{
     const uniqueHash = (+new Date).toString(16); //to prevent caching
