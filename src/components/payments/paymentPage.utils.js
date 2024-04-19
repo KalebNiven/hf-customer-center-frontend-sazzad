@@ -38,7 +38,7 @@ export const getSplitpAttributes = (account, accountStatus) => {
     companyCode: CompanyNumber || companyCode,
     accountStatus,
   };
-  console.log('split Attributes', splitAttributes);
+  // console.log('split Attributes', splitAttributes);
   return splitAttributes;
 };
 
@@ -64,7 +64,7 @@ export const getEnabledAccountsAndTreatments = (allAccountsAtributes, splitClien
     if (HoHIndex > -1) filteredAtributes.splice(HoHIndex, 1, cur);
     else filteredAtributes.push(cur);
   }
-  console.log('filteredAtributes', filteredAtributes);
+  // console.log('filteredAtributes', filteredAtributes);
 
   const enabledAccountsIds = [];
   const enabledAccountsTreatments = [];
@@ -76,8 +76,8 @@ export const getEnabledAccountsAndTreatments = (allAccountsAtributes, splitClien
     enabledAccountsTreatments.push(accountTreatments);
     enabledAccountsIds.push(attrs.accountId);
   });
-  console.log('enabled accounts:', enabledAccountsIds)
-  console.log('\ntreatments for enabled accounts', enabledAccountsTreatments);
+  // console.log('enabled accounts:', enabledAccountsIds)
+  // console.log('\ntreatments for enabled accounts', enabledAccountsTreatments);
   return [enabledAccountsIds, enabledAccountsTreatments];
 };
 
