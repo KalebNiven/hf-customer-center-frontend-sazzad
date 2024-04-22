@@ -42,7 +42,7 @@ const FormsAndDocumentsModel = ({ onBack }) => {
   }, [memberId]);
 
   useOnClickOutside(ref, (event) => {
-    if (event.target.contains(ref.current)) {
+    if (!event.target.id.startsWith("languageSelection")) {
       setRowId();
     }
   });
@@ -120,22 +120,33 @@ const FormsAndDocumentsModel = ({ onBack }) => {
                      />
                     )}
                    
-                    <LangWrapper isOpen={item.id === rowID} last={false}>
+                    <LangWrapper id="languageSelection" isOpen={item.id === rowID} last={false} ref={ref}>
                       <Language
+                        id="languageSelectionEN"
                         onClick={() => {
                           window.open(item.assetUrl.en);
+                          setRowId();
                         }}
                       >
                         English
                       </Language>
 
-                      <Language onClick={() => window.open(item.assetUrl.es)}>
+                      <Language 
+                        id="languageSelectionES" 
+                        onClick={() => { 
+                          window.open(item.assetUrl.es);
+                          setRowId();
+                        }}
+                      >
                         Spanish
                       </Language>
 
-                      <Language
-                        ref={ref}
-                        onClick={() => window.open(item.assetUrl.zh)}
+                      <Language 
+                        id="languageSelectionZH"
+                        onClick={() =>  {
+                          window.open(item.assetUrl.zh);
+                          setRowId();
+                        }}
                       >
                         Chinese
                       </Language>
@@ -174,21 +185,10 @@ const DocsList = (props) => {
   const [rowName, setRowName] = useState("");
   const ref = useRef();
   useOnClickOutside(ref, (event) => {
-    if (event.target.contains(ref.current)) {
+    if (!event.target.id.startsWith("languageSelection")) {
       setRowName("");
     }
   });
-
-  const handleOpen = (item) => {
-    if (
-      (item.assetUrl.en != null || item.assetUrl.en != "") &&
-      (item.assetUrl.es === null || item.assetUrl.es === "") &&
-      (item.assetUrl.zh === null || item.assetUrl.zh === "")
-    ) {
-      window.open(item.assetUrl.en);
-      setRowName("");
-    }
-  };
 
   return (
     <>
@@ -201,24 +201,22 @@ const DocsList = (props) => {
 
           {item.Name === rowName ? (
             <DownloadImg
-              onClick={() => {
-                setRowName(item.Name), handleOpen(item);
-              }}
+              onClick={() => setRowName(item.Name)}
               src="/react/images/download_blue.svg"
             />
           ) : (
             <DownloadImg
-              onClick={() => {
-                setRowName(item.Name), handleOpen(item);
-              }}
+              onClick={() => setRowName(item.Name)}
               src="/react/images/download_pdf.svg"
             />
           )}
-          <LangWrapper isOpen={item.Name === rowName} last={false}>
+          <LangWrapper id="languageSelection" isOpen={item.Name === rowName} last={false} ref={ref} >
             {item.assetUrl.en != null && item.assetUrl.en != "" && (
-              <Language
+              <Language 
+                id="languageSelectionEN"
                 onClick={() => {
                   window.open(item.assetUrl.en);
+                  setRowName("");
                 }}
               >
                 English
@@ -226,13 +224,25 @@ const DocsList = (props) => {
             )}
 
             {item.assetUrl.es != null && item.assetUrl.es != "" && (
-              <Language onClick={() => window.open(item.assetUrl.es)}>
+              <Language 
+                id="languageSelectionES" 
+                onClick={() => { 
+                  window.open(item.assetUrl.es);
+                  setRowName("");
+                }}
+              >
                 Spanish
               </Language>
             )}
 
             {item.assetUrl.zh != null && item.assetUrl.zh != "" && (
-              <Language ref={ref} onClick={() => window.open(item.assetUrl.zh)}>
+              <Language 
+                id="languageSelectionZH" 
+                onClick={() => {
+                  window.open(item.assetUrl.zh);
+                  setRowName("");
+                }}
+              >
                 Chinese
               </Language>
             )}
@@ -240,31 +250,6 @@ const DocsList = (props) => {
         </FormsWrapper>
       ))}
     </>
-  );
-};
-
-const LangModel = (props) => {
-  return (
-    <LangWrapper isOpen={props.data.Name === props.rowName} last={false}>
-      <Language
-        onClick={() => {
-          window.open(props.data.assetUrl.en);
-        }}
-      >
-        English
-      </Language>
-
-      <Language onClick={() => window.open(props.data.assetUrl.es)}>
-        Spanish
-      </Language>
-
-      <Language
-        ref={props.ref}
-        onClick={() => window.open(props.data.assetUrl.zh)}
-      >
-        Chinese
-      </Language>
-    </LangWrapper>
   );
 };
 
