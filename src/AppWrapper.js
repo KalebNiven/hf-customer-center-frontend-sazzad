@@ -48,6 +48,8 @@ import MyRewardsPage from "./pages/my-health/MyRewardsPage";
 import OTCWidgetPage from "./pages/otc/OTCWidgetPage";
 import FormsAndDocumentPage from "./pages/forms-and-documents/FormsAndDocumentPage";
 import QuestionnaireLIPPage from './pages/questionnaire/QuestionnairePage'
+import FormSuccessMedicareCard from "./components/auth/registration/formSuccessMedicaid";
+
 
 const AppWrapper = () => {
     const { authState, oktaAuth } = useOktaAuth();
@@ -117,6 +119,9 @@ const AppWrapper = () => {
                         <SecureRoute exact path="/sessionExpired" component={Logout} />
                         <SecureRoute exact path="/selectLanguage" component={HandleLanguageSelection} />
                         <SecureRoute exact path="/otc-widget" component={OTCWidgetPage} />
+
+                        <SecureRoute exact path="/success-medicare" component={FormSuccessMedicareCard} />
+                        
                         { /* ! This is doesn't seem to be a correct implementation... */ }
                         <SecureRoute exact path='/permissionDenied' component={() => <GlobalError />} />
                         <SecureRoute exact path="/login" component={() => <Redirect to="/home" />} />

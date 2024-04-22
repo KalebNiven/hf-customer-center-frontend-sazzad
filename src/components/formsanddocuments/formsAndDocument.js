@@ -74,20 +74,6 @@ const FormsAndDocumentsModel = ({ onBack }) => {
         </ButtonWrapper>
       </Wrapper>
 
-      <DependentBlockWrapper>
-        {
-          <DependentBlock
-            memberSelection={memberSelection}
-            setMemberSelection={setMemberSelection}
-            halfWidth
-            activeOnly={
-              memberSelection?.accountStatus === "active" ? false : true
-            }
-            minorsOnly={true}
-            activeDepsOnly={false}
-          />
-        }
-      </DependentBlockWrapper>
       {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
         ccForms.ccFormsDocDetails?.data?.length === undefined) &&
       ccForms.ccFormsDocLoading === false ? (
@@ -96,7 +82,21 @@ const FormsAndDocumentsModel = ({ onBack }) => {
         <>
           {(ccForms?.ccFormsDocDetails?.data != null &&  ccForms.ccFormsDocLoading === false) ? (
             <>
-              <MyDocuments>Forms and Documents</MyDocuments>
+              <MyDocuments>Forms and Plan Documents</MyDocuments>
+              <DependentBlockWrapper>
+                {
+                  <DependentBlock
+                    memberSelection={memberSelection}
+                    setMemberSelection={setMemberSelection}
+                    halfWidth
+                    activeOnly={
+                      memberSelection?.accountStatus === "active" ? false : true
+                    }
+                    minorsOnly={true}
+                    activeDepsOnly={false}
+                  />
+                }
+              </DependentBlockWrapper>
               <SubTitle>Commonly Used Forms</SubTitle>
               {ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms.map(
                 (item) => (

@@ -4,6 +4,9 @@ import RegistrationSuccess from "./registrationSuccess";
 import RegistrationOnlySuccess from "./registrationOnlySuccess";
 import useQuery from "../../../hooks/useQuery";
 import { passwordIsValid } from "../../../utils/formValidation";
+import FormSuccessMedicareCard from "./formSuccessMedicaid";
+import { Link, useHistory } from 'react-router-dom'
+
 
 import {
     FormGrid,
@@ -62,9 +65,13 @@ const CreateUserCredentials = (props) => {
     const accountInfo = { ...memberInfo };
 
     const dispatch = useDispatch();
+    const history = useHistory();
     const createUsernamePassword = useSelector(
         (state) => state.createUsernamePassword
     );
+
+    const validationRequired = useSelector((state) => state.memberRegister.data.validationRequired);
+
    // const registrationOnlyValue = useQuery().get("registrationOnly")
     const [registrationOnlyValue, setregistrationOnlyValue] = useState(useQuery().get("registrationOnly"));
 
@@ -249,6 +256,11 @@ const CreateUserCredentials = (props) => {
             });
         }
     };
+
+
+    const handleSuccess = () => {
+        history.push('/login');
+    };
     
 
 
@@ -271,7 +283,11 @@ const CreateUserCredentials = (props) => {
         
             <MemberCardsContainer>
                 { submitClicked ? (
-                   registrationOnlyValue? ( <RegistrationOnlySuccess/> ):( <RegistrationSuccess/> )
+                    registrationOnlyValue ? ( 
+                        <RegistrationOnlySuccess/> 
+                    ):( 
+                            validationRequired ? 
+                            <FormSuccessMedicareCard handleCloseCallback={handleSuccess}/> : <RegistrationSuccess/> )
                 ) : (
                     <MemberCard>
                         {isHover && (

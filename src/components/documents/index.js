@@ -710,7 +710,7 @@ const DocumentCenter = (props) => {
                 />
             )}
             <Main>
-                <MyDocuments>Document Center</MyDocuments>
+                <MyDocuments>Plan Communications</MyDocuments>
 
                 {paperlessStatusLoaded ? (
                     paperlessStatus ? (

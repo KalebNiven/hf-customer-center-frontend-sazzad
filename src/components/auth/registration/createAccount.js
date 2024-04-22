@@ -211,7 +211,7 @@ const CreateAccount = () => {
                         <FooterBox>
                             <FooterBoxContent>
                                 If you have any questions, please call 
-                                {!wmvalue ? <>the Member Services number on your Member ID card</> 
+                                {!wmvalue ? <> the Member Services number on your Member ID card</> 
                                     : <><br></br><b>1-877-237-1303</b></>} or
                                 visit us at
                                 <BoldText

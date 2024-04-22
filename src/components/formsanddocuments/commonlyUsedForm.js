@@ -34,21 +34,27 @@ const CommonlyUsedForm = (props) => {
             src="/react/images/download_pdf.svg"
           />
           )}
-          
           <Wrapper isOpen={item.id === rowID} last={false}>
             <Language
               onClick={() => {
                 window.open(item.assetUrl.en);
+                setRowId();
               }}
             >
               English
             </Language>
 
-            <Language onClick={() => window.open(item.assetUrl.es)}>
+            <Language onClick={() => {
+              window.open(item.assetUrl.es);
+              setRowId();
+              }}>
               Spanish
             </Language>
 
-            <Language ref={ref} onClick={() => window.open(item.assetUrl.zh)}>
+            <Language ref={ref} onClick={() => {
+              window.open(item.assetUrl.zh);
+              setRowId();
+            }}>
               Chinese
             </Language>
           </Wrapper>
@@ -85,8 +91,11 @@ const Container = styled.div`
 
   /* lvl-1 */
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
-  @media only screen and (min-width: 760px) {
+  @media only screen and (min-width: 768px) and (max-width: 1024px) {
     height: 245px;
+    margin-top: 16px;
+    margin-right: 0;
+    max-width: 100%;
 } ;
 `;
 
