@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import HomePageCoachMarks from '../coachMarks/homePageCoachMarks/homePageCoachMarks'
-import { SHOW_COACH_MARKS, SHOW_MEMBER_ID_CARD, SHOW_PAPERLESS_WIDGET} from "../../constants/splits";
+import { SHOW_COACH_MARKS, SHOW_MEMBER_ID_CARD, SHOW_PAPERLESS_WIDGET, SHOW_NOTIFICATION_MODAL } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import GlobalStyle from "../../styles/GlobalStyle";
 import HomeDetails from "./homeDetails";
 import Spinner from "../common/spinner";
 import PaperlessModal from "../common/paperlessModal";
+import NotificationModal from "../common/NotificationModal";
 import { useHistory } from 'react-router-dom'; 
 import { AnalyticsPage, AnalyticsTrack } from "../../components/common/segment/analytics";
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
@@ -178,7 +179,18 @@ const HomePage = () => {
           </GreetingContainer>
         </Banner>
         <HomeDetails/>
-        
+
+        <FeatureTreatment
+          treatmentName={SHOW_NOTIFICATION_MODAL}
+          onLoad={() => { }}
+          onTimedout={() => { }}
+          attributes={splitAttributes}
+        > 
+          <NotificationModalContainer>
+            <NotificationModal />
+          </NotificationModalContainer>
+        </FeatureTreatment>
+
         <FeatureTreatment
           treatmentName={SHOW_COACH_MARKS}
           onLoad={() => { }}
@@ -210,6 +222,11 @@ color:white;
 
 const ModelContainer = styled.div`
 z-index:500;
+position:fixed;
+transition: opacity 300ms ease-in-out;`;
+
+const NotificationModalContainer = styled.div`
+z-index:1002;
 position:fixed;
 transition: opacity 300ms ease-in-out;`;
 

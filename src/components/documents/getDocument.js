@@ -30,46 +30,45 @@ const GetDocument = (props) => {
 
     const dispatch = useDispatch();
     const documents = useSelector((state) => state.documents.data);
-    //let documentError = false;
     let documentLoading = true;
 
     const [documentError, setDocumentError] = useState();
+    const [documentOpened, setDocumentOpened] = useState(false);
 
     if(documentError === undefined){
         setDocumentError(false);
     }
 
     useEffect(() => {
-
-        const { FileContent } = documents.document;
+        const { FileContent, MIMEType } = documents.document;
         setDocumentError(documents.documentError);
         documentLoading = documents.documentLoading;
-
-        if(FileContent){
+        if (FileContent && MIMEType) {
             var byteCharacters = atob(FileContent);
             var byteNumbers = new Array(byteCharacters.length);
             for (var i = 0; i < byteCharacters.length; i++) {
             byteNumbers[i] = byteCharacters.charCodeAt(i);
             }
             var byteArray = new Uint8Array(byteNumbers);
-            var file = new Blob([byteArray], { type: 'application/pdf;base64' });
-            const pdfUrl = (window.URL || window.webkitURL).createObjectURL(file);
-            window.open(pdfUrl, '_parent');
+            var file = new Blob([byteArray], { type: MIMEType });
+            const fileUrl = (window.URL || window.webkitURL).createObjectURL(file);
+            window.open(fileUrl, '_parent');
+            setDocumentOpened(true);
         }
-
-        if(!documentLoading){         
+        if (!documentLoading) {         
             dispatch(documentFileLoading());
             dispatch(getDocument(docId, isNodeId));
         }
-
     });
 
     return <LoadingWrapper>   
         {  documentError ? 
             <DownloadDocumentError/> : 
-            <ProgressWrapper>
-                <Spinner />
-            </ProgressWrapper>
+            !documentOpened && (
+                <ProgressWrapper>
+                    <Spinner />
+                </ProgressWrapper>
+            )
         }
         </LoadingWrapper>;
 

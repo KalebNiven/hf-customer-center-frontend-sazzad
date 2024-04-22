@@ -74,6 +74,7 @@ export const SHOW_OTC_CLAIM_REIMBURSEMENT_BUTTON =
 export const SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS =
     "CustomerCenter_ShowManagePrescriptionsMembershipTreatment";
 export const SHOW_TRANSLATION_LINKS = "CustomerCenter_TranslationLinks";
+export const SHOW_NOTIFICATION_MODAL = "CustomerCenter_NotificationModal";
 
 // Page Splits
 export const CLAIMS_PAGE = "CustomerCenter_Claims_Page";
@@ -173,6 +174,7 @@ export const getFeatureFlagList = () => {
         SHOW_OTC_ACTIVATE_BUTTON,
         SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS,
         SHOW_TRANSLATION_LINKS,
+        SHOW_NOTIFICATION_MODAL,
         CLAIMS_PAGE,
         AUTHORIZATIONS_PAGE,
         COVERAGE_BENEFITS_PAGE,

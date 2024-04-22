@@ -27,6 +27,7 @@ const DigitalSurvey = () => {
             surveyType: 'Digital Survey',
             appId: 'cc',
             memberId : memberId,
+            hideCloseBtn: false
         })
     }, [token, memberId])
 

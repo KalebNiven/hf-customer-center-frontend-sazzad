@@ -172,7 +172,6 @@ border-radius: 4px;
 
 
 const StyledButtonCustom = styled.button`
-height: 40px;
 width: 126px;
 margin: 28px 24px 24px 0px;
 padding: 8px 16px;
@@ -227,10 +226,10 @@ margin-left: 2rem;
 const ModalInnerWrapperCustom = styled(ModalInnerWrapper)`
 background: white;
 max-width: 440px;
-height: 268px;
+height: auto;
 overflow: hidden;
 border-radius: 4px;
-
+padding-bottom: 0rem;
 @media only screen  and (max-width: 480px) {
     width: 344px;
     height: 336px;

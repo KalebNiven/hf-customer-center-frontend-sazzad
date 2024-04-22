@@ -16,6 +16,8 @@ export const sendErrorLog = async (error) => {
       deviceType: navigator.userAgentData ? navigator.userAgentData.platform : "Unknown",
       OS: navigator.platform,
       cookieEnabled: navigator.cookieEnabled,
+      buildTag: process.env.BUILD_TAG || '0000',
+      buildNumber: process.env.BUILD_ID || '0000' 
     }
 
     const localStorageOKTA = JSON.parse(localStorage.getItem('okta-token-storage'));
