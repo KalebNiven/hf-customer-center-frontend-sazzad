@@ -18,8 +18,8 @@ import {
 } from './paymentPage.utils';
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner";
-import PaymentPortal from "./paymentPortal";
 import BinderPortal from "./binderPortal";
+import PaymentPortal from "./paymentPortal";
 import GlobalStyle from "../../styles/GlobalStyle";
 import {
   PaymentPortalWrapper,
