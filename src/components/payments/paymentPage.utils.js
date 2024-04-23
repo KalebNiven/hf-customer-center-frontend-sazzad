@@ -56,7 +56,6 @@ const isAccountEnabled = (accountTreatments) => accountTreatments[splits.BINDER_
 
 // returns accounts enabled on split and corresponding accountIds
 export const getEnabledAccountsAndTreatments = (allAccountsAtributes, splitClient) => {
-
   // remove repeated account in favor of HoH plan
   const filteredAtributes = [];
   for (const cur of allAccountsAtributes) {
@@ -64,7 +63,6 @@ export const getEnabledAccountsAndTreatments = (allAccountsAtributes, splitClien
     if (HoHIndex > -1) filteredAtributes.splice(HoHIndex, 1, cur);
     else filteredAtributes.push(cur);
   }
-  // console.log('filteredAtributes', filteredAtributes);
 
   const enabledAccountsIds = [];
   const enabledAccountsTreatments = [];
@@ -76,8 +74,6 @@ export const getEnabledAccountsAndTreatments = (allAccountsAtributes, splitClien
     enabledAccountsTreatments.push(accountTreatments);
     enabledAccountsIds.push(attrs.accountId);
   });
-  // console.log('enabled accounts:', enabledAccountsIds)
-  // console.log('\ntreatments for enabled accounts', enabledAccountsTreatments);
   return [enabledAccountsIds, enabledAccountsTreatments];
 };
 

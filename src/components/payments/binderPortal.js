@@ -22,7 +22,7 @@ const BinderPortal = () => {
     const uniqueHash = (+new Date).toString(16); //to prevent caching
 
     const script = document.createElement('script');
-    script.className='hf--payments--bundle';
+    script.classxName='hf--payments--bundle';
     script.src = `https://${MIX_REACT_PAYMENTS_BASE_URL}/payments-asset-loader-binder.js?h=${uniqueHash}`;
     script.setAttribute('defer','defer'); //adding a value to defer to ensure it registers
     script.onerror = () => setIsError(true);

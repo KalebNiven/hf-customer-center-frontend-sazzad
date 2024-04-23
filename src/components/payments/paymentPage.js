@@ -48,7 +48,6 @@ const { MIX_REACT_APP_BINDER_SITE_HREF } = process.env;
 const { MIX_REACT_APP_PAYMENT_SITE_HREF } = process.env;
 
 function PaymentPage() {
-
   const [accountIds, setAccountIds] = useState([]); // Array of MembershipKey or memberId
   const [treatments, setTreatments] = useState([]); // Array of accountTreatments
   const [isLoading, setIsLoading] = useState(true);
@@ -68,7 +67,6 @@ function PaymentPage() {
     let updatedAccountId = memberId || 'NON-MENBER';
     if (accountIds.length > 1 && accountSelectedOnModal) updatedAccountId = accountSelectedOnModal;
     if (accountIds.length === 1) updatedAccountId = accountIds[0];
-    // console.log('accountId', updatedAccountId, 'selected account on modal', accountSelectedOnModal);
     return updatedAccountId;
   }, [accountIds, accountSelectedOnModal, memberId]);
 
@@ -79,7 +77,6 @@ function PaymentPage() {
 
   const onShowPaymentPortal = useCallback((isBtnClick = true) => {
     const isReactAppEnabled = accountTreatments[splits.SHOW_PAYMENTS_REACT_APP];
-    // console.log('onShowPaymentsCalled', isReactAppEnabled);
     // analytics
     if (isBtnClick) handleSegmentBtn(customerInfo, "Monthly premium payment", !isReactAppEnabled && MIX_REACT_APP_PAYMENT_SITE_HREF);
     // show payments react app
@@ -90,7 +87,6 @@ function PaymentPage() {
 
   const onShowBinder = useCallback((isBtnClick = true) => {
     const isReactAppEnabled = accountTreatments[splits.SHOW_BINDER_REACT_APP];
-    // console.log('onShowBinderCalled', isReactAppEnabled);
     // analytics
     if (isBtnClick) handleSegmentBtn(customerInfo, "First premium payment", !isReactAppEnabled && MIX_REACT_APP_BINDER_SITE_HREF);
     // show binder react app
@@ -102,7 +98,6 @@ function PaymentPage() {
   // 1. onLoad: get treatment for all accounts -> runs once
   useEffect(() => {
     if (accountIds.length > 0 || !isLoading || !splitHookContext.isReady || localStorage.getItem('okta-token-storage') === null) return;
-    // console.log('onLoad', splitHookContext.isReady);
     sessionStorage.setItem("longLoad", false);
     // get treatments for main account
     const acountSplitAttributes = getSplitpAttributes(customerInfo.data, accountStatus ?? '');
@@ -119,8 +114,6 @@ function PaymentPage() {
   // 2. check if multiple accounts or single account -> runs twice for HoH, once otherwise
   useEffect(() => {
     if (accountIds.length === 0 || accountSelectedOnModal) return;
-    // console.log('check accounts', accountIds, 'account selected on modal', accountSelectedOnModal);
-    // Q: does this actually do anything other than set it to loading status??
     if (accountIds.length === 1) dispatch(requestSelectPlan(accountIds[0]));
     if (accountIds.length < 2 || paymentsModalState.showMemberModal) return;
 
@@ -139,7 +132,6 @@ function PaymentPage() {
   // 3. handle ACLs -> runs once
   useEffect(() => {
     if (accountIds.length === 0 || (accountIds.length > 1 && !accountSelectedOnModal)) return;
-    // console.log('check ACLs', isBinderEnabled, isPaymentsEnabled);
     if (isBinderEnabled && !isPaymentsEnabled) onShowBinder(false);
     if (!isBinderEnabled && isPaymentsEnabled) onShowPaymentPortal(false);
   }, [accountIds, accountSelectedOnModal, isBinderEnabled, isPaymentsEnabled]);
