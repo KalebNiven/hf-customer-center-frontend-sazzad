@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useHistory, useParams } from 'react-router-dom'
 import { useSurveyContext } from '../../context/surveyContext'
 import Spinner from "../common/spinner";
-import { getLanguageFromUrl } from "../../utils/misc";
+import { getLocaleFromUrl } from "../../utils/misc";
 import useLogError from "../../hooks/useLogError";
 const surveyId = 'hra-v2-survey';
 const widgetPage = "HRA";
@@ -22,7 +22,7 @@ const HRAWidget = () => {
       surveyId: surveyId,
       appId: 'cc',
       token: updatedJwt,
-      locale: getLanguageFromUrl(),
+      locale: getLocaleFromUrl(),
       surveyType: widgetPage,
       memberId: memberId,
       onSurveyDoneClick: () => {
