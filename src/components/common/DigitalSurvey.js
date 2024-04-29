@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSurveyContext } from '../../context/surveyContext'
 import { useSelector } from 'react-redux'
-import { getLanguageFromUrl } from '../../utils/misc';
+import { getLocaleFromUrl } from '../../utils/misc';
 import { DIGITAL_SURVEY } from '../../constants/splits';
 import { useClient } from '@splitsoftware/splitio-react';
 import useLogError from '../../hooks/useLogError';
@@ -20,7 +20,7 @@ const DigitalSurvey = () => {
         if(!token || !memberId) return;
         setMountProps({
             token: token,
-            locale: getLanguageFromUrl(),
+            locale: getLocaleFromUrl(),
             onSurveyDoneClick: () => {},
             onSurveyDoneBackClick: () => {},
             parentElement: "#digital-survey",
