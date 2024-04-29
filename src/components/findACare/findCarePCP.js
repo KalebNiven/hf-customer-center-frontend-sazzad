@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { requestPcpHousehold } from "../../store/actions";
 import Spinner from "../common/spinner";
 import GlobalError from "../common/globalErrors/globalErrors";
+import { getLanguageFromUrl } from "../../utils/misc";
 
 const PRIMARY_CARE_PROVIDER = "PRIMARY_CARE_PROVIDER";
 
@@ -15,6 +16,7 @@ const FindCarePCP = (props) => {
     const customerInfo = useSelector((state) => state.customerInfo.data);
     const { MIX_REACT_APP_PROVIDER_API_KEY } = process.env;
     const [isGlobalError,setGlobalError] = useState(false);
+    const language = getLanguageFromUrl();
 
     const pcpHousehold = useSelector(state => state.pcpHousehold)
     useEffect(() => {
@@ -55,7 +57,8 @@ const FindCarePCP = (props) => {
               lastName: dep.lastName,
               pcpId: pcpHousehold?.data?.dependents[dep?.memberId]?.id ?? null,
               disablePcpUpdate: dep.Status === "active" ? false : true,
-              membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY')
+              membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY'),
+              lang: language
             }
         }) || [];
 
@@ -71,7 +74,8 @@ const FindCarePCP = (props) => {
               lastName: plan.LastName,
               pcpId: pcpHousehold?.data?.hohPlans[plan?.MemberId]?.id ?? null,
               disablePcpUpdate: plan.MembershipStatus === "active" ? false : true,
-              membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY')
+              membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY'),
+              lang: language
             }
           }) || [];
 
@@ -94,7 +98,7 @@ const FindCarePCP = (props) => {
                   memberDetails: memberDetails,
                   token: customerInfo.id_token,
                   apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
-                  lang: customerInfo.language || "en",
+                  lang: language,
                   onOtherLocClicked: handleOtherLocClicked,
                   onMemberChanged: handleMemberChanged,
                   onChangePCP: handleChangePCP,

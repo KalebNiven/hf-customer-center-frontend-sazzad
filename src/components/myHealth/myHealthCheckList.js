@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { loadExternalScript } from "../../utils/externalScripts";
 import useLogError from "../../hooks/useLogError";
+import { getLanguageFromUrl } from "../../utils/misc";
 
 const MY_HEALTH_CHECKLIST_SCRIPT_ID = 'myHealthChecklistScript';
 const MyHealthCheckList = () => {
@@ -35,7 +36,7 @@ const MyHealthCheckList = () => {
       memberId:customerInfo.memberId,
       appId: 'CUSTOMER_CENTER',
       authorizer: 'OKTA',
-      lang: customerInfo.language,
+      lang: getLanguageFromUrl(),
       token: updatedJwt,
       defaultPage: 'My Health Checklist',
       events: events,

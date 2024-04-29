@@ -52,10 +52,21 @@ export const getValidHRASurveryPlan = (hohplans) => {
   return hohplans.find(plan => !['02', '34'].includes(plan.CompanyNumber) && plan.MembershipStatus === 'active');
 }
 
-export const getLanguageFromUrl = () => {
+export const getLocaleFromUrl = () => {
   switch(window.location.host.split('.')[0]) {
     case "es":
       return "es-US"
+    case "zh":
+      return "zh"
+    default:
+      return "en"
+  }
+}
+
+export const getLanguageFromUrl = () => {
+  switch(window.location.host.split('.')[0]) {
+    case "es":
+      return "es"
     case "zh":
       return "zh"
     default:
