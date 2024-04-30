@@ -51,8 +51,7 @@ const MemberIdCardWidget = () => {
         handleExternalSiteClicked(url, action);
       },
       onMailRequestCompleted: (data) => {
-        console.log('completed')
-        if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.MAIL_ID_CARD);
+          if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.MAIL_ID_CARD);
       },
   }  
 
