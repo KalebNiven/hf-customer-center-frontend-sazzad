@@ -55,7 +55,7 @@ const MemberIDCardPage = (props) => {
     var planArr = customerInfo.data.hohPlans;
     var selectedPlan = null;
     planArr.forEach(plan => {
-      if (plan.memberId === memberId) {
+      if (plan.memberId === memberId && plan.status === 'active') {
         selectedPlan = plan;
       }
     });
@@ -66,7 +66,7 @@ const MemberIDCardPage = (props) => {
     var dependentsArr = customerInfo.data.dependents;
     var selectedDependent = null;
     dependentsArr.forEach(dependent => {
-      if (dependent.memberId === memberId) {
+      if (dependent.memberId === memberId && dependent.Status === 'active') {
         selectedDependent = dependent;
       }
     });
