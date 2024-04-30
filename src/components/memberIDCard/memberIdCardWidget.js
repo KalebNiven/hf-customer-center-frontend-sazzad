@@ -7,6 +7,7 @@ import { loadExternalScript } from "../../utils/externalScripts";
 import useLogError from "../../hooks/useLogError";
 import { useLocation } from "react-router-dom";
 import { useSurveyContext } from '../../context/surveyContext';
+import { getLanguageFromUrl } from "../../utils/misc";
 
 const MEMBER_ID_CARD_WIDGET_SCRIPT_ID = 'MemberIdCardWidgetScript';
 
@@ -60,7 +61,7 @@ const MemberIdCardWidget = () => {
       memberId:memberId,
       appId: 'CUSTOMER_CENTER',
       authorizer: 'OKTA',
-      lang: customerInfo.language,
+      lang: getLanguageFromUrl(),
       token: updatedJwt,
       events: events,
   }
