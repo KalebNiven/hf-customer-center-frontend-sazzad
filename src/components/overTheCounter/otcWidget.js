@@ -5,7 +5,7 @@ import { useAppContext } from "../../AppContext";
 import { ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import { loadExternalScript } from "../../utils/externalScripts";
 import useLogError from "../../hooks/useLogError";
-import { generateCardType } from "./utils";
+import { getLanguageFromUrl } from "../../utils/misc";
 
 const OTC_WIDGET_SCRIPT_ID = 'OTCWidgetScript';
 
@@ -81,7 +81,7 @@ const OTCWidget = () => {
       memberId:memberId,
       appId: 'CUSTOMER_CENTER',
       authorizer: 'OKTA',
-      lang: customerInfo.language,
+      lang: getLanguageFromUrl(),
       token: updatedJwt,
       events: events,
   }

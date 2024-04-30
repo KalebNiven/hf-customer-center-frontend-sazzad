@@ -9,6 +9,7 @@ import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner"; 
 import { useSurveyContext } from "../../context/surveyContext";
 import Cookies from "js-cookie";
+import { getLanguageFromUrl } from "../../utils/misc";
 
 const DETAILS = "DETAILS";
 
@@ -20,7 +21,7 @@ const FindCareDetails = (props) => {
     const customerInfo = useSelector((state) => state.customerInfo.data);
     const { MIX_REACT_APP_PROVIDER_API_KEY } = process.env;
     const [isGlobalError,setGlobalError] = useState(false);
-    const language = localStorage.getItem('selectedLang');
+    const language = getLanguageFromUrl();
 
     const pcpHousehold = useSelector(state => state.pcpHousehold)
 
@@ -48,7 +49,8 @@ const FindCareDetails = (props) => {
               lastName: dep.lastName,
               pcpId: pcpHousehold?.data?.dependents[dep?.memberId] ?? null,
               disablePcpUpdate: dep.Status === "active" ? false : true,
-              membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY')
+              membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY'),
+              lang: language
             }
           }) || [];
 
@@ -64,7 +66,8 @@ const FindCareDetails = (props) => {
               lastName: plan.LastName,
               pcpId: pcpHousehold?.data?.hohPlans[plan?.MemberId]?.id ?? null,
               disablePcpUpdate: plan.MembershipStatus === "active" ? false : true,
-              membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY')
+              membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY'),
+              lang: language
             }
           }) || [];
 
@@ -83,7 +86,7 @@ const FindCareDetails = (props) => {
                 token: customerInfo.id_token,
                 apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
                 locationId: result,
-                lang: language || "en",
+                lang: language,
                 onOtherLocClicked: handleOtherLocClicked,
                 onBackClicked: handleBackClicked,
                 onMakePCP: () => {},

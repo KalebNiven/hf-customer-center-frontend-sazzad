@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { loadExternalScript } from "../../utils/externalScripts";
 import useLogError from "../../hooks/useLogError";
+import { getLanguageFromUrl } from "../../utils/misc";
 
 const MY_REWARDS_SCRIPT_ID = 'myRewardsScript';
 const MyRewards = () => {
@@ -36,7 +37,7 @@ const MyRewards = () => {
       memberId: memberId,
       appId: 'CUSTOMER_CENTER',
       authorizer: 'OKTA',
-      lang: customerInfo.language,
+      lang: getLanguageFromUrl(),
       token: updatedJwt,
       defaultPage: 'My Rewards',
       events: events,
