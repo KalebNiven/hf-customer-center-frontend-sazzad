@@ -13,6 +13,11 @@ export const accountTreatmentsInit = {
 
 // purge session storage for payments
 export const purgePaymentsSessionData = () => sessionStorage.removeItem(`persist:${MIX_REACT_PAYMENTS_BASE_URL}`);
+// removes all that was appended to the head elem while payments app was loaded
+export const removeAllPaymentsResources = () => {
+  const tagsToRemove = Array.from(document.getElementsByClassName('hf--payments--bundle'));
+  tagsToRemove.forEach((el) => el.remove());
+};
 
 export const getSplitpAttributes = (account, accountStatus) => {
   const {

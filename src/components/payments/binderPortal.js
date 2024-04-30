@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import { usePaymentsModalContext } from '../../context/paymentsModalContext';
-import { purgePaymentsSessionData } from './paymentPage.utils';
+import { purgePaymentsSessionData, removeAllPaymentsResources } from './paymentPage.utils';
 import PaymentError from './paymentError';
 
 const { MIX_REACT_PAYMENTS_BASE_URL } = process.env;
@@ -30,8 +30,8 @@ const BinderPortal = () => {
 
     //onUnmount ~~> casting html collection into array
     const onUnmount = ()=> {
-      [].forEach.call(document.getElementsByClassName('hf--payments--bundle'), el=>el.remove());
       purgePaymentsSessionData();
+      removeAllPaymentsResources();
     };
     return onUnmount;
   },[]);
