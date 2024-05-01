@@ -320,7 +320,7 @@ function AppBarComponent() {
     label: "Coverage & Benefits",
     labelForSegment: "Coverage & Benefits",
     href: "/coverage-and-benefits",
-    treatmentName: SHOW_CC_FORMS_AND_DOCS,
+    treatmentName: COVERAGE_BENEFITS_PAGE, //here
   }, {
     label: otcCardType === "Flex" ? "Flex Benefit" : otcCardType,
     labelForSegment: "OTC",
