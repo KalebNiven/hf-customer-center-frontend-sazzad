@@ -6,6 +6,7 @@ import { ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
 import { loadExternalScript } from "../../utils/externalScripts";
 import useLogError from "../../hooks/useLogError";
 import { useLocation } from "react-router-dom";
+import { useSurveyContext } from '../../context/surveyContext';
 import { getLanguageFromUrl } from "../../utils/misc";
 
 const MEMBER_ID_CARD_WIDGET_SCRIPT_ID = 'MemberIdCardWidgetScript';
@@ -21,6 +22,7 @@ const MemberIdCardWidget = () => {
   const { externalSiteModal, setExternalSiteModal } = useAppContext();
   const { logError } = useLogError();
   const memberId = location?.state?.dependentMemberId ? location?.state?.dependentMemberId : customerInfo?.hohPlans[0]?.MemberId;
+  const { digitalSurveyWidget, triggerDigitalSurveyByEventName, DIGITAL_SURVEY_EVENTS } = useSurveyContext();
 
 
   const handleExternalSiteClicked = (link, action) => {
@@ -48,7 +50,10 @@ const MemberIdCardWidget = () => {
       onNavigateToAppstoreClicked: (data) => {
         const {url, action} = data
         handleExternalSiteClicked(url, action);
-      }
+      },
+      onMailRequestCompleted: (data) => {
+          if(digitalSurveyWidget) triggerDigitalSurveyByEventName(digitalSurveyWidget, DIGITAL_SURVEY_EVENTS.MAIL_ID_CARD);
+      },
   }  
 
   const mountProps = {
