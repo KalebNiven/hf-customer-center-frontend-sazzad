@@ -24,7 +24,7 @@
     "verbose": true,
     "testEnvironment": "jsdom",
     "moduleNameMapper": {
-      "\\.(css|less)$": "<rootDir>/src/test-resources/styleMock.js"
+      "\\.(css|less)$": "<rootDir>/src/test-resources/__mocks__/styleMock.js"
     }
   },
   "serve": {
