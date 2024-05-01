@@ -1,0 +1,347 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClaimsPage renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="MainContentContainer-sc-1ql1gge-58 Container-sc-5k0ipa-1 chCEvG fCRTfk"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-1"
+    >
+      <div
+        class="ClaimText-sc-5k0ipa-3 huSKnY"
+      >
+        Claims
+      </div>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-2"
+    >
+      <div
+        class="ClaimContent-sc-5k0ipa-5 McwJl"
+      >
+        Your Healthfirst account lets you access important information about your health plan. Here you can see the status of your claims.
+        <br />
+        <br />
+        <div
+          class="ClaimContentSmallPrint-sc-5k0ipa-6 FqkEq"
+        >
+          Keep in mind that due to sensitive health information, you may not able to view all your claims. If you have any questions, please call the Member Services phone number on your Member ID card for assistance.
+        </div>
+      </div>
+      <div
+        class="ClaimButtonHidden-sc-5k0ipa-4 cIFKDs"
+      />
+    </div>
+    <div
+      class="TabsWrapper-sc-5k0ipa-7"
+    >
+      <div
+        class="TabsContainer-sc-5k0ipa-8 fZLsxS"
+      >
+        <div
+          class="MuiTabs-root"
+        >
+          <div
+            class="MuiTabs-scroller MuiTabs-fixed"
+            style="overflow: hidden;"
+          >
+            <div
+              class="MuiTabs-flexContainer"
+              role="tablist"
+            >
+              <button
+                aria-selected="true"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit Mui-selected"
+                role="tab"
+                style="font-size: 14px; font-weight: bold; font-stretch: normal; font-style: normal; line-height: 1.45; letter-spacing: 1px; text-align: center; color: rgb(62, 113, 40); text-transform: none; font-family: museo-sans; min-width: 80px; padding: 0px 20px;"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiTab-wrapper"
+                >
+                  Claims
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <span
+              class="PrivateTabIndicator-root-3 PrivateTabIndicator-colorSecondary-5 MuiTabs-indicator"
+              style="left: 0px; width: 0px; background: rgb(62, 113, 40);"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="HorizontalDivider-sc-5k0ipa-2 jEfCIV"
+      />
+    </div>
+    <div
+      class="OuterContainer-sc-1tw4gh6-5 cuVHbb"
+    >
+      <div
+        class="InnerWrapper-sc-1tw4gh6-3 iESoUC"
+      >
+        <input
+          aria-label="Search Input"
+          class="Search-sc-1tw4gh6-6 eUfURa"
+          id="search"
+          placeholder="Search claims #'s, providers, etc."
+          type="text"
+          value=""
+        />
+        <div
+          class="DropdownFieldContainer-lgd9fu-0 fEVJCC"
+        >
+          <div
+            class="DropdownField-lgd9fu-1 hwKncg false"
+          >
+            <div
+              class="DropdownFieldTextContainer-lgd9fu-3 fMGLAi"
+            >
+              <div
+                class="DropdownFieldText-lgd9fu-2 iXvynd selected false"
+              >
+                All Members
+              </div>
+              <div
+                class="DropdownIconContainer-lgd9fu-4 jvIZXV"
+              >
+                <img
+                  alt=""
+                  class="DropdownIcon-lgd9fu-5 kqiKER"
+                  src="/react/images/icn-dropdown.svg"
+                />
+              </div>
+            </div>
+            <div
+              class="DropdownList-lgd9fu-6 eWxMsq hf-preference-center-dropdown-content"
+            >
+              <button
+                class="DropdownListItem-lgd9fu-7 dUtOUD"
+                name="All Members"
+              >
+                <h1>
+                  All Members
+                </h1>
+              </button>
+              <button
+                class="DropdownListItem-lgd9fu-7 dUtOUD"
+                name="Sasha Buffin"
+                value="420000000696100"
+              >
+                <div>
+                  <h2>
+                    Sasha Buffin
+                  </h2>
+                  <p>
+                    Silver leaf
+                  </p>
+                </div>
+              </button>
+              <button
+                class="DropdownListItem-lgd9fu-7 dUtOUD"
+                name="Sasha Buffin"
+                value="964311200"
+              >
+                <div>
+                  <h2>
+                    Sasha Buffin
+                  </h2>
+                  <p>
+                    Child health plus state pay
+                  </p>
+                </div>
+              </button>
+              <button
+                class="DropdownListItem-lgd9fu-7 dUtOUD"
+                name="Suzy Buffin"
+                value="964311202"
+              >
+                <div>
+                  <h2>
+                    Suzy Buffin
+                  </h2>
+                  <p>
+                    Child Health Plus
+                  </p>
+                </div>
+              </button>
+              <button
+                class="DropdownListItem-lgd9fu-7 dUtOUD"
+                name="Amel Buffin"
+                value="964311201"
+              >
+                <div>
+                  <h2>
+                    Amel Buffin
+                  </h2>
+                  <p>
+                    Child Health Plus
+                  </p>
+                </div>
+              </button>
+              <button
+                class="DropdownListItem-lgd9fu-7 dUtOUD"
+                name="Athanasios Buffin"
+                value="964311203"
+              >
+                <div>
+                  <h2>
+                    Athanasios Buffin
+                  </h2>
+                  <p>
+                    Child Health Plus
+                  </p>
+                </div>
+              </button>
+              <button
+                class="DropdownListItem-lgd9fu-7 dUtOUD"
+                name="Noriko Buffin"
+                value="420000000696101"
+              >
+                <div>
+                  <h2>
+                    Noriko Buffin
+                  </h2>
+                  <p>
+                    Silver Leaf
+                  </p>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="DateContent-sc-1tw4gh6-8 hfwElb"
+        >
+          <div
+            class="DateComponent-sc-1tw4gh6-0 dXPhrl"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root"
+              format="MM/dd/yyyy"
+            >
+              <div
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-adornedStart MuiOutlinedInput-adornedStart MuiInputBase-adornedEnd MuiOutlinedInput-adornedEnd"
+                style="height: 45px; border: 1px solid #a8abac; font-family: museo-sans; background-color: rgb(255, 255, 255); width: 100%; border-radius: 4px;"
+              >
+                <img
+                  alt=""
+                  src="/react/images/icn-calendar.svg"
+                />
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart MuiOutlinedInput-inputAdornedStart MuiInputBase-inputAdornedEnd MuiOutlinedInput-inputAdornedEnd"
+                  id="date-start-inline"
+                  placeholder="Start Date"
+                  readonly=""
+                  type="text"
+                  value=""
+                />
+                <img
+                  alt=""
+                  class="ImgIcon-sc-1tw4gh6-12 dqjUss"
+                  src="/react/images/icn-dropdown.svg"
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="PrivateNotchedOutline-root-7 MuiOutlinedInput-notchedOutline"
+                  style="padding-left: 8px;"
+                >
+                  <legend
+                    class="PrivateNotchedOutline-legend-8"
+                    style="width: 0.01px;"
+                  >
+                    <span>
+                      ​
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div
+            class="EndDateComponent-sc-1tw4gh6-1 cpEoVU"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root"
+              format="MM/dd/yyyy"
+            >
+              <div
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-adornedStart MuiOutlinedInput-adornedStart MuiInputBase-adornedEnd MuiOutlinedInput-adornedEnd"
+                style="height: 45px; border: 1px solid #a8abac; font-family: museo-sans; background-color: rgb(255, 255, 255); width: 100%; border-radius: 4px;"
+              >
+                <img
+                  alt=""
+                  src="/react/images/icn-calendar.svg"
+                />
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart MuiOutlinedInput-inputAdornedStart MuiInputBase-inputAdornedEnd MuiOutlinedInput-inputAdornedEnd"
+                  id="date-end-inline"
+                  placeholder="End Date"
+                  readonly=""
+                  type="text"
+                  value=""
+                />
+                <img
+                  alt=""
+                  class="ImgIcon-sc-1tw4gh6-12 dqjUss"
+                  src="/react/images/icn-dropdown.svg"
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="PrivateNotchedOutline-root-7 MuiOutlinedInput-notchedOutline"
+                  style="padding-left: 8px;"
+                >
+                  <legend
+                    class="PrivateNotchedOutline-legend-8"
+                    style="width: 0.01px;"
+                  >
+                    <span>
+                      ​
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="Toastr-d7eu2y-9 jdazPV"
+      >
+        <div
+          class="ToastrIconBox-d7eu2y-4 fOLjlQ"
+        >
+          <img
+            alt=""
+            class="ToastrIcon-d7eu2y-5 dxLHNl"
+            src="/react/images/valid-check.svg"
+          />
+        </div>
+        <div
+          class="ToastrInfo-d7eu2y-6 htzOZe"
+        >
+          <div
+            class="ToastrText-d7eu2y-8 kOHHtc"
+          >
+            Claim submitted successfully!
+          </div>
+          <img
+            alt=""
+            class="ToastrCloseIcon-d7eu2y-7 eBVJcD"
+            src="/react/images/valid-close.svg"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

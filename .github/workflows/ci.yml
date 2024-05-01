@@ -1,0 +1,42 @@
+name: PR CI
+
+on:
+  push:
+    branches: ["develop"]
+  pull_request:
+    paths:
+      - "**.js"
+      - "**.test.js"
+      - "**.jsx"
+      - "**.test.jsx"
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: [prod-k8s-dind]
+    container:
+      image: registry.access.redhat.com/ubi9/nodejs-20@sha256:b1155628c68c240cd22dbf9da0d5e3ba358e88981d975f49b6117258824a8160
+#      image: registry.access.redhat.com/ubi9/nodejs-16@sha256:1376a735277e0df9193fda147b8365b45e6adea8487c4387614a67e40c224003
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Display node version
+        run: node --version
+
+      - name: Install dependencies
+        run: npm i
+
+#      - name: Check formatting
+#        run: npm run format
+
+#      - name: Run lint check
+#        run: npm run lint
+
+#      - name: Run type check
+#        run: npm run tsc
+
+      - name: Run tests
+        run: npm run test

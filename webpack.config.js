@@ -81,7 +81,13 @@ const config = {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
+        exclude: [
+          __dirname + "src/test-resources/**/*",
+          __dirname + "src/**/*.test.js",
+          __dirname + "src/**/*.test.jsx",
+          /__snapshots__/,
+          /node_modules/
+        ],
         use: "babel-loader",
       },
       {

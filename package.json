@@ -11,7 +11,7 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress",
     "npm-install": "npm install",
-    "test": "react-scripts test --coverage --watchAll=false",
+    "test": "jest",
     "lint": "eslint .",
     "eject": "react-scripts eject",
     "build:dev": "webpack --mode=development",
@@ -19,6 +19,14 @@
     "serve": "webpack serve",
     "delete-builds": "rimraf build",
     "dev-serve": "npx serve -s ./build/"
+  },
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    }
   },
   "serve": {
     "content": [
@@ -44,8 +52,9 @@
     "@babel/plugin-transform-runtime": "7.12.10",
     "@babel/preset-env": "7.12.11",
     "@babel/preset-react": "7.12.10",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.2.2",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^11.2.7",
+    "@types/jest": "^29.5.12",
     "axios": "^0.21.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.3",
@@ -67,6 +76,9 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "interpolate-html-plugin": "^4.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-image-snapshot": "^6.4.0",
     "jquery": "^3.2",
     "mini-css-extract-plugin": "2.4.5",
     "npm-run-all": "^4.1.5",
@@ -75,6 +87,8 @@
     "postcss": "^8.4.21",
     "postcss-loader": "6.2.1",
     "prettier": "2.2.0",
+    "react-test-renderer": "^16.14.0",
+    "redux-mock-store": "^1.5.4",
     "rimraf": "3.0.2",
     "sass": "^1.69.2",
     "sass-loader": "^13.3.2",
@@ -100,7 +114,6 @@
     "date-fns": "2.20.0",
     "eslint-config-airbnb": "^19.0.4",
     "install-peerdeps": "^3.0.3",
-    "jest": "^29.4.2",
     "js-cookie": "^3.0.1",
     "moment": "^2.29.1",
     "prop-types": "15.7.2",
@@ -145,6 +158,6 @@
     ]
   },
   "volta": {
-    "node": "v20.11.0"
+    "node": "20.12.2"
   }
 }

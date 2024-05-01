@@ -132,7 +132,9 @@ export class FeatureTreatment extends PureComponent {
       onLoad,
       onTimedout,
       showUnlessOff,
+      ignoreSplit
     } = this.props;
+    if (ignoreSplit) return children
     return (
       <SplitTreatments names={[treatmentName]} attributes={attributes}>
         {({ treatments, isReady, isTimedout }) => {
