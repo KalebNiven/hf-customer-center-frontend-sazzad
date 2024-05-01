@@ -26,7 +26,7 @@ import { AnalyticsPage, AnalyticsTrack } from "./components/common/segment/analy
 import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "./constants/segment";
 import { useLogout } from './hooks/useLogout';
 import { usePaymentsModalContext } from './context/paymentsModalContext';
-import { purgePaymentsSessionData } from './components/payments/paymentPortal';
+import { purgePaymentsSessionData } from './components/payments/paymentPage.utils';
 import { generateCardType } from './components/overTheCounter/utils';
 import { getSplitAttributesForHOHPlan } from './utils/misc';
 import { useSplitEval } from './hooks/useSplitEval';
@@ -145,7 +145,6 @@ function AppBarComponent() {
     });
   };
 
- 
   const splitTreatment = (attributes) =>{
     const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
       PAYMENTS_ACL,
@@ -236,9 +235,9 @@ function AppBarComponent() {
         <CardIcon alt="" src={`/react/images/icn-user.svg`} />
         <InlineInnerContainer>
           <Name>{userName}</Name>
-        {customerInfo.data.accountStatus === "MEMBER" ?( 
+        {customerInfo.data.accountStatus === "MEMBER" ?(
           <Member>
-            Member ID: {customerInfo.data.memberId}  
+            Member ID: {customerInfo.data.memberId}
           </Member>) : <></> }
           <SetDiv>
             <SettImg alt="" style={{ display: 'inline-block' }} src={`/react/images/icn-gear.svg`} />
@@ -756,10 +755,10 @@ function AppBarComponent() {
           </IconContainer>
           <InlineInnerContainer>
             <Name>{userName}</Name>
-            {customerInfo.data.accountStatus === "MEMBER" ?( 
+            {customerInfo.data.accountStatus === "MEMBER" ?(
           <Member>
-            Member ID: {customerInfo.data.memberId}  
-          </Member>) : <></> 
+            Member ID: {customerInfo.data.memberId}
+          </Member>) : <></>
            }
             <SetDiv>
               <SettImg alt="" src={`/react/images/icn-gear.svg`} />
