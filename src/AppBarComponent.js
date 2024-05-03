@@ -17,7 +17,7 @@ import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/sty
 import { useClient } from "@splitsoftware/splitio-react";
 import LongLoadSpinner from "./components/common/longLoadSpinner";
 import {
-  SHOW_DOC, SHOW_CLAIMS, SHOW_AUTHS, SHOW_MEMBER_ID_CARD, SHOW_PRIMARY_CARE_PROVIDER, SHOW_MYHEALTH, SHOW_HOME, SHOW_PAYMENTS, SHOW_PAYMENTS_REACT_APP, PAYMENTS_ACL, BINDER_ACL, SHOW_PCP_SUB_NAV, SHOW_TRANSLATION_LINKS, SHOW_HEALTH_ASSESMENT_SURVEY, SHOW_MY_HEALTH_CHECKLIST, SHOW_NOW_POW, OTC_WIDGET_PAGE, SHOW_MY_REWARDS,SHOW_CC_FORMS_AND_DOCS,SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK, COVERAGE_BENEFITS_PAGE
+  SHOW_DOC, SHOW_CLAIMS, SHOW_AUTHS, SHOW_MEMBER_ID_CARD, SHOW_PRIMARY_CARE_PROVIDER, SHOW_MYHEALTH, SHOW_HOME, SHOW_PAYMENTS, SHOW_PAYMENTS_REACT_APP, PAYMENTS_ACL, BINDER_ACL, SHOW_PCP_SUB_NAV, SHOW_TRANSLATION_LINKS, SHOW_HEALTH_ASSESMENT_SURVEY, SHOW_MY_HEALTH_CHECKLIST, SHOW_NOW_POW, OTC_WIDGET_PAGE, SHOW_MY_REWARDS,SHOW_CC_FORMS_AND_DOCS,SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK, SHOW_COVERAGE_AND_BENEFITS
 } from "./constants/splits";
 import { FeatureTreatment } from "./libs/featureFlags";
 import { useAppContext } from './AppContext';
@@ -320,7 +320,7 @@ function AppBarComponent() {
     label: "Coverage & Benefits",
     labelForSegment: "Coverage & Benefits",
     href: "/coverage-and-benefits",
-    treatmentName: COVERAGE_BENEFITS_PAGE,
+    treatmentName: SHOW_COVERAGE_AND_BENEFITS,
   }, {
     label: otcCardType === "Flex" ? "Flex Benefit" : otcCardType,
     labelForSegment: "OTC",
