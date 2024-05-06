@@ -32,6 +32,8 @@ const AuthorizationDetailsPage = () => {
     benefitPackage: customerInfo.data.benefitPackage,
     membershipStatus: customerInfo.data.membershipStatus,
     accountStatus: customerInfo.data.accountStatus,
+    customerId: customerInfo.data.customerId,
+    memberId: customerInfo.data.memberId,
     }
 
 
