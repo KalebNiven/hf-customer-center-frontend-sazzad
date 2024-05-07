@@ -11,7 +11,7 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress",
     "npm-install": "npm install",
-    "test": "jest",
+    "test": "DOTENV_CONFIG_PATH=src/test-resources/.env.test jest --setupFiles=dotenv/config",
     "lint": "eslint .",
     "eject": "react-scripts eject",
     "build:dev": "webpack --mode=development",

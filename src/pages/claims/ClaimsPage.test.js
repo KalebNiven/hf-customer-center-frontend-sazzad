@@ -1,7 +1,7 @@
 import React from 'react'
 import ClaimsPage from '../../components/claims/claimsPage'
 
-import { render, screen } from '@testing-library/react'
+import {render} from '@testing-library/react'
 import { Provider } from 'react-redux'
 
 import {devTools} from "../../store/store";

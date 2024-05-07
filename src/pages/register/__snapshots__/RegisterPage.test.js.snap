@@ -1,0 +1,226 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegisterPage renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="Wrapper-sc-11yfjnx-0 eqQOMC"
+  >
+    <div
+      class="Container-sc-11yfjnx-2 iWojAi"
+    >
+      <div
+        class="LanguageSelectionWrapper-ev0rdi-0 kewMnM"
+      >
+        <ul
+          class="List-kpclvo-0 edeZZK"
+        >
+          <li
+            class="ListItem-kpclvo-1 dhkyhU"
+          >
+            <a
+              href="https://member-rt.healthfirst.org/selectLanguage?selectedLang=en"
+            >
+              EN
+            </a>
+          </li>
+          <li
+            class="ListItem-kpclvo-1 dhkyhU"
+          >
+            <a
+              href="https://es.member-rt.healthfirst.org/selectLanguage?selectedLang=es"
+            >
+              ES
+            </a>
+          </li>
+          <li
+            class="ListItem-kpclvo-1 dhkyhU"
+          >
+            <a
+              href="https://zh.member-rt.healthfirst.org/selectLanguage?selectedLang=zh"
+            >
+              中文
+            </a>
+          </li>
+        </ul>
+      </div>
+      <img
+        class="LogoImg-ev0rdi-16 KsTGj"
+        data-testid="healthfirst-logo"
+        src="/react/images/simple_white.svg"
+      />
+      <div
+        class="MemberCardsContainer-ev0rdi-12 szOgA"
+      >
+        <div
+          class="MemberCard-ev0rdi-11 hfvcXC"
+        >
+          <div
+            class="BackContainer-ev0rdi-1 FCSJF"
+          >
+            <img
+              class="BackIcon-sc-1evaehd-22 wgEsB"
+              data-testid="back-icon"
+              src="/react/images/dark/ico-back.svg"
+            />
+            <p
+              class="BackText-sc-1evaehd-23 eQfLwi"
+              data-testid="back-text"
+            >
+              Back
+            </p>
+          </div>
+          <div
+            class="HeaderText-ev0rdi-6 hJmGCV"
+          >
+            What is your current membership status with Healthfirst?
+          </div>
+          <div
+            class="SubHeaderText-ev0rdi-7 iRCOd"
+          >
+            Interested in Healthfirst plans? 
+            <a
+              class="LearnLink-ev0rdi-8 ePFGbr"
+              href="https://www2.healthfirst.org/shoppers"
+              target="_shoppers"
+            >
+              Learn More. 
+            </a>
+          </div>
+          <div
+            class="RadioButtonContainer-ev0rdi-10 lmbkrE"
+          >
+            <img
+              class="RadioImg-ev0rdi-13 jDcfhX"
+              src="/react/images/icn-radio-active.svg"
+            />
+            <div>
+              <div
+                class="TextHeader-ev0rdi-2 jjeqpx mt-0"
+              >
+                Active Healthfirst Member
+              </div>
+              <div
+                class="pt-2"
+              >
+                <div
+                  class="TextWrapper-ev0rdi-9 eUOwzR"
+                >
+                  I am currently enrolled in a Healthfirst plan and have a Member ID, but I do not have an online account.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="RadioButtonContainer-ev0rdi-10 cmjfcG"
+          >
+            <img
+              class="RadioImg-ev0rdi-13 jDcfhX"
+              src="/react/images/icn-radio-inactive.svg"
+            />
+            <div>
+              <div
+                class="TextHeader-ev0rdi-2 jjeqpx mt-0"
+              >
+                I Need to Activate My Coverage
+              </div>
+              <div
+                class="pt-2"
+              >
+                <div
+                  class="TextWrapper-ev0rdi-9 eUOwzR"
+                >
+                  I am enrolled in a Healthfirst plan, but my coverage isn't active as I need to make my first premium payment.
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="StyledButton-sc-1evaehd-13 SubmitButton-ev0rdi-14 guCLPh iRbqOd"
+          >
+            Continue
+          </button>
+           
+        </div>
+        <div
+          class="FooterBox-ev0rdi-4 cMFAOF"
+        >
+          <div
+            class="FooterBoxContent-ev0rdi-5 XycUz"
+          >
+            If you have any questions, please call the Member Services number on your Member ID card or visit us at
+            <a
+              class="BoldText-ev0rdi-3 kVcdBP"
+              href="https://healthfirst.org/contact"
+              target="healthfirstContactus"
+            >
+               healthfirst.org/contact.
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="FooterMenuWrapper-sc-11yfjnx-19 cpTGsJ"
+      >
+        <div
+          class="Wrapper-sc-1t67vgj-0"
+        >
+          <ul
+            class="List-sc-1t67vgj-1 zobnX"
+          >
+            <li
+              class="ListItem-sc-1t67vgj-2 elfIE"
+            >
+              <a
+                href="https://healthfirst.org/contact"
+              >
+                Contact Us
+              </a>
+            </li>
+            <li
+              class="ListItem-sc-1t67vgj-2 elfIE"
+            >
+              <a
+                href="https://assets.healthfirst.org/pdf_bb1adede22e833c08a2d763580d25ab3?v=0711074100"
+              >
+                Terms & Conditions
+              </a>
+            </li>
+            <li
+              class="ListItem-sc-1t67vgj-2 elfIE"
+            >
+              <a
+                href="http://assets.healthfirst.org/api/pdf?id=pdf_267ff1120f&key=2a057fc3de988ef49277dcc39931e7444611493e"
+              >
+                Web Privacy Statement
+              </a>
+            </li>
+            <li
+              class="ListItem-sc-1t67vgj-2 elfIE"
+            >
+              <a
+                href="http://assets.healthfirst.org/api/pdf?id=pdf_53b845cf68&key=990ce7f9a53a3c552ac2fa2ca16f0dd7a9cdac0b&_ga=2.262813516.1197467741.1496254267-1737878043.1427400676"
+              >
+                New York Privacy Notice
+              </a>
+            </li>
+            <li
+              class="ListItem-sc-1t67vgj-2 elfIE"
+            >
+              <a
+                href="http://assets.healthfirst.org/api/pdf?id=pdf_ffc2ec5002&key=747d08e9f76a07931acd9d93fd2370fac86900e7&_ga=2.259676362.1197467741.1496254267-1737878043.1427400676"
+              >
+                HIPAA Privacy Notice
+              </a>
+            </li>
+          </ul>
+          <div
+            class="Copyright-sc-1t67vgj-3 blZWFD"
+          >
+            © 2024 Healthfirst
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

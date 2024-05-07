@@ -93,6 +93,7 @@ const CreateAccount = () => {
                 
                     <LogoImg
                         onClick={handleClick}
+                        data-testid={'healthfirst-logo'}
                         src="/react/images/simple_white.svg"
                     />
     {isProceed ? (
@@ -102,8 +103,8 @@ const CreateAccount = () => {
                     <MemberCardsContainer>
                         <MemberCard>
                     {!showRegistration  && !showMemberShip && <BackContainer>
-                                <BackIcon  onClick={() => handleClick()} src="/react/images/dark/ico-back.svg"></BackIcon>
-                                <BackText onClick={() => handleClick()}>Back</BackText>
+                                <BackIcon data-testid={'back-icon'} onClick={() => handleClick()} src="/react/images/dark/ico-back.svg"></BackIcon>
+                                <BackText data-testid={'back-text'} onClick={() => handleClick()}>Back</BackText>
                             </BackContainer>}
                             
                             {showRegistration ? (
