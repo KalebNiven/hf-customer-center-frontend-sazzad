@@ -2,20 +2,378 @@
 
 exports[`RegisterPage renders correctly 1`] = `
 <DocumentFragment>
-  <div
-    class="Wrapper-sc-11yfjnx-0 eqQOMC"
+  .c19 {
+  margin-top: 13px;
+  height: 40px;
+  border-radius: 4px;
+  padding: 8px 16px;
+  white-space: nowrap;
+  width: 100%;
+  background-color: #3e7128;
+  font-family: "museo-sans";
+  font-size: 18px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  -webkit-letter-spacing: -0.08px;
+  -moz-letter-spacing: -0.08px;
+  -ms-letter-spacing: -0.08px;
+  letter-spacing: -0.08px;
+  text-align: center;
+  border: 0px;
+  color: #ffffff;
+}
+
+.c19:hover {
+  cursor: pointer;
+  background-color: #517f3d;
+}
+
+.c9 {
+  height: 16px;
+  float: left;
+}
+
+.c9:hover {
+  cursor: pointer;
+}
+
+.c10 {
+  width: 20px;
+  margin-left: 19px;
+  margin-top: -3px;
+  font-size: 14px;
+  color: #474b55;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.c10:hover {
+  cursor: pointer;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c4 {
+  font-size: 14px;
+  line-height: 16px;
+  color: #FFFFFF;
+}
+
+.c4:not(:last-child)::after {
+  content: "|";
+  margin: 0 5px;
+  font-weight: 700;
+}
+
+.c4 > a {
+  font-weight: 700;
+  color: #FFFFFF;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c4:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c25 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.c26 {
+  font-size: 14px;
+  line-height: 16px;
+  color: #FFFFFF;
+}
+
+.c26:not(:last-child)::after {
+  content: "|";
+  margin: 0 5px;
+  font-weight: 700;
+}
+
+.c26 > a {
+  font-weight: 700;
+  color: #FFFFFF;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.c26:hover {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+
+.c27 {
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 16px;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 100%;
+  background-image: url('/react/images/auth-background.png');
+  background-position: center;
+  background-repeat: repeat;
+  background-size: contain;
+  position: relative;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c24 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.c2 {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.c8 {
+  margin-bottom: 10%;
+}
+
+.c16 {
+  color: #003964;
+  font-size: 16px;
+  font-weight: 500;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  line-height: 18px;
+  width: 235px;
+}
+
+.c23 {
+  font-weight: 600;
+  font-family: "museo-sans",sans-serif !important;
+}
+
+.c21 {
+  margin-top: 8px;
+  background: linear-gradient( 0deg,rgba(0,139,191,0.1),rgba(0,139,191,0.1) ),#ffffff;
+  border: 1px solid #008bbf;
+  border-radius: 4px;
+  padding: 12px 16px;
+  font-family: "museo-sans",sans-serif !important;
+}
+
+.c22 {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  font-family: "museo-sans",sans-serif !important;
+  color: #474b55;
+}
+
+.c11 {
+  font-weight: 400;
+  font-family: "museo-sans",sans-serif !important;
+  font-size: 18px;
+  line-height: 24px;
+  text-align: center;
+  color: #003f6b;
+  margin-bottom: 12px;
+}
+
+.c12 {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  color: #474c57;
+  margin-bottom: 24px;
+}
+
+.c13 {
+  color: #008bbf !important;
+  cursor: pointer;
+}
+
+.c17 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 232px;
+  height: 80px;
+  cursor: default;
+  font-family: "museo-sans",sans-serif !important;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.c14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 12px;
+  height: auto;
+  width: 298px;
+  border: 1px solid #d8d8d8;
+  background: #ffffff;
+  padding: 12px 12px 12px 14px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border: 2px solid #003863;
+}
+
+.c14:last-child {
+  margin-bottom: 0px;
+}
+
+.c18 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 12px;
+  height: auto;
+  width: 298px;
+  border: 1px solid #d8d8d8;
+  background: #ffffff;
+  padding: 12px 12px 12px 14px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.c18:last-child {
+  margin-bottom: 0px;
+}
+
+.c7 {
+  overflow: hidden;
+  padding: 16px 16px 12px 16px;
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  row-gap: 8px;
+  width: 330px;
+  left: 0px;
+  top: 0px;
+  border-radius: 4px;
+  margin: auto;
+  margin-bottom: 59px;
+  margin-top: 15px;
+  font-family: "museo-sans" !important;
+}
+
+.c15 {
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+.c20 {
+  width: 100%;
+  padding: 0px;
+  margin-top: 24px;
+}
+
+.c5 {
+  height: 47px;
+  margin: auto;
+  margin-top: 35px;
+  margin-bottom: 47px;
+  cursor: pointer;
+}
+
+@media only screen and (max-width:768px) {
+  .c20 {
+    width: 100%;
+  }
+}
+
+<div
+    class="c0"
   >
     <div
-      class="Container-sc-11yfjnx-2 iWojAi"
+      class="c1"
     >
       <div
-        class="LanguageSelectionWrapper-ev0rdi-0 kewMnM"
+        class="c2"
       >
         <ul
-          class="List-kpclvo-0 edeZZK"
+          class="c3"
         >
           <li
-            class="ListItem-kpclvo-1 dhkyhU"
+            class="c4"
           >
             <a
               href="https://member-rt.healthfirst.org/selectLanguage?selectedLang=en"
@@ -24,7 +382,7 @@ exports[`RegisterPage renders correctly 1`] = `
             </a>
           </li>
           <li
-            class="ListItem-kpclvo-1 dhkyhU"
+            class="c4"
           >
             <a
               href="https://es.member-rt.healthfirst.org/selectLanguage?selectedLang=es"
@@ -33,7 +391,7 @@ exports[`RegisterPage renders correctly 1`] = `
             </a>
           </li>
           <li
-            class="ListItem-kpclvo-1 dhkyhU"
+            class="c4"
           >
             <a
               href="https://zh.member-rt.healthfirst.org/selectLanguage?selectedLang=zh"
@@ -44,42 +402,42 @@ exports[`RegisterPage renders correctly 1`] = `
         </ul>
       </div>
       <img
-        class="LogoImg-ev0rdi-16 KsTGj"
+        class="c5"
         data-testid="healthfirst-logo"
         src="/react/images/simple_white.svg"
       />
       <div
-        class="MemberCardsContainer-ev0rdi-12 szOgA"
+        class="c6"
       >
         <div
-          class="MemberCard-ev0rdi-11 hfvcXC"
+          class="c7"
         >
           <div
-            class="BackContainer-ev0rdi-1 FCSJF"
+            class="c8"
           >
             <img
-              class="BackIcon-sc-1evaehd-22 wgEsB"
+              class="c9"
               data-testid="back-icon"
               src="/react/images/dark/ico-back.svg"
             />
             <p
-              class="BackText-sc-1evaehd-23 eQfLwi"
+              class="c10"
               data-testid="back-text"
             >
               Back
             </p>
           </div>
           <div
-            class="HeaderText-ev0rdi-6 hJmGCV"
+            class="c11"
           >
             What is your current membership status with Healthfirst?
           </div>
           <div
-            class="SubHeaderText-ev0rdi-7 iRCOd"
+            class="c12"
           >
             Interested in Healthfirst plans? 
             <a
-              class="LearnLink-ev0rdi-8 ePFGbr"
+              class="c13"
               href="https://www2.healthfirst.org/shoppers"
               target="_shoppers"
             >
@@ -87,15 +445,15 @@ exports[`RegisterPage renders correctly 1`] = `
             </a>
           </div>
           <div
-            class="RadioButtonContainer-ev0rdi-10 lmbkrE"
+            class="c14"
           >
             <img
-              class="RadioImg-ev0rdi-13 jDcfhX"
+              class="c15"
               src="/react/images/icn-radio-active.svg"
             />
             <div>
               <div
-                class="TextHeader-ev0rdi-2 jjeqpx mt-0"
+                class="c16 mt-0"
               >
                 Active Healthfirst Member
               </div>
@@ -103,7 +461,7 @@ exports[`RegisterPage renders correctly 1`] = `
                 class="pt-2"
               >
                 <div
-                  class="TextWrapper-ev0rdi-9 eUOwzR"
+                  class="c17"
                 >
                   I am currently enrolled in a Healthfirst plan and have a Member ID, but I do not have an online account.
                 </div>
@@ -111,15 +469,15 @@ exports[`RegisterPage renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="RadioButtonContainer-ev0rdi-10 cmjfcG"
+            class="c18"
           >
             <img
-              class="RadioImg-ev0rdi-13 jDcfhX"
+              class="c15"
               src="/react/images/icn-radio-inactive.svg"
             />
             <div>
               <div
-                class="TextHeader-ev0rdi-2 jjeqpx mt-0"
+                class="c16 mt-0"
               >
                 I Need to Activate My Coverage
               </div>
@@ -127,7 +485,7 @@ exports[`RegisterPage renders correctly 1`] = `
                 class="pt-2"
               >
                 <div
-                  class="TextWrapper-ev0rdi-9 eUOwzR"
+                  class="c17"
                 >
                   I am enrolled in a Healthfirst plan, but my coverage isn't active as I need to make my first premium payment.
                 </div>
@@ -135,21 +493,21 @@ exports[`RegisterPage renders correctly 1`] = `
             </div>
           </div>
           <button
-            class="StyledButton-sc-1evaehd-13 SubmitButton-ev0rdi-14 guCLPh iRbqOd"
+            class="c19 c20"
           >
             Continue
           </button>
            
         </div>
         <div
-          class="FooterBox-ev0rdi-4 cMFAOF"
+          class="c21"
         >
           <div
-            class="FooterBoxContent-ev0rdi-5 XycUz"
+            class="c22"
           >
             If you have any questions, please call the Member Services number on your Member ID card or visit us at
             <a
-              class="BoldText-ev0rdi-3 kVcdBP"
+              class="c23"
               href="https://healthfirst.org/contact"
               target="healthfirstContactus"
             >
@@ -159,16 +517,16 @@ exports[`RegisterPage renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="FooterMenuWrapper-sc-11yfjnx-19 cpTGsJ"
+        class="c24"
       >
         <div
-          class="Wrapper-sc-1t67vgj-0"
+          class=""
         >
           <ul
-            class="List-sc-1t67vgj-1 zobnX"
+            class="c25"
           >
             <li
-              class="ListItem-sc-1t67vgj-2 elfIE"
+              class="c26"
             >
               <a
                 href="https://healthfirst.org/contact"
@@ -177,7 +535,7 @@ exports[`RegisterPage renders correctly 1`] = `
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 elfIE"
+              class="c26"
             >
               <a
                 href="https://assets.healthfirst.org/pdf_dummykey?v=dummykey"
@@ -186,7 +544,7 @@ exports[`RegisterPage renders correctly 1`] = `
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 elfIE"
+              class="c26"
             >
               <a
                 href="http://assets.healthfirst.org/api/pdf?id=pdf_267ff1120f&key=dummykey"
@@ -195,7 +553,7 @@ exports[`RegisterPage renders correctly 1`] = `
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 elfIE"
+              class="c26"
             >
               <a
                 href="http://assets.healthfirst.org/api/pdf?id=pdf_53b845cf68&key=dummykey&_ga=2.262813516.1197467741.1496254267-1737878043.1427400676"
@@ -204,7 +562,7 @@ exports[`RegisterPage renders correctly 1`] = `
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 elfIE"
+              class="c26"
             >
               <a
                 href="http://assets.healthfirst.org/api/pdf?id=pdf_ffc2ec5002&key=dummykey&_ga=2.259676362.1197467741.1496254267-1737878043.1427400676"
@@ -214,7 +572,7 @@ exports[`RegisterPage renders correctly 1`] = `
             </li>
           </ul>
           <div
-            class="Copyright-sc-1t67vgj-3 blZWFD"
+            class="c27"
           >
             © 2024 Healthfirst
           </div>
