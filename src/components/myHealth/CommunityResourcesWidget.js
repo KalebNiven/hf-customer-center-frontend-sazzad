@@ -36,8 +36,7 @@ function CommunityResourcesWidget() {
         memberId: memberId,
         appId: 'CUSTOMER_CENTER',
         authorizer: 'OKTA',
-        lang: getLanguageFromUrl(),
-        // events: {},
+        lang: getLanguageFromUrl()
     };
 
     useEffect(() => {

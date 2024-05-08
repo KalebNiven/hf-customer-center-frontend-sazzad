@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSurveyContext } from '../../context/surveyContext'
 import Spinner from "../common/spinner";
+import { getLocaleFromUrl } from "../../utils/misc";
 
 const QuestionnaireWidget = () => {
   const { surveyScript } = useSurveyContext();
@@ -10,6 +11,7 @@ const QuestionnaireWidget = () => {
     appId: 'HRA_PUBLIC',
     surveyId: 'hra-v2-survey',
     parentElement: "#questionnaire-widget",
+    locale: getLocaleFromUrl()
   };
 
   useEffect(() => {

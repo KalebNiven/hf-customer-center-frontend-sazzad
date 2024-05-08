@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { requestPcpHousehold } from '../../store/actions'; 
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner";
+import { getLanguageFromUrl } from "../../utils/misc";
 
 const SEARCH_FOR_CARE = "SEARCH_FOR_CARE";
 
@@ -15,6 +16,7 @@ const FindCare = () => {
   const dispatch = useDispatch();
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const pcpHousehold = useSelector(state => state.pcpHousehold);
+  const language = getLanguageFromUrl();
 
   useEffect(() => {
     if(pcpHousehold.data) return;
@@ -56,7 +58,8 @@ const FindCare = () => {
         lastName: dep.lastName,
         pcpId: pcpHousehold?.data?.dependents[dep?.memberId] ?? null,
         disablePcpUpdate: dep.Status === "active" ? false : true,
-        membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY')
+        membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format('MM-DD-YYYY'),
+        lang: language
       }
     }) || [];
 
@@ -72,7 +75,8 @@ const FindCare = () => {
         lastName: plan.LastName,
         pcpId: pcpHousehold?.data?.hohPlans[plan?.MemberId]?.id ?? null,
         disablePcpUpdate: plan.MembershipStatus === "active" ? false : true,
-        membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY')
+        membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format('MM-DD-YYYY'),
+        lang: language
       }
     }) || [];
 
@@ -95,7 +99,7 @@ const FindCare = () => {
       year: customerInfo.memberYear,
       memberDetails: memberDetails,
       groupNumber: customerInfo.groupNumber,
-      lang: customerInfo.language || "en",
+      lang: language,
       token: customerInfo.id_token,
       apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
       onSearchClicked: handleSearchClicked,

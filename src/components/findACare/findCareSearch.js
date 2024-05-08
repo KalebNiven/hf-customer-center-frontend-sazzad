@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { requestPcpHousehold } from '../../store/actions';
 import Spinner from "../common/spinner"; 
+import { getLanguageFromUrl } from "../../utils/misc";
 
 const SEARCH = "SEARCH";
 
@@ -75,8 +76,6 @@ const FindCareSearch = (props) => {
       ...memberDependents.filter(plan => plan.disablePcpUpdate === false)
     ];
 
-    let mountProps;
-
     if (customerInfo.accountStatus !== "NON-MEMBER") {
       const mountProps = {
         parentElement: "#findcareSearchWrapper",
@@ -93,7 +92,7 @@ const FindCareSearch = (props) => {
         memberDetails: memberDetails,
         token: customerInfo.id_token,
         apiKey: MIX_REACT_APP_PROVIDER_API_KEY,
-        lang: customerInfo.language || "en",
+        lang: getLanguageFromUrl(),
         pcpId: customerInfo.pcpId,
         onMemberChanged: handleMemberChanged,
         onResultClicked: handleResultClicked,
