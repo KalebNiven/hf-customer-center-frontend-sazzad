@@ -8,7 +8,7 @@ import { devTools } from "../../store/store";
 import { SurveyContextProvider } from "../../context/surveyContext";
 import { AppContextProvider } from "../../AppContext";
 import createMockReduxStore from "../../test-resources/createMockReduxStore";
-import 'jest-styled-components'
+import "jest-styled-components";
 
 describe("ClaimsPage", () => {
   let store;
