@@ -29,8 +29,8 @@ jobs:
       - name: Install dependencies
         run: npm i
 
-#      - name: Check formatting
-#        run: npm run format
+      - name: Check formatting
+        run: npm run format
 
 #      - name: Run lint check
 #        run: npm run lint
