@@ -3,7 +3,7 @@
 exports[`RegisterPage renders correctly 1`] = `
 <DocumentFragment>
   <div
-    class="Wrapper-sc-11yfjnx-0 eqQOMC"
+    class="Wrapper-sc-11yfjnx-0 gpJnIC"
   >
     <div
       class="Container-sc-11yfjnx-2 iWojAi"
@@ -15,7 +15,7 @@ exports[`RegisterPage renders correctly 1`] = `
           class="List-kpclvo-0 edeZZK"
         >
           <li
-            class="ListItem-kpclvo-1 dhkyhU"
+            class="ListItem-kpclvo-1 ldsnMs"
           >
             <a
               href="https://member-rt.healthfirst.org/selectLanguage?selectedLang=en"
@@ -24,7 +24,7 @@ exports[`RegisterPage renders correctly 1`] = `
             </a>
           </li>
           <li
-            class="ListItem-kpclvo-1 dhkyhU"
+            class="ListItem-kpclvo-1 ldsnMs"
           >
             <a
               href="https://es.member-rt.healthfirst.org/selectLanguage?selectedLang=es"
@@ -33,7 +33,7 @@ exports[`RegisterPage renders correctly 1`] = `
             </a>
           </li>
           <li
-            class="ListItem-kpclvo-1 dhkyhU"
+            class="ListItem-kpclvo-1 ldsnMs"
           >
             <a
               href="https://zh.member-rt.healthfirst.org/selectLanguage?selectedLang=zh"
@@ -168,7 +168,7 @@ exports[`RegisterPage renders correctly 1`] = `
             class="List-sc-1t67vgj-1 zobnX"
           >
             <li
-              class="ListItem-sc-1t67vgj-2 elfIE"
+              class="ListItem-sc-1t67vgj-2 iasVnc"
             >
               <a
                 href="https://healthfirst.org/contact"
@@ -177,44 +177,44 @@ exports[`RegisterPage renders correctly 1`] = `
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 elfIE"
+              class="ListItem-sc-1t67vgj-2 iasVnc"
             >
               <a
-                href="https://assets.healthfirst.org/pdf_bb1adede22e833c08a2d763580d25ab3?v=0711074100"
+                href="https://assets.healthfirst.org/pdf_dummykey?v=dummykey"
               >
                 Terms & Conditions
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 elfIE"
+              class="ListItem-sc-1t67vgj-2 iasVnc"
             >
               <a
-                href="http://assets.healthfirst.org/api/pdf?id=pdf_267ff1120f&key=2a057fc3de988ef49277dcc39931e7444611493e"
+                href="http://assets.healthfirst.org/api/pdf?id=pdf_267ff1120f&key=dummykey"
               >
                 Web Privacy Statement
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 elfIE"
+              class="ListItem-sc-1t67vgj-2 iasVnc"
             >
               <a
-                href="http://assets.healthfirst.org/api/pdf?id=pdf_53b845cf68&key=990ce7f9a53a3c552ac2fa2ca16f0dd7a9cdac0b&_ga=2.262813516.1197467741.1496254267-1737878043.1427400676"
+                href="http://assets.healthfirst.org/api/pdf?id=pdf_53b845cf68&key=dummykey&_ga=2.262813516.1197467741.1496254267-1737878043.1427400676"
               >
                 New York Privacy Notice
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 elfIE"
+              class="ListItem-sc-1t67vgj-2 iasVnc"
             >
               <a
-                href="http://assets.healthfirst.org/api/pdf?id=pdf_ffc2ec5002&key=747d08e9f76a07931acd9d93fd2370fac86900e7&_ga=2.259676362.1197467741.1496254267-1737878043.1427400676"
+                href="http://assets.healthfirst.org/api/pdf?id=pdf_ffc2ec5002&key=dummykey&_ga=2.259676362.1197467741.1496254267-1737878043.1427400676"
               >
                 HIPAA Privacy Notice
               </a>
             </li>
           </ul>
           <div
-            class="Copyright-sc-1t67vgj-3 blZWFD"
+            class="Copyright-sc-1t67vgj-3 rIEff"
           >
             © 2024 Healthfirst
           </div>
