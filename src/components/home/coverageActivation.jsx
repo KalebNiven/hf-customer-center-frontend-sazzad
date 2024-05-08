@@ -8,10 +8,8 @@ import { handleSegmentClick } from "../../libs/segment";
 const CoverageActivation = () => {
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const history = useHistory();
-  const {
-    showCoverageActivation,
-    setShowCoverageActivation,
-  } = useHomeContext();
+  const { showCoverageActivation, setShowCoverageActivation } =
+    useHomeContext();
 
   const onPremiumPaymentClick = () => {
     handleSegmentClick(
@@ -21,7 +19,7 @@ const CoverageActivation = () => {
       "button",
       "bottom",
       customerInfo.data,
-      "payment"
+      "payment",
     );
     history.push("payments");
   };

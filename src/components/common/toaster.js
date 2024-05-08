@@ -187,7 +187,7 @@ const ToasterContainer = styled.div`
   }
   @media only screen and (min-width: 460px) {
     margin: auto;
-  } ;
+  }
 `;
 
 const ToasterIcon = styled.div`

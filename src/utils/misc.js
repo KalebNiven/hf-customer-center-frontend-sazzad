@@ -5,7 +5,7 @@ export const getRecertificationDate = (
   benefitPackage,
   renewalDate,
   dateformat = "MM/DD/YYYY",
-  postfix = " is"
+  postfix = " is",
 ) => {
   const isMedicaid = (companyCode, benefitPackage) => {
     switch (companyCode) {
@@ -28,7 +28,7 @@ export const getRecertificationDate = (
 export const isEligibleForRecertDate = (
   companyCode,
   benefitPackage,
-  renewalDate
+  renewalDate,
 ) => {
   if (!renewalDate) return false;
 
@@ -41,7 +41,7 @@ export const isEligibleForRecertDate = (
       return true;
     case "42":
       return !!["EPS1", "EPN1", "EPS2", "EPN2", "EPS3", "EPS4"].includes(
-        benefitPackage
+        benefitPackage,
       );
     case "20":
       return true;
@@ -68,7 +68,7 @@ export const getValidHRASurveryPlan = (hohplans) => {
   return hohplans.find(
     (plan) =>
       !["02", "34"].includes(plan.CompanyNumber) &&
-      plan.MembershipStatus === "active"
+      plan.MembershipStatus === "active",
   );
 };
 

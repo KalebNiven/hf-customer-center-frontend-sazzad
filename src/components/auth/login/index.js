@@ -44,7 +44,7 @@ const Login = () => {
         window.history.pushState(null, null, path.href);
         sessionStorage.setItem(
           "from",
-          path.origin + searchParam.get("redirectUrl")
+          path.origin + searchParam.get("redirectUrl"),
         );
       } else {
         let redirectUrl =
@@ -113,7 +113,7 @@ const Login = () => {
       "button",
       "bottom",
       "",
-      "registration"
+      "registration",
     );
     handleAuthorization({ username, password })
       .then((data) => {
@@ -186,7 +186,7 @@ const Login = () => {
                     "link",
                     "right",
                     "",
-                    "registration"
+                    "registration",
                   )
                 }
                 to="/forgotUsername"
@@ -223,7 +223,7 @@ const Login = () => {
                     "link",
                     "right",
                     "",
-                    "registration"
+                    "registration",
                   )
                 }
                 to="/forgotPassword"
@@ -283,7 +283,7 @@ const Login = () => {
                   "link",
                   "bottom",
                   "",
-                  "registration"
+                  "registration",
                 )
               }
               to="/register"
@@ -302,7 +302,7 @@ const Login = () => {
                   "link",
                   "bottom",
                   "",
-                  "registration"
+                  "registration",
                 )
               }
               href="https://healthfirst.org"
@@ -413,7 +413,7 @@ export const InputText = styled.input`
   ${(props) => props.error && "color: #AD122A;"}
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
-  } ;
+  }
 `;
 
 export const ErrorMessage = styled.span`

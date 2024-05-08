@@ -158,7 +158,7 @@ const FormsAndDocumentsModel = ({ onBack }) => {
                       </Language>
                     </LangWrapper>
                   </FormsWrapper>
-                )
+                ),
               )}
 
               <SubTitle>General Forms</SubTitle>
@@ -288,7 +288,9 @@ const LangWrapper = styled.div`
 const GeneralFormText = styled.div`
   margin-left: 10px;
   color: var(--Colors-Primary-Slate-500, #474b55);
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: "museo-sans", san-serif;
   font-size: 16px;
   font-style: normal;
@@ -352,7 +354,9 @@ const FormsWrapper = styled.div`
 const DocumentType = styled.div`
   margin-top: 5px;
   color: var(--Colors-Primary-Blue-500, #003863);
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
 
   /* Web/H3/h3.bold */
   font-family: "museo-sans", san-serif;

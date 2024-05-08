@@ -23,7 +23,7 @@ import OTC from "./otc/index";
 
 const HomeDetails = () => {
   const carouselLoading = useSelector(
-    (state) => state.homeDetails.carouselLoading
+    (state) => state.homeDetails.carouselLoading,
   );
   const customerInfo = useSelector((state) => state.customerInfo);
   const dispatch = useDispatch();
@@ -44,8 +44,8 @@ const HomeDetails = () => {
     if (customerInfo.data.customerId) {
       dispatch(
         requestCarouselItems(
-          formatCarouselReqPayload(customerInfo.data.hohPlans)
-        )
+          formatCarouselReqPayload(customerInfo.data.hohPlans),
+        ),
       );
     }
   }, []);
@@ -170,7 +170,7 @@ const Container = styled.div`
   width: 100%;
   @media only screen and (max-width: 896px) {
     margin-top: 56px;
-  } ;
+  }
 `;
 
 const InnerContainer = styled.div`
@@ -185,7 +185,7 @@ const InnerContainer = styled.div`
   @media only screen and (max-width: 1200px) {
     margin: 0 86px;
     width: calc(100% - 172px);
-  } ;
+  }
 `;
 
 const LeftContainer = styled.div`
@@ -208,7 +208,7 @@ const MobContainer = styled.div`
   @media only screen and (max-width: 668px) {
     margin: 0 16px;
     width: calc(100% - 32px);
-  } ;
+  }
 `;
 
 const ProgressWrapper = styled.div`

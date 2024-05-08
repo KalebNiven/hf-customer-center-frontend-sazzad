@@ -29,8 +29,8 @@ const CardQuestion = ({ isSelected, setIsSelected, setVisible }) => {
       dispatch(
         setVisitedQuestion(
           getQuestionById(data.list, active, visited, hraMemberInfo),
-          hraMemberInfo
-        )
+          hraMemberInfo,
+        ),
       );
     }
     setVisible(true);
@@ -68,7 +68,7 @@ const CardQuestion = ({ isSelected, setIsSelected, setVisible }) => {
     data.list,
     active,
     visited,
-    hraMemberInfo
+    hraMemberInfo,
   );
 
   return (

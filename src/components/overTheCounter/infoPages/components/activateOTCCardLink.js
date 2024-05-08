@@ -15,7 +15,7 @@ const ActivateOTCCardLink = () => {
       "link",
       "center",
       customerInfo,
-      "otc"
+      "otc",
     );
     history.push({ pathname: "/otc/activate-card" });
   };

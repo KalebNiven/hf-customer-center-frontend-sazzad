@@ -59,7 +59,7 @@ const AnnualHealthAssessment = () => {
           statuses[data.memberId] = data.status;
         });
         setSurveyStatuses(statuses);
-      }
+      },
     );
   }, [dependents]);
 
@@ -124,7 +124,7 @@ const AnnualHealthAssessment = () => {
       "link",
       "right",
       customerInfo,
-      "myHealth"
+      "myHealth",
     );
 
     if (assessmentLink.type === LINK_TYPE.cc) {
@@ -150,7 +150,7 @@ const AnnualHealthAssessment = () => {
       ]),
     ];
     isValid = companyCodes.some((code) =>
-      isValidCompanyCode(code, HRA_RESOURCES_COMPANY_CODES)
+      isValidCompanyCode(code, HRA_RESOURCES_COMPANY_CODES),
     );
     return isValid;
   };
@@ -209,7 +209,7 @@ const AnnualHealthAssessment = () => {
                           handleSegment(
                             e,
                             getAssessmentLink(),
-                            "Annual Health Assessment"
+                            "Annual Health Assessment",
                           )
                         }
                       >
@@ -253,7 +253,7 @@ const AnnualHealthAssessment = () => {
                                   handleSegment(
                                     e,
                                     getAssessmentLink(eachDependent),
-                                    "Annual Health Assessment"
+                                    "Annual Health Assessment",
                                   )
                                 }
                               >

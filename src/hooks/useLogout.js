@@ -19,7 +19,7 @@ export const useLogout = () => {
       sessionStorage.removeItem("SessionTimeStamp");
       sessionStorage.removeItem(`persist:${window.location.host}_PROVIDER_APP`);
       sessionStorage.removeItem(
-        `persist:${process.env.MIX_REACT_PAYMENTS_BASE_URL}`
+        `persist:${process.env.MIX_REACT_PAYMENTS_BASE_URL}`,
       );
       sessionStorage.removeItem("skipAddMembership");
       sessionStorage.removeItem("visitedPrefCenterSync");

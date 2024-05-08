@@ -28,23 +28,23 @@ const MemberIDCardPage = (props) => {
 
   const physicalIdCard = useSelector((state) => state.physicalIdCard.idCard);
   const physicalIdCardLoading = useSelector(
-    (state) => state.physicalIdCard.loading
+    (state) => state.physicalIdCard.loading,
   );
   const digitalIdCardLoading = useSelector(
-    (state) => state.digitalIdCard.loading
+    (state) => state.digitalIdCard.loading,
   );
   const mailMemberIDCardStatus = useSelector(
-    (state) => state.correspondenceStatus
+    (state) => state.correspondenceStatus,
   );
   const submitMailMemberIDCardFormResponse = useSelector(
-    (state) => state.correspondence
+    (state) => state.correspondence,
   );
   const [renderNotification, setRenderNotification] = useState(false);
   const [isNonMemberHOH, setIsNonMemberHOH] = useState();
 
   const customerInfo = useSelector((state) => state.customerInfo);
   const customerDemographicsInfo = useSelector(
-    (state) => state.customerDemographicsInfo.data
+    (state) => state.customerDemographicsInfo.data,
   );
   const [memberSelection, setMemberSelection] = useState({});
 
@@ -226,8 +226,8 @@ const MemberIDCardPage = (props) => {
       checkNonMemberHOH(
         memberSelection.companyCode,
         memberSelection.benefitPackage,
-        memberSelection.relationshipCode
-      )
+        memberSelection.relationshipCode,
+      ),
     );
   }, [memberSelection]);
 

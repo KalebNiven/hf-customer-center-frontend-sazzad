@@ -89,7 +89,7 @@ const config = {
             __dirname,
             "src",
             "assets",
-            process.env.MIX_REACT_ENVIRONMENT
+            process.env.MIX_REACT_ENVIRONMENT,
           ),
           to: ".",
         },

@@ -311,7 +311,7 @@ const ConnectionHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc"
+                "otc",
               )
             }
           >
@@ -341,7 +341,7 @@ const ConnectionHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc"
+                "otc",
               )
             }
           >
@@ -380,7 +380,7 @@ const ConnectionHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc"
+                "otc",
               )
             }
           >
@@ -410,7 +410,7 @@ const ConnectionHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc"
+                "otc",
               )
             }
           >
@@ -647,7 +647,7 @@ const ConnectionHMOPage = () => {
                     "Button",
                     "/learn-more",
                     customerInfo,
-                    "otc"
+                    "otc",
                   )
                 }
                 href={evidenceOfCoverageURL.ConnectionHMO.url}

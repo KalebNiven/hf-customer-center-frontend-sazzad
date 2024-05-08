@@ -309,7 +309,7 @@ const PasswordText = styled.ul`
   list-style: ${(props) => (props.noStyle ? "none" : "disc")};
   list-style-position: ${(props) => (props.noStyle ? "" : "outside")};
   margin-bottom: 0;
-  margin-left: ${(props) => (props.noStyle ? "0" : "1.5rem")}; ;
+  margin-left: ${(props) => (props.noStyle ? "0" : "1.5rem")};
 `;
 
 const PasswordRules = styled.li`

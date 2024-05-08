@@ -82,7 +82,7 @@ const ErrorNavBar = () => {
   const { MIX_REACT_LOFL_LANGUAGE_ES_URL } = process.env;
   const { MIX_REACT_LOFL_LANGUAGE_ZH_URL } = process.env;
   const [loaderShow, setLoaderShow] = useState(
-    sessionStorage.getItem("longLoad")
+    sessionStorage.getItem("longLoad"),
   );
   const { drawerOpen, setDrawerOpen, globalError } = useAppContext();
   const appBarRef = useRef(null);
@@ -93,7 +93,7 @@ const ErrorNavBar = () => {
     document.body.style.overflow = drawerOpen ? "hidden" : null;
     setMobileDrawerTop(
       appBarRef.current?.getBoundingClientRect().y +
-        appBarRef.current?.getBoundingClientRect().height
+        appBarRef.current?.getBoundingClientRect().height,
     );
   }, [drawerOpen]);
 
@@ -249,7 +249,7 @@ const ErrorNavBar = () => {
                       eachNav.href,
                       "parent",
                       eachNav?.type === "logo" ? "Logo" : eachNav?.label,
-                      eachNav?.labelForSegment
+                      eachNav?.labelForSegment,
                     )
                   }
                   icon={<LogoImg src={eachNav.inactiveIcon} />}
@@ -268,7 +268,7 @@ const ErrorNavBar = () => {
                     eachNav.href,
                     "parent",
                     eachNav?.type === "logo" ? "Logo" : eachNav?.label,
-                    eachNav.labelForSegment
+                    eachNav.labelForSegment,
                   )
                 }
                 icon={<LogoImg src={eachNav.inactiveIcon} />}
@@ -335,7 +335,7 @@ const ErrorNavBar = () => {
                         eachNav.href,
                         "child",
                         eachNav?.label,
-                        eachNav.labelForSegment
+                        eachNav.labelForSegment,
                       )
                     }
                     value={eachNav.href}
@@ -352,7 +352,7 @@ const ErrorNavBar = () => {
                       eachNav.href,
                       "child",
                       eachNav?.label,
-                      eachNav.labelForSegment
+                      eachNav.labelForSegment,
                     )
                   }
                   value={eachNav.href}
@@ -383,7 +383,7 @@ const ErrorNavBar = () => {
     href,
     clickElement,
     eachNavLabel,
-    labelForSegment
+    labelForSegment,
   ) => {
     if (drawerOpen) {
       setDrawerOpen(!drawerOpen);
@@ -450,10 +450,10 @@ const ErrorNavBar = () => {
   const displayNavMenu = () => {
     nav = [...navItems];
     const myHomeObj = nav.find(
-      (x) => x.href === "/home" && x.type === "navItem"
+      (x) => x.href === "/home" && x.type === "navItem",
     );
     const findCareObj = nav.find(
-      (x) => x.href === "/findcare" && x.type === "navItem"
+      (x) => x.href === "/findcare" && x.type === "navItem",
     );
     // if (window.location.pathname === "/search" || window.location.pathname === "/details") {
     //   findCareObj.childNavs = []
@@ -494,7 +494,7 @@ const ErrorNavBar = () => {
                               eachNav.href,
                               "parent",
                               eachNav?.label,
-                              eachNav?.labelForSegment
+                              eachNav?.labelForSegment,
                             )
                           }
                           button
@@ -506,7 +506,7 @@ const ErrorNavBar = () => {
                                 {window.location.pathname === eachNav.href ||
                                 myHomeObj.childNavs.find(
                                   (cNav) =>
-                                    cNav.href === window.location.pathname
+                                    cNav.href === window.location.pathname,
                                 ) ? (
                                   <LogoImg src={eachNav.activeIcon} />
                                 ) : (
@@ -602,7 +602,7 @@ const ErrorNavBar = () => {
                                                 childNav.href,
                                                 "child",
                                                 childNav?.label,
-                                                childNav?.labelForSegment
+                                                childNav?.labelForSegment,
                                               )
                                             }
                                             button
@@ -631,7 +631,7 @@ const ErrorNavBar = () => {
                                               childNav.href,
                                               "child",
                                               childNav?.label,
-                                              childNav?.labelForSegment
+                                              childNav?.labelForSegment,
                                             )
                                           }
                                           button
@@ -650,7 +650,7 @@ const ErrorNavBar = () => {
                                           </ListItemText>
                                         </ListItem>
                                       );
-                                    }
+                                    },
                                   )}
                               </List>
                               <HorizontalDivider />
@@ -668,7 +668,7 @@ const ErrorNavBar = () => {
                             eachNav.href,
                             "parent",
                             eachNav?.label,
-                            eachNav?.labelForSegment
+                            eachNav?.labelForSegment,
                           )
                         }
                         button
@@ -679,7 +679,8 @@ const ErrorNavBar = () => {
                             <>
                               {window.location.pathname === eachNav.href ||
                               myHomeObj.childNavs.find(
-                                (cNav) => cNav.href === window.location.pathname
+                                (cNav) =>
+                                  cNav.href === window.location.pathname,
                               ) ? (
                                 <LogoImg src={eachNav.activeIcon} />
                               ) : (
@@ -747,55 +748,113 @@ const ErrorNavBar = () => {
                             </ListItemIcon>
                           )}
                       </ListItem>
-                      {eachNav.href === "/home" && eachNav.type === "navItem" && (
-                        <Collapse
-                          in={homeMobileItems}
-                          timeout="auto"
-                          unmountOnExit
-                          key={myHomeObj.href}
-                          component="li"
-                        >
-                          <List>
-                            {myHomeObj.childNavs &&
-                              myHomeObj.childNavs.length > 0 &&
-                              myHomeObj.childNavs.map((childNav, childInd) => {
-                                return childNav.treatmentName ? (
-                                  <FeatureTreatment
-                                    key={`${childNav.treatmentName}_${childInd}`}
-                                    treatmentName={childNav.treatmentName}
-                                    onLoad={() => {}}
-                                    onTimedout={() => {}}
-                                    attributes={splitAttributes}
-                                  >
-                                    <ListItem
-                                      className={classes.gutters}
-                                      onClick={(e) =>
-                                        handleClickMobile(
-                                          e,
-                                          childNav.href,
-                                          "child",
-                                          childNav?.label
-                                        )
-                                      }
-                                      button
-                                    >
-                                      <ListItemIcon>
-                                        {
-                                          <LogoImg
-                                            src={childNav.inactiveIcon}
-                                          />
-                                        }
-                                      </ListItemIcon>
-                                      <ListItemText
-                                        className={"child-tab-inactive"}
+                      {eachNav.href === "/home" &&
+                        eachNav.type === "navItem" && (
+                          <Collapse
+                            in={homeMobileItems}
+                            timeout="auto"
+                            unmountOnExit
+                            key={myHomeObj.href}
+                            component="li"
+                          >
+                            <List>
+                              {myHomeObj.childNavs &&
+                                myHomeObj.childNavs.length > 0 &&
+                                myHomeObj.childNavs.map(
+                                  (childNav, childInd) => {
+                                    return childNav.treatmentName ? (
+                                      <FeatureTreatment
+                                        key={`${childNav.treatmentName}_${childInd}`}
+                                        treatmentName={childNav.treatmentName}
+                                        onLoad={() => {}}
+                                        onTimedout={() => {}}
+                                        attributes={splitAttributes}
                                       >
-                                        {childNav.label}
-                                      </ListItemText>
-                                    </ListItem>
-                                  </FeatureTreatment>
-                                ) : (
+                                        <ListItem
+                                          className={classes.gutters}
+                                          onClick={(e) =>
+                                            handleClickMobile(
+                                              e,
+                                              childNav.href,
+                                              "child",
+                                              childNav?.label,
+                                            )
+                                          }
+                                          button
+                                        >
+                                          <ListItemIcon>
+                                            {
+                                              <LogoImg
+                                                src={childNav.inactiveIcon}
+                                              />
+                                            }
+                                          </ListItemIcon>
+                                          <ListItemText
+                                            className={"child-tab-inactive"}
+                                          >
+                                            {childNav.label}
+                                          </ListItemText>
+                                        </ListItem>
+                                      </FeatureTreatment>
+                                    ) : (
+                                      <ListItem
+                                        key={`${childNav.treatmentName}_${childInd}`}
+                                        className={classes.gutters}
+                                        onClick={(e) =>
+                                          handleClickMobile(
+                                            e,
+                                            childNav.href,
+                                            "child",
+                                            childNav?.label,
+                                            childNav?.labelForSegment,
+                                          )
+                                        }
+                                        button
+                                      >
+                                        <ListItemIcon>
+                                          {
+                                            <LogoImg
+                                              src={childNav.inactiveIcon}
+                                            />
+                                          }
+                                        </ListItemIcon>
+                                        <ListItemText
+                                          className={"child-tab-inactive"}
+                                        >
+                                          {childNav.label}
+                                        </ListItemText>
+                                      </ListItem>
+                                    );
+                                  },
+                                )}
+                            </List>
+                            <HorizontalDivider />
+                          </Collapse>
+                        )}
+                    </div>
+                  )}
+                  {eachNav.href === "/findcare" &&
+                    eachNav.type === "navItem" && (
+                      <Collapse
+                        in={findCareMobileItems}
+                        timeout="auto"
+                        unmountOnExit
+                        key={findCareObj.href}
+                        component="li"
+                      >
+                        <List>
+                          {findCareObj.childNavs &&
+                            findCareObj.childNavs.length > 0 &&
+                            findCareObj.childNavs.map((childNav, childInd) => {
+                              return childNav.treatmentName ? (
+                                <FeatureTreatment
+                                  treatmentName={childNav.treatmentName}
+                                  key={`${childNav.treatmentName}_${childInd}`}
+                                  onLoad={() => {}}
+                                  onTimedout={() => {}}
+                                  attributes={splitAttributes}
+                                >
                                   <ListItem
-                                    key={`${childNav.treatmentName}_${childInd}`}
                                     className={classes.gutters}
                                     onClick={(e) =>
                                       handleClickMobile(
@@ -803,7 +862,7 @@ const ErrorNavBar = () => {
                                         childNav.href,
                                         "child",
                                         childNav?.label,
-                                        childNav?.labelForSegment
+                                        childNav?.labelForSegment,
                                       )
                                     }
                                     button
@@ -817,34 +876,8 @@ const ErrorNavBar = () => {
                                       {childNav.label}
                                     </ListItemText>
                                   </ListItem>
-                                );
-                              })}
-                          </List>
-                          <HorizontalDivider />
-                        </Collapse>
-                      )}
-                    </div>
-                  )}
-                  {eachNav.href === "/findcare" && eachNav.type === "navItem" && (
-                    <Collapse
-                      in={findCareMobileItems}
-                      timeout="auto"
-                      unmountOnExit
-                      key={findCareObj.href}
-                      component="li"
-                    >
-                      <List>
-                        {findCareObj.childNavs &&
-                          findCareObj.childNavs.length > 0 &&
-                          findCareObj.childNavs.map((childNav, childInd) => {
-                            return childNav.treatmentName ? (
-                              <FeatureTreatment
-                                treatmentName={childNav.treatmentName}
-                                key={`${childNav.treatmentName}_${childInd}`}
-                                onLoad={() => {}}
-                                onTimedout={() => {}}
-                                attributes={splitAttributes}
-                              >
+                                </FeatureTreatment>
+                              ) : (
                                 <ListItem
                                   className={classes.gutters}
                                   onClick={(e) =>
@@ -853,7 +886,7 @@ const ErrorNavBar = () => {
                                       childNav.href,
                                       "child",
                                       childNav?.label,
-                                      childNav?.labelForSegment
+                                      childNav?.labelForSegment,
                                     )
                                   }
                                   button
@@ -867,34 +900,12 @@ const ErrorNavBar = () => {
                                     {childNav.label}
                                   </ListItemText>
                                 </ListItem>
-                              </FeatureTreatment>
-                            ) : (
-                              <ListItem
-                                className={classes.gutters}
-                                onClick={(e) =>
-                                  handleClickMobile(
-                                    e,
-                                    childNav.href,
-                                    "child",
-                                    childNav?.label,
-                                    childNav?.labelForSegment
-                                  )
-                                }
-                                button
-                              >
-                                <ListItemIcon>
-                                  {<LogoImg src={childNav.inactiveIcon} />}
-                                </ListItemIcon>
-                                <ListItemText className={"child-tab-inactive"}>
-                                  {childNav.label}
-                                </ListItemText>
-                              </ListItem>
-                            );
-                          })}
-                      </List>
-                      <HorizontalDivider />
-                    </Collapse>
-                  )}
+                              );
+                            })}
+                        </List>
+                        <HorizontalDivider />
+                      </Collapse>
+                    )}
                 </React.Fragment>
               );
             }
@@ -990,7 +1001,7 @@ const ErrorNavBar = () => {
                             "member-logout",
                             "",
                             "Log Out",
-                            "Log Out"
+                            "Log Out",
                           );
                         }}
                       >

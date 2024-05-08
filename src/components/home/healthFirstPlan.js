@@ -70,7 +70,7 @@ const HealthFirstPlan = () => {
                   {formatDate(
                     plan.MembershipEffectiveDate,
                     plan.MembershipExpirationDate,
-                    plan.MembershipStatus
+                    plan.MembershipStatus,
                   )}
                 </Validity>
                 <Status status={plan.MembershipStatus}>
@@ -81,13 +81,13 @@ const HealthFirstPlan = () => {
                 {isEligibleForRecertDate(
                   plan.CompanyNumber,
                   plan.BenefitPackage,
-                  plan.renewalDate
+                  plan.renewalDate,
                 ) && (
                   <RenewalDate>
                     {getRecertificationDate(
                       plan.CompanyNumber,
                       plan.BenefitPackage,
-                      plan.renewalDate
+                      plan.renewalDate,
                     )}
                   </RenewalDate>
                 )}
@@ -101,7 +101,7 @@ const HealthFirstPlan = () => {
                   </ViewMemberId>
                 )}
               </Card>
-            ) : null
+            ) : null,
           )}
       </>
     )
@@ -196,8 +196,8 @@ const Status = styled.div`
     props.status === "active"
       ? "#3e7128"
       : props.status === "inactive"
-      ? "#d43900"
-      : "#ffffff"};
+        ? "#d43900"
+        : "#ffffff"};
   border-radius: 5px;
   border: ${(props) => props.status === "upcoming" && "solid 1px #529535"};
 `;

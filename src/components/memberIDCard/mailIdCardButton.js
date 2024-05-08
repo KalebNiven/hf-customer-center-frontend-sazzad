@@ -14,7 +14,7 @@ const MailIdCardButton = ({ handleClick, disableBtn, memberId }) => {
   const dispatch = useDispatch();
   const customerInfo = useSelector((state) => state.customerInfo);
   const mailMemberIDCardStatus = useSelector(
-    (state) => state.correspondenceStatus
+    (state) => state.correspondenceStatus,
   );
   const splitAttributes = {
     lob: customerInfo.data.sessLobCode,

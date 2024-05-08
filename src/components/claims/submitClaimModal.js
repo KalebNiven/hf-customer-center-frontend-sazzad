@@ -49,9 +49,10 @@ const useStyles = makeStyles((theme) => ({
           claimInformationError ? "1" : "0.5",
       },
     },
-    "& .MuiButtonBase-root MuiIconButton-root MuiPickersDay-day MuiPickersDay-current MuiPickersDay-daySelected": {
-      backgroundColor: "#474b55 !important",
-    },
+    "& .MuiButtonBase-root MuiIconButton-root MuiPickersDay-day MuiPickersDay-current MuiPickersDay-daySelected":
+      {
+        backgroundColor: "#474b55 !important",
+      },
   },
 }));
 const SubmitClaimModal = ({ unmountMe, showModal }) => {
@@ -159,10 +160,10 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
   const [fileSizeError, setFileSizeError] = useState(false);
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const customerDemographicsInfo = useSelector(
-    (state) => state.customerDemographicsInfo.data
+    (state) => state.customerDemographicsInfo.data,
   );
   const submittedAttestationAgreement = useSelector(
-    (state) => state.submitAttestationAgreement
+    (state) => state.submitAttestationAgreement,
   );
   const [toastr, setToastr] = useState(false);
   const submitClaimDetails = useSelector((state) => state.submitClaimDetails);
@@ -191,11 +192,11 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
   if (dependents?.length && dependentsAddresses?.length) {
     dependents.forEach((dependent) => {
       const dependentAddress = dependentsAddresses.find(
-        (value) => value.memberId === dependent.memberId
+        (value) => value.memberId === dependent.memberId,
       );
       if (dependentAddress) {
         dependent.address = getAddressString(
-          dependentAddress.info.addresses[0]
+          dependentAddress.info.addresses[0],
         );
         dependent.phoneNumber = dependentAddress?.info?.addresses[0]?.phones[0]
           ? dependentAddress?.info?.addresses[0]?.phones[0]?.phoneNumber
@@ -231,7 +232,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
             hoh.length > 0 &&
             hoh.find((y) => y.memberId === x.MemberId)?.info?.contact
               ?.contactAddress) ||
-            null
+            null,
         ),
       }));
     if (hohPlansArr == null) {
@@ -387,7 +388,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
         if (digitalSurveyWidget)
           triggerDigitalSurveyByEventName(
             digitalSurveyWidget,
-            DIGITAL_SURVEY_EVENTS.CLAIM_SUBMITTED
+            DIGITAL_SURVEY_EVENTS.CLAIM_SUBMITTED,
           );
       }
     }
@@ -483,7 +484,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
     countStart,
     countEnd,
     ind,
-    uploadedFilesLength
+    uploadedFilesLength,
   ) => {
     if (
       claimUploadedFiles.findIndex(({ fileName }) => fileName === x.name) > -1
@@ -522,7 +523,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
           countStart,
           countEnd,
           ind,
-          uploadedFilesLength
+          uploadedFilesLength,
         );
         if (!currentState) resolve(null);
       };
@@ -537,7 +538,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
           countStart,
           countEnd,
           ind,
-          uploadedFilesLength
+          uploadedFilesLength,
         );
 
         const allFiles = [...claimUploadedFiles, ...finalArr];
@@ -644,9 +645,9 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
                       selectMemberError
                         ? "error"
                         : selectedMember &&
-                          selectedMember.memberId === member.memberId
-                        ? "selected"
-                        : ""
+                            selectedMember.memberId === member.memberId
+                          ? "selected"
+                          : ""
                     }
                   >
                     <RadioButtonContainer>
@@ -990,8 +991,8 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
                     setClaimInformation({
                       ...claimInformationCopy,
                       attestationChecked: {
-                        value: !claimInformationCopy["attestationChecked"]
-                          .value,
+                        value:
+                          !claimInformationCopy["attestationChecked"].value,
                         error: null,
                       },
                     })
@@ -1023,7 +1024,7 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
               {["Itemized Receipt - (Proof of Payment)", "Provider Bill"].map(
                 (x, ind) => {
                   return <FileUploadTips key={ind}>{x}</FileUploadTips>;
-                }
+                },
               )}
             </FileUploadListContainer>
             <FileUploader
@@ -1271,7 +1272,7 @@ const ProgressSpinner = styled.div`
   animation-iteration-count: infinite;
   @media only screen and (max-width: 768px) {
     margin: auto;
-  } ;
+  }
 `;
 const DefaultModal = styled.div`
   display: flex;
@@ -1517,7 +1518,7 @@ const FileNameText = styled.div`
   overflow: hidden;
   @media only screen and (max-width: 768px) {
     width: 150px;
-  } ;
+  }
 `;
 const FileUploadProgressBar = styled.div`
   width: 100%;
@@ -1640,8 +1641,8 @@ const datePickerStyles = (border, claimInformationCopy) => {
     border: border
       ? "solid 2px #003863"
       : claimInformationCopy["dateOfService"].error
-      ? "solid 1px #ad122a"
-      : "solid 1px #a8abac",
+        ? "solid 1px #ad122a"
+        : "solid 1px #a8abac",
     fontFamily: "museo-sans",
     fontColor: "#a8abac",
     backgroundColor: "#ffffff",

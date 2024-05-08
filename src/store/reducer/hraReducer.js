@@ -29,7 +29,7 @@ const handleNextQuestion = (state, hraMemberInfo) => {
     state.data.list,
     currentQuestionId,
     state.form.visited,
-    hraMemberInfo
+    hraMemberInfo,
   );
   const { question_type, matrix_questions, question_answers } = currentQuestion;
   const selected = state.form.selected;
@@ -43,8 +43,8 @@ const handleNextQuestion = (state, hraMemberInfo) => {
     pending.unshift(
       ...getAnswerById(
         question_answers,
-        selectedAnswerId
-      ).answer_dependencies.map((item) => item.dependency_uuid.question_id)
+        selectedAnswerId,
+      ).answer_dependencies.map((item) => item.dependency_uuid.question_id),
     );
   }
 
@@ -57,11 +57,11 @@ const handleNextQuestion = (state, hraMemberInfo) => {
           state.data.list,
           currentQuestionId,
           state.form.visited,
-          hraMemberInfo
+          hraMemberInfo,
         );
         const currentQdeps = getAnswerById(
           currentQ.question_answers,
-          item.id
+          item.id,
         ).answer_dependencies.reduce((items, item) => {
           if (
             !items.includes(item.dependency_uuid.question_id) &&
@@ -81,8 +81,8 @@ const handleNextQuestion = (state, hraMemberInfo) => {
     // append currentQuestion deps
     pending.unshift(
       ...question_answers[0].answer_dependencies.map(
-        (item) => item.dependency_uuid.question_id
-      )
+        (item) => item.dependency_uuid.question_id,
+      ),
     );
     // loop through questions contained in the matrix and append their deps
     for (let i = 0; i < matrix_questions.length; i++) {
@@ -95,8 +95,8 @@ const handleNextQuestion = (state, hraMemberInfo) => {
       pending.unshift(
         ...getAnswerById(
           question_answers,
-          selectedAnswerId
-        ).answer_dependencies.map((item) => item.dependency_uuid.question_id)
+          selectedAnswerId,
+        ).answer_dependencies.map((item) => item.dependency_uuid.question_id),
       );
     }
   }
@@ -106,8 +106,8 @@ const handleNextQuestion = (state, hraMemberInfo) => {
     pending = [...state.form.pending];
     pending.unshift(
       ...question_answers[0].answer_dependencies.map(
-        (item) => item.dependency_uuid.question_id
-      )
+        (item) => item.dependency_uuid.question_id,
+      ),
     );
   }
 
@@ -124,7 +124,7 @@ const handlePreviousQuestion = (state, hraMemberInfo) => {
     state.data.list,
     activeId,
     state.form.visited,
-    hraMemberInfo
+    hraMemberInfo,
   );
   const { question_type, matrix_questions, question_answers } = currentQuestion;
   const selectedAnswer = state.form.selected[activeId];
@@ -136,7 +136,7 @@ const handlePreviousQuestion = (state, hraMemberInfo) => {
   if (question_type === SINGLE_SELECT) {
     pending = pending.slice(
       getAnswerById(question_answers, selectedAnswer[0].id).answer_dependencies
-        .length - 1
+        .length - 1,
     );
   }
 
@@ -145,7 +145,7 @@ const handlePreviousQuestion = (state, hraMemberInfo) => {
     const selectedAnswers = state.form.selected[activeId];
     selectedAnswers.forEach((selected_answer) => {
       const answer = question_answers.find(
-        (question_answer) => selected_answer.id === question_answer.id
+        (question_answer) => selected_answer.id === question_answer.id,
       );
       deps = [...deps, ...answer.answer_dependencies];
     });
@@ -155,8 +155,8 @@ const handlePreviousQuestion = (state, hraMemberInfo) => {
         index ===
         self.findIndex(
           (t) =>
-            t.dependency_uuid.question_id === item.dependency_uuid.question_id
-        )
+            t.dependency_uuid.question_id === item.dependency_uuid.question_id,
+        ),
     );
     pending = pending.slice(deps.length - 1);
   }
@@ -174,13 +174,13 @@ const handlePreviousQuestion = (state, hraMemberInfo) => {
       if (isFirst) {
         pending = pending.slice(
           getAnswerById(question_answers, selectedAnswerId).answer_dependencies
-            .length - 1
+            .length - 1,
         );
         isFirst = false;
       } else {
         pending = pending.slice(
           getAnswerById(question_answers, selectedAnswerId).answer_dependencies
-            .length
+            .length,
         );
       }
     }
@@ -208,12 +208,12 @@ const generageAnswerList = ({ id, info, type }, state) => {
       // uncheck (if it's already exist)
       if (
         state.form.selected[id].some(
-          (item) => item.answer_code === info.answer_code
+          (item) => item.answer_code === info.answer_code,
         )
       ) {
         return [
           ...state.form.selected[id].filter(
-            (item) => item.answer_code !== info.answer_code
+            (item) => item.answer_code !== info.answer_code,
           ),
         ];
       } else {
@@ -254,7 +254,7 @@ export default function hra(state = initialState, action) {
     case actionTypes.REQUEST_PREVIOUS_QUESTION: {
       const { visited, active, pending } = handlePreviousQuestion(
         state,
-        action.payload.hraMemberInfo
+        action.payload.hraMemberInfo,
       );
       return {
         ...state,
@@ -285,7 +285,7 @@ export default function hra(state = initialState, action) {
         state.data.list,
         state.form.active,
         state.form.visited,
-        action.payload.userInfo
+        action.payload.userInfo,
       );
       const visitedQuestion = [currentQuestion.question_id];
 
@@ -315,7 +315,7 @@ export default function hra(state = initialState, action) {
           ...state.data,
           // list: action.payload,
           list: action.payload.hra_survey_questions.sort((a, b) =>
-            a.question_id > b.question_id ? 1 : -1
+            a.question_id > b.question_id ? 1 : -1,
           ),
           memberInfo: { ...action.payload.memberInfo },
           error: "",

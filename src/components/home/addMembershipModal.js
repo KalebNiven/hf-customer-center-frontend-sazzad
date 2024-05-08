@@ -934,7 +934,7 @@ const MemberIdImg = styled.img`
   left: 41%;
   @media only screen and (max-width: 414px) {
     left: 25%;
-  } ;
+  }
 `;
 
 const FormButtonWrapper = styled(ButtonWrapper)`

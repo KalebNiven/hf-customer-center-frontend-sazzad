@@ -190,13 +190,13 @@ const HomePage = () => {
                         {isEligibleForRecertDate(
                           hohPlans?.[0]?.CompanyNumber,
                           hohPlans?.[0]?.BenefitPackage,
-                          hohPlans?.[0]?.renewalDate
+                          hohPlans?.[0]?.renewalDate,
                         ) && (
                           <RecertDate>
                             {getRecertificationDate(
                               hohPlans?.[0]?.CompanyNumber,
                               hohPlans?.[0]?.BenefitPackage,
-                              hohPlans?.[0]?.renewalDate
+                              hohPlans?.[0]?.renewalDate,
                             )}
                           </RecertDate>
                         )}
@@ -350,7 +350,7 @@ const Title = styled.span`
   display: block;
   @media only screen and (max-width: 768px) {
     font-size: 48px;
-  } ;
+  }
 `;
 const MemberDetails = styled.div`
   height: 24px;
@@ -399,8 +399,8 @@ const StatusTxt = styled.p`
     props.status === "inactive"
       ? "#d43900"
       : props.status === "upcoming"
-      ? "#529535"
-      : "#3e7128"};
+        ? "#529535"
+        : "#3e7128"};
 `;
 
 const MemberIcon = styled.img`
@@ -471,7 +471,7 @@ const LeftContainer = styled.div`
   @media only screen and (max-width: 668px) {
     margin: 0 16px;
     width: calc(100% - 32px);
-  } ;
+  }
 `;
 
 const LeafIcon = styled.img`
@@ -514,7 +514,7 @@ const GreetingInnerContainer = styled.div`
     display: contents;
     margin: 0;
     width: 100%;
-  } ;
+  }
 `;
 
 const RightContainer = styled.div`
@@ -529,7 +529,7 @@ const StatusWrapper = styled.div`
   @media only screen and (max-width: 481px) {
     flex-direction: column;
     align-items: start;
-  } ;
+  }
 `;
 
 const RecertDate = styled.div`
@@ -544,7 +544,7 @@ const RecertDate = styled.div`
   @media only screen and (max-width: 481px) {
     margin-left: 0px;
     margin-top: 7px;
-  } ;
+  }
 `;
 
 export const TooltipIcon = styled.div`

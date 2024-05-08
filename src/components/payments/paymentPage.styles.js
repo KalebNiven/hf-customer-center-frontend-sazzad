@@ -14,7 +14,7 @@ export const Container = styled.div`
     display: block;
     margin: 0 16px;
     width: calc(100% - 32px);
-  } ;
+  }
 `;
 
 export const PaymentTypeTxt = styled.div`
@@ -34,7 +34,7 @@ export const PaymentTypeTxt = styled.div`
   @media only screen and (max-width: 768px) {
     width: 100%;
     overflow-wrap: break-word;
-  } ;
+  }
 `;
 
 export const InnerContainer = styled.div`
@@ -46,7 +46,7 @@ export const InnerContainer = styled.div`
   box-sizing: border-box;
   @media only screen and (max-width: 768px) {
     display: block;
-  } ;
+  }
 `;
 
 export const LeftContainer = styled.div`
@@ -54,7 +54,7 @@ export const LeftContainer = styled.div`
   width: 448px;
   @media only screen and (max-width: 768px) {
     width: 100%;
-  } ;
+  }
 `;
 
 export const RightContainer = styled.div`
@@ -62,7 +62,7 @@ export const RightContainer = styled.div`
   width: 448px;
   @media only screen and (max-width: 768px) {
     width: 100%;
-  } ;
+  }
 `;
 
 export const Card = styled.div`
@@ -74,7 +74,7 @@ export const Card = styled.div`
   box-shadow: 0 2px 8px 0 #d8d8d8;
   @media only screen and (max-width: 768px) {
     margin-bottom: 21px;
-  } ;
+  }
 `;
 
 export const Heading = styled.div`
@@ -120,7 +120,7 @@ export const PaymentButton = styled.button`
   line-height: 1.5rem;
   @media only screen and (max-width: 768px) {
     margin: 0;
-  } ;
+  }
 `;
 
 export const FirstPaymentButton = styled.button`
@@ -140,7 +140,7 @@ export const FirstPaymentButton = styled.button`
   line-height: 1.5rem;
   @media only screen and (max-width: 768px) {
     margin: 6px 0 0;
-  } ;
+  }
 `;
 
 export const PaymentPortalWrapper = styled.div`
@@ -202,7 +202,7 @@ export const BrandingInnerContainer = styled.div`
     display: contents;
     margin: 0;
     width: 100%;
-  } ;
+  }
 `;
 
 export const BrandingLeftContainer = styled.div`
@@ -216,7 +216,7 @@ export const BrandingLeftContainer = styled.div`
   @media only screen and (max-width: 668px) {
     margin: 0 16px;
     width: calc(100% - 32px);
-  } ;
+  }
 `;
 
 export const LeafIcon = styled.img`
@@ -277,7 +277,7 @@ export const BrandingTitle = styled.h1`
   display: block;
   @media only screen and (max-width: 768px) {
     font-size: 48px;
-  } ;
+  }
 `;
 
 export const ProgressWrapper = styled.div`

@@ -47,7 +47,7 @@ const MailMemberIDCardForm = (props) => {
   const [isValid, setIsValid] = useState(null);
   const customerInfo = useSelector((state) => state.customerInfo);
   const submitMailMemberIDCardFormResponse = useSelector(
-    (state) => state.correspondence
+    (state) => state.correspondence,
   );
   const isComponentMounted = useComponentDidMount();
   const [firstName, setFirstName] = useState("");
@@ -130,7 +130,7 @@ const MailMemberIDCardForm = (props) => {
             category: ANALYTICS_TRACK_CATEGORY.memberIdCard,
             type: ANALYTICS_TRACK_TYPE.eventSuccess,
             targetMemberId: props.member.memberId,
-          }
+          },
         );
       }
     }
@@ -148,8 +148,8 @@ const MailMemberIDCardForm = (props) => {
             verifyAddress.address.city,
             verifyAddress.address.state,
             verifyAddress.address.zip,
-            "suggested"
-          )
+            "suggested",
+          ),
         );
         setStep("Suggested");
       } else {
@@ -166,7 +166,7 @@ const MailMemberIDCardForm = (props) => {
         return;
       } else if (
         ["Alternate", "Responsible Party"].some(
-          (type) => type === addressVal.addressType
+          (type) => type === addressVal.addressType,
         )
       ) {
         setAddressOnFile(addressVal);
@@ -235,7 +235,7 @@ const MailMemberIDCardForm = (props) => {
     city,
     state,
     zip,
-    sourceType
+    sourceType,
   ) => {
     let address = {
       firstName: firstName,
@@ -287,7 +287,7 @@ const MailMemberIDCardForm = (props) => {
       if (digitalSurveyWidget)
         triggerDigitalSurveyByEventName(
           digitalSurveyWidget,
-          DIGITAL_SURVEY_EVENTS.MAIL_ID_CARD
+          DIGITAL_SURVEY_EVENTS.MAIL_ID_CARD,
         );
     }, 3000);
   };
@@ -316,7 +316,7 @@ const MailMemberIDCardForm = (props) => {
       };
 
       let filteredFormData = Object.fromEntries(
-        Object.entries(formData).filter(([_, v]) => v != null)
+        Object.entries(formData).filter(([_, v]) => v != null),
       );
       dispatch(requestSubmitMailMemberIDCardForm(filteredFormData));
     } else {
@@ -339,7 +339,7 @@ const MailMemberIDCardForm = (props) => {
       };
 
       let filteredFormData = Object.fromEntries(
-        Object.entries(formData).filter(([_, v]) => v != null)
+        Object.entries(formData).filter(([_, v]) => v != null),
       );
       dispatch(requestSubmitMailMemberIDCardForm(filteredFormData));
     }
@@ -405,8 +405,8 @@ const MailMemberIDCardForm = (props) => {
           city,
           stateCd.code,
           zipCode,
-          "userInput"
-        )
+          "userInput",
+        ),
       );
       dispatch(
         requestVerifyAddress(
@@ -414,8 +414,8 @@ const MailMemberIDCardForm = (props) => {
           streetAddressTwo,
           city,
           stateCd.code,
-          zipCode
-        )
+          zipCode,
+        ),
       );
     } else {
       //goToFirstStep();
@@ -649,7 +649,7 @@ const MailMemberIDCardForm = (props) => {
                                   value: "center",
                                 },
                               },
-                            }
+                            },
                           );
                         }}
                       >
@@ -700,9 +700,9 @@ const MailMemberIDCardForm = (props) => {
                       radioSelectAddressError
                         ? "error"
                         : selectedAddress &&
-                          selectedAddress.sourceType === address.sourceType
-                        ? "selected"
-                        : ""
+                            selectedAddress.sourceType === address.sourceType
+                          ? "selected"
+                          : ""
                     }
                   >
                     <RadioButtonContainer>
@@ -778,7 +778,7 @@ const MailMemberIDCardForm = (props) => {
                             value: "center",
                           },
                         },
-                      }
+                      },
                     );
                   }}
                 >

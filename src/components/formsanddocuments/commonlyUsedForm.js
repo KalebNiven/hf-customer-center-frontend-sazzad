@@ -101,7 +101,7 @@ const Container = styled.div`
     margin-top: 16px;
     margin-right: 0;
     max-width: 100%;
-  } ;
+  }
 `;
 
 const Image = styled.img`

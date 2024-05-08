@@ -276,7 +276,7 @@ const SignaturePPOPage = () => {
                     "link",
                     "center",
                     customerInfo,
-                    "otc"
+                    "otc",
                   )
                 }
                 target="_blank"

@@ -80,7 +80,7 @@ const FormsAndDocuments = ({ selectedMemberId }) => {
             value: "right",
           },
         },
-      }
+      },
     );
 
     window.open(doc, "_blank");

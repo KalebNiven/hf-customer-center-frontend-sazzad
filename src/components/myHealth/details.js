@@ -145,7 +145,7 @@ const Details = ({ historyState }) => {
                         href={`tel:${details.phone}`}
                         onclick={handleSegmentBtn(
                           "Phone Number",
-                          details.phone
+                          details.phone,
                         )}
                       >
                         {details.phone}
@@ -200,7 +200,7 @@ const Details = ({ historyState }) => {
                             <DayHrs>
                               {parseDayTime(
                                 details.workDays,
-                                daysOfWeek[value]
+                                daysOfWeek[value],
                               )}{" "}
                             </DayHrs>
                           </Day>

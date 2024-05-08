@@ -26,7 +26,7 @@ const HealthResources = ({ customerInfo }) => {
     if (
       isValidCompanyCode(
         customerInfo.companyCode,
-        HRA_RESOURCES_COMPANY_CODES
+        HRA_RESOURCES_COMPANY_CODES,
       ) &&
       !membersCompanyCodes.includes(customerInfo.companyCode)
     ) {
@@ -40,14 +40,14 @@ const HealthResources = ({ customerInfo }) => {
 
     // filter out invalid members
     let filteredDependents = customerInfo.dependents?.filter((dep) =>
-      isValidCompanyCode(dep.companyCode, HRA_RESOURCES_COMPANY_CODES)
+      isValidCompanyCode(dep.companyCode, HRA_RESOURCES_COMPANY_CODES),
     );
     let depMemebrIdsList = filteredDependents?.map((dep) => dep.memberId);
 
     // create list of avalable companyCodes
     let membersCompanyCodes = generateUniqueCompanyCodes(
       filteredDependents,
-      customerInfo
+      customerInfo,
     );
     setCurrentCompanyCodes([...membersCompanyCodes]);
 
@@ -188,7 +188,7 @@ const HealthResources = ({ customerInfo }) => {
 
     const memberIds = [];
     Object.entries(surveyLocalStatuses).forEach(
-      ([key, value]) => value === "COMPLETE" && memberIds.push(key)
+      ([key, value]) => value === "COMPLETE" && memberIds.push(key),
     );
 
     getMemberAnswers(memberIds).then((membersAnswers) => {

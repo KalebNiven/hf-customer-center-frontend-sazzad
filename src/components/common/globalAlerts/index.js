@@ -66,7 +66,7 @@ const GlobalAlerts = ({ alertsList }) => {
                 <BannerText textColor={styles.textColor}>
                   {alert_message}
                   {alert_links.map((link) =>
-                    generateLinkComponent(link, styles)
+                    generateLinkComponent(link, styles),
                   )}
                 </BannerText>
               </BannerContent>

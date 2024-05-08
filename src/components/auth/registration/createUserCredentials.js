@@ -64,16 +64,16 @@ const CreateUserCredentials = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const createUsernamePassword = useSelector(
-    (state) => state.createUsernamePassword
+    (state) => state.createUsernamePassword,
   );
 
   const validationRequired = useSelector(
-    (state) => state.memberRegister.data.validationRequired
+    (state) => state.memberRegister.data.validationRequired,
   );
 
   // const registrationOnlyValue = useQuery().get("registrationOnly")
   const [registrationOnlyValue, setregistrationOnlyValue] = useState(
-    useQuery().get("registrationOnly")
+    useQuery().get("registrationOnly"),
   );
 
   useEffect(() => {
@@ -192,7 +192,7 @@ const CreateUserCredentials = (props) => {
           "button",
           "bottom",
           "",
-          "registration"
+          "registration",
         );
         dispatch(requestCreateUserNamePassword(data, mfaVerifiedToken));
         setIsContinue(true);
@@ -477,7 +477,7 @@ const CustomFormWrapper = styled(FormButtonWrapper)`
   margin-top: 118px;
   @media only screen and (max-width: 768px) {
     margin-top: 90px;
-  } ;
+  }
 `;
 
 const CustomHeader = styled(Header)`

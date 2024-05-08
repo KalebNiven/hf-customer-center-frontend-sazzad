@@ -47,7 +47,7 @@ const FindCareSearch = (props) => {
         pcpId: pcpHousehold?.data?.dependents[dep?.memberId] ?? null,
         disablePcpUpdate: dep.Status === "active" ? false : true,
         membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format(
-          "MM-DD-YYYY"
+          "MM-DD-YYYY",
         ),
       };
     }) || [];
@@ -65,7 +65,7 @@ const FindCareSearch = (props) => {
         pcpId: pcpHousehold?.data?.hohPlans[plan?.MemberId]?.id ?? null,
         disablePcpUpdate: plan.MembershipStatus === "active" ? false : true,
         membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format(
-          "MM-DD-YYYY"
+          "MM-DD-YYYY",
         ),
       };
     }) || [];

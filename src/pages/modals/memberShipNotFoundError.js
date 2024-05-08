@@ -97,7 +97,7 @@ const FormModalWrapper = styled(ModalWrapper)`
   transition: opacity 300ms ease-in-out;
   background: #f4f4f4;
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 4px; ;
+  border-radius: 4px;
 `;
 const ModalInnerWrapperCustom = styled(ModalInnerWrapper)`
   background: white;

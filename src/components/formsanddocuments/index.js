@@ -70,7 +70,7 @@ const FormsAndDocuments = (props) => {
   const setTab = () => {
     const plansAndDocumentTreatment = splitHookClient.getTreatmentWithConfig(
       SHOW_FORMS_AND_DOCS,
-      splitAttributes
+      splitAttributes,
     );
 
     if (
@@ -86,10 +86,10 @@ const FormsAndDocuments = (props) => {
     customerId: customerInfo?.data?.customerId,
     lob: customerInfo?.data?.sessLobCode,
     companyCode: customerInfo?.data?.hohPlans?.map(
-      (plan) => plan?.CompanyNumber
+      (plan) => plan?.CompanyNumber,
     ),
     benefitPackage: customerInfo?.data?.hohPlans?.map(
-      (plan) => plan?.BenefitPackage
+      (plan) => plan?.BenefitPackage,
     ),
     membershipStatus: customerInfo?.data?.membershipStatus,
     accountStatus: customerInfo?.data?.accountStatus,
@@ -278,7 +278,7 @@ const DocsList = (props) => {
   const [isOpen, setIsOpen] = useState();
   const [RowName, setRowName] = useState();
   const [downloadImage, setDownloadImage] = useState(
-    "/react/images/download_pdf.svg"
+    "/react/images/download_pdf.svg",
   );
 
   const languageModelRef = useRef(null);
@@ -335,7 +335,7 @@ const DocsList = (props) => {
       "link",
       "bottom",
       "",
-      "formsAndDocument"
+      "formsAndDocument",
     );
     setRowName();
     window.open(documentUrl);

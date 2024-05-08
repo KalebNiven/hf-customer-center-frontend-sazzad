@@ -10,7 +10,7 @@ const DIGITAL_SURVEY_EVENTS = {
 
 export const SurveyContextProvider = ({ children }) => {
   const [surveyScript, setSurveyScript] = useState(
-    document.getElementById(HRA_WIDGET_SCRIPT_ID)
+    document.getElementById(HRA_WIDGET_SCRIPT_ID),
   );
   const [digitalSurveyWidget, setDigitalSurveyWidget] = useState(null);
 

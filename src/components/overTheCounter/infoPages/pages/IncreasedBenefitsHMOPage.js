@@ -296,7 +296,7 @@ const IncreasedBenefitsHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc"
+                "otc",
               )
             }
           >
@@ -328,7 +328,7 @@ const IncreasedBenefitsHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc"
+                "otc",
               )
             }
           >
@@ -358,7 +358,7 @@ const IncreasedBenefitsHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc"
+                "otc",
               )
             }
           >
@@ -588,7 +588,7 @@ const IncreasedBenefitsHMOPage = () => {
                     "Button",
                     "/learn-more",
                     customerInfo,
-                    "otc"
+                    "otc",
                   )
                 }
                 href={evidenceOfCoverageURL.IncreasedBenefits.url}

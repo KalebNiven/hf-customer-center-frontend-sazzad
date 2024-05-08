@@ -90,7 +90,7 @@ function NowPowSection() {
             value: "bottom center",
           },
         },
-      }
+      },
     );
 
     if (!enteredZip || enteredZip.length !== 5)

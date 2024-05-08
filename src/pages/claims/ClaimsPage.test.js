@@ -25,7 +25,7 @@ describe("ClaimsPage", () => {
             <ClaimsPage ignoreSplit={true} />
           </Provider>
         </SurveyContextProvider>
-      </AppContextProvider>
+      </AppContextProvider>,
     );
 
     expect(asFragment()).toMatchSnapshot();

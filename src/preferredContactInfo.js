@@ -41,10 +41,10 @@ const PreferredContactInfo = (props) => {
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const isComponentMounted = useComponentDidMount();
   const preferenceCenterInfo = useSelector(
-    (state) => state.preferenceCenterInfo
+    (state) => state.preferenceCenterInfo,
   );
   const submitPreferredContactInfoResponse = useSelector(
-    (state) => state.preferredContactInfoSubmit
+    (state) => state.preferredContactInfoSubmit,
   );
   const [step, setStep] = useState(contactType);
   const [selectedPhone, setSelectedPhone] = useState(null);
@@ -97,7 +97,7 @@ const PreferredContactInfo = (props) => {
         } else {
           phone = `(${phone.substring(0, 3)}) ${phone.substring(
             3,
-            6
+            6,
           )} - ${phone.substring(6, 10)}`;
         }
 
@@ -181,8 +181,8 @@ const PreferredContactInfo = (props) => {
         email: (selectedEmail?.email
           ? selectedEmail.email
           : preferenceCenterInfo?.data?.email?.pm !== undefined
-          ? preferenceCenterInfo.data.email.pm
-          : ""
+            ? preferenceCenterInfo.data.email.pm
+            : ""
         ).toUpperCase(),
         emailOptIn: true,
         shouldUpdatePhoneInOkta: selectedPhone?.number ? true : false,
@@ -190,9 +190,9 @@ const PreferredContactInfo = (props) => {
           selectedPhone?.number
             ? selectedPhone.number
             : preferenceCenterInfo?.data?.phones?.pm_primary !== undefined
-            ? preferenceCenterInfo.data.phones.pm_primary
-            : "",
-          1
+              ? preferenceCenterInfo.data.phones.pm_primary
+              : "",
+          1,
         ),
         primaryPhoneType: selectedPhone?.type ? selectedPhone.type : "mobile",
         primaryPhoneCallOptIn: true,
@@ -201,7 +201,7 @@ const PreferredContactInfo = (props) => {
           preferenceCenterInfo?.data?.phones?.pm_secondary !== undefined
             ? preferenceCenterInfo.data.phones.pm_secondary
             : "",
-          1
+          1,
         ),
         secondaryPhoneType:
           preferenceCenterInfo?.data?.phones?.pm_secondary_type !== undefined &&
@@ -213,7 +213,7 @@ const PreferredContactInfo = (props) => {
       };
 
       let filteredFormData = Object.fromEntries(
-        Object.entries(formData).filter(([_, v]) => v != null)
+        Object.entries(formData).filter(([_, v]) => v != null),
       );
       submitForm(filteredFormData);
     }
@@ -331,9 +331,9 @@ const PreferredContactInfo = (props) => {
                         selectContactError
                           ? "error"
                           : selectedPhone &&
-                            selectedPhone.number === contact.number
-                          ? "selected"
-                          : ""
+                              selectedPhone.number === contact.number
+                            ? "selected"
+                            : ""
                       }
                     >
                       <RadioButtonContainer>
@@ -431,9 +431,9 @@ const PreferredContactInfo = (props) => {
                         selectContactError
                           ? "error"
                           : selectedEmail &&
-                            selectedEmail.email === contact.email
-                          ? "selected"
-                          : ""
+                              selectedEmail.email === contact.email
+                            ? "selected"
+                            : ""
                       }
                     >
                       <RadioButtonContainer>

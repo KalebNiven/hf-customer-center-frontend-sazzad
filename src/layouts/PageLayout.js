@@ -21,7 +21,7 @@ const PageLayout = ({ children, splitFeatureName, ignoreSplit }) => {
     customerInfoData.companyCode.map((value, index) => {
       let enableTreatment = splitHookClient.getTreatmentWithConfig(
         splitFeatureName,
-        getSplitAttributesForHOHPlan(customerInfoData, index)
+        getSplitAttributesForHOHPlan(customerInfoData, index),
       );
       enableTreatment.treatment === "on"
         ? setDenyPermission(false)

@@ -66,7 +66,7 @@ const AuthenticatedUserWrapper = ({ children }) => {
   } = customerInfo.data;
   const { alertsList } = useSelector((state) => state.globalAlerts);
   const preferenceCenterInfo = useSelector(
-    (state) => state.preferenceCenterInfo
+    (state) => state.preferenceCenterInfo,
   );
   const [isLoading, setIsLoading] = useState(true);
   const endpointsStrippedOfWrapper = [
@@ -126,12 +126,12 @@ const AuthenticatedUserWrapper = ({ children }) => {
   }, [preferenceCenterInfo?.data]);
 
   const { isRedirecting } = useRedirect(sessionStorage.getItem("from"), () =>
-    sessionStorage.removeItem("from")
+    sessionStorage.removeItem("from"),
   ); // Redirect After Login (if user requested a specific URL before he was authenticated).
 
   useEffect(() => {
     const visitedPrefCenterSync = sessionStorage.getItem(
-      "visitedPrefCenterSync"
+      "visitedPrefCenterSync",
     );
     if (
       !isRedirecting &&
@@ -177,7 +177,7 @@ const AuthenticatedUserWrapper = ({ children }) => {
                               id_token &&
                               nonce &&
                               !endpointsStrippedOfWrapper.includes(
-                                location.pathname
+                                location.pathname,
                               ) && (
                                 <ChatWidget
                                   memberId={memberId}
@@ -188,7 +188,7 @@ const AuthenticatedUserWrapper = ({ children }) => {
                               )}
                             {alertsList?.length > 0 &&
                               !endpointsStrippedOfWrapper.includes(
-                                location.pathname
+                                location.pathname,
                               ) && <GlobalAlerts alertsList={alertsList} />}
                             <CoachMarksContextProvider>
                               <HealthResourcesContextProvider>
@@ -197,7 +197,7 @@ const AuthenticatedUserWrapper = ({ children }) => {
                                     <MemberSelectionModal />
                                     <ToastProvider>
                                       {!endpointsStrippedOfWrapper.includes(
-                                        location.pathname
+                                        location.pathname,
                                       ) ? (
                                         <>
                                           <AppBar />
@@ -237,9 +237,8 @@ const AuthenticatedUserWrapper = ({ children }) => {
 const Wrapper = ({ children }) => {
   // Maintenance Mode
   const splitHookClient = useClient();
-  const maintenanceFeature = splitHookClient.getTreatmentWithConfig(
-    MAINTENANCE_PAGE
-  );
+  const maintenanceFeature =
+    splitHookClient.getTreatmentWithConfig(MAINTENANCE_PAGE);
   if (maintenanceFeature?.treatment === "on") return <Maintenance />;
   return children;
 };

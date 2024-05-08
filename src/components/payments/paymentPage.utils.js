@@ -20,7 +20,7 @@ export const purgePaymentsSessionData = () =>
 // removes all that was appended to the head elem while payments app was loaded
 export const removeAllPaymentsResources = () => {
   const tagsToRemove = Array.from(
-    document.getElementsByClassName("hf--payments--bundle")
+    document.getElementsByClassName("hf--payments--bundle"),
   );
   tagsToRemove.forEach((el) => el.remove());
 };
@@ -60,7 +60,7 @@ const getTreatmentsFromSplit = (splitAttrs, splitClient) => {
       result[key] = splitConfig.treatment === "on";
       return result;
     },
-    {}
+    {},
   );
   // console.log('getTreatments for account', splitAttrs.accountId, ':', treatmentsForThisAccount);
   return treatmentsForThisAccount;
@@ -73,13 +73,13 @@ const isAccountEnabled = (accountTreatments) =>
 // returns accounts enabled on split and corresponding accountIds
 export const getEnabledAccountsAndTreatments = (
   allAccountsAtributes,
-  splitClient
+  splitClient,
 ) => {
   // remove repeated account in favor of HoH plan
   const filteredAtributes = [];
   for (const cur of allAccountsAtributes) {
     const HoHIndex = filteredAtributes.findIndex(
-      (acct) => acct.memberId === cur.memberId
+      (acct) => acct.memberId === cur.memberId,
     );
     if (HoHIndex > -1) filteredAtributes.splice(HoHIndex, 1, cur);
     else filteredAtributes.push(cur);

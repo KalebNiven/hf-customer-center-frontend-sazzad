@@ -64,10 +64,10 @@ const LoginSecurity = () => {
   const dispatch = useDispatch();
   const settingsData = useSelector((state) => state.settingsReducer);
   const loadingUsername = useSelector(
-    (state) => state.settingsReducer.loadingUsername
+    (state) => state.settingsReducer.loadingUsername,
   );
   const loadingPassword = useSelector(
-    (state) => state.settingsReducer.loadingPassword
+    (state) => state.settingsReducer.loadingPassword,
   );
   const customerInfo = useSelector((state) => state.customerInfo);
 
@@ -129,7 +129,7 @@ const LoginSecurity = () => {
     if (userNameValidation()) {
       toggleEditUserName();
       dispatch(
-        requestChangeUsername({ username: userName }, customerInfo?.data?.csrf)
+        requestChangeUsername({ username: userName }, customerInfo?.data?.csrf),
       );
       setUserName("");
     } else {
@@ -184,8 +184,8 @@ const LoginSecurity = () => {
           password: newPassword,
           password_confirmation: confirmPassword,
         },
-        customerInfo?.data?.csrf
-      )
+        customerInfo?.data?.csrf,
+      ),
     );
     setCurrentPassword("");
     setNewPassword("");

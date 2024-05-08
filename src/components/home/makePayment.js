@@ -22,7 +22,7 @@ const MakePayment = () => {
       "button",
       "bottom",
       customerInfoData,
-      "payment"
+      "payment",
     );
     history.push("/payments");
   };

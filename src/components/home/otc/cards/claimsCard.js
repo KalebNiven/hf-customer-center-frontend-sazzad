@@ -124,7 +124,7 @@ const ClaimsCard = ({ isVisible }) => {
   const dispatch = useDispatch();
   const customerInfo = useSelector((state) => state.customerInfo);
   const otcClaimReimbursementData = useSelector(
-    (state) => state.otcCard.reimbursementForm.data
+    (state) => state.otcCard.reimbursementForm.data,
   );
   const [isDownloadClick, setIsDownloadClick] = useState(false);
   const cardType = generateCardType(customerInfo?.data.hohPlans);
@@ -139,7 +139,7 @@ const ClaimsCard = ({ isVisible }) => {
         isDownloadClick
       ) {
         externalWindow.location = JSON.parse(
-          JSON.stringify(otcClaimReimbursementData)
+          JSON.stringify(otcClaimReimbursementData),
         )?.[customerInfo.data?.language];
       }
     } catch (e) {

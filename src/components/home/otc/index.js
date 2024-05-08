@@ -182,7 +182,7 @@ const OTC = () => {
               planCode: customerInfo.data.planCode,
               companyCode: customerInfo.data.companyCode,
               benefitPackage: customerInfo.data.hohPlans?.map(
-                (plan) => plan.BenefitPackage
+                (plan) => plan.BenefitPackage,
               ),
               membershipStatus: customerInfo.data.membershipStatus,
             }}
@@ -215,7 +215,7 @@ const OTC = () => {
                 planCode: customerInfo.data.planCode,
                 companyCode: customerInfo.data.companyCode,
                 benefitPackage: customerInfo.data.hohPlans?.map(
-                  (plan) => plan.BenefitPackage
+                  (plan) => plan.BenefitPackage,
                 ),
                 membershipStatus: customerInfo.data.membershipStatus,
                 otcStatusCode: String(otcProfile?.data?.statusId), // String!

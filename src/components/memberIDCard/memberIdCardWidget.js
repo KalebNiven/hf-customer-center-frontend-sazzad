@@ -18,7 +18,7 @@ const MemberIdCardWidget = () => {
   const updatedJwt =
     jwt_token === undefined ? jwt_token : jwt_token.replace("Bearer ", "");
   const [existingScript, setExistingScript] = useState(
-    document.getElementById(MEMBER_ID_CARD_WIDGET_SCRIPT_ID)
+    document.getElementById(MEMBER_ID_CARD_WIDGET_SCRIPT_ID),
   );
   const { externalSiteModal, setExternalSiteModal } = useAppContext();
   const { logError } = useLogError();
@@ -87,7 +87,7 @@ const MemberIdCardWidget = () => {
             window.IDCardWidget.mount(mountProps);
             sessionStorage.setItem("longLoad", false);
             setExistingScript(
-              document.getElementById(MEMBER_ID_CARD_WIDGET_SCRIPT_ID)
+              document.getElementById(MEMBER_ID_CARD_WIDGET_SCRIPT_ID),
             );
           } catch (error) {
             (async () => {
@@ -98,7 +98,7 @@ const MemberIdCardWidget = () => {
               }
             })();
           }
-        }
+        },
       );
     }
     return () => {

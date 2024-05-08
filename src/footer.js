@@ -53,7 +53,7 @@ const Footer = () => {
               onClick={() =>
                 handleSegmentBtn(
                   "Contact Us",
-                  "https://healthfirst.org/contact"
+                  "https://healthfirst.org/contact",
                 )
               }
               href="https://healthfirst.org/contact"
@@ -65,7 +65,7 @@ const Footer = () => {
               onClick={() =>
                 handleSegmentBtn(
                   "Web Privacy Statement",
-                  MIX_REACT_APP_FOOTER_WEB_PRIVACY
+                  MIX_REACT_APP_FOOTER_WEB_PRIVACY,
                 )
               }
               href={MIX_REACT_APP_FOOTER_WEB_PRIVACY}
@@ -77,7 +77,7 @@ const Footer = () => {
               onClick={() =>
                 handleSegmentBtn(
                   "New York Privacy Notice",
-                  MIX_REACT_APP_FOOTER_NY_PRIVACY
+                  MIX_REACT_APP_FOOTER_NY_PRIVACY,
                 )
               }
               href={MIX_REACT_APP_FOOTER_NY_PRIVACY}
@@ -89,7 +89,7 @@ const Footer = () => {
               onClick={() =>
                 handleSegmentBtn(
                   "HIPAA Privacy Notices",
-                  MIX_REACT_APP_FOOTER_HIPAA
+                  MIX_REACT_APP_FOOTER_HIPAA,
                 )
               }
               href={MIX_REACT_APP_FOOTER_HIPAA}
@@ -114,7 +114,7 @@ const Left = styled.div`
   width: 825px;
   @media only screen and (max-width: 960px) {
     width: 100%;
-  } ;
+  }
 `;
 const Right = styled.div`
   width: 175px;
@@ -122,7 +122,7 @@ const Right = styled.div`
   @media only screen and (max-width: 960px) {
     text-align: left;
     width: 100%;
-  } ;
+  }
 `;
 const FooterContainer = styled.div`
   display: flex;
@@ -140,7 +140,7 @@ const FooterContainer = styled.div`
     display: contents;
     margin: 0 16px;
     width: calc(100% - 32px);
-  } ;
+  }
 `;
 
 const FooterTxt = styled.a`

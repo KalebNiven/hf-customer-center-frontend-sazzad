@@ -34,7 +34,7 @@ const Card = styled.div`
   @media only screen and (max-width: 667px) {
     margin: 86px auto;
     width: 328px;
-  } ;
+  }
 `;
 
 const AlertIcon = styled.img`

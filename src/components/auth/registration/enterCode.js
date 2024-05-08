@@ -96,7 +96,7 @@ const EnterCode = (props) => {
         "button",
         "bottom",
         "",
-        "registration"
+        "registration",
       );
       if (selection === SEND_TO_EMAIL) {
         let data = {
@@ -122,7 +122,7 @@ const EnterCode = (props) => {
         "link",
         "center",
         "",
-        "registration"
+        "registration",
       );
       setSelection("email");
       setData(mfaFactors.data?.channels[0].displayInfo);
@@ -140,7 +140,7 @@ const EnterCode = (props) => {
         "link",
         "center",
         "",
-        "registration"
+        "registration",
       );
       setData(mfaFactors.data?.channels[1].displayInfo);
       if (!blockSelection) {
@@ -162,7 +162,7 @@ const EnterCode = (props) => {
         "link",
         "center",
         "",
-        "registration"
+        "registration",
       );
       setSendCodeClickEnable(false);
       setVariant(false);

@@ -57,7 +57,7 @@ import {
 const ContactInformation = () => {
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const submitContactInfoPayload = useSelector(
-    (state) => state.submitContactInfoPayload
+    (state) => state.submitContactInfoPayload,
   );
   const [loadingSpinner, setLoadingSpinner] = useState(false);
   const [loadingSpinnerSave, setLoadingSpinnerSave] = useState(false);
@@ -90,7 +90,7 @@ const ContactInformation = () => {
   });
   const [resendCodeState, setResendCodeState] = useState(false);
   const [resendVerificationCodeRes, setResendVerificationCodeRes] = useState(
-    {}
+    {},
   );
   const [postVerifyError, setPostVerifyError] = useState({
     error: false,
@@ -105,12 +105,8 @@ const ContactInformation = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    const {
-      loading,
-      error,
-      submitEmailDetails,
-      submitPhoneDetails,
-    } = submitContactInfoPayload;
+    const { loading, error, submitEmailDetails, submitPhoneDetails } =
+      submitContactInfoPayload;
     setLoadingSpinnerSave(loading);
     if (
       !loading &&
@@ -161,11 +157,11 @@ const ContactInformation = () => {
       setEmailError("An email address is required");
     } else if (emailAddress === customerInfo?.email && !emailAddressVerifying) {
       setEmailError(
-        "The email address is the same as the existing one. Please try again."
+        "The email address is the same as the existing one. Please try again.",
       );
     } else if (
       !/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
-        emailAddress
+        emailAddress,
       )
     ) {
       setEmailError("Please use the proper email format");
@@ -423,7 +419,7 @@ const ContactInformation = () => {
             unmountMe={() => {
               window.localStorage.setItem(
                 "contactInfoNavIndex",
-                JSON.stringify("1")
+                JSON.stringify("1"),
               );
               setToastOpen(false);
               setToastState("");
@@ -625,7 +621,7 @@ const ContactInformation = () => {
                     error: "",
                   });
                   setPhoneNumberHashed(
-                    getHashedPhoneNum(customerInfo?.mobilePhone)
+                    getHashedPhoneNum(customerInfo?.mobilePhone),
                   );
                 }}
                 variant="secondary"
@@ -705,7 +701,7 @@ const ContactInformation = () => {
                   setEmailAddressEditing(false);
                   setPhoneEditing(!phoneEditing);
                   setPhoneNumberHashed(
-                    getHashedPhoneNum(customerInfo?.mobilePhone)
+                    getHashedPhoneNum(customerInfo?.mobilePhone),
                   );
                   setPhoneNumber({
                     ...phoneNumberCopy,
@@ -858,7 +854,7 @@ const EmailReadFlex = styled.div`
   margin-top: 24px;
   @media only screen and (max-width: 600px) {
     flex-wrap: wrap;
-  } ;
+  }
 `;
 const PhoneReadFlex = styled.div`
   display: flex;
@@ -869,7 +865,7 @@ const PhoneReadFlex = styled.div`
   justify-content: flex-start;
   @media only screen and (max-width: 600px) {
     flex-wrap: wrap;
-  } ;
+  }
 `;
 const UserNameAutoWidth = styled(UserName)`
   margin-top: 0px;
@@ -879,7 +875,7 @@ const UserNameCustom = styled(UserName)`
   margin-top: 8px;
   @media only screen and (max-width: 600px) {
     align-self: flex-start;
-  } ;
+  }
 `;
 const PhoneUserNameCustom = styled(UserNameCustom)`
   margin-top: 8px;
@@ -887,7 +883,7 @@ const PhoneUserNameCustom = styled(UserNameCustom)`
   @media only screen and (max-width: 600px) {
     align-self: flex-start;
     padding-bottom: 0px;
-  } ;
+  }
 `;
 const PhoneReadFlexCol = styled.div`
   display: flex;
@@ -898,7 +894,7 @@ const PhoneReadFlexCol = styled.div`
   align-self: flex-end;
   @media only screen and (max-width: 600px) {
     margin-bottom: 10px;
-  } ;
+  }
 `;
 const PhoneReadFlexFirstCol = styled(PhoneReadFlexCol)`
   width: 185px;
@@ -907,7 +903,7 @@ const PhoneReadFlexFirstCol = styled(PhoneReadFlexCol)`
   align-self: center;
   @media only screen and (max-width: 600px) {
     width: 75%;
-  } ;
+  }
 `;
 const EmailReadFlexColVerify = styled(PhoneReadFlexCol)`
   justify-content: space-around;
@@ -920,7 +916,7 @@ const EmailReadFlexColVerify = styled(PhoneReadFlexCol)`
   @media only screen and (max-width: 600px) {
     order: 3;
     margin: 0 10px 0 0;
-  } ;
+  }
 `;
 const PhoneReadFlexColVerify = styled(PhoneReadFlexCol)`
   justify-content: space-around;
@@ -929,7 +925,7 @@ const PhoneReadFlexColVerify = styled(PhoneReadFlexCol)`
   @media only screen and (max-width: 600px) {
     order: 3;
     margin: 0 10px 0 0;
-  } ;
+  }
 `;
 const FlexColUnverified = styled(PhoneReadFlexCol)`
   justify-content: space-around;
@@ -942,7 +938,7 @@ const FlexColUnverified = styled(PhoneReadFlexCol)`
   @media only screen and (max-width: 600px) {
     order: 4;
     margin: 0;
-  } ;
+  }
 `;
 const PhoneFlexColUnverified = styled(PhoneReadFlexCol)`
   justify-content: space-around;
@@ -955,26 +951,26 @@ const PhoneFlexColUnverified = styled(PhoneReadFlexCol)`
   @media only screen and (max-width: 600px) {
     order: 4;
     margin: 0;
-  } ;
+  }
 `;
 const RowBlockCustom = styled(RowBlock)`
   @media only screen and (max-width: 600px) {
     flex-direction: row;
-  } ;
+  }
 `;
 const RowBlockVerify = styled(RowBlockCustom)`
   align-items: end;
   padding-bottom: 1px;
   @media only screen and (max-width: 600px) {
     padding-bottom: 0px;
-  } ;
+  }
 `;
 const PhoneRowBlockVerify = styled(RowBlockVerify)`
   padding-bottom: 9px;
   @media only screen and (max-width: 600px) {
     padding-bottom: ${(phoneStatus) => (phoneStatus ? "9px" : "0px")};
     width: 90px;
-  } ;
+  }
 `;
 const ColBlockPhoneType = styled(RowBlock)`
   flex-direction: column;
@@ -982,7 +978,7 @@ const ColBlockPhoneType = styled(RowBlock)`
   margin-right: 16px;
   @media only screen and (max-width: 600px) {
     margin-right: 0px;
-  } ;
+  }
 `;
 
 const ColBlockPhoneNumber = styled(RowBlock)`
@@ -1006,7 +1002,7 @@ const SubTitle = styled(Title)`
   padding-bottom: 20px;
   @media only screen and (max-width: 600px) {
     align-self: flex-start;
-  } ;
+  }
 `;
 const LinkText = styled.span`
   color: ${({ resendCodeState }) => (resendCodeState ? "#3788bc" : "gray")};
@@ -1029,7 +1025,7 @@ const Tip = styled(Text)`
     emailErrorCheck ? "#ad122a" : "rgba(0, 0, 0, 0.6)"};
   @media only screen and (max-width: 768px) {
     padding-bottom: 12px;
-  } ;
+  }
 `;
 const FormModalWrapper = styled(ModalWrapper)`
   transition: opacity 300ms ease-in-out;
@@ -1065,7 +1061,7 @@ const Spacer = styled.div`
   width: 20px;
   @media only screen and (max-width: 768px) {
     display: none;
-  } ;
+  }
 `;
 const SubHeaderCustom = styled(SubHeader)`
   font-size: 16px;

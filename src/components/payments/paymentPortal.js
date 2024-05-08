@@ -14,7 +14,7 @@ const PaymentPortal = () => {
   const { paymentsModalState } = usePaymentsModalContext();
 
   const localStorageOKTA = JSON.parse(
-    localStorage.getItem("okta-token-storage")
+    localStorage.getItem("okta-token-storage"),
   );
   const accessToken = localStorageOKTA.accessToken.accessToken;
   const idToken = localStorageOKTA.idToken.idToken;

@@ -113,8 +113,8 @@ const YearToDatePage = () => {
                       ? "$" +
                         numberWithCommas(
                           parseFloat(
-                            currentOOP.oop[item.title].maximumamount
-                          ).toFixed(2)
+                            currentOOP.oop[item.title].maximumamount,
+                          ).toFixed(2),
                         )
                       : "Not Available"}
                   </Amount>
@@ -126,8 +126,8 @@ const YearToDatePage = () => {
                       ? "$" +
                         numberWithCommas(
                           parseFloat(
-                            currentOOP.oop[item.title].currentamount
-                          ).toFixed(2)
+                            currentOOP.oop[item.title].currentamount,
+                          ).toFixed(2),
                         )
                       : "Not Available"}
                   </Amount>

@@ -5,10 +5,8 @@ import AddMembershipModal from "./addMembershipModal";
 import { useHomeContext } from "./homeContext";
 
 const AddMembership = () => {
-  const {
-    showAddMembershipModal,
-    setShowAddMembershipModal,
-  } = useHomeContext();
+  const { showAddMembershipModal, setShowAddMembershipModal } =
+    useHomeContext();
 
   return (
     <>
