@@ -63,7 +63,7 @@ exports[`RegisterPage renders correctly 1`] = `
 .c4 {
   font-size: 14px;
   line-height: 16px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .c4:not(:last-child)::after {
@@ -74,7 +74,7 @@ exports[`RegisterPage renders correctly 1`] = `
 
 .c4 > a {
   font-weight: 700;
-  color: #FFFFFF;
+  color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
@@ -101,7 +101,7 @@ exports[`RegisterPage renders correctly 1`] = `
 .c26 {
   font-size: 14px;
   line-height: 16px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .c26:not(:last-child)::after {
@@ -112,7 +112,7 @@ exports[`RegisterPage renders correctly 1`] = `
 
 .c26 > a {
   font-weight: 700;
-  color: #FFFFFF;
+  color: #ffffff;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
@@ -126,7 +126,7 @@ exports[`RegisterPage renders correctly 1`] = `
   margin-top: 20px;
   font-size: 14px;
   line-height: 16px;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
 }
 
@@ -144,7 +144,7 @@ exports[`RegisterPage renders correctly 1`] = `
   -ms-flex-align: center;
   align-items: center;
   height: 100%;
-  background-image: url('/react/images/auth-background.png');
+  background-image: url("/react/images/auth-background.png");
   background-position: center;
   background-repeat: repeat;
   background-size: contain;
