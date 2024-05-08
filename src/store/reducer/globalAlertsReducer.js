@@ -3,7 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 export const initialState = {
   alertsList: null,
   loading: false,
-  error: ""
+  error: "",
 };
 
 export default function globalAlerts(state = initialState, action) {
@@ -13,26 +13,25 @@ export default function globalAlerts(state = initialState, action) {
         ...state,
         alertsList: null,
         loading: true,
-        error: ""
+        error: "",
       };
     }
     case actionTypes.RECEIVE_GLOBAL_ALERTS: {
       switch (action.payload.status) {
-        case 'ERROR':
-        {
+        case "ERROR": {
           return {
             ...state,
             alertsList: null,
             loading: false,
-            error: action.payload.errorData
+            error: action.payload.errorData,
           };
         }
-        default:{
+        default: {
           return {
             ...state,
             alertsList: [...action.payload.data],
             loading: false,
-            error: ""
+            error: "",
           };
         }
       }
@@ -40,5 +39,4 @@ export default function globalAlerts(state = initialState, action) {
     default:
       return state;
   }
-};
-    
+}

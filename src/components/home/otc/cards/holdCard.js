@@ -1,10 +1,17 @@
-import React from 'react'
-import styled from 'styled-components';
-import { CardHeader, CardBody, CardFooter, Card, FooterActions,TooltipIcon} from './styles.js'
-import { usePopperTooltip } from 'react-popper-tooltip';
-import '../../../../styles/tooltipStyles.css';
-import OTCBenefitsCenterButton from './otcBenefitsCenterButton';
-import LearnMoreButton from './learnMoreButton';
+import React from "react";
+import styled from "styled-components";
+import {
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Card,
+  FooterActions,
+  TooltipIcon,
+} from "./styles.js";
+import { usePopperTooltip } from "react-popper-tooltip";
+import "../../../../styles/tooltipStyles.css";
+import OTCBenefitsCenterButton from "./otcBenefitsCenterButton";
+import LearnMoreButton from "./learnMoreButton";
 
 const HoldCard = ({ handleLearnMore, statusId }) => {
   const {
@@ -13,47 +20,57 @@ const HoldCard = ({ handleLearnMore, statusId }) => {
     setTooltipRef,
     setTriggerRef,
     visible,
-  } = usePopperTooltip({ placement: 'top' });
+  } = usePopperTooltip({ placement: "top" });
 
   const generateTooltipMessage = (statusId) => {
     let message = "";
-    if(statusId === 12) {
-      message = "Your OTC Card has been put on hold upon your request. You can reactivate your card by managing your OTC Benefits Center account. Or you can call Member Services."
+    if (statusId === 12) {
+      message =
+        "Your OTC Card has been put on hold upon your request. You can reactivate your card by managing your OTC Benefits Center account. Or you can call Member Services.";
     }
-    if(statusId === 13) {
-      message = "Your OTC Card has been put on hold. This usually happens due to an error within the system. If the issue is not resolved, please, call Member Services at 1 (888) 260-1010 for assistance."
+    if (statusId === 13) {
+      message =
+        "Your OTC Card has been put on hold. This usually happens due to an error within the system. If the issue is not resolved, please, call Member Services at 1 (888) 260-1010 for assistance.";
     }
     return message;
-  }
+  };
 
   return (
     <Card>
-        <OTCIcon alt = "" src="/react/images/otc-icon.svg" />
-        <CardHeader>
+      <OTCIcon alt="" src="/react/images/otc-icon.svg" />
+      <CardHeader>
         <BalanceTitle>Account Status</BalanceTitle>
-        </CardHeader>
-        <CardBody>
+      </CardHeader>
+      <CardBody>
         <BalanceWrapper>
           <BalanceTitleWrapper>
             <Balance>On Hold</Balance>
           </BalanceTitleWrapper>
-          {visible && <div ref={setTooltipRef} {...getTooltipProps({ className: 'tooltip-container' })}>
-              <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+          {visible && (
+            <div
+              ref={setTooltipRef}
+              {...getTooltipProps({ className: "tooltip-container" })}
+            >
+              <div {...getArrowProps({ className: "tooltip-arrow" })} />
               {generateTooltipMessage(statusId)}
-          </div>}
-            <TooltipIcon ref={setTriggerRef} />
+            </div>
+          )}
+          <TooltipIcon ref={setTriggerRef} />
         </BalanceWrapper>
-        <Paragraph>Please, call Member Services at <b>1 (888) 260-1010</b> to reactivate your card.</Paragraph>
-        </CardBody>
-        <CardFooter>
-          <FooterActions>
-            <LearnMoreButton handleLearnMore={handleLearnMore} />
-            <OTCBenefitsCenterButton />
-          </FooterActions>
-        </CardFooter>
+        <Paragraph>
+          Please, call Member Services at <b>1 (888) 260-1010</b> to reactivate
+          your card.
+        </Paragraph>
+      </CardBody>
+      <CardFooter>
+        <FooterActions>
+          <LearnMoreButton handleLearnMore={handleLearnMore} />
+          <OTCBenefitsCenterButton />
+        </FooterActions>
+      </CardFooter>
     </Card>
-  )
-}
+  );
+};
 
 export const Wrapper = styled.div`
   margin-bottom: 1.5rem;
@@ -78,11 +95,9 @@ export const OTCIcon = styled.img`
   right: 16px;
 `;
 
-export const HeaderLeft = styled.div`
-`;
+export const HeaderLeft = styled.div``;
 
-export const HeaderRight = styled.div`
-`;
+export const HeaderRight = styled.div``;
 
 export const BalanceTitle = styled.h4`
   flex-grow: 0;
@@ -173,7 +188,7 @@ export const ShopOnlineIcon = styled.img`
 export const Paragraph = styled.div`
   font-size: 12px;
   font-weight: 500;
-  margin-bottom:8px;
+  margin-bottom: 8px;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.33;
@@ -187,8 +202,6 @@ export const BalanceWrapper = styled.div`
   display: flex;
 `;
 
-export const BalanceTitleWrapper = styled.div`
-`;
-
+export const BalanceTitleWrapper = styled.div``;
 
 export default HoldCard;

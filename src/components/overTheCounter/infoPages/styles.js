@@ -1,7 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const Wrapper = styled.div`
-`;
+export const Wrapper = styled.div``;
 
 export const HeroContentWrapper = styled.div`
   display: flex;
@@ -14,18 +13,23 @@ export const HeroContentWrapper = styled.div`
 `;
 
 export const Hero = styled.div`
-    padding: 56px 144px;
-    background-image: linear-gradient(to bottom, #003863 0%, rgba(0, 56, 99, 0) 49%), linear-gradient(103deg, #003863 -7%, #008bbf 111%);
+  padding: 56px 144px;
+  background-image: linear-gradient(
+      to bottom,
+      #003863 0%,
+      rgba(0, 56, 99, 0) 49%
+    ),
+    linear-gradient(103deg, #003863 -7%, #008bbf 111%);
 
-    @media only screen and (max-width: 768px) {
-      padding: 40px 86px;
-      padding-bottom: 140px;
-    }
+  @media only screen and (max-width: 768px) {
+    padding: 40px 86px;
+    padding-bottom: 140px;
+  }
 
-    @media only screen and (max-width: 480px) {
-      padding: 40px 16px;
-      padding-bottom: 140px;
-    }
+  @media only screen and (max-width: 480px) {
+    padding: 40px 16px;
+    padding-bottom: 140px;
+  }
 `;
 
 export const HeroLeftSection = styled.div`
@@ -65,7 +69,7 @@ export const HeroDescription = styled.p`
 
 export const HeroRightSection = styled.div`
   width: 480px;
-  
+
   @media only screen and (max-width: 768px) {
     position: absolute;
     width: 100%;
@@ -241,11 +245,12 @@ export const ModalParagraph = styled.p`
   letter-spacing: normal;
   text-align: left;
   color: #474b55;
-  margin: ${props => props.isExtraMargin ? props.isExtraMargin :  "13px 0px"};
+  margin: ${(props) =>
+    props.isExtraMargin ? props.isExtraMargin : "13px 0px"};
 `;
 
 export const Body = styled.div`
-  max-width: 1280px;  
+  max-width: 1280px;
   padding: 56px 144px;
   margin: 0 auto;
 
@@ -254,7 +259,7 @@ export const Body = styled.div`
     margin-top: 140px;
     padding-bottom: 56px;
   }
-  
+
   @media only screen and (max-width: 480px) {
     padding: 0;
     padding-bottom: 56px;
@@ -270,10 +275,10 @@ export const Heading = styled.h2`
   letter-spacing: normal;
   text-align: left;
   color: #003863;
-  margin: ${props => props.margin && props.margin };
+  margin: ${(props) => props.margin && props.margin};
 
   @media only screen and (max-width: 480px) {
-    padding: ${props => props.padding && props.padding };
+    padding: ${(props) => props.padding && props.padding};
   }
 `;
 
@@ -321,7 +326,7 @@ export const StepsToActiveList = styled.div`
 export const StepsToActiveListItem = styled.div`
   position: relative;
   margin-bottom: 40px;
-  margin: ${props => props.margin};
+  margin: ${(props) => props.margin};
 `;
 
 export const StepsToActiveListItemHeading = styled.h3`
@@ -335,7 +340,6 @@ export const StepsToActiveListItemHeading = styled.h3`
   color: #003863;
   margin-bottom: 4px;
 `;
-
 
 export const Paragraph = styled.p`
   font-size: 14px;
@@ -359,7 +363,7 @@ export const StepsToActiveListItemNote = styled.p`
   text-align: left;
   color: #474b55;
   margin-top: 16px;
-  margin: ${props => props.margin && props.margin};
+  margin: ${(props) => props.margin && props.margin};
 `;
 
 export const StepsToActiveListItemActivateButton = styled.div`
@@ -371,7 +375,7 @@ export const StepsToActiveListItemActivateButton = styled.div`
   letter-spacing: normal;
   text-align: left;
   color: #008bbf;
-  cursor: ${props => props.disabled ? "default" : "pointer"};
+  cursor: ${(props) => (props.disabled ? "default" : "pointer")};
   margin: 12px 0 8px 0;
 `;
 
@@ -480,7 +484,7 @@ export const ParticipatingLocationsSubTitle = styled.h2`
   letter-spacing: 1.2px;
   text-align: left;
   color: #a8abac;
-  margin: ${props => props.margin ? props.margin : "24px 0"};
+  margin: ${(props) => (props.margin ? props.margin : "24px 0")};
   text-transform: uppercase;
 `;
 
@@ -547,9 +551,7 @@ export const WaysToSpendCard = styled.div`
   }
 `;
 
-export const WaysToSpendCardIcon = styled.img`
-  
-`;
+export const WaysToSpendCardIcon = styled.img``;
 
 export const WaysToSpendCardTitle = styled.h4`
   font-size: 16px;
@@ -574,7 +576,7 @@ export const WaysToSpendCardDescription = styled.p`
   color: #474b55;
   flex: 1;
   overflow: hidden;
-  margin: ${props => props.margin && props.margin };
+  margin: ${(props) => props.margin && props.margin};
 `;
 
 export const WaysToSpendCardButton = styled.span`
@@ -598,11 +600,10 @@ export const WaysToSpendOutOfPocket = styled.div`
   line-height: 20px;
   letter-spacing: normal;
   text-align: left;
-  color:#474B55;
+  color: #474b55;
 `;
 
 export const LimitationSectionWrapper = styled.div`
-
   @media only screen and (max-width: 480px) {
     padding: 0 20px;
   }
@@ -649,7 +650,7 @@ export const CoverageNoteParagraph = styled.p`
   letter-spacing: normal;
   text-align: left;
   color: #474b55;
-  margin: ${props => props.margin ? props.margin : "10px 0"};
+  margin: ${(props) => (props.margin ? props.margin : "10px 0")};
 `;
 
 export const CoverageNoteHeading = styled.p`
@@ -700,7 +701,7 @@ export const externalLinkStyles = `
   @media only screen and (max-width: 480px) {
     flex: 50%;
   }
-`
+`;
 export const PhoneBold = styled.span`
   white-space: nowrap;
   font-weight: 700;

@@ -1,4 +1,3 @@
-
 import styled, { keyframes } from "styled-components";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 
@@ -16,7 +15,6 @@ const RightHeader = styled.div`
   @media only screen and (max-width: 767px) {
     margin: 25px 16px 0;
   }
-
 `;
 
 const SubHeader = styled.div`
@@ -130,18 +128,33 @@ const Label = styled.div`
   letter-spacing: normal;
   text-align: left;
   color: #474b55;
-  margin: ${(props) => props.space ? '28px 0 4px' : '16px 0 4px'};
+  margin: ${(props) => (props.space ? "28px 0 4px" : "16px 0 4px")};
 `;
 
 const TextBox = styled.div`
-  display:flex;
+  display: flex;
   padding: 8px 0 8px 10px;
   border-radius: 4px;
-  border: ${(props) => props.error ? 'solid 1px #ad122a' : 'solid 1px #a8abac'};
+  border: ${(props) =>
+    props.error ? "solid 1px #ad122a" : "solid 1px #a8abac"};
 `;
-RightHeader,SubHeader,Card,Title,Text,RowBlock,UserName,EditButton,EditImg,ButtonTxt,Label,TextBox,UserImg,InputBox,ButtonRow
+RightHeader,
+  SubHeader,
+  Card,
+  Title,
+  Text,
+  RowBlock,
+  UserName,
+  EditButton,
+  EditImg,
+  ButtonTxt,
+  Label,
+  TextBox,
+  UserImg,
+  InputBox,
+  ButtonRow;
 const UserImg = styled.img`
-  width: ${(props) => props.width == "true" ? '30px' : '20px'};
+  width: ${(props) => (props.width == "true" ? "30px" : "20px")};
   height: 20px;
   margin: 2px 8px 0 0;
 `;
@@ -154,22 +167,20 @@ const InputBox = styled.input`
   line-height: 1.5;
   letter-spacing: normal;
   text-align: left;
-  color: ${(props) => props.error ? '#ad122a' : '#474b55'};
+  color: ${(props) => (props.error ? "#ad122a" : "#474b55")};
   border: none;
   width: 100%;
 
   ::placeholder {
     color: #a8abac;
   }
-  &[type=number]::-webkit-inner-spin-button, 
-    &[type=number]::-webkit-outer-spin-button {  
-        display: none;
-    }
+  &[type="number"]::-webkit-inner-spin-button,
+  &[type="number"]::-webkit-outer-spin-button {
+    display: none;
+  }
 `;
 
-
 const ButtonRow = styled.div`
-
   @media only screen and (min-width: 481px) {
     display: inline-block;
   }
@@ -265,7 +276,7 @@ const Pop = styled.div`
     position: absolute;
     left: 225px;
     bottom: -5%;
-    content: '';
+    content: "";
     width: 10px;
     height: 10px;
     background: #003863;
@@ -286,7 +297,7 @@ const PassPopover = styled(Popover)`
     position: absolute;
     right: 18px;
     bottom: -3%;
-    content: '';
+    content: "";
     width: 10px;
     height: 10px;
     background: #003863;
@@ -295,10 +306,10 @@ const PassPopover = styled(Popover)`
 `;
 
 const PasswordText = styled.ul`
-  list-style: ${(props) => props.noStyle ? 'none' : 'disc'};
-  list-style-position: ${(props) => props.noStyle ? '' : 'outside'};
+  list-style: ${(props) => (props.noStyle ? "none" : "disc")};
+  list-style-position: ${(props) => (props.noStyle ? "" : "outside")};
   margin-bottom: 0;
-  margin-left: ${(props) => props.noStyle ? '0' : '1.5rem'};;
+  margin-left: ${(props) => (props.noStyle ? "0" : "1.5rem")}; ;
 `;
 
 const PasswordRules = styled.li`
@@ -312,7 +323,7 @@ const PasswordRules = styled.li`
 `;
 
 const ProgressWrapper = styled.div`
-  width:100%;
+  width: 100%;
 `;
 
 const SpinnerRotate = keyframes`
@@ -325,8 +336,8 @@ const ProgressSpinner = styled.div`
   margin: auto;
   margin-top: 5em;
   margin-bottom: 5em;
-  border: .25em solid  #b5b5b5;
-  border-top: .25em solid #ffffff;
+  border: 0.25em solid #b5b5b5;
+  border-top: 0.25em solid #ffffff;
   border-radius: 50%;
   width: 36px;
   height: 36px;
@@ -335,7 +346,6 @@ const ProgressSpinner = styled.div`
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 `;
-
 
 const ErrorLabel = styled.label`
   font-size: 12px;
@@ -349,8 +359,31 @@ const ErrorLabel = styled.label`
   margin: 0px;
   padding: 0px;
 `;
-export  {
-    RightHeader, SubHeader, Card, Title, Text, RowBlock, UserName, EditButton, EditImg, ButtonTxt, Label, TextBox, UserImg,
-    InputBox, ButtonRow, CancelButton, ChangeButton, DisabledButton, Pop, PassPopover, PasswordText, PasswordRules, ProgressWrapper,
-    SpinnerRotate, ProgressSpinner, ErrorLabel
-  }
+export {
+  RightHeader,
+  SubHeader,
+  Card,
+  Title,
+  Text,
+  RowBlock,
+  UserName,
+  EditButton,
+  EditImg,
+  ButtonTxt,
+  Label,
+  TextBox,
+  UserImg,
+  InputBox,
+  ButtonRow,
+  CancelButton,
+  ChangeButton,
+  DisabledButton,
+  Pop,
+  PassPopover,
+  PasswordText,
+  PasswordRules,
+  ProgressWrapper,
+  SpinnerRotate,
+  ProgressSpinner,
+  ErrorLabel,
+};

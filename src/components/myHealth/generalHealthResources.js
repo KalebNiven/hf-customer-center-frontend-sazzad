@@ -1,22 +1,22 @@
-import React from 'react'
-import styled from 'styled-components'
-import ResoucesList from './resoucesList'
+import React from "react";
+import styled from "styled-components";
+import ResoucesList from "./resoucesList";
 
 const GeneralHealthResources = ({ content }) => {
-    return (
-        <ResourcesWrapper>
-            <Heading>General Health Resources</Heading>
-            <ResoucesList content={content} />
-        </ResourcesWrapper>
-    )
-}
+  return (
+    <ResourcesWrapper>
+      <Heading>General Health Resources</Heading>
+      <ResoucesList content={content} />
+    </ResourcesWrapper>
+  );
+};
 
 export const ResourcesWrapper = styled.div`
-    @media only screen and (max-width: 480px) {
-        padding: 0 16px;
-    }
+  @media only screen and (max-width: 480px) {
+    padding: 0 16px;
+  }
 
-    margin-bottom: 35px;
+  margin-bottom: 35px;
 `;
 
 export const Heading = styled.h2`
@@ -32,4 +32,4 @@ export const Heading = styled.h2`
   color: #003863;
 `;
 
-export default GeneralHealthResources
+export default GeneralHealthResources;

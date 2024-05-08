@@ -1,9 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { DropdownFieldContainer, DropdownField, DropdownFieldText, DropdownSecondFieldText, DropdownFieldTextContainer, UserIconContainer, DropdownIconContainer, DropdownIcon, DropdownList, DropdownListItem, DropdownErrorMsg, UserCircleIcon, DropdownFieldTitle, UserInfoContainer } from './styles'
+import {
+  DropdownFieldContainer,
+  DropdownField,
+  DropdownFieldText,
+  DropdownSecondFieldText,
+  DropdownFieldTextContainer,
+  UserIconContainer,
+  DropdownIconContainer,
+  DropdownIcon,
+  DropdownList,
+  DropdownListItem,
+  DropdownErrorMsg,
+  UserCircleIcon,
+  DropdownFieldTitle,
+  UserInfoContainer,
+} from "./styles";
 
-function DependentDropdown(props) {  
+function DependentDropdown(props) {
   /* props */
   const {
     placeholder = "Select Option",
@@ -38,8 +53,7 @@ function DependentDropdown(props) {
   useEffect(() => {
     if (defaultSelected) {
       setSelection(values[0].label);
-    }
-    else if(props.selected){
+    } else if (props.selected) {
       setSelection(props.selected.label);
     }
   }, []);
@@ -71,52 +85,72 @@ function DependentDropdown(props) {
 
   return (
     <>
-    <DropdownFieldTitle>Select Member</DropdownFieldTitle>
-    <DropdownFieldContainer ref={dropdownRef}>
-      <DropdownField
-        className={`${error && "error"}`}
-        onClick={handleDropdownClick}
-      >
-        <DropdownFieldTextContainer>
-          <UserIconContainer>
-            <UserCircleIcon alt="" src="/react/images/icons-solid-user-dark-grey.svg" />
-          </UserIconContainer>
-          <DropdownFieldText className={`${selection && "selected"} ${error && "error"}`}>
+      <DropdownFieldTitle>Select Member</DropdownFieldTitle>
+      <DropdownFieldContainer ref={dropdownRef}>
+        <DropdownField
+          className={`${error && "error"}`}
+          onClick={handleDropdownClick}
+        >
+          <DropdownFieldTextContainer>
+            <UserIconContainer>
+              <UserCircleIcon
+                alt=""
+                src="/react/images/icons-solid-user-dark-grey.svg"
+              />
+            </UserIconContainer>
+            <DropdownFieldText
+              className={`${selection && "selected"} ${error && "error"}`}
+            >
               {selection || placeholder}
-            <DropdownSecondFieldText>{props.selected.planName}</DropdownSecondFieldText>
-          </DropdownFieldText>
-          <DropdownIconContainer>
-            <DropdownIcon alt="" src={!isOpen ? "/react/images/icn-dropdown.svg" : "/react/images/icn-dropdown-up.svg"} />
-          </DropdownIconContainer>
-        </DropdownFieldTextContainer>
-        <DropdownList className="hf-preference-center-dropdown-content" isOpen={isOpen}>
-          {values.map((item, index) => (
-            <React.Fragment key={Math.random()}>
-              <DropdownListItem
-                onClick={(e) => handleSelect(item, e)}
-                name={item.label}
-                value={item.value}
-              >
-                <UserIconContainer>
-                  <UserCircleIcon alt = "" src="/react/images/icons-solid-user-dark-grey.svg" />
-                </UserIconContainer>
-                <UserInfoContainer>
-                  {item.planName === "" ?
-                  <h1>{item.label}</h1>
-                  :
-                  <div>
-                  <h2>{item.label}</h2>
-                  <p>{item.planName}</p>
-                  </div>
-                  }
-                </UserInfoContainer>
-              </DropdownListItem>
-            </React.Fragment>
-          ))}
-        </DropdownList>
-      </DropdownField>
-      {error && <DropdownErrorMsg>{errorMessage}</DropdownErrorMsg>}
-    </DropdownFieldContainer>
+              <DropdownSecondFieldText>
+                {props.selected.planName}
+              </DropdownSecondFieldText>
+            </DropdownFieldText>
+            <DropdownIconContainer>
+              <DropdownIcon
+                alt=""
+                src={
+                  !isOpen
+                    ? "/react/images/icn-dropdown.svg"
+                    : "/react/images/icn-dropdown-up.svg"
+                }
+              />
+            </DropdownIconContainer>
+          </DropdownFieldTextContainer>
+          <DropdownList
+            className="hf-preference-center-dropdown-content"
+            isOpen={isOpen}
+          >
+            {values.map((item, index) => (
+              <React.Fragment key={Math.random()}>
+                <DropdownListItem
+                  onClick={(e) => handleSelect(item, e)}
+                  name={item.label}
+                  value={item.value}
+                >
+                  <UserIconContainer>
+                    <UserCircleIcon
+                      alt=""
+                      src="/react/images/icons-solid-user-dark-grey.svg"
+                    />
+                  </UserIconContainer>
+                  <UserInfoContainer>
+                    {item.planName === "" ? (
+                      <h1>{item.label}</h1>
+                    ) : (
+                      <div>
+                        <h2>{item.label}</h2>
+                        <p>{item.planName}</p>
+                      </div>
+                    )}
+                  </UserInfoContainer>
+                </DropdownListItem>
+              </React.Fragment>
+            ))}
+          </DropdownList>
+        </DropdownField>
+        {error && <DropdownErrorMsg>{errorMessage}</DropdownErrorMsg>}
+      </DropdownFieldContainer>
     </>
   );
 }

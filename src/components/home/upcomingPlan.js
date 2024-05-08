@@ -2,30 +2,28 @@ import styled from "styled-components";
 import React from "react";
 import GlobalStyle from "../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
-import moment from 'moment';
+import moment from "moment";
 
 const UpcomingPlan = () => {
-
-  
   const customerInfo = useSelector((state) => state.customerInfo.data);
 
   return (
-    <><GlobalStyle />
+    <>
+      <GlobalStyle />
       <Card>
         <CoverageDetails>
-        Your Coverage will begin on {moment(customerInfo.membershipEffectiveDate).format('LL')}.When your coverage begins
-        you'll be able to:
+          Your Coverage will begin on{" "}
+          {moment(customerInfo.membershipEffectiveDate).format("LL")}.When your
+          coverage begins you'll be able to:
         </CoverageDetails>
-                 <Dot/>
-                 <AboutTeam>View Claims and Authorizations</AboutTeam>
-                 <Dot/>
-                 <AboutTeam>Enroll in  AutoPay(if applicable)</AboutTeam>
-                 <Dot/>
-                 <AboutTeam>Search for in-network providers</AboutTeam>
-                 <Dot/>
-                 <AboutTeam>And so much more</AboutTeam>
-                 
-
+        <Dot />
+        <AboutTeam>View Claims and Authorizations</AboutTeam>
+        <Dot />
+        <AboutTeam>Enroll in AutoPay(if applicable)</AboutTeam>
+        <Dot />
+        <AboutTeam>Search for in-network providers</AboutTeam>
+        <Dot />
+        <AboutTeam>And so much more</AboutTeam>
       </Card>
     </>
   );
@@ -43,7 +41,7 @@ const Card = styled.div`
 `;
 
 const CoverageDetails = styled.div`
-margin: 0 0 8px;
+  margin: 0 0 8px;
   font-size: 14px;
   font-weight: 400;
   font-stretch: normal;
@@ -55,13 +53,13 @@ margin: 0 0 8px;
 `;
 
 const Dot = styled.span`
-width: 4px;
-height: 4px;
-border-radius:50%;
-background-color: #474b55;
-float:left;
-margin-top: 6px;
-margin-left: 16px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #474b55;
+  float: left;
+  margin-top: 6px;
+  margin-left: 16px;
 `;
 
 const AboutTeam = styled.span`

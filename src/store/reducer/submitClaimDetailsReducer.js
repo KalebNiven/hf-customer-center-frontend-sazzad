@@ -1,9 +1,9 @@
 import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
-  submittedClaimDetails:{},
-  loading:false,
-  error:""
+  submittedClaimDetails: {},
+  loading: false,
+  error: "",
 };
 
 export default function submitClaimPayload(state = initialState, action) {
@@ -12,35 +12,33 @@ export default function submitClaimPayload(state = initialState, action) {
       return {
         ...state,
         submittedClaimDetails: action.payload.data,
-        loading:true,
-        error:""
+        loading: true,
+        error: "",
       };
     }
     case actionTypes.RECEIVE_SUBMIT_CLAIM_DETAILS: {
       switch (action.payload.status) {
-        case 'ERROR':
-        {
+        case "ERROR": {
           return {
             ...state,
             submittedClaimDetails: {},
-            loading:false,
-            error:action.payload.errorData
+            loading: false,
+            error: action.payload.errorData,
           };
         }
-        default:{
-        const value = action.payload.data;
+        default: {
+          const value = action.payload.data;
 
-      return {
-        ...state,
-        submittedClaimDetails: value,
-        loading:false,
-        error:""
-        };
-      }
+          return {
+            ...state,
+            submittedClaimDetails: value,
+            loading: false,
+            error: "",
+          };
+        }
       }
     }
     default:
       return state;
   }
-};
-    
+}

@@ -2,8 +2,8 @@ import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
   data: {},
-  loading:false,
-  error:""
+  loading: false,
+  error: "",
 };
 
 export default function customerDemographicsInfo(state = initialState, action) {
@@ -12,27 +12,26 @@ export default function customerDemographicsInfo(state = initialState, action) {
       return {
         ...state,
         data: {},
-        loading:true,
-        error:""
+        loading: true,
+        error: "",
       };
     }
     case actionTypes.RECEIVE_CUSTOMER_DEMOGRAPHICS_INFO: {
       switch (action.payload.status) {
-        case 'ERROR':
-        {
+        case "ERROR": {
           return {
             ...state,
             data: {},
-            loading:false,
-            error:action.payload.errorData
+            loading: false,
+            error: action.payload.errorData,
           };
         }
         default: {
           return {
             ...state,
             data: action.payload.data,
-            loading:false,
-            error:""
+            loading: false,
+            error: "",
           };
         }
       }
@@ -40,5 +39,4 @@ export default function customerDemographicsInfo(state = initialState, action) {
     default:
       return state;
   }
-};
-    
+}

@@ -2,8 +2,8 @@ import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
   address: null,
-  loading:false,
-  error:""
+  loading: false,
+  error: "",
 };
 
 export default function verifyAddress(state = initialState, action) {
@@ -12,51 +12,49 @@ export default function verifyAddress(state = initialState, action) {
       return {
         ...state,
         address: null,
-        loading:true,
-        error:""
+        loading: true,
+        error: "",
       };
     }
     case actionTypes.RECEIVE_VERIFY_ADDRESS: {
-      if(action.payload === undefined){
+      if (action.payload === undefined) {
         return {
           ...state,
           address: null,
-          loading:false,
-          error:"undefined state"
+          loading: false,
+          error: "undefined state",
         };
       }
       switch (action.payload.status) {
-        case 'ERROR':
-        {
+        case "ERROR": {
           return {
             ...state,
             address: null,
-            loading:false,
-            error:action.payload.errorData
+            loading: false,
+            error: action.payload.errorData,
           };
         }
-        default:{
-        const value = action.payload.data;
+        default: {
+          const value = action.payload.data;
 
-      return {
-        ...state,
-        address: value?.addressResponse,
-        loading:false,
-        error:""
-        };
-      }
+          return {
+            ...state,
+            address: value?.addressResponse,
+            loading: false,
+            error: "",
+          };
+        }
       }
     }
     case actionTypes.RESET_VERIFY_ADDRESS: {
       return {
         ...state,
         address: null,
-        loading:false,
-        error:""
+        loading: false,
+        error: "",
       };
     }
     default:
       return state;
   }
-};
-    
+}

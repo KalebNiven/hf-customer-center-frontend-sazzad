@@ -3,10 +3,13 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { createSvgIcon, Grid } from "@material-ui/core";
-import Spinner from '../common/spinner'
-import ExternalSiteLink from '../common/externalSiteLink'
+import Spinner from "../common/spinner";
+import ExternalSiteLink from "../common/externalSiteLink";
 import { AnalyticsTrack } from "../../components/common/segment/analytics";
-import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
+import {
+  ANALYTICS_TRACK_TYPE,
+  ANALYTICS_TRACK_CATEGORY,
+} from "../../constants/segment";
 
 const checkNotNull = (workDays) =>
   Object.values(workDays).some((x) => x !== null);
@@ -17,10 +20,10 @@ const displayHours = (time) => {
     const timeArr = time[0];
     const openTime = timeArr[1].openTime;
     const closeTime = timeArr[1].closeTime;
-   
+
     // handle "closed" time
-    if(!time[0][1].openTime.length && !time[0][1].openTime.closeTime) {
-      return dis = "Closed"
+    if (!time[0][1].openTime.length && !time[0][1].openTime.closeTime) {
+      return (dis = "Closed");
     }
 
     if (dis !== "") {
@@ -31,9 +34,6 @@ const displayHours = (time) => {
   }
   return dis;
 };
-
-
-
 
 const daysOfWeek = [
   "sunday",
@@ -46,14 +46,10 @@ const daysOfWeek = [
 ];
 
 const openGoogleMaps = (address) => {
-  window.open(
-    `https://www.google.com/maps?q=${address}`
-  );
+  window.open(`https://www.google.com/maps?q=${address}`);
 };
 
 const Details = ({ historyState }) => {
-
-
   const history = useHistory();
 
   const icon = useSelector((state) => state.myHealth.currentCategIcon);
@@ -61,70 +57,65 @@ const Details = ({ historyState }) => {
   const myHealth = useSelector((state) => state.myHealth);
   const customerInfo = useSelector((state) => state.customerInfo);
 
-
-
-
   const handleBack = () => {
     history.push({
       pathname: "/my-health/community-resources/category",
-      state: historyState
-    })
-  }
+      state: historyState,
+    });
+  };
 
   const parseDayTime = (timeObj, value) => {
     const timeArray = Object.entries(timeObj);
     const dayValue = timeArray.filter((time) => {
-      if(time[0] === value) return time[1];
+      if (time[0] === value) return time[1];
     });
     return displayHours(dayValue);
   };
 
-  const handleSegmentBtn = (label,data) =>{
-    AnalyticsTrack(
-      label + " " + "link clicked",
-      customerInfo,
-      {
-        "raw_text": label,
-        "destination_url": window.location.pathname,
-        "description": data,
-        "category": ANALYTICS_TRACK_CATEGORY.myHealth,
-        "type": ANALYTICS_TRACK_TYPE.buttonClicked,
-        "targetMemberId": customerInfo?.data?.memberId,
-        "location": {
-          "desktop": {
-            "width": 960,
-            "value": "left"
-          },
-          "tablet": {
-            "width": 768,
-            "value": "right"
-          },
-          "mobile": {
-            "width": 0,
-            "value": "right"
-          }
-        }
-      }
-    );
+  const handleSegmentBtn = (label, data) => {
+    AnalyticsTrack(label + " " + "link clicked", customerInfo, {
+      raw_text: label,
+      destination_url: window.location.pathname,
+      description: data,
+      category: ANALYTICS_TRACK_CATEGORY.myHealth,
+      type: ANALYTICS_TRACK_TYPE.buttonClicked,
+      targetMemberId: customerInfo?.data?.memberId,
+      location: {
+        desktop: {
+          width: 960,
+          value: "left",
+        },
+        tablet: {
+          width: 768,
+          value: "right",
+        },
+        mobile: {
+          width: 0,
+          value: "right",
+        },
+      },
+    });
   };
-  
 
-  return (
-    myHealth.loading ? <SpinnerWrapper><Spinner /></SpinnerWrapper> : details ? 
-      <InnerWrapper>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={5}>
-            <DetailsCard>
-              <Section>
-                <Grid item xs={12}>
-                  <Grid container direction="row" justify="space-between">
-                    <Grid item xs={7}>
-                      <BackButton onClick={handleBack}>
-                        <BackImg src="/react/images/icn-full-arrow.svg"/>
-                        <BackText>Back</BackText>
-                      </BackButton>
-                    </Grid>
-                    {/* <Grid item xs={5}>
+  return myHealth.loading ? (
+    <SpinnerWrapper>
+      <Spinner />
+    </SpinnerWrapper>
+  ) : details ? (
+    <InnerWrapper>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={5}>
+          <DetailsCard>
+            <Section>
+              <Grid item xs={12}>
+                <Grid container direction="row" justify="space-between">
+                  <Grid item xs={7}>
+                    <BackButton onClick={handleBack}>
+                      <BackImg src="/react/images/icn-full-arrow.svg" />
+                      <BackText>Back</BackText>
+                    </BackButton>
+                  </Grid>
+                  {/* <Grid item xs={5}>
                       <SaveButton>
                         <span>
                           <SaveIcon src="/react/images/icn-bookmark.svg" />
@@ -132,16 +123,17 @@ const Details = ({ historyState }) => {
                         <SaveLabel>Save</SaveLabel>
                       </SaveButton>
                     </Grid> */}
-                  </Grid>
                 </Grid>
-                <SubDiv>
-                  <CardImg src={`data:image/svg;base64,${icon}`} />
-                  <Title>{details.categoryName}</Title>
-                  <Text>{details.name}</Text>
-                </SubDiv>
-                <SubHeader>Contact</SubHeader>
-                <ContactDiv>
-                  {details.phone && <ContactHead>
+              </Grid>
+              <SubDiv>
+                <CardImg src={`data:image/svg;base64,${icon}`} />
+                <Title>{details.categoryName}</Title>
+                <Text>{details.name}</Text>
+              </SubDiv>
+              <SubHeader>Contact</SubHeader>
+              <ContactDiv>
+                {details.phone && (
+                  <ContactHead>
                     <ContactTextWrapper>
                       <ContactIcon
                         src="/react/images/icn-blue-call.svg"
@@ -149,10 +141,20 @@ const Details = ({ historyState }) => {
                         height="12px"
                         alt=""
                       />
-                      <ContactText href={`tel:${details.phone}`} onclick={handleSegmentBtn("Phone Number",details.phone)}>{details.phone}</ContactText>
+                      <ContactText
+                        href={`tel:${details.phone}`}
+                        onclick={handleSegmentBtn(
+                          "Phone Number",
+                          details.phone
+                        )}
+                      >
+                        {details.phone}
+                      </ContactText>
                     </ContactTextWrapper>
-                  </ContactHead>}
-                  {details.emailAddress && <ContactHead>
+                  </ContactHead>
+                )}
+                {details.emailAddress && (
+                  <ContactHead>
                     <ContactTextWrapper href={`mailto:${details.emailAddress}`}>
                       <ContactIcon
                         src="/react/images/icn-blue-email.svg"
@@ -162,9 +164,16 @@ const Details = ({ historyState }) => {
                       />
                       <ContactText>{details.emailAddress}</ContactText>
                     </ContactTextWrapper>
-                  </ContactHead>}
-                  {details.website && <ContactHead>
-                    <ExternalSiteLink link={details.website} label={details.website} target="_blank" styles={{cursor: "pointer"}}>
+                  </ContactHead>
+                )}
+                {details.website && (
+                  <ContactHead>
+                    <ExternalSiteLink
+                      link={details.website}
+                      label={details.website}
+                      target="_blank"
+                      styles={{ cursor: "pointer" }}
+                    >
                       <ContactTextWrapper>
                         <ContactIcon
                           src="/react/images/icn-blue-web.svg"
@@ -175,100 +184,100 @@ const Details = ({ historyState }) => {
                         <ContactText>{details.website}</ContactText>
                       </ContactTextWrapper>
                     </ExternalSiteLink>
-                  </ContactHead>}
-                </ContactDiv>
-                {
-                  details.workDays && checkNotNull(details.workDays) &&
-                  <>
-                    <SubHeader margin="24px 0 0 0">Hours</SubHeader>
-                    <HoursList>
-                      {Array.from(Array(8).keys()).map((value,index) => {
-                        if (value >= 1) {
-                          value = value === 7 ? 0 : value;
-                          return (
-                            <Day key={index}>
-                              <DayOfTheWeek>{`${daysOfWeek[value]}`}</DayOfTheWeek>
-                              <DayHrs>
-                                {parseDayTime(
-                                  details.workDays,
-                                  daysOfWeek[value]
-                                )}{" "}
-                              </DayHrs>
-                            </Day>
-                          );
-                        }
-                      })}
-                    </HoursList>
-                  </>
-                }
-              </Section>
-            </DetailsCard>
-          </Grid>
-          <DetailsGrid item xs={12} md={7}>
-            <DetailsCard increasedTopMargin>
-              <Section>
-                <RightNameText>{details.name}</RightNameText>
-                <Address>{details.address}</Address>
-                { details.address && 
-                  <ExternalSiteLink link={`https://www.google.com/maps?q=${details.address}`} label ="GoogleMaps"  target="_blank" styles={{cursor: "pointer"}}>
-                    <GetDirectionsWrapper>
-                      <GetDirectionsIcon src="/react/images/icn-map-blue.svg"/>
-                      <GetDirectionsText>Get Directions</GetDirectionsText>
-                    </GetDirectionsWrapper>
-                  </ExternalSiteLink> }
-              </Section>
-            </DetailsCard>
-            {
-              details.services && details.services.length > 0 &&
-              <DetailsCard>
-                <Section>
-                  <SubHeader noMargin>Useful to Know</SubHeader>
-                  {
-                    details.services.map((data, idx) => 
-                      (<MainDiv key={idx} idx={idx}>
-                        <LeftImg src="/react/images/icn-green-checkmark.svg"/>
-                        <ServiceText>{data}</ServiceText>
-                      </MainDiv>)
-                    )
-                  }
-                </Section>
-              </DetailsCard>
-            }
-            {
-              (details.feeStructure || (details.languages && details.languages.length > 0)) &&
-              <DetailsCard>
-                <Section>
-                  <SubHeader noMargin>About</SubHeader>
-                  {
-                    details.feeStructure &&
-                    <>
-                      <AboutHeader padding="16px 0 0 0">FEE STRUCTURE</AboutHeader>
-                      <AboutText>{details.feeStructure}</AboutText>
-                    </>
-                  }
-                  {
-                    details.languages && details.languages.length > 0 &&
-                    <>
-                      <AboutHeader>LANGUAGES</AboutHeader>
-                      {
-                        details.languages.map((lang,idx) =>
-                          <AboutText key={idx} >{lang}</AboutText>
-                        )
+                  </ContactHead>
+                )}
+              </ContactDiv>
+              {details.workDays && checkNotNull(details.workDays) && (
+                <>
+                  <SubHeader margin="24px 0 0 0">Hours</SubHeader>
+                  <HoursList>
+                    {Array.from(Array(8).keys()).map((value, index) => {
+                      if (value >= 1) {
+                        value = value === 7 ? 0 : value;
+                        return (
+                          <Day key={index}>
+                            <DayOfTheWeek>{`${daysOfWeek[value]}`}</DayOfTheWeek>
+                            <DayHrs>
+                              {parseDayTime(
+                                details.workDays,
+                                daysOfWeek[value]
+                              )}{" "}
+                            </DayHrs>
+                          </Day>
+                        );
                       }
-                    </>
-                  }
-                  {
-                    details.description &&
-                    <AboutDetail>{details.description}</AboutDetail>
-                  }
-                </Section>
-              </DetailsCard>
-            }
-          </DetailsGrid>
+                    })}
+                  </HoursList>
+                </>
+              )}
+            </Section>
+          </DetailsCard>
         </Grid>
-      </InnerWrapper> : null
-  )
-}
+        <DetailsGrid item xs={12} md={7}>
+          <DetailsCard increasedTopMargin>
+            <Section>
+              <RightNameText>{details.name}</RightNameText>
+              <Address>{details.address}</Address>
+              {details.address && (
+                <ExternalSiteLink
+                  link={`https://www.google.com/maps?q=${details.address}`}
+                  label="GoogleMaps"
+                  target="_blank"
+                  styles={{ cursor: "pointer" }}
+                >
+                  <GetDirectionsWrapper>
+                    <GetDirectionsIcon src="/react/images/icn-map-blue.svg" />
+                    <GetDirectionsText>Get Directions</GetDirectionsText>
+                  </GetDirectionsWrapper>
+                </ExternalSiteLink>
+              )}
+            </Section>
+          </DetailsCard>
+          {details.services && details.services.length > 0 && (
+            <DetailsCard>
+              <Section>
+                <SubHeader noMargin>Useful to Know</SubHeader>
+                {details.services.map((data, idx) => (
+                  <MainDiv key={idx} idx={idx}>
+                    <LeftImg src="/react/images/icn-green-checkmark.svg" />
+                    <ServiceText>{data}</ServiceText>
+                  </MainDiv>
+                ))}
+              </Section>
+            </DetailsCard>
+          )}
+          {(details.feeStructure ||
+            (details.languages && details.languages.length > 0)) && (
+            <DetailsCard>
+              <Section>
+                <SubHeader noMargin>About</SubHeader>
+                {details.feeStructure && (
+                  <>
+                    <AboutHeader padding="16px 0 0 0">
+                      FEE STRUCTURE
+                    </AboutHeader>
+                    <AboutText>{details.feeStructure}</AboutText>
+                  </>
+                )}
+                {details.languages && details.languages.length > 0 && (
+                  <>
+                    <AboutHeader>LANGUAGES</AboutHeader>
+                    {details.languages.map((lang, idx) => (
+                      <AboutText key={idx}>{lang}</AboutText>
+                    ))}
+                  </>
+                )}
+                {details.description && (
+                  <AboutDetail>{details.description}</AboutDetail>
+                )}
+              </Section>
+            </DetailsCard>
+          )}
+        </DetailsGrid>
+      </Grid>
+    </InnerWrapper>
+  ) : null;
+};
 
 const SubDiv = styled.div`
   padding: 16px 8px 0px;
@@ -325,7 +334,7 @@ const DetailsCard = styled.div`
 
 const MainDiv = styled.div`
   display: flex;
-  margin: ${props => props.idx === 0 && "10px 0 0 0"};
+  margin: ${(props) => props.idx === 0 && "10px 0 0 0"};
 `;
 
 const BackButton = styled.div`
@@ -365,7 +374,7 @@ const SubHeader = styled.div`
   padding-bottom: 8px;
   margin-top: ${(props) => (props.noMargin ? "" : "16px")};
   word-break: break-word;
-  margin: ${props => props.margin && props.margin};
+  margin: ${(props) => props.margin && props.margin};
 `;
 
 const ContactHead = styled.div`
@@ -378,7 +387,6 @@ const ContactHead = styled.div`
   letter-spacing: normal;
   color: #008bbf;
   margin: 10px 0px;
-
 `;
 
 const ContactTextWrapper = styled.div`
@@ -392,10 +400,10 @@ const ContactIcon = styled.img`
 
 const ContactText = styled.a`
   color: #008bbf !important;
-  text-decoration: none!important;
+  text-decoration: none !important;
   display: flex;
   word-break: break-all;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 const InnerWrapper = styled.div`
@@ -490,7 +498,7 @@ const AboutHeader = styled.div`
   line-height: 1.33;
   letter-spacing: normal;
   padding-top: 12px;
-  padding: ${props => props.padding && props.padding};
+  padding: ${(props) => props.padding && props.padding};
 `;
 
 const AboutText = styled.div`
@@ -541,7 +549,7 @@ const Day = styled.div`
 `;
 
 const DayOfTheWeek = styled.div`
-  flex: .5
+  flex: 0.5;
 `;
 
 const DayHrs = styled.p`
@@ -579,13 +587,12 @@ const GetDirectionsText = styled.div`
   line-height: normal;
   letter-spacing: normal;
   color: #008bbf;
-
 `;
 
 const DetailsGrid = styled(Grid)({
-  '@media (min-width: 960px)': {
-    paddingLeft: "24px!important"
-  }
+  "@media (min-width: 960px)": {
+    paddingLeft: "24px!important",
+  },
 });
 
 export default React.memo(Details);

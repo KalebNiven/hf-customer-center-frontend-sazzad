@@ -2,8 +2,8 @@ import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
   data: null,
-  loading:false,
-  error:""
+  loading: false,
+  error: "",
 };
 
 export default function preferenceCenterInfo(state = initialState, action) {
@@ -12,34 +12,33 @@ export default function preferenceCenterInfo(state = initialState, action) {
       return {
         ...state,
         data: null,
-        loading:true,
-        error:""
+        loading: true,
+        error: "",
       };
     }
     case actionTypes.RECEIVE_PREFERENCE_CENTER_INFO: {
       switch (action.payload.status) {
-        case 'ERROR':
-        {
+        case "ERROR": {
           return {
             ...state,
             data: null,
-            loading:false,
-            error:action.payload.errorData
+            loading: false,
+            error: action.payload.errorData,
           };
         }
-        default:{
-        const value = action.payload.data;
+        default: {
+          const value = action.payload.data;
 
-      return {
-        ...state,
-        data: value.data,
-        loading:false,
-        error:""
-        };
-      }
+          return {
+            ...state,
+            data: value.data,
+            loading: false,
+            error: "",
+          };
+        }
       }
     }
     default:
       return state;
   }
-};
+}

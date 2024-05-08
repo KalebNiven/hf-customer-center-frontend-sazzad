@@ -1,3 +1,3 @@
 export const isValidCompanyCode = (code, validList) => {
-    return validList.includes(code)
-}
+  return validList.includes(code);
+};

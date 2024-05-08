@@ -2,13 +2,16 @@ import React, { useState, useEffect, componentDidMount } from "react";
 import styled, { keyframes } from "styled-components";
 
 const Spinner = ({ margin, width, height }) => {
-
-    return (
-        <ProgressSpinner margin={margin} width={width} height={height}></ProgressSpinner>
-    );
+  return (
+    <ProgressSpinner
+      margin={margin}
+      width={width}
+      height={height}
+    ></ProgressSpinner>
+  );
 };
 
-export default Spinner
+export default Spinner;
 
 const SpinnerRotate = keyframes`
   from {transform: rotate(0deg);}
@@ -20,8 +23,8 @@ const ProgressSpinner = styled.div`
   margin: auto;
   margin-top: 10em;
   margin-bottom: 10em;
-  border: .4em solid #e6e6e6;
-  border-top: .5em solid #4b6f32;
+  border: 0.4em solid #e6e6e6;
+  border-top: 0.5em solid #4b6f32;
   border-radius: 50%;
   width: 4em;
   height: 4em;
@@ -29,7 +32,7 @@ const ProgressSpinner = styled.div`
   animation-duration: 2s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  margin: ${props => props.margin && props.margin};
-  width: ${props => props.width && props.width};
-  height: ${props => props.height && props.height};
+  margin: ${(props) => props.margin && props.margin};
+  width: ${(props) => props.width && props.width};
+  height: ${(props) => props.height && props.height};
 `;

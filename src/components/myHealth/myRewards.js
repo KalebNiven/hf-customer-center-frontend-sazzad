@@ -5,100 +5,104 @@ import { loadExternalScript } from "../../utils/externalScripts";
 import useLogError from "../../hooks/useLogError";
 import { getLanguageFromUrl } from "../../utils/misc";
 
-const MY_REWARDS_SCRIPT_ID = 'myRewardsScript';
+const MY_REWARDS_SCRIPT_ID = "myRewardsScript";
 const MyRewards = () => {
-
   const { MIX_REACT_TRAILBLAZER_WIDGET_BASE_URL } = process.env;
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const memberId = customerInfo?.hohPlans[0]?.MemberId;
-  const jwt_token = customerInfo.id_token
-  const updatedJwt = (jwt_token === undefined ? jwt_token : jwt_token.replace('Bearer ', ''));
-  const [existingScript, setExistingScript] = useState(document.getElementById(MY_REWARDS_SCRIPT_ID));
+  const jwt_token = customerInfo.id_token;
+  const updatedJwt =
+    jwt_token === undefined ? jwt_token : jwt_token.replace("Bearer ", "");
+  const [existingScript, setExistingScript] = useState(
+    document.getElementById(MY_REWARDS_SCRIPT_ID)
+  );
   const { logError } = useLogError();
 
   const events = {
     onNavigateToPrimaryCareProvider: (data) => {
-      /* const { pcpId } = data; */ 
-      history.push({pathname: '/pcp'});
-    }, 
+      /* const { pcpId } = data; */
+      history.push({ pathname: "/pcp" });
+    },
     onNavigateToProviderSearch: (data) => {
       /* const { benefitPackage, groupNumber, year, specialty } = data; */
-      history.push({pathname: '/findcare'});
+      history.push({ pathname: "/findcare" });
     },
     onNavigateToAccountDetails: () => {
-      history.push({pathname: '/settings'});
+      history.push({ pathname: "/settings" });
     },
     onNavigateToRewards: () => {
-      history.push({pathname: '/my-rewards'});
-    }
+      history.push({ pathname: "/my-rewards" });
+    },
   };
   const mountProps = {
-      parentElement: '#rw-main',
-      memberId: memberId,
-      appId: 'CUSTOMER_CENTER',
-      authorizer: 'OKTA',
-      lang: getLanguageFromUrl(),
-      token: updatedJwt,
-      defaultPage: 'My Rewards',
-      events: events,
-  }
+    parentElement: "#rw-main",
+    memberId: memberId,
+    appId: "CUSTOMER_CENTER",
+    authorizer: "OKTA",
+    lang: getLanguageFromUrl(),
+    token: updatedJwt,
+    defaultPage: "My Rewards",
+    events: events,
+  };
 
   useEffect(() => {
-    if(existingScript){
+    if (existingScript) {
       sessionStorage.setItem("longLoad", false);
       try {
         RewardsWidget.mount(mountProps);
       } catch (error) {
         (async () => {
-            try {
-                await logError(error);
-            } catch (err) {
-                console.error('Error caught: ', err.message);
-            }
-        })()
+          try {
+            await logError(error);
+          } catch (err) {
+            console.error("Error caught: ", err.message);
+          }
+        })();
       }
-    }
-    else{
-      loadExternalScript(MIX_REACT_TRAILBLAZER_WIDGET_BASE_URL + '/rewards-widget.js', MY_REWARDS_SCRIPT_ID, 
-      () => {
-        try {
-          RewardsWidget.mount(mountProps);
-        } catch (error) {
-          (async () => {
+    } else {
+      loadExternalScript(
+        MIX_REACT_TRAILBLAZER_WIDGET_BASE_URL + "/rewards-widget.js",
+        MY_REWARDS_SCRIPT_ID,
+        () => {
+          try {
+            RewardsWidget.mount(mountProps);
+          } catch (error) {
+            (async () => {
               try {
-                  await logError(error);
+                await logError(error);
               } catch (err) {
-                  console.error('Error caught: ', err.message);
+                console.error("Error caught: ", err.message);
               }
-          })()
+            })();
+          }
+          sessionStorage.setItem("longLoad", false);
         }
-        sessionStorage.setItem("longLoad", false);
-      });
+      );
     }
 
     return () => {
       const existingScript = document.getElementById(MY_REWARDS_SCRIPT_ID);
-      if(existingScript) {
+      if (existingScript) {
         try {
           RewardsWidget.unmount();
         } catch (error) {
           (async () => {
-              try {
-                  await logError(error);
-              } catch (err) {
-                  console.error('Error caught: ', err.message);
-              }
-          })()
+            try {
+              await logError(error);
+            } catch (err) {
+              console.error("Error caught: ", err.message);
+            }
+          })();
         }
       }
     };
-  },[]);
+  }, []);
 
-  return(
+  return (
     <RewardsWrapper>
-        <div id='rw-main'></div>
+      <div id="rw-main"></div>
     </RewardsWrapper>
-  )
+  );
 };
 
 const RewardsWrapper = styled.div`

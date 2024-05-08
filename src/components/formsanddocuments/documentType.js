@@ -1,23 +1,27 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import FormsAndDocumentsModel from "./formsAndDocument";
 import { FeatureTreatment } from "../../libs/featureFlags";
-import { SHOW_DOC,SHOW_FORMS_AND_DOCS} from "../../constants/splits";
+import { SHOW_DOC, SHOW_FORMS_AND_DOCS } from "../../constants/splits";
 import { useSelector } from "react-redux";
 import { SubTitle } from "./style";
 import DocumentCenter from "../../components/documents";
 
 const DocumentType = () => {
   const [enableFormsAndDocument, setEnableFormsAndDocument] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('');
+  const [selectedTab, setSelectedTab] = useState("");
   const customerInfo = useSelector((state) => state.customerInfo);
 
   const splitAttributes = {
     memberId: customerInfo.data.memberId,
     customerId: customerInfo.data.customerId,
-    lob: customerInfo?.data?.sessLobCode, 
-    companyCode: customerInfo?.data?.hohPlans?.map(plan => plan.CompanyNumber),
-    benefitPackage: customerInfo?.data?.hohPlans?.map(plan => plan.BenefitPackage),
+    lob: customerInfo?.data?.sessLobCode,
+    companyCode: customerInfo?.data?.hohPlans?.map(
+      (plan) => plan.CompanyNumber
+    ),
+    benefitPackage: customerInfo?.data?.hohPlans?.map(
+      (plan) => plan.BenefitPackage
+    ),
     membershipStatus: customerInfo.data.membershipStatus,
     accountStatus: customerInfo.data.accountStatus,
   };
@@ -31,11 +35,15 @@ const DocumentType = () => {
     <Container>
       {enableFormsAndDocument ? (
         <>
-          {selectedTab === 'FormsAndDocs' ? (
-            <FormsAndDocumentsModel onBack={(data) => setEnableFormsAndDocument(data)}/>
+          {selectedTab === "FormsAndDocs" ? (
+            <FormsAndDocumentsModel
+              onBack={(data) => setEnableFormsAndDocument(data)}
+            />
           ) : (
             <>
-              <BackButtonWrapper onClick={() => setEnableFormsAndDocument(false)}>
+              <BackButtonWrapper
+                onClick={() => setEnableFormsAndDocument(false)}
+              >
                 <ButtonWrapper>
                   <ButtonImg src="/react/images/back_arrow.svg" />
                   <ButtonText>Back</ButtonText>
@@ -47,34 +55,34 @@ const DocumentType = () => {
         </>
       ) : (
         <>
-        <SubTitle>Select a Document Type</SubTitle>
-        <FeatureTreatment
-                  key="forms_and_document_page_feature"
-                  treatmentNames={SHOW_FORMS_AND_DOCS}
-                  treatmentName= {SHOW_FORMS_AND_DOCS}
-                  onLoad={() => {}}
-                  onTimedout={() => {}}
-                  attributes={splitAttributes}
-                >
-          <Wrapper onClick={() => handleTabClick('FormsAndDocs')}>
-            <Icon src="/react/images/plan_document_img.svg" />
-            <Text>Forms and Plan Documents</Text>
-            <Icon src="/react/images/right_arrow.png"></Icon>
-          </Wrapper>
+          <SubTitle>Select a Document Type</SubTitle>
+          <FeatureTreatment
+            key="forms_and_document_page_feature"
+            treatmentNames={SHOW_FORMS_AND_DOCS}
+            treatmentName={SHOW_FORMS_AND_DOCS}
+            onLoad={() => {}}
+            onTimedout={() => {}}
+            attributes={splitAttributes}
+          >
+            <Wrapper onClick={() => handleTabClick("FormsAndDocs")}>
+              <Icon src="/react/images/plan_document_img.svg" />
+              <Text>Forms and Plan Documents</Text>
+              <Icon src="/react/images/right_arrow.png"></Icon>
+            </Wrapper>
           </FeatureTreatment>
           <FeatureTreatment
-                  key="forms_and_document_page_feature"
-                  treatmentNames={[SHOW_DOC]}
-                  treatmentName= {SHOW_DOC}
-                  onLoad={() => {}}
-                  onTimedout={() => {}}
-                  attributes={splitAttributes}
-                >
-          <Wrapper onClick={() => handleTabClick('PlanCommunications')}>
-            <Icon src="/react/images/plan_communications.svg" />
-            <Text>Plan Communications</Text>
-            <Icon src="/react/images/right_arrow.png"></Icon>
-          </Wrapper>
+            key="forms_and_document_page_feature"
+            treatmentNames={[SHOW_DOC]}
+            treatmentName={SHOW_DOC}
+            onLoad={() => {}}
+            onTimedout={() => {}}
+            attributes={splitAttributes}
+          >
+            <Wrapper onClick={() => handleTabClick("PlanCommunications")}>
+              <Icon src="/react/images/plan_communications.svg" />
+              <Text>Plan Communications</Text>
+              <Icon src="/react/images/right_arrow.png"></Icon>
+            </Wrapper>
           </FeatureTreatment>
         </>
       )}

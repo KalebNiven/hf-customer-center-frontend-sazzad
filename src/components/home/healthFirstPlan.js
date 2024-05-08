@@ -1,85 +1,110 @@
 import styled from "styled-components";
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import GlobalStyle from "../../styles/GlobalStyle";
-import moment from 'moment';
+import moment from "moment";
 import { useSelector } from "react-redux";
-import { useHistory } from 'react-router-dom';
-import { useAppContext } from "../../AppContext"
-import { getRecertificationDate, isEligibleForRecertDate } from '../../utils/misc.js'
+import { useHistory } from "react-router-dom";
+import { useAppContext } from "../../AppContext";
+import {
+  getRecertificationDate,
+  isEligibleForRecertDate,
+} from "../../utils/misc.js";
 
 const HealthFirstPlan = () => {
-
-
   const planDetails = useSelector((state) => state.customerInfo.data);
   const history = useHistory();
-  const {planName,setPlanName} = useAppContext()
-  const [showPlan,setShowPlan] = useState(false)
+  const { planName, setPlanName } = useAppContext();
+  const [showPlan, setShowPlan] = useState(false);
 
   const formatDate = (startDate, endDate, status) => {
-    let validity = '';
+    let validity = "";
     if (status === "active") {
-      const memStartDate = moment(startDate).format('LL');
+      const memStartDate = moment(startDate).format("LL");
       validity = `${memStartDate} - Present`;
-    }
-    else {
-      const memStartDate = moment(startDate).format('LL');
-      const memExpdate = moment(endDate).format('LL');
+    } else {
+      const memStartDate = moment(startDate).format("LL");
+      const memExpdate = moment(endDate).format("LL");
       validity = `${memStartDate} - ${memExpdate}`;
     }
     return validity;
-  }
+  };
 
-  const handleButton = (planName) =>{
-    setPlanName(planName)
-    history.push(`/idcard`)
-  }
+  const handleButton = (planName) => {
+    setPlanName(planName);
+    history.push(`/idcard`);
+  };
 
-  useEffect(() =>{
-    planDetails.hohPlans.slice(1,planDetails.hohPlans.length).map((plan, index) => {
-      (plan.MembershipStatus === 'active' || plan.MembershipStatus === 'upcoming') && setShowPlan(true)
-  })
-  },[])
+  useEffect(() => {
+    planDetails.hohPlans
+      .slice(1, planDetails.hohPlans.length)
+      .map((plan, index) => {
+        (plan.MembershipStatus === "active" ||
+          plan.MembershipStatus === "upcoming") &&
+          setShowPlan(true);
+      });
+  }, []);
 
   return (
-
-    (planDetails.hohPlans !== undefined && planDetails.hohPlans.length > 1) && 
-      <> <GlobalStyle />
-      {showPlan &&
-        <MyHealthFirstPlan>
-          My Other Healthfirst Plan
-        </MyHealthFirstPlan>
-      }
-        {
-          planDetails.hohPlans.slice(1,planDetails.hohPlans.length).map((plan, index) => (
-            (plan.MembershipStatus === 'active' || plan.MembershipStatus === 'upcoming') ?
-            <Card key={index}>
-              <HealthPlan>
-                <PlanImage alt = "" src="/react/images/ico-leaf-green.svg" />
-                <PlanDetails>
-                  <PlanName>{plan.PlanName.toLowerCase()}</PlanName>
-                  <MemberDetails>
-                    Member ID: {plan.MemberId}
-                  </MemberDetails>
-                </PlanDetails>
-              </HealthPlan>
-              <Validity>
-                {formatDate(plan.MembershipEffectiveDate, plan.MembershipExpirationDate, plan.MembershipStatus)}
-              </Validity>
-              <Status status={plan.MembershipStatus}>
-                <StatusTxt status={plan.MembershipStatus}>
-                  {plan.MembershipStatus}
-                </StatusTxt>
-              </Status>
-              { isEligibleForRecertDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate) && <RenewalDate>{getRecertificationDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate)}</RenewalDate> }
-              {planDetails.membershipStatus === "active" &&
-                <ViewMemberId className="myHealthPlan-coachmark" onClick={() => handleButton(plan.PlanName.toLowerCase()) }>
-                  <MemberIcon alt = "" src="/react/images/icn-card.svg" />
-                  <MemberTxt>View Member ID Card</MemberTxt>
-                </ViewMemberId>}
-            </Card>
-            : null
-          ))}
+    planDetails.hohPlans !== undefined &&
+    planDetails.hohPlans.length > 1 && (
+      <>
+        {" "}
+        <GlobalStyle />
+        {showPlan && (
+          <MyHealthFirstPlan>My Other Healthfirst Plan</MyHealthFirstPlan>
+        )}
+        {planDetails.hohPlans
+          .slice(1, planDetails.hohPlans.length)
+          .map((plan, index) =>
+            plan.MembershipStatus === "active" ||
+            plan.MembershipStatus === "upcoming" ? (
+              <Card key={index}>
+                <HealthPlan>
+                  <PlanImage alt="" src="/react/images/ico-leaf-green.svg" />
+                  <PlanDetails>
+                    <PlanName>{plan.PlanName.toLowerCase()}</PlanName>
+                    <MemberDetails>Member ID: {plan.MemberId}</MemberDetails>
+                  </PlanDetails>
+                </HealthPlan>
+                <Validity>
+                  {formatDate(
+                    plan.MembershipEffectiveDate,
+                    plan.MembershipExpirationDate,
+                    plan.MembershipStatus
+                  )}
+                </Validity>
+                <Status status={plan.MembershipStatus}>
+                  <StatusTxt status={plan.MembershipStatus}>
+                    {plan.MembershipStatus}
+                  </StatusTxt>
+                </Status>
+                {isEligibleForRecertDate(
+                  plan.CompanyNumber,
+                  plan.BenefitPackage,
+                  plan.renewalDate
+                ) && (
+                  <RenewalDate>
+                    {getRecertificationDate(
+                      plan.CompanyNumber,
+                      plan.BenefitPackage,
+                      plan.renewalDate
+                    )}
+                  </RenewalDate>
+                )}
+                {planDetails.membershipStatus === "active" && (
+                  <ViewMemberId
+                    className="myHealthPlan-coachmark"
+                    onClick={() => handleButton(plan.PlanName.toLowerCase())}
+                  >
+                    <MemberIcon alt="" src="/react/images/icn-card.svg" />
+                    <MemberTxt>View Member ID Card</MemberTxt>
+                  </ViewMemberId>
+                )}
+              </Card>
+            ) : null
+          )}
       </>
+    )
   );
 };
 
@@ -98,7 +123,7 @@ const MyHealthFirstPlan = styled.div`
 `;
 
 const Card = styled.div`
-  width:100%;
+  width: 100%;
   flex-grow: 0;
   margin: 16px 0 32px;
   padding: 16px;
@@ -108,7 +133,7 @@ const Card = styled.div`
 `;
 
 const HealthPlan = styled.div`
-  display:flex;
+  display: flex;
 `;
 
 const PlanImage = styled.img`
@@ -133,7 +158,7 @@ const PlanName = styled.div`
   letter-spacing: normal;
   text-align: left;
   color: #474b55;
-  text-transform:capitalize;
+  text-transform: capitalize;
 `;
 
 const MemberDetails = styled.div`
@@ -167,9 +192,14 @@ const Status = styled.div`
   height: 20px;
   margin: 5px 0;
   padding: 4px 6px;
-  background-color: ${props => props.status === 'active' ? '#3e7128' : props.status === 'inactive' ? '#d43900' : '#ffffff'} ;
+  background-color: ${(props) =>
+    props.status === "active"
+      ? "#3e7128"
+      : props.status === "inactive"
+      ? "#d43900"
+      : "#ffffff"};
   border-radius: 5px;
-  border : ${props => props.status === 'upcoming' && 'solid 1px #529535'}
+  border: ${(props) => props.status === "upcoming" && "solid 1px #529535"};
 `;
 
 const StatusTxt = styled.p`
@@ -180,12 +210,12 @@ const StatusTxt = styled.p`
   line-height: 1;
   letter-spacing: 1.5px;
   text-align: center;
-  text-transform:uppercase;
-  color: ${props => props.status === 'upcoming' ? '#529535' : '#ffffff'};
+  text-transform: uppercase;
+  color: ${(props) => (props.status === "upcoming" ? "#529535" : "#ffffff")};
 `;
 
 const ViewMemberId = styled.div`
-  display:flex;
+  display: flex;
   margin-top: 8px;
 `;
 
@@ -209,16 +239,15 @@ const MemberTxt = styled.p`
   color: #008bbf;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     text-decoration: underline;
     text-decoration-color: black;
     text-decoration-thickness: 1px;
   }
-  
 `;
 
 const RenewalDate = styled.div`
-  color: #474B55;
+  color: #474b55;
   font-size: 14px;
   font-weight: 400;
 `;

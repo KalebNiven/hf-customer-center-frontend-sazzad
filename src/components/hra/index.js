@@ -1,11 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-import HRACard from './hraCard'
+import React from "react";
+import styled from "styled-components";
+import HRACard from "./hraCard";
 
 const index = () => {
-    return (
-        <HRACard />
-    )
-}
+  return <HRACard />;
+};
 
-export default index
+export default index;

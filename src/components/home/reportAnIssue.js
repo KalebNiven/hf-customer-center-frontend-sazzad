@@ -4,14 +4,11 @@ import GlobalStyle from "../../styles/GlobalStyle";
 
 const ReportAnIssue = () => {
   return (
-    <><GlobalStyle />
+    <>
+      <GlobalStyle />
       <Card>
-        <IncorrectTxt>
-          See something above that’s incorrect?
-        </IncorrectTxt>
-        <ReportIssue>
-          Report an Issue
-        </ReportIssue>
+        <IncorrectTxt>See something above that’s incorrect?</IncorrectTxt>
+        <ReportIssue>Report an Issue</ReportIssue>
       </Card>
     </>
   );
@@ -39,7 +36,7 @@ const IncorrectTxt = styled.div`
   line-height: 1.29;
   letter-spacing: normal;
   text-align: left;
-  color:#474b55;
+  color: #474b55;
 `;
 
 const ReportIssue = styled.div`

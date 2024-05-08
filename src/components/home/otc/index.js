@@ -1,198 +1,238 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux'
-import { requestOTCProfile } from '../../../store/actions';
-import ActivatingCard from './cards/activatingCard'
-import ActiveCard from './cards/activeCard'
-import ClosedCard from './cards/closedCard'
-import HoldCard from './cards/holdCard'
-import InactiveCard from './cards/inactiveCard'
-import LostCard from './cards/lostCard'
-import UnknownCard from './cards/unknownCard'
-import Spinner from '../../common/spinner'
-import { SHOW_OTC_CARD_HOME_PAGE, SHOW_SHOP_ONLINE_HOME_PAGE } from "../../../constants/splits";
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { requestOTCProfile } from "../../../store/actions";
+import ActivatingCard from "./cards/activatingCard";
+import ActiveCard from "./cards/activeCard";
+import ClosedCard from "./cards/closedCard";
+import HoldCard from "./cards/holdCard";
+import InactiveCard from "./cards/inactiveCard";
+import LostCard from "./cards/lostCard";
+import UnknownCard from "./cards/unknownCard";
+import Spinner from "../../common/spinner";
+import {
+  SHOW_OTC_CARD_HOME_PAGE,
+  SHOW_SHOP_ONLINE_HOME_PAGE,
+} from "../../../constants/splits";
 import { FeatureTreatment } from "../../../libs/featureFlags";
 import { useHistory } from "react-router-dom";
-import ShopOnlineCard from './cards/shopOnlineCard'
+import ShopOnlineCard from "./cards/shopOnlineCard";
 import { AnalyticsTrack } from "../../common/segment/analytics";
-import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../../constants/segment";
-import { generateCardType } from '../../overTheCounter/utils'
+import {
+  ANALYTICS_TRACK_TYPE,
+  ANALYTICS_TRACK_CATEGORY,
+} from "../../../constants/segment";
+import { generateCardType } from "../../overTheCounter/utils";
 
 const OTC = () => {
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
 
   const customerInfo = useSelector((state) => state.customerInfo);
   const otcProfile = useSelector((state) => state.otcCard.profile);
 
   useEffect(() => {
-    dispatch(requestOTCProfile())
-  }, [])
+    dispatch(requestOTCProfile());
+  }, []);
 
   const handleActivate = (e) => {
     // Segment Track
-    AnalyticsTrack(
-      "Visit Activate OTC Page Button Clicked", 
-      customerInfo,
-      {
-          "raw_text": e.target.textContent, 
-          "destination_url": "/otc/activate-card", 
-          "category": ANALYTICS_TRACK_CATEGORY.otc, 
-          "type": ANALYTICS_TRACK_TYPE.buttonClicked, 
-          "targetMemberId": customerInfo?.data?.memberId,
-          "location": {
-              "desktop":{
-                  "width": 1024,
-                  "value": "top right"
-              },
-              "tablet":{
-                  "width": 768,
-                  "value": "top right"
-              },
-              "mobile":{
-                  "width": 0,
-                  "value": "top right"
-              }
-          }
-      }
-    );
+    AnalyticsTrack("Visit Activate OTC Page Button Clicked", customerInfo, {
+      raw_text: e.target.textContent,
+      destination_url: "/otc/activate-card",
+      category: ANALYTICS_TRACK_CATEGORY.otc,
+      type: ANALYTICS_TRACK_TYPE.buttonClicked,
+      targetMemberId: customerInfo?.data?.memberId,
+      location: {
+        desktop: {
+          width: 1024,
+          value: "top right",
+        },
+        tablet: {
+          width: 768,
+          value: "top right",
+        },
+        mobile: {
+          width: 0,
+          value: "top right",
+        },
+      },
+    });
 
-    history.push('/otc-widget');
-  }
+    history.push("/otc-widget");
+  };
 
   const handleLearnMore = (e) => {
     // Segment Track
-    AnalyticsTrack(
-      "Visit Learn More OTC Button Clicked", 
-      customerInfo,
-      {
-          "raw_text": e.target.textContent, 
-          "description": e.target.textContent + 'OTC', 
-          "destination_url": "/otc/activate-card", 
-          "category": ANALYTICS_TRACK_CATEGORY.otc, 
-          "type": ANALYTICS_TRACK_TYPE.buttonClicked, 
-          "targetMemberId": customerInfo?.data?.memberId,
-          "location": {
-              "desktop":{
-                  "width": 1024,
-                  "value": "top right"
-              },
-              "tablet":{
-                  "width": 768,
-                  "value": "top right"
-              },
-              "mobile":{
-                  "width": 0,
-                  "value": "top right"
-              }
-          }
-      }
-    );
+    AnalyticsTrack("Visit Learn More OTC Button Clicked", customerInfo, {
+      raw_text: e.target.textContent,
+      description: e.target.textContent + "OTC",
+      destination_url: "/otc/activate-card",
+      category: ANALYTICS_TRACK_CATEGORY.otc,
+      type: ANALYTICS_TRACK_TYPE.buttonClicked,
+      targetMemberId: customerInfo?.data?.memberId,
+      location: {
+        desktop: {
+          width: 1024,
+          value: "top right",
+        },
+        tablet: {
+          width: 768,
+          value: "top right",
+        },
+        mobile: {
+          width: 0,
+          value: "top right",
+        },
+      },
+    });
 
-    history.push({ pathname: "/otc/learn-more" })
-  }
+    history.push({ pathname: "/otc/learn-more" });
+  };
 
   const handleOTCRetryButton = (e) => {
     // Segment Track
-    AnalyticsTrack(
-      "Reload OTC Button Clicked", 
-      customerInfo,
-      {
-          "raw_text": e.target.textContent, 
-          "destination_url": "", 
-          "category": ANALYTICS_TRACK_CATEGORY.otc, 
-          "type": ANALYTICS_TRACK_TYPE.buttonClicked, 
-          "targetMemberId": customerInfo?.data?.memberId,
-          "location": {
-              "desktop":{
-                  "width": 1024,
-                  "value": "top right"
-              },
-              "tablet":{
-                  "width": 768,
-                  "value": "top right"
-              },
-              "mobile":{
-                  "width": 0,
-                  "value": "top right"
-              }
-          }
-      }
-    );
+    AnalyticsTrack("Reload OTC Button Clicked", customerInfo, {
+      raw_text: e.target.textContent,
+      destination_url: "",
+      category: ANALYTICS_TRACK_CATEGORY.otc,
+      type: ANALYTICS_TRACK_TYPE.buttonClicked,
+      targetMemberId: customerInfo?.data?.memberId,
+      location: {
+        desktop: {
+          width: 1024,
+          value: "top right",
+        },
+        tablet: {
+          width: 768,
+          value: "top right",
+        },
+        mobile: {
+          width: 0,
+          value: "top right",
+        },
+      },
+    });
 
-    dispatch(requestOTCProfile())
-  }
+    dispatch(requestOTCProfile());
+  };
 
   const getOTCTileByStatus = (status) => {
     switch (status) {
       case 11: // Active
-        return <ActiveCard handleLearnMore={handleLearnMore} planCode={customerInfo?.data?.planCode} />
+        return (
+          <ActiveCard
+            handleLearnMore={handleLearnMore}
+            planCode={customerInfo?.data?.planCode}
+          />
+        );
       case 3: // Activating
-        return <ActivatingCard handleLearnMore={handleLearnMore} />
+        return <ActivatingCard handleLearnMore={handleLearnMore} />;
       case 20: // Closed: Replace Card
       case 21: // Closed: Member is no longer eligible
       case 22: // Closed
       case 23: // Closed: Card Expired
       case 24: // Closed: Redeemed
-        return <ClosedCard handleActivate={handleActivate} handleLearnMore={handleLearnMore} />
+        return (
+          <ClosedCard
+            handleActivate={handleActivate}
+            handleLearnMore={handleLearnMore}
+          />
+        );
       case 10: // Pending
       case 2: // Funding
       case 1: // New
-        return <InactiveCard handleActivate={handleActivate} handleLearnMore={handleLearnMore} />
+        return (
+          <InactiveCard
+            handleActivate={handleActivate}
+            handleLearnMore={handleLearnMore}
+          />
+        );
       case 12: // On Hold
       case 13: // On Hold by System
-        return <HoldCard handleLearnMore={handleLearnMore} statusId={status} />
+        return <HoldCard handleLearnMore={handleLearnMore} statusId={status} />;
       case 19: // Lost/Stolen - Pending Replacement Card
-        return <LostCard handleActivate={handleActivate} handleLearnMore={handleLearnMore} />
+        return (
+          <LostCard
+            handleActivate={handleActivate}
+            handleLearnMore={handleLearnMore}
+          />
+        );
       case 5000: // Unknown
-        return <UnknownCard handleLearnMore={handleLearnMore} handleOTCRetryButton={handleOTCRetryButton} />
+        return (
+          <UnknownCard
+            handleLearnMore={handleLearnMore}
+            handleOTCRetryButton={handleOTCRetryButton}
+          />
+        );
       default:
-        return <></>
+        return <></>;
     }
-  }
+  };
 
   return (
     <>
-      { customerInfo?.data &&
+      {customerInfo?.data && (
         <>
           <FeatureTreatment
             treatmentName={SHOW_OTC_CARD_HOME_PAGE}
-            onLoad={() => { }}
-            onTimedout={() => { }}
+            onLoad={() => {}}
+            onTimedout={() => {}}
             attributes={{
               planCode: customerInfo.data.planCode,
               companyCode: customerInfo.data.companyCode,
-              benefitPackage: customerInfo.data.hohPlans?.map(plan => plan.BenefitPackage),
+              benefitPackage: customerInfo.data.hohPlans?.map(
+                (plan) => plan.BenefitPackage
+              ),
               membershipStatus: customerInfo.data.membershipStatus,
             }}
           >
             <Wrapper>
-              <Title>{(generateCardType(customerInfo?.data?.hohPlans)) =="Flex"? "FLEX": generateCardType(customerInfo?.data?.hohPlans)}</Title>
-              { otcProfile.data === undefined ?  <UnknownCard handleLearnMore={handleLearnMore} handleOTCRetryButton={handleOTCRetryButton} /> : otcProfile?.data?.statusId ? getOTCTileByStatus(otcProfile?.data?.statusId) : <Spinner /> }
+              <Title>
+                {generateCardType(customerInfo?.data?.hohPlans) == "Flex"
+                  ? "FLEX"
+                  : generateCardType(customerInfo?.data?.hohPlans)}
+              </Title>
+              {otcProfile.data === undefined ? (
+                <UnknownCard
+                  handleLearnMore={handleLearnMore}
+                  handleOTCRetryButton={handleOTCRetryButton}
+                />
+              ) : otcProfile?.data?.statusId ? (
+                getOTCTileByStatus(otcProfile?.data?.statusId)
+              ) : (
+                <Spinner />
+              )}
             </Wrapper>
           </FeatureTreatment>
 
-          { !otcProfile?.loading && <FeatureTreatment
-            treatmentName={SHOW_SHOP_ONLINE_HOME_PAGE}
-            onLoad={() => { }}
-            onTimedout={() => { }}
-            attributes={{
-              planCode: customerInfo.data.planCode,
-              companyCode: customerInfo.data.companyCode,
-              benefitPackage: customerInfo.data.hohPlans?.map(plan => plan.BenefitPackage),
-              membershipStatus: customerInfo.data.membershipStatus,
-              otcStatusCode: String(otcProfile?.data?.statusId) // String!
-            }}
-          >
-            <Wrapper>
-              <ShopOnlineCard cardType={generateCardType(customerInfo?.data?.hohPlans)} />
-            </Wrapper>
-          </FeatureTreatment> }
+          {!otcProfile?.loading && (
+            <FeatureTreatment
+              treatmentName={SHOW_SHOP_ONLINE_HOME_PAGE}
+              onLoad={() => {}}
+              onTimedout={() => {}}
+              attributes={{
+                planCode: customerInfo.data.planCode,
+                companyCode: customerInfo.data.companyCode,
+                benefitPackage: customerInfo.data.hohPlans?.map(
+                  (plan) => plan.BenefitPackage
+                ),
+                membershipStatus: customerInfo.data.membershipStatus,
+                otcStatusCode: String(otcProfile?.data?.statusId), // String!
+              }}
+            >
+              <Wrapper>
+                <ShopOnlineCard
+                  cardType={generateCardType(customerInfo?.data?.hohPlans)}
+                />
+              </Wrapper>
+            </FeatureTreatment>
+          )}
         </>
-      }
+      )}
     </>
-  )
-}
+  );
+};
 
 export const Wrapper = styled.div`
   margin-bottom: 1.5rem;
@@ -227,11 +267,9 @@ export const OTCIcon = styled.img`
   right: 16px;
 `;
 
-export const HeaderLeft = styled.div`
-`;
+export const HeaderLeft = styled.div``;
 
-export const HeaderRight = styled.div`
-`;
+export const HeaderRight = styled.div``;
 
 export const BalanceTitle = styled.h4`
   flex-grow: 0;

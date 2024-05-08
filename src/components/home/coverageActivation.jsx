@@ -2,45 +2,59 @@ import React from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useHomeContext } from './homeContext';
+import { useHomeContext } from "./homeContext";
 import { handleSegmentClick } from "../../libs/segment";
 
 const CoverageActivation = () => {
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const history = useHistory();
-  const { showCoverageActivation, setShowCoverageActivation } = useHomeContext();
+  const {
+    showCoverageActivation,
+    setShowCoverageActivation,
+  } = useHomeContext();
 
-  const onPremiumPaymentClick = () =>{
-    handleSegmentClick("/payment","Make Premium Payment","Make Premium Payment","button", "bottom", customerInfo.data ,"payment");
-   history.push('payments');
-  }
+  const onPremiumPaymentClick = () => {
+    handleSegmentClick(
+      "/payment",
+      "Make Premium Payment",
+      "Make Premium Payment",
+      "button",
+      "bottom",
+      customerInfo.data,
+      "payment"
+    );
+    history.push("payments");
+  };
 
-  if(!showCoverageActivation) return null;
+  if (!showCoverageActivation) return null;
 
   return (
-      <Card>
-        <CloseIcon alt="close" src="/react/images/valid-close.svg" aria-label="Close" onClick={() => setShowCoverageActivation(false)} />
-        <ActivateCoverage>
-          Activate your coverage
-        </ActivateCoverage>
-        <PremiumPaymentTxt>
-          If your Healthfirst plan has a monthly premium, make your first premium payment
-          (also called a binder payment) to activate your plan. This will confirm your enrollment, and a benefits packet will be mailed to you. You will be notified when your benefits are active.
-        </PremiumPaymentTxt>
-        <Section onClick = {onPremiumPaymentClick}>
-          <PaymentImage alt = "" src="/react/images/icn-payment.svg" />
-          <MakePremiumPayment>
-            Make Premium Payment
-          </MakePremiumPayment>
-        </Section>
-      </Card>
+    <Card>
+      <CloseIcon
+        alt="close"
+        src="/react/images/valid-close.svg"
+        aria-label="Close"
+        onClick={() => setShowCoverageActivation(false)}
+      />
+      <ActivateCoverage>Activate your coverage</ActivateCoverage>
+      <PremiumPaymentTxt>
+        If your Healthfirst plan has a monthly premium, make your first premium
+        payment (also called a binder payment) to activate your plan. This will
+        confirm your enrollment, and a benefits packet will be mailed to you.
+        You will be notified when your benefits are active.
+      </PremiumPaymentTxt>
+      <Section onClick={onPremiumPaymentClick}>
+        <PaymentImage alt="" src="/react/images/icn-payment.svg" />
+        <MakePremiumPayment>Make Premium Payment</MakePremiumPayment>
+      </Section>
+    </Card>
   );
 };
 
 export default CoverageActivation;
 
 const Card = styled.div`
-  width:100%;
+  width: 100%;
   margin: 0px 0px 37px 0px;
   padding: 16px 15px 16px 16px;
   border-radius: 4px;
@@ -99,7 +113,7 @@ const CloseIcon = styled.img`
 `;
 
 const Section = styled.div`
-  display:flex;
+  display: flex;
   &:hover {
     cursor: pointer;
   }

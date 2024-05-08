@@ -4,37 +4,37 @@ import GlobalStyle from "../../styles/GlobalStyle";
 import { useHistory } from "react-router-dom";
 
 const PaymentError = () => {
-	const history = useHistory();
+  const history = useHistory();
 
-	return (
-		<> 
+  return (
+    <>
       <GlobalStyle />
-			<Card >
-				<AlertIcon src="react/images/alert-icon.svg" />
-				<Header>Sorry, something went wrong.</Header>
-				<Description>Please	refresh the page and try again.</Description>
-				<Refresh onClick={() => history.go(0)} >Refresh Page</Refresh>
-			</Card>
-		</>
-	)
-}
+      <Card>
+        <AlertIcon src="react/images/alert-icon.svg" />
+        <Header>Sorry, something went wrong.</Header>
+        <Description>Please refresh the page and try again.</Description>
+        <Refresh onClick={() => history.go(0)}>Refresh Page</Refresh>
+      </Card>
+    </>
+  );
+};
 
 export default PaymentError;
 
 const Card = styled.div`
   margin: 174px auto 164px;
   border-radius: 4px;
-  width:480px;
+  width: 480px;
   background-color: #ffffff;
   box-shadow: 0 2px 8px 0 #d8d8d8;
   padding: 40px 24px 40px 24px;
   @media only screen and (max-width: 960px) {
     margin: 150px auto;
-  };
+  }
   @media only screen and (max-width: 667px) {
     margin: 86px auto;
     width: 328px;
-  };
+  } ;
 `;
 
 const AlertIcon = styled.img`
@@ -60,9 +60,9 @@ const Description = styled.div`
   font-size: 14px;
   line-height: 18px;
   text-align: center;
-  color: #474B55;
-  margin-top:8px;
-  margin-bottom:32px;
+  color: #474b55;
+  margin-top: 8px;
+  margin-bottom: 32px;
 `;
 
 const Refresh = styled.div`
@@ -80,7 +80,7 @@ const Refresh = styled.div`
   padding: 8px 16px;
   background-color: #3e7128;
   color: #ffffff;
-  &:hover{
-  cursor:pointer;
+  &:hover {
+    cursor: pointer;
   }
 `;

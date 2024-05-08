@@ -1,23 +1,27 @@
 import styled from "styled-components";
 import React from "react";
 import GlobalStyle from "../../styles/GlobalStyle";
-import moment from 'moment';
+import moment from "moment";
 import { useSelector } from "react-redux";
 
 const PlanDetails = () => {
-
   const customerInfo = useSelector((state) => state.customerInfo.data);
 
   return (
-    <><GlobalStyle />
-      <PlanStsMsg>
-        Your Plan is No Longer Active
-      </PlanStsMsg>
+    <>
+      <GlobalStyle />
+      <PlanStsMsg>Your Plan is No Longer Active</PlanStsMsg>
       <Card>
-        <AlertIcon alt = "" src="/react/images/icn-alert.svg" />
+        <AlertIcon alt="" src="/react/images/icn-alert.svg" />
         <AlertMsg>
-          <PlanTxt>Your {customerInfo.planName.toLowerCase()}</PlanTxt>{` plan is inactive as of ${moment(customerInfo.membershipExpirationDate).format('L')}. For any other questions,`}
-          <ContactTxt href="https://healthfirst.org/contact" target="_blank">contact us</ContactTxt>.
+          <PlanTxt>Your {customerInfo.planName.toLowerCase()}</PlanTxt>
+          {` plan is inactive as of ${moment(
+            customerInfo.membershipExpirationDate
+          ).format("L")}. For any other questions,`}
+          <ContactTxt href="https://healthfirst.org/contact" target="_blank">
+            contact us
+          </ContactTxt>
+          .
         </AlertMsg>
       </Card>
     </>
@@ -27,7 +31,7 @@ const PlanDetails = () => {
 export default PlanDetails;
 
 const PlanTxt = styled.span`
-  text-transform:capitalize;
+  text-transform: capitalize;
 `;
 
 const PlanStsMsg = styled.div`
@@ -48,7 +52,7 @@ const PlanStsMsg = styled.div`
 
 const Card = styled.div`
   width: 100%;
-  min-height:136px;
+  min-height: 136px;
   margin: 16px 0 179px;
   padding: 16px 5px 16px 16px;
   border-radius: 4px;
@@ -71,7 +75,7 @@ const AlertMsg = styled.div`
   line-height: 1.29;
   letter-spacing: normal;
   text-align: center;
-  color:#474b55;
+  color: #474b55;
 `;
 
 const ViewClaims = styled.div`
@@ -91,15 +95,15 @@ const ViewClaims = styled.div`
   color: #008bbf;
   margin: auto;
   margin-top: 15px;
-  &:hover{
-    color:#2A6A9E;
-    text-decoration:underline;
-    cursor:pointer;
+  &:hover {
+    color: #2a6a9e;
+    text-decoration: underline;
+    cursor: pointer;
   }
 `;
 
 const ContactTxt = styled.a`
-  text-decoration:underline;
-  color:#474b55;
-  font-weight:bold;
+  text-decoration: underline;
+  color: #474b55;
+  font-weight: bold;
 `;

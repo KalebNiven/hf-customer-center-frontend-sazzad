@@ -24,7 +24,7 @@ export const ModalInnerWrapper = styled.div`
   padding-bottom: 2rem;
   &::-webkit-scrollbar {
     display: none;
-}
+  }
   @media only screen and (max-width: 960px) {
     top: 50%;
   }
@@ -56,10 +56,10 @@ export const Button = styled.button`
   line-height: 1.33;
   letter-spacing: -0.08px;
   text-align: center;
-  color: ${(props) => props.green ? `white` : `#3e7128`};
-  background-color: ${(props) => props.green ? `#3e7128` : `#ffffff`};
+  color: ${(props) => (props.green ? `white` : `#3e7128`)};
+  background-color: ${(props) => (props.green ? `#3e7128` : `#ffffff`)};
   border-radius: 4px;
-  margin-left: ${(props) => props.green ? `20px` : `` };
+  margin-left: ${(props) => (props.green ? `20px` : ``)};
   border: solid 1px #3e7128;
   float: right;
   cursor: pointer;
@@ -70,7 +70,6 @@ export const ButtonWrapper = styled.div`
   @media only screen and (max-width: 600px) {
   }
   margin-bottom: 4.5rem;
-
 `;
 
 export const Header = styled.div`

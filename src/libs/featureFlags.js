@@ -54,7 +54,7 @@ const splitConfig = (uniqueId, splitKey, options, trafficType) => ({
   core: {
     authorizationKey: splitKey,
     key: uniqueId,
-    trafficType: trafficType
+    trafficType: trafficType,
   },
   ...options,
 });
@@ -76,7 +76,7 @@ export class FeatureFactory extends PureComponent {
       updateOnSdkTimedout = true,
       options = {},
       children,
-      trafficType
+      trafficType,
     } = this.props;
     return (
       <SplitFactory
@@ -132,9 +132,9 @@ export class FeatureTreatment extends PureComponent {
       onLoad,
       onTimedout,
       showUnlessOff,
-      ignoreSplit
+      ignoreSplit,
     } = this.props;
-    if (ignoreSplit) return children
+    if (ignoreSplit) return children;
     return (
       <SplitTreatments names={[treatmentName]} attributes={attributes}>
         {({ treatments, isReady, isTimedout }) => {
@@ -152,13 +152,18 @@ export class FeatureTreatment extends PureComponent {
           let clonedChild;
 
           if (Array.isArray(children)) {
-            clonedChild = children.map((item,index) => {
+            clonedChild = children.map((item, index) => {
               const element =
-                item !== undefined && item !== false
-                  ? <React.Fragment key={`${item}_${index}`}> {React.cloneElement(item, {
+                item !== undefined && item !== false ? (
+                  <React.Fragment key={`${item}_${index}`}>
+                    {" "}
+                    {React.cloneElement(item, {
                       featureconfig,
-                    })}</React.Fragment>
-                  : item;
+                    })}
+                  </React.Fragment>
+                ) : (
+                  item
+                );
               return element;
             });
           } else {
@@ -200,8 +205,7 @@ export class FeatureTreatment extends PureComponent {
           // the children will load as if the feature is turned off
           else if (treatment === "control" && invertBehavior) {
             return clonedChild;
-          }
-          else if(showUnlessOff) {
+          } else if (showUnlessOff) {
             return clonedChild;
           }
           return <></>;

@@ -1,22 +1,24 @@
-import React from 'react'
-import { useAppContext } from '../../AppContext'
-import { Link } from './externalSiteLinkSSO'
-import AcknowledgmentModal from './acknowledgmentModal'
+import React from "react";
+import { useAppContext } from "../../AppContext";
+import { Link } from "./externalSiteLinkSSO";
+import AcknowledgmentModal from "./acknowledgmentModal";
 
-const NoticeLink = ({ label, callback, styles, children}) => {
-    const { setAcknowledgmentModal } = useAppContext()
+const NoticeLink = ({ label, callback, styles, children }) => {
+  const { setAcknowledgmentModal } = useAppContext();
 
-    const handleClick = () => { 
-        setAcknowledgmentModal({isVisible: true, label, callback})
-    }
+  const handleClick = () => {
+    setAcknowledgmentModal({ isVisible: true, label, callback });
+  };
 
-    return (
-        <>
-            {
-                <Link onClick={() => handleClick()} styles={styles}>{children}</Link>
-            }
-        </>
-    )
-}
+  return (
+    <>
+      {
+        <Link onClick={() => handleClick()} styles={styles}>
+          {children}
+        </Link>
+      }
+    </>
+  );
+};
 
-export default NoticeLink
+export default NoticeLink;

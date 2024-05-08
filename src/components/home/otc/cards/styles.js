@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CardHeader = styled.div`
   padding: 16px 16px 0 16px;
@@ -42,9 +42,9 @@ export const TooltipIcon = styled.div`
   width: 16px;
   height: 16px;
   cursor: pointer;
-  right:0em;
-  margin-top:7.33px;
-  margin-right:13.33px;
+  right: 0em;
+  margin-top: 7.33px;
+  margin-right: 13.33px;
 
   &:hover {
     background-image: url("/react/images/info-circle-icon-blue.svg");

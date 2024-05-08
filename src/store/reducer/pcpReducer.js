@@ -3,7 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 export const initialState = {
   pcpDetails: {},
   pcpLoading: false,
-  error: ""
+  error: "",
 };
 
 export default function pcp(state = initialState, action) {
@@ -13,32 +13,30 @@ export default function pcp(state = initialState, action) {
         ...state,
         pcpDetails: {},
         pcpLoading: true,
-        error: ""
+        error: "",
       };
     }
     case actionTypes.RECEIVE_PCP_DETAILS: {
       switch (action.payload.status) {
-        case 'ERROR':
-          {
-            return {
-              ...state,
-              pcpDetails: {},
-              pcpLoading: false,
-              error: action.payload.errorData
-            };
-          }
-        default:
-          {
-            return {
-              ...state,
-              pcpDetails: action.payload.data,
-              pcpLoading: false,
-              error: ""
-            };
-          }
+        case "ERROR": {
+          return {
+            ...state,
+            pcpDetails: {},
+            pcpLoading: false,
+            error: action.payload.errorData,
+          };
+        }
+        default: {
+          return {
+            ...state,
+            pcpDetails: action.payload.data,
+            pcpLoading: false,
+            error: "",
+          };
+        }
       }
     }
     default:
       return state;
   }
-};
+}

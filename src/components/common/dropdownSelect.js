@@ -42,8 +42,7 @@ function DropdownSelect(props) {
   useEffect(() => {
     if (defaultSelected) {
       setSelection(values[0].label);
-    }
-    else if(props.selected){
+    } else if (props.selected) {
       setSelection(props.selected.label);
     }
   }, []);
@@ -76,7 +75,9 @@ function DropdownSelect(props) {
 
   return (
     <DropdownFieldContainer ref={dropdownRef} fullWidth={fullWidth}>
-      <DropdownField showImage={showImage} error={error}
+      <DropdownField
+        showImage={showImage}
+        error={error}
         className={`${error && "error"}`}
         onClick={handleDropdownClick}
         isOpen={isOpen}
@@ -89,27 +90,38 @@ function DropdownSelect(props) {
             {selection || placeholder}
           </DropdownFieldText>
           <DropdownIconContainer>
-            <DropdownIcon alt = "" src={!isOpen ? "/react/images/icn-dropdown.svg" : "/react/images/icn-dropdown-up.svg"} />
+            <DropdownIcon
+              alt=""
+              src={
+                !isOpen
+                  ? "/react/images/icn-dropdown.svg"
+                  : "/react/images/icn-dropdown-up.svg"
+              }
+            />
           </DropdownIconContainer>
         </DropdownFieldTextContainer>
-        <DropdownList className="hf-preference-center-dropdown-content" isOpen={isOpen} heightPixels={heightPixels}>
+        <DropdownList
+          className="hf-preference-center-dropdown-content"
+          isOpen={isOpen}
+          heightPixels={heightPixels}
+        >
           {values.map((item, index) => (
             <React.Fragment key={Math.random()}>
-              <DropdownListItem 
-                selection={selection} 
+              <DropdownListItem
+                selection={selection}
                 selectedHighlight={selectedHighlight}
                 onClick={(e) => handleSelect(item, e)}
                 name={item.label}
                 value={item.value}
               >
-                {item.planName === "" ?
-                <h1>{item.label}</h1>
-                :
-                <div>
-                <h2>{item.label}</h2>
-                <p>{item.planName}</p>
-                </div>
-                }
+                {item.planName === "" ? (
+                  <h1>{item.label}</h1>
+                ) : (
+                  <div>
+                    <h2>{item.label}</h2>
+                    <p>{item.planName}</p>
+                  </div>
+                )}
               </DropdownListItem>
             </React.Fragment>
           ))}
@@ -152,14 +164,13 @@ DropdownSelect.defaultProps = {
 };
 
 const DropdownFieldContainer = styled.div`
-
   display: ${(props) => (props.fullWidth ? "inline-block" : "flex")};
   flex: auto;
   width: ${(props) => (props.fullWidth ? "100%" : "25%")};
   margin-right: 10px;
   color: #474b55;
-  *{
-    box-sizing: border-box!important;
+  * {
+    box-sizing: border-box !important;
   }
   @media only screen and (max-width: 768px) {
     width: 100%;
@@ -168,7 +179,8 @@ const DropdownFieldContainer = styled.div`
 
 const DropdownField = styled.div`
   border-radius: 4px;
-  border: ${(props) => (props.isOpen ? "2px solid rgb(0, 56, 99)" : "solid 1px #a8abac")};
+  border: ${(props) =>
+    props.isOpen ? "2px solid rgb(0, 56, 99)" : "solid 1px #a8abac"};
   background-color: #ffffff;
   cursor: pointer;
   text-align: left;
@@ -176,22 +188,29 @@ const DropdownField = styled.div`
   width: 100%;
   position: relative;
   margin-bottom: 8px;
-width: -webkit-fill-available;
-padding: ${(props) => (props.showImage ? "9px 0px 9px 0px" : "6px 0px 6px 0px")};
-background-color: #ffffff;
-font-size: 16px;
-font-weight: 300;
-font-family: "museo-sans";
-background: ${(props) => (props.showImage ? "url(react/images/icons-solid-user.svg) no-repeat scroll #ffffff 10px 13px" : "")};
-border: ${(props) => (props.error ? "solid 1px #ad122a" : "")};
+  width: -webkit-fill-available;
+  padding: ${(props) =>
+    props.showImage ? "9px 0px 9px 0px" : "6px 0px 6px 0px"};
+  background-color: #ffffff;
+  font-size: 16px;
+  font-weight: 300;
+  font-family: "museo-sans";
+  background: ${(props) =>
+    props.showImage
+      ? "url(react/images/icons-solid-user.svg) no-repeat scroll #ffffff 10px 13px"
+      : ""};
+  border: ${(props) => (props.error ? "solid 1px #ad122a" : "")};
   &:focus {
     box-shadow: none;
   }
   &:focus .hf-preference-center-dropdown-content {
     display: block;
   }
-  &.selected{
-    background: ${(props) => (props.showImage ? "url(react/images/icons-solid-user-dark-grey.svg) no-repeat scroll #ffffff 10px 13px" : "")};
+  &.selected {
+    background: ${(props) =>
+      props.showImage
+        ? "url(react/images/icons-solid-user-dark-grey.svg) no-repeat scroll #ffffff 10px 13px"
+        : ""};
   }
 `;
 
@@ -220,7 +239,8 @@ const DropdownFieldText = styled.div`
 
 const DropdownFieldTextContainer = styled.div`
   width: 100%;
-  padding: ${(props) => (props.showImage ? "0px 0px 0px 35px" : "0px 0px 0px 1rem")};
+  padding: ${(props) =>
+    props.showImage ? "0px 0px 0px 35px" : "0px 0px 0px 1rem"};
 `;
 
 const DropdownIconContainer = styled.div`
@@ -244,7 +264,8 @@ const DropdownList = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   position: absolute;
   background-color: #ffffff;
-  max-height: ${(props) => (props.heightPixels ? props.heightPixels+"px" : "298px")};
+  max-height: ${(props) =>
+    props.heightPixels ? props.heightPixels + "px" : "298px"};
   margin: 13px 0px;
   border-radius: 4px;
   box-shadow: 0 2px 8px 0 #d8d8d8;
@@ -284,7 +305,10 @@ const DropdownListItem = styled.button`
   color: #474b55;
   text-align: left;
   border: none;
-  background-color: ${(props) => (props.selectedHighlight && props.name == props.selection ? "#e5e5e5" : "#ffffff")};
+  background-color: ${(props) =>
+    props.selectedHighlight && props.name == props.selection
+      ? "#e5e5e5"
+      : "#ffffff"};
   padding: 9px 12px;
   display: block;
   cursor: pointer;
@@ -296,7 +320,7 @@ const DropdownListItem = styled.button`
   &:hover {
     background-color: #f8f8f8;
   }
-  h1{
+  h1 {
     font-weight: 500;
     font-family: "museo-sans";
     font-size: 16px;
@@ -304,15 +328,16 @@ const DropdownListItem = styled.button`
     padding: 0;
     margin: 0;
   }
-  h2{
-    font-weight: ${(props) => (props.selectedHighlight && props.name == props.selection ? "500" : "300")};
+  h2 {
+    font-weight: ${(props) =>
+      props.selectedHighlight && props.name == props.selection ? "500" : "300"};
     font-family: "museo-sans";
     font-size: 16px;
     color: #474b55;
     padding: 0;
     margin: 0;
   }
-  p{
+  p {
     font-weight: 300;
     font-family: "museo-sans";
     font-size: 12px;
