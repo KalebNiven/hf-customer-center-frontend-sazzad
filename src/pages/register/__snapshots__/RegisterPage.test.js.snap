@@ -3,7 +3,7 @@
 exports[`RegisterPage renders correctly 1`] = `
 <DocumentFragment>
   <div
-    class="Wrapper-sc-11yfjnx-0 gpJnIC"
+    class="Wrapper-sc-11yfjnx-0 eqQOMC"
   >
     <div
       class="Container-sc-11yfjnx-2 iWojAi"
@@ -15,7 +15,7 @@ exports[`RegisterPage renders correctly 1`] = `
           class="List-kpclvo-0 edeZZK"
         >
           <li
-            class="ListItem-kpclvo-1 ldsnMs"
+            class="ListItem-kpclvo-1 dhkyhU"
           >
             <a
               href="https://member-rt.healthfirst.org/selectLanguage?selectedLang=en"
@@ -24,7 +24,7 @@ exports[`RegisterPage renders correctly 1`] = `
             </a>
           </li>
           <li
-            class="ListItem-kpclvo-1 ldsnMs"
+            class="ListItem-kpclvo-1 dhkyhU"
           >
             <a
               href="https://es.member-rt.healthfirst.org/selectLanguage?selectedLang=es"
@@ -33,7 +33,7 @@ exports[`RegisterPage renders correctly 1`] = `
             </a>
           </li>
           <li
-            class="ListItem-kpclvo-1 ldsnMs"
+            class="ListItem-kpclvo-1 dhkyhU"
           >
             <a
               href="https://zh.member-rt.healthfirst.org/selectLanguage?selectedLang=zh"
@@ -168,7 +168,7 @@ exports[`RegisterPage renders correctly 1`] = `
             class="List-sc-1t67vgj-1 zobnX"
           >
             <li
-              class="ListItem-sc-1t67vgj-2 iasVnc"
+              class="ListItem-sc-1t67vgj-2 elfIE"
             >
               <a
                 href="https://healthfirst.org/contact"
@@ -177,7 +177,7 @@ exports[`RegisterPage renders correctly 1`] = `
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 iasVnc"
+              class="ListItem-sc-1t67vgj-2 elfIE"
             >
               <a
                 href="https://assets.healthfirst.org/pdf_dummykey?v=dummykey"
@@ -186,7 +186,7 @@ exports[`RegisterPage renders correctly 1`] = `
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 iasVnc"
+              class="ListItem-sc-1t67vgj-2 elfIE"
             >
               <a
                 href="http://assets.healthfirst.org/api/pdf?id=pdf_267ff1120f&key=dummykey"
@@ -195,7 +195,7 @@ exports[`RegisterPage renders correctly 1`] = `
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 iasVnc"
+              class="ListItem-sc-1t67vgj-2 elfIE"
             >
               <a
                 href="http://assets.healthfirst.org/api/pdf?id=pdf_53b845cf68&key=dummykey&_ga=2.262813516.1197467741.1496254267-1737878043.1427400676"
@@ -204,7 +204,7 @@ exports[`RegisterPage renders correctly 1`] = `
               </a>
             </li>
             <li
-              class="ListItem-sc-1t67vgj-2 iasVnc"
+              class="ListItem-sc-1t67vgj-2 elfIE"
             >
               <a
                 href="http://assets.healthfirst.org/api/pdf?id=pdf_ffc2ec5002&key=dummykey&_ga=2.259676362.1197467741.1496254267-1737878043.1427400676"
@@ -214,7 +214,7 @@ exports[`RegisterPage renders correctly 1`] = `
             </li>
           </ul>
           <div
-            class="Copyright-sc-1t67vgj-3 rIEff"
+            class="Copyright-sc-1t67vgj-3 blZWFD"
           >
             © 2024 Healthfirst
           </div>

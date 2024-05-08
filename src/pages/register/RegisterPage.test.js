@@ -8,6 +8,7 @@ import {AppContextProvider} from "../../AppContext";
 import createMockReduxStore from "../../test-resources/createMockReduxStore";
 import CreateAccount from "../../components/auth/registration/createAccount";
 import {Router} from "react-router-dom";
+import 'jest-styled-components'
 
 
 describe('RegisterPage', () => {
