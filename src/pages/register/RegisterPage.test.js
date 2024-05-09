@@ -15,7 +15,6 @@ describe('RegisterPage', () => {
     let store
 
     beforeEach(() => {
-        process.env.MIX_APP_DOMAIN = 'https://place.com'
         window.analytics = { track: jest.fn()}
         store = createMockReduxStore()
     })
