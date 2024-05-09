@@ -1,113 +1,102 @@
-import React from "react";
+import React from 'react'
 
-import { fireEvent, render, screen } from "@testing-library/react";
-import { Provider } from "react-redux";
+import {fireEvent, render, screen} from '@testing-library/react'
+import { Provider } from 'react-redux'
 
-import { devTools } from "../../store/store";
-import { AppContextProvider } from "../../AppContext";
+import {devTools} from "../../store/store";
+import {AppContextProvider} from "../../AppContext";
 import createMockReduxStore from "../../test-resources/createMockReduxStore";
 import CreateAccount from "../../components/auth/registration/createAccount";
-import { Router } from "react-router-dom";
-import "jest-styled-components";
+import {Router} from "react-router-dom";
+import 'jest-styled-components'
 
-describe("RegisterPage", () => {
-  let store;
 
-  beforeEach(() => {
-    process.env.MIX_APP_DOMAIN = "https://place.com";
-    window.analytics = { track: jest.fn() };
-    store = createMockReduxStore();
-  });
+describe('RegisterPage', () => {
+    let store
 
-  it("renders correctly", () => {
-    const { asFragment } = render(
-      <AppContextProvider>
-        <Provider store={store}>
-          <Router
-            history={{
-              push: () => {},
-              listen(listener) {},
-              location: { pathname: "/register" },
-            }}
-          >
-            <CreateAccount ignoreSplit={true} />
-          </Router>
-        </Provider>
-      </AppContextProvider>,
-    );
+    beforeEach(() => {
+        window.analytics = { track: jest.fn()}
+        store = createMockReduxStore()
+    })
 
-    expect(asFragment()).toMatchSnapshot();
-  });
+    it('renders correctly', () => {
+        const {asFragment} = render(
+            <AppContextProvider>
+                    <Provider store={store}>
+                        <Router history={{
+                            push: () => {},
+                            listen(listener) {},
+                            location: {pathname: '/register'}
+                        }}>
+                            <CreateAccount ignoreSplit={true}/>
+                        </Router>
+                    </Provider>
+            </AppContextProvider>)
 
-  it("routes to /login when clicking healthfirst logo", async () => {
-    const mockPush = jest.fn();
+        expect(asFragment()).toMatchSnapshot();
+    })
 
-    render(
-      <AppContextProvider>
-        <Provider store={store}>
-          <Router
-            history={{
-              push: mockPush,
-              listen(listener) {},
-              location: { pathname: "/register" },
-            }}
-          >
-            <CreateAccount ignoreSplit={true} />
-          </Router>
-        </Provider>
-      </AppContextProvider>,
-    );
+    it('routes to /login when clicking healthfirst logo', async () => {
+        const mockPush = jest.fn()
 
-    fireEvent.click(screen.getByTestId("healthfirst-logo"));
+        render(
+            <AppContextProvider>
+                <Provider store={store}>
+                    <Router history={{
+                        push: mockPush,
+                        listen(listener) {},
+                        location: {pathname: '/register'}
+                    }}>
+                        <CreateAccount ignoreSplit={true}/>
+                    </Router>
+                </Provider>
+            </AppContextProvider>)
 
-    expect(mockPush).toBeCalledWith("/login");
-  });
+        fireEvent.click(screen.getByTestId('healthfirst-logo'))
 
-  it("routes to /login when clicking back icon", async () => {
-    const mockPush = jest.fn();
+        expect(mockPush).toBeCalledWith('/login')
+    })
 
-    render(
-      <AppContextProvider>
-        <Provider store={store}>
-          <Router
-            history={{
-              push: mockPush,
-              listen(listener) {},
-              location: { pathname: "/register" },
-            }}
-          >
-            <CreateAccount ignoreSplit={true} />
-          </Router>
-        </Provider>
-      </AppContextProvider>,
-    );
+    it('routes to /login when clicking back icon', async () => {
+        const mockPush = jest.fn()
 
-    fireEvent.click(screen.getByTestId("back-icon"));
+        render(
+            <AppContextProvider>
+                <Provider store={store}>
+                    <Router history={{
+                        push: mockPush,
+                        listen(listener) {},
+                        location: {pathname: '/register'}
+                    }}>
+                        <CreateAccount ignoreSplit={true}/>
+                    </Router>
+                </Provider>
+            </AppContextProvider>)
 
-    expect(mockPush).toBeCalledWith("/login");
-  });
+        fireEvent.click(screen.getByTestId('back-icon'))
 
-  it("routes to /login when clicking back text", async () => {
-    const mockPush = jest.fn();
+        expect(mockPush).toBeCalledWith('/login')
+    })
 
-    render(
-      <AppContextProvider>
-        <Provider store={store}>
-          <Router
-            history={{
-              push: mockPush,
-              listen(listener) {},
-              location: { pathname: "/register" },
-            }}
-          >
-            <CreateAccount ignoreSplit={true} />
-          </Router>
-        </Provider>
-      </AppContextProvider>,
-    );
+    it('routes to /login when clicking back text', async () => {
+        const mockPush = jest.fn()
 
-    fireEvent.click(screen.getByTestId("back-text"));
+        render(
+            <AppContextProvider>
+                <Provider store={store}>
+                    <Router history={{
+                        push: mockPush,
+                        listen(listener) {},
+                        location: {pathname: '/register'}
+                    }}>
+                        <CreateAccount ignoreSplit={true}/>
+                    </Router>
+                </Provider>
+            </AppContextProvider>)
 
-    expect(mockPush).toBeCalledWith("/login");
-  });
+        fireEvent.click(screen.getByTestId('back-text'))
+
+        expect(mockPush).toBeCalledWith('/login')
+    })
 });
+
