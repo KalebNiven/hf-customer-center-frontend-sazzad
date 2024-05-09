@@ -1,0 +1,874 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClaimsPage renders correctly 1`] = `
+<DocumentFragment>
+  .c11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: auto;
+  -ms-flex: auto;
+  flex: auto;
+  width: 25%;
+  margin-right: 10px;
+  color: #474b55;
+}
+
+.c11 * {
+  box-sizing: border-box!important;
+}
+
+.c12 {
+  border-radius: 4px;
+  border: solid 1px #a8abac;
+  background-color: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  margin: auto;
+  width: 100%;
+  position: relative;
+  margin-bottom: 8px;
+  width: -webkit-fill-available;
+  padding: 9px 0px 9px 0px;
+  background-color: #ffffff;
+  font-size: 16px;
+  font-weight: 300;
+  font-family: "museo-sans";
+  background: url(react/images/icons-solid-user.svg) no-repeat scroll #ffffff 10px 13px;
+}
+
+.c12:focus {
+  box-shadow: none;
+}
+
+.c12:focus .hf-preference-center-dropdown-content {
+  display: block;
+}
+
+.c12.selected {
+  background: url(react/images/icons-solid-user-dark-grey.svg) no-repeat scroll #ffffff 10px 13px;
+}
+
+.c14 {
+  font-size: 16px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  -webkit-letter-spacing: normal;
+  -moz-letter-spacing: normal;
+  -ms-letter-spacing: normal;
+  letter-spacing: normal;
+  color: #a8abac;
+  padding: 0px 0px 0px 0px;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 24px;
+  width: calc(100% - 40px);
+}
+
+.c14.selected {
+  color: #474b55;
+}
+
+.c14.error {
+  color: #ad122a;
+}
+
+.c13 {
+  width: 100%;
+  padding: 0px 0px 0px 35px;
+}
+
+.c15 {
+  display: inline-block;
+}
+
+.c16 {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  overflow: hidden;
+  margin: -5px 8px -4px 8px;
+  vertical-align: middle;
+}
+
+.c16.selected {
+  color: #474b55;
+}
+
+.c17 {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  max-height: 298px;
+  margin: 13px 0px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px 0 #d8d8d8;
+  background-color: #ffffff;
+  list-style-type: none;
+  padding: 6px 0px;
+  overflow: hidden;
+  overflow-y: auto;
+  z-index: 1;
+  width: 100%;
+}
+
+.c17::-webkit-scrollbar {
+  width: 8px;
+}
+
+.c17::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.c17::-webkit-scrollbar-thumb {
+  background: #d8d8d8;
+  border-radius: 4px;
+}
+
+.c17::-webkit-scrollbar-thumb:hover {
+  background: #c3c3ce;
+}
+
+.c18 {
+  font-size: 16px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  -webkit-letter-spacing: normal;
+  -moz-letter-spacing: normal;
+  -ms-letter-spacing: normal;
+  letter-spacing: normal;
+  color: #474b55;
+  text-align: left;
+  border: none;
+  background-color: #ffffff;
+  padding: 9px 12px;
+  display: block;
+  cursor: pointer;
+  z-index: 2;
+  width: inherit;
+}
+
+.c18:focus {
+  box-shadow: none;
+}
+
+.c18:hover {
+  background-color: #f8f8f8;
+}
+
+.c18 h1 {
+  font-weight: 500;
+  font-family: "museo-sans";
+  font-size: 16px;
+  color: #474b55;
+  padding: 0;
+  margin: 0;
+}
+
+.c18 h2 {
+  font-weight: 300;
+  font-family: "museo-sans";
+  font-size: 16px;
+  color: #474b55;
+  padding: 0;
+  margin: 0;
+}
+
+.c18 p {
+  font-weight: 300;
+  font-family: "museo-sans";
+  font-size: 12px;
+  color: #474b55;
+  padding: 0;
+  margin: 0;
+}
+
+.c20 {
+  padding: 8px 0px 8px 0px;
+  margin-bottom: 0px;
+}
+
+.c22 {
+  padding: 8px 0px 8px 0px;
+}
+
+.c9 {
+  display: contents;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 600px;
+}
+
+.c8 {
+  margin: 10px 16px 12px;
+  margin-bottom: 20rem;
+}
+
+.c10 {
+  height: 27px;
+  border-radius: 4px;
+  border: solid 1px #a8abac;
+  -webkit-align-self: flex-end;
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  margin-bottom: 16px;
+  box-sizing: initial;
+  width: -webkit-fill-available;
+  padding: 8px 0px 8px 35px;
+  background-color: #ffffff;
+  font-size: 16px;
+  font-weight: 300;
+  font-family: "museo-sans";
+  background: url("/react/images/icn-search.svg") no-repeat scroll #ffffff 10px 13px;
+}
+
+.c10::-webkit-input-placeholder {
+  color: #a8abac;
+}
+
+.c10::-moz-placeholder {
+  color: #a8abac;
+}
+
+.c10:-ms-input-placeholder {
+  color: #a8abac;
+}
+
+.c10:-moz-placeholder {
+  color: #a8abac;
+}
+
+.c10::-webkit-input-placeholder {
+  color: #a8abac;
+}
+
+.c10::-moz-placeholder {
+  color: #a8abac;
+}
+
+.c10:-ms-input-placeholder {
+  color: #a8abac;
+}
+
+.c10::placeholder {
+  color: #a8abac;
+}
+
+.c10:focus {
+  border: solid 2px #003863;
+}
+
+.c19 {
+  margin-bottom: 20px;
+  margin-top: -7px;
+}
+
+.c21 {
+  cursor: pointer;
+}
+
+.c0 {
+  height: 100%;
+}
+
+.c24 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 40px;
+  height: 64px;
+  background-color: #36502a;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c25 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 16px;
+  height: 16px;
+}
+
+.c26 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  width: 288px;
+  height: 64px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: space-around;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: space-around;
+  justify-content: space-around;
+}
+
+.c28 {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.c27 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.29;
+  color: white;
+}
+
+.c23 {
+  position: fixed;
+  background-color: #3e7128;
+  top: 190px;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  background-color: #3e7128;
+  display: none;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.c1 {
+  background-color: #f4f4f4;
+  max-width: 1024px;
+  position: relative;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.c7 {
+  height: 1px;
+  background-color: #d8d8d8;
+  margin: 0px 16px 0px;
+  min-width: 600px;
+}
+
+.c2 {
+  font-size: 24px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  -webkit-letter-spacing: normal;
+  -moz-letter-spacing: normal;
+  -ms-letter-spacing: normal;
+  letter-spacing: normal;
+  color: #003863;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-self: flex-end;
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+}
+
+.c5 {
+  visibility: hidden;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  -webkit-letter-spacing: normal;
+  -moz-letter-spacing: normal;
+  -ms-letter-spacing: normal;
+  letter-spacing: normal;
+  color: #474b55;
+  margin-right: 73px;
+}
+
+.c4 {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.c6 {
+  margin: 0px 16px 0px;
+}
+
+@media only screen and (max-width:768px) {
+  .c11 {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width:768px) {
+  .c17 {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width:770px) {
+  .c20 {
+    padding: 8px 0px 8px 0px;
+    margin: 0px 10px 0px 0px;
+  }
+}
+
+@media only screen and (min-width:769px) and (max-width:769px) {
+  .c20 {
+    margin: 16px 10px 0px 0px;
+  }
+}
+
+@media only screen and (min-width:770px) {
+  .c22 {
+    padding: 8px 0px 8px 0px;
+    margin-top: 0px;
+  }
+}
+
+@media only screen and (min-width:769px) and (max-width:769px) {
+  .c22 {
+    margin: 16px 0px 0px 0px;
+  }
+}
+
+@media only screen and (min-width:769px) {
+  .c9 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+
+@media only screen and (min-width:769px) {
+
+}
+
+@media only screen and (max-width:768px) {
+  .c10 {
+    margin-top: 15px;
+  }
+}
+
+@media only screen and (min-width:769px) {
+  .c10 {
+    margin-right: 10px;
+    width: 328px;
+  }
+}
+
+@media only screen and (min-width:769px) {
+  .c19 {
+    margin-top: -30px;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+
+@media only screen and (min-width:769px) {
+
+}
+
+@media only screen and (min-width:769px) {
+
+}
+
+@media only screen and (min-width:769px) {
+
+}
+
+@media only screen and (min-width:769px) {
+
+}
+
+<div
+    class="c0 c1"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-1"
+    >
+      <div
+        class="c2"
+      >
+        Claims
+      </div>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-2"
+    >
+      <div
+        class="c3"
+      >
+        Your Healthfirst account lets you access important information about your health plan. Here you can see the status of your claims.
+        <br />
+        <br />
+        <div
+          class="c4"
+        >
+          Keep in mind that due to sensitive health information, you may not able to view all your claims. If you have any questions, please call the Member Services phone number on your Member ID card for assistance.
+        </div>
+      </div>
+      <div
+        class="c5"
+      />
+    </div>
+    <div
+      class=""
+    >
+      <div
+        class="c6"
+      >
+        <div
+          class="MuiTabs-root"
+        >
+          <div
+            class="MuiTabs-scroller MuiTabs-fixed"
+            style="overflow: hidden;"
+          >
+            <div
+              class="MuiTabs-flexContainer"
+              role="tablist"
+            >
+              <button
+                aria-selected="true"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit Mui-selected"
+                role="tab"
+                style="font-size: 14px; font-weight: bold; font-stretch: normal; font-style: normal; line-height: 1.45; letter-spacing: 1px; text-align: center; color: rgb(62, 113, 40); text-transform: none; font-family: museo-sans; min-width: 80px; padding: 0px 20px;"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiTab-wrapper"
+                >
+                  Claims
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <span
+              class="PrivateTabIndicator-root-3 PrivateTabIndicator-colorSecondary-5 MuiTabs-indicator"
+              style="left: 0px; width: 0px; background: rgb(62, 113, 40);"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="c7"
+      />
+    </div>
+    <div
+      class="c8"
+    >
+      <div
+        class="c9"
+      >
+        <input
+          aria-label="Search Input"
+          class="c10"
+          id="search"
+          placeholder="Search claims #'s, providers, etc."
+          type="text"
+          value=""
+        />
+        <div
+          class="c11"
+        >
+          <div
+            class="c12 false"
+          >
+            <div
+              class="c13"
+            >
+              <div
+                class="c14 selected false"
+              >
+                All Members
+              </div>
+              <div
+                class="c15"
+              >
+                <img
+                  alt=""
+                  class="c16"
+                  src="/react/images/icn-dropdown.svg"
+                />
+              </div>
+            </div>
+            <div
+              class="c17 hf-preference-center-dropdown-content"
+            >
+              <button
+                class="c18"
+                name="All Members"
+              >
+                <h1>
+                  All Members
+                </h1>
+              </button>
+              <button
+                class="c18"
+                name="Sasha Buffin"
+                value="420000000696100"
+              >
+                <div>
+                  <h2>
+                    Sasha Buffin
+                  </h2>
+                  <p>
+                    Silver leaf
+                  </p>
+                </div>
+              </button>
+              <button
+                class="c18"
+                name="Sasha Buffin"
+                value="964311200"
+              >
+                <div>
+                  <h2>
+                    Sasha Buffin
+                  </h2>
+                  <p>
+                    Child health plus state pay
+                  </p>
+                </div>
+              </button>
+              <button
+                class="c18"
+                name="Suzy Buffin"
+                value="964311202"
+              >
+                <div>
+                  <h2>
+                    Suzy Buffin
+                  </h2>
+                  <p>
+                    Child Health Plus
+                  </p>
+                </div>
+              </button>
+              <button
+                class="c18"
+                name="Amel Buffin"
+                value="964311201"
+              >
+                <div>
+                  <h2>
+                    Amel Buffin
+                  </h2>
+                  <p>
+                    Child Health Plus
+                  </p>
+                </div>
+              </button>
+              <button
+                class="c18"
+                name="Athanasios Buffin"
+                value="964311203"
+              >
+                <div>
+                  <h2>
+                    Athanasios Buffin
+                  </h2>
+                  <p>
+                    Child Health Plus
+                  </p>
+                </div>
+              </button>
+              <button
+                class="c18"
+                name="Noriko Buffin"
+                value="420000000696101"
+              >
+                <div>
+                  <h2>
+                    Noriko Buffin
+                  </h2>
+                  <p>
+                    Silver Leaf
+                  </p>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="c19"
+        >
+          <div
+            class="c20"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root"
+              format="MM/dd/yyyy"
+            >
+              <div
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-adornedStart MuiOutlinedInput-adornedStart MuiInputBase-adornedEnd MuiOutlinedInput-adornedEnd"
+                style="height: 45px; border: 1px solid #a8abac; font-family: museo-sans; background-color: rgb(255, 255, 255); width: 100%; border-radius: 4px;"
+              >
+                <img
+                  alt=""
+                  src="/react/images/icn-calendar.svg"
+                />
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart MuiOutlinedInput-inputAdornedStart MuiInputBase-inputAdornedEnd MuiOutlinedInput-inputAdornedEnd"
+                  id="date-start-inline"
+                  placeholder="Start Date"
+                  readonly=""
+                  type="text"
+                  value=""
+                />
+                <img
+                  alt=""
+                  class="c21"
+                  src="/react/images/icn-dropdown.svg"
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="PrivateNotchedOutline-root-7 MuiOutlinedInput-notchedOutline"
+                  style="padding-left: 8px;"
+                >
+                  <legend
+                    class="PrivateNotchedOutline-legend-8"
+                    style="width: 0.01px;"
+                  >
+                    <span>
+                      ​
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <div
+            class="c22"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root"
+              format="MM/dd/yyyy"
+            >
+              <div
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-adornedStart MuiOutlinedInput-adornedStart MuiInputBase-adornedEnd MuiOutlinedInput-adornedEnd"
+                style="height: 45px; border: 1px solid #a8abac; font-family: museo-sans; background-color: rgb(255, 255, 255); width: 100%; border-radius: 4px;"
+              >
+                <img
+                  alt=""
+                  src="/react/images/icn-calendar.svg"
+                />
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart MuiOutlinedInput-inputAdornedStart MuiInputBase-inputAdornedEnd MuiOutlinedInput-inputAdornedEnd"
+                  id="date-end-inline"
+                  placeholder="End Date"
+                  readonly=""
+                  type="text"
+                  value=""
+                />
+                <img
+                  alt=""
+                  class="c21"
+                  src="/react/images/icn-dropdown.svg"
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="PrivateNotchedOutline-root-7 MuiOutlinedInput-notchedOutline"
+                  style="padding-left: 8px;"
+                >
+                  <legend
+                    class="PrivateNotchedOutline-legend-8"
+                    style="width: 0.01px;"
+                  >
+                    <span>
+                      ​
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="c23"
+      >
+        <div
+          class="c24"
+        >
+          <img
+            alt=""
+            class="c25"
+            src="/react/images/valid-check.svg"
+          />
+        </div>
+        <div
+          class="c26"
+        >
+          <div
+            class="c27"
+          >
+            Claim submitted successfully!
+          </div>
+          <img
+            alt=""
+            class="c28"
+            src="/react/images/valid-close.svg"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

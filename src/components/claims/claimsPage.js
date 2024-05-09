@@ -21,7 +21,7 @@ import { useMediaQuery,useTheme } from "@material-ui/core";
 import { MainContentContainer } from "../common/styles";
 import GlobalError from "../common/globalErrors/globalErrors";
 
-const ClaimsPage = () => {
+const ClaimsPage = ({ignoreSplit}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"))
   const [selectedTab, setSelectedTab] = useState(0);
@@ -209,6 +209,7 @@ const ClaimsPage = () => {
   return (
     <Container>
     <FeatureTreatment
+        ignoreSplit={ignoreSplit}
       treatmentName={SHOW_CLAIMS}
       onLoad={() => { }}
       onTimedout={() => { }}
