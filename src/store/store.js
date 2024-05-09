@@ -9,13 +9,16 @@ import logger from "redux-logger";
 const sagaMiddleware = createSagaMiddleware();
 
 // initial state
-const initialState = {}
+const initialState = {};
 
 // add all middleware here
-const middleware = [sagaMiddleware]
+const middleware = [sagaMiddleware];
 
 // devtools setup
-const devTools = process.env.NODE_ENV === 'production' ? applyMiddleware(...middleware) : composeWithDevTools(applyMiddleware(...middleware, logger))
+const devTools =
+  process.env.NODE_ENV === "production"
+    ? applyMiddleware(...middleware)
+    : composeWithDevTools(applyMiddleware(...middleware, logger));
 
 // create the store with middleware
 const store = createStore(reducer, initialState, devTools);

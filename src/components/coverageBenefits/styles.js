@@ -2,7 +2,7 @@ import styled from "styled-components";
 import DependentDropdown from "./dependentDropdown";
 
 export const Container = styled.div`
-  background-color:#f4f4f4;
+  background-color: #f4f4f4;
   max-width: 1024px;
   position: relative;
   margin: auto;
@@ -28,19 +28,19 @@ export const MainHeader = styled.div`
   padding-top: 40px;
   letter-spacing: normal;
   color: #003863;
-  margin-bottom: ${props => props.hasDependents ? `30px` : `0px` };
-  margin-top: ${props => props.noTopMargin ? `0` : `30px` };
+  margin-bottom: ${(props) => (props.hasDependents ? `30px` : `0px`)};
+  margin-top: ${(props) => (props.noTopMargin ? `0` : `30px`)};
   @media only screen and (max-width: 480px) {
-    padding-left:16px;
+    padding-left: 16px;
   }
 `;
 
-export const  DocName = styled.div`
-color: #003863;
-font-size: 18px;
-font-style: normal;
-font-weight: 600;
-line-height: 24px; /* 133.333% */
+export const DocName = styled.div`
+  color: #003863;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 133.333% */
 `;
 
 export const Name = styled.div`
@@ -51,8 +51,8 @@ export const Name = styled.div`
   line-height: 1.6;
   letter-spacing: normal;
   color: #003863;
-  margin-top: ${props => props.documents ? `` : `32px` };
-  margin-left: ${props => props.documents ? `20px` : `` };
+  margin-top: ${(props) => (props.documents ? `` : `32px`)};
+  margin-left: ${(props) => (props.documents ? `20px` : ``)};
   @media only screen and (max-width: 480px) {
     margin: 20px 20px 0;
   }
@@ -97,7 +97,7 @@ export const CardContainer = styled.div`
 `;
 
 export const InnerCard = styled.div`
-  margin: ${props => props.isEmpty ? "20px 20px 20px" : "20px 20px 0px"};
+  margin: ${(props) => (props.isEmpty ? "20px 20px 20px" : "20px 20px 0px")};
 `;
 
 export const DocCard = styled.div`
@@ -115,7 +115,7 @@ export const CardBlock = styled.div`
 
   @media only screen and (min-width: 601px) and (max-width: 1324px) {
     width: 100%;
-    margin-right: ${props => props.left && "15px"}
+    margin-right: ${(props) => props.left && "15px"};
   }
 `;
 
@@ -154,8 +154,13 @@ export const DateValid = styled.div`
 
 export const Status = styled.div`
   padding: 4px 6px;
-  background-color: ${props => props.status === 'ACTIVE' ? `#3e7128` : props.status === 'UPCOMING' ? `#ffffff`: `#e3342f` };
-  color: ${props => props.status === 'UPCOMING' ? `#3e7128` : `#ffffff`};
+  background-color: ${(props) =>
+    props.status === "ACTIVE"
+      ? `#3e7128`
+      : props.status === "UPCOMING"
+        ? `#ffffff`
+        : `#e3342f`};
+  color: ${(props) => (props.status === "UPCOMING" ? `#3e7128` : `#ffffff`)};
   font-size: 12px;
   font-weight: bold;
   font-stretch: normal;
@@ -166,13 +171,13 @@ export const Status = styled.div`
   display: inline-block;
   border-radius: 4px;
   float: right;
-  border: ${props => props.status === 'UPCOMING' && `solid 1px #3e7128`};
+  border: ${(props) => props.status === "UPCOMING" && `solid 1px #3e7128`};
 `;
 
 export const Icon = styled.img`
   float: left;
-  margin-top: ${props => props.margin ? `24px` : `` };
-  margin-right: ${props => props.right ? `10px` : `` };
+  margin-top: ${(props) => (props.margin ? `24px` : ``)};
+  margin-right: ${(props) => (props.right ? `10px` : ``)};
 `;
 
 export const IconRight = styled.div`
@@ -180,8 +185,10 @@ export const IconRight = styled.div`
   position: relative;
   padding: 20px;
   border-radius: 4px;
-  background: ${props => props.selected ? 'url(/react/images/icn-download.svg) no-repeat 8px 10px #e6e6e6'
-    : 'url(/react/images/icn-download.svg) no-repeat 8px 10px'};
+  background: ${(props) =>
+    props.selected
+      ? "url(/react/images/icn-download.svg) no-repeat 8px 10px #e6e6e6"
+      : "url(/react/images/icn-download.svg) no-repeat 8px 10px"};
   align-self: flex-start;
   top: -2px;
   cursor: pointer;
@@ -195,14 +202,15 @@ export const BlueHeader = styled.div`
   line-height: 1.33;
   letter-spacing: normal;
   color: #003863;
-  margin: ${props => props.margin ? `24px 0px 0px 30px` : `0px 0px 0px 30px` };
+  margin: ${(props) =>
+    props.margin ? `24px 0px 0px 30px` : `0px 0px 0px 30px`};
 `;
 
 export const Row = styled.div`
   padding: 20px 0;
-  margin-bottom: ${props => props.space ? `15px` : `` };
+  margin-bottom: ${(props) => (props.space ? `15px` : ``)};
   @media only screen and (max-width: 480px) {
-    margin-bottom: ${props => props.space ? `55px` : `` };
+    margin-bottom: ${(props) => (props.space ? `55px` : ``)};
   }
 `;
 
@@ -214,7 +222,7 @@ export const DocRow = styled.div`
 export const HorizontalDivider = styled.div`
   height: 1px;
   background-color: #d8d8d8;
-  margin: ${props => props.noMargin ? '0px' : '0px -20px'};
+  margin: ${(props) => (props.noMargin ? "0px" : "0px -20px")};
 `;
 
 export const Category = styled.div`
@@ -237,15 +245,15 @@ export const CostData = styled.div`
   letter-spacing: normal;
   color: #474b55;
   display: inline-block;
-  width: ${props => props.moreWidth ? `45%` : `25%` };
+  width: ${(props) => (props.moreWidth ? `45%` : `25%`)};
   text-align: right;
-  white-space: ${props => props.moreWidth ? '': 'nowrap'};
-  flex: ${props => props.customFlex ? props.customFlex : .4};
+  white-space: ${(props) => (props.moreWidth ? "" : "nowrap")};
+  flex: ${(props) => (props.customFlex ? props.customFlex : 0.4)};
   /* flex-grow: 1; */
-  flex-grow: ${props => !props.extraSpace && .8};
-  
+  flex-grow: ${(props) => !props.extraSpace && 0.8};
+
   @media only screen and (max-width: 480px) {
-    flex: ${props => props.customFlexMobile ? props.customFlexMobile : .4};
+    flex: ${(props) => (props.customFlexMobile ? props.customFlexMobile : 0.4)};
   }
 `;
 
@@ -265,8 +273,8 @@ export const BenefitsData = styled.div`
 `;
 
 export const DataSpacer = styled.div`
-  flex: .6;
-`
+  flex: 0.6;
+`;
 
 export const SubCategory = styled.div`
   font-size: 12px;
@@ -279,7 +287,7 @@ export const SubCategory = styled.div`
   color: #474b55;
   width: 100%;
   white-space: normal;
-  /* flex: ${props => props.deductible ? 1 : .4 }; */
+  /* flex: ${(props) => (props.deductible ? 1 : 0.4)}; */
 `;
 
 export const DataBlock = styled.div`
@@ -311,25 +319,25 @@ export const CoversageBenefitsHeaderWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
   }
-`
+`;
 
 export const UserInfoWrapper = styled.div`
-  flex: .3;
-`
+  flex: 0.3;
+`;
 
 export const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   /* margin-left: 15px; */
   flex: 1;
-  margin: ${props => props.hasDependents ? "8px 0px" : "0px"};
+  margin: ${(props) => (props.hasDependents ? "8px 0px" : "0px")};
 
   @media only screen and (max-width: 600px) {
     flex-direction: column;
     width: 90%;
     margin: 0 auto;
   }
-`
+`;
 
 export const DownloadButton = styled.a`
   display: flex;
@@ -346,12 +354,12 @@ export const DownloadButton = styled.a`
 
   @media only screen and (max-width: 600px) {
     margin: 8px 0;
-    margin-top: ${props => props.firstItem ? "20px" : "0"};
+    margin-top: ${(props) => (props.firstItem ? "20px" : "0")};
   }
 
   @media only screen and (min-width: 601px) and (max-width: 1324px) {
     margin-right: 0;
-    margin-left: ${props => props.firstItem ? "0" : "15px"};
+    margin-left: ${(props) => (props.firstItem ? "0" : "15px")};
     margin-top: 15px;
   }
 
@@ -366,7 +374,6 @@ export const DownloadButton = styled.a`
     text-decoration: none;
   }
 `;
-
 
 export const FormsAndDocsButton = styled.span`
   display: flex;
@@ -383,12 +390,12 @@ export const FormsAndDocsButton = styled.span`
 
   @media only screen and (max-width: 600px) {
     margin: 8px 0;
-    margin-top: ${props => props.firstItem ? "20px" : "0"};
+    margin-top: ${(props) => (props.firstItem ? "20px" : "0")};
   }
 
   @media only screen and (min-width: 601px) and (max-width: 1324px) {
     margin-right: 0;
-    margin-left: ${props => props.firstItem ? "0" : "15px"};
+    margin-left: ${(props) => (props.firstItem ? "0" : "15px")};
     margin-top: 15px;
   }
 
@@ -424,20 +431,20 @@ export const Benefits = styled.span`
   color: #474b55;
   display: inline-block;
   float: left;
-  width: ${props => props.textWrap ? `50%` : `` };
+  width: ${(props) => (props.textWrap ? `50%` : ``)};
 `;
 
-export const DocText = styled.span`
+export const DocText = styled.span`
   flex: 1;
-  font-size: 14px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.29;
-  letter-spacing: normal;
-  color: #474b55;
-  display: inline-block;
-  margin-top: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    color: #474b55;
+    display: inline-block;
+    margin-top: 3px;
   @media only screen and (max-width: 480px) {
     width: 75%;
   }
@@ -446,16 +453,15 @@ export const DocText = styled.span`
 export const LanguageSelect = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   position: absolute;
-  margin: ${(props) => (props.last ? '5px -80px' : '25px -80px')};
+  margin: ${(props) => (props.last ? "5px -80px" : "25px -80px")};
   border-radius: 4px;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.23);;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.23);
   background-color: #ffffff;
   list-style-type: none;
   padding: 4px 0;
   z-index: 1;
   width: 100px;
-  bottom: ${(props) => (props.last ? '100%' : '')};
-
+  bottom: ${(props) => (props.last ? "100%" : "")};
 `;
 export const Language = styled.div`
   padding: 8px 12px 8px 16px;
@@ -475,17 +481,16 @@ export const Language = styled.div`
 
 export const ValidLOBBlockWrapper = styled.div`
   margin-bottom: 50px;
-`
+`;
 
 export const Anchor = styled.div`
-    display: block;
-    position: relative;
-    top: -150px;
-    visibility: hidden;
-`
-
-export const MemberDropDownSelect = styled(DependentDropdown)`
+  display: block;
+  position: relative;
+  top: -150px;
+  visibility: hidden;
 `;
+
+export const MemberDropDownSelect = styled(DependentDropdown)``;
 
 export const MemberDropDownSelectWrapper = styled.div`
   flex: 1;
@@ -501,8 +506,8 @@ export const DropdownFieldContainer = styled.div`
   flex: auto;
   color: #474b55;
 
-  *{
-    box-sizing: border-box!important;
+  * {
+    box-sizing: border-box !important;
   }
 
   @media only screen and (min-width: 769px) {
@@ -516,7 +521,6 @@ export const DropdownFieldContainer = styled.div`
   @media only screen and (max-width: 480px) {
     margin: 0 20px;
   }
-
 `;
 
 export const DropdownField = styled.div`
@@ -578,20 +582,18 @@ export const DropdownSecondFieldText = styled.div`
   color: #474b55;
 `;
 
-
 export const DropdownFieldTextContainer = styled.div`
   width: 100%;
 `;
 
-export const UserInfoContainer = styled.div`
-`
+export const UserInfoContainer = styled.div``;
 
 export const UserIconContainer = styled.div`
   display: inline-block;
   vertical-align: middle;
   margin-left: 7px;
   align-self: center;
-`
+`;
 
 export const DropdownIconContainer = styled.div`
   display: inline-block;
@@ -660,7 +662,7 @@ export const DropdownListItem = styled.button`
   &:hover {
     background-color: #f8f8f8;
   }
-  h1{
+  h1 {
     font-weight: 500;
     font-family: "museo-sans";
     font-size: 16px;
@@ -668,7 +670,7 @@ export const DropdownListItem = styled.button`
     padding: 0;
     margin: 0;
   }
-  h2{
+  h2 {
     font-weight: 300;
     font-family: "museo-sans";
     font-size: 16px;
@@ -676,7 +678,7 @@ export const DropdownListItem = styled.button`
     padding: 0;
     margin: 0;
   }
-  p{
+  p {
     font-weight: 300;
     font-family: "museo-sans";
     font-size: 12px;
@@ -720,16 +722,16 @@ export const DropdownFieldTitle = styled.div`
   color: #474b55;
   margin: 10px 0;
 
-  @media only screen  and (max-width: 480px) {
+  @media only screen and (max-width: 480px) {
     margin-left: 20px;
   }
-`
+`;
 
 export const DependentBlockWrapper = styled.div`
-  width: ${props => props.halfWidth && "50%"};
+  width: ${(props) => props.halfWidth && "50%"};
   margin-top: 30px;
 
-  @media only screen  and (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
     width: 100%;
   }
-`
+`;

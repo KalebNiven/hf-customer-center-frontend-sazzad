@@ -2,13 +2,12 @@ import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 import GlobalStyle from "../../styles/GlobalStyle";
 import { useSelector } from "react-redux";
-import { useHomeContext } from './homeContext';
+import { useHomeContext } from "./homeContext";
 import { useHistory } from "react-router-dom";
 import { useClient } from "@splitsoftware/splitio-react";
 import { PAYMENTS_ACL } from "../../constants/splits";
 
 const HelpfulTips = () => {
-
   const history = useHistory();
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const splitHookClient = useClient(customerInfo?.customerId);
@@ -21,36 +20,46 @@ const HelpfulTips = () => {
     membershipStatus: customerInfo?.membershipStatus,
     benefitPackage: customerInfo?.benefitPackage,
     accountStatus: customerInfo?.accountStatus,
-    companyCode: customerInfo?.companyCode
+    companyCode: customerInfo?.companyCode,
   };
 
   useEffect(() => {
-    if(!splitHookClient) return;
-      const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(PAYMENTS_ACL, splitAttributes)
-      if(paymentsEnabledTreatment.treatment === "on"){
-        setPaymentsEnabled(true);
-      }
-  }, [splitHookClient])
+    if (!splitHookClient) return;
+    const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
+      PAYMENTS_ACL,
+      splitAttributes,
+    );
+    if (paymentsEnabledTreatment.treatment === "on") {
+      setPaymentsEnabled(true);
+    }
+  }, [splitHookClient]);
 
   return (
-    (showhelpfulTips && paymentsEnabled
-        // customerInfo.accessMatrix.payments
-        ) &&
-    <><GlobalStyle />
-      <Card>
-        <CloseIcon alt = "" src="/react/images/valid-close.svg" onClick={() => setShowHelpfulTips(false)} />
-        <HelpFullTips>
-          Helpful Tips
-        </HelpFullTips>
-        <HelpFullTipsDesc>
-          Never miss your monthly payments by setting up AutoPay
-        </HelpFullTipsDesc>
-          <MakeAutomaticPayment onClick = {() => {history.push('/payments')}}>
+    showhelpfulTips &&
+    paymentsEnabled && (
+      // customerInfo.accessMatrix.payments
+      <>
+        <GlobalStyle />
+        <Card>
+          <CloseIcon
+            alt=""
+            src="/react/images/valid-close.svg"
+            onClick={() => setShowHelpfulTips(false)}
+          />
+          <HelpFullTips>Helpful Tips</HelpFullTips>
+          <HelpFullTipsDesc>
+            Never miss your monthly payments by setting up AutoPay
+          </HelpFullTipsDesc>
+          <MakeAutomaticPayment
+            onClick={() => {
+              history.push("/payments");
+            }}
+          >
             Set Up Automatic Payments
           </MakeAutomaticPayment>
-
-      </Card>
-    </>
+        </Card>
+      </>
+    )
   );
 };
 
@@ -60,7 +69,7 @@ const Card = styled.div`
   margin-bottom: 40px;
   padding: 16px 15px 16px 16px;
   border-radius: 4px;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.10);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
   background-color: #003863;
   word-break: break-word;
   @media only screen and (max-width: 480px) {
@@ -103,8 +112,8 @@ const MakeAutomaticPayment = styled.div`
   letter-spacing: normal;
   color: #ffffff;
   text-align: left;
-  text-decoration:underline;
-  cursor:pointer;
+  text-decoration: underline;
+  cursor: pointer;
 `;
 
 const CloseIcon = styled.img`

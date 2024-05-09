@@ -4,14 +4,13 @@ import GlobalStyle from "../../styles/GlobalStyle";
 
 const MembershipLookup = () => {
   return (
-    <><GlobalStyle />
+    <>
+      <GlobalStyle />
       <Card>
         <PrevPlanTxt>
           Find out if you already have an active Healthfirst plan.
         </PrevPlanTxt>
-        <MembershipLookUp>
-          Membership Look-up
-        </MembershipLookUp>
+        <MembershipLookUp>Membership Look-up</MembershipLookUp>
       </Card>
     </>
   );
@@ -22,7 +21,7 @@ export default MembershipLookup;
 const Card = styled.div`
   width: 100%;
   margin-top: 16px;
-  margin-bottom:40px;
+  margin-bottom: 40px;
   padding: 16px 16px 16px 16px;
   border-radius: 4px;
   background-color: #ffffff;
@@ -37,7 +36,7 @@ const PrevPlanTxt = styled.div`
   line-height: 1.29;
   letter-spacing: normal;
   text-align: center;
-  color:#474b55;
+  color: #474b55;
 `;
 
 const MembershipLookUp = styled.div`

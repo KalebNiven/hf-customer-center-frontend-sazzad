@@ -6,26 +6,32 @@ import styled from "styled-components";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { useDispatch, useSelector } from "react-redux";
-import { requestClaimList, requestCustomerDemographicsInfo } from '../../store/actions/index';
+import {
+  requestClaimList,
+  requestCustomerDemographicsInfo,
+} from "../../store/actions/index";
 import GlobalStyle from "../../styles/GlobalStyle";
 import { useHistory } from "react-router-dom";
-import { SHOW_CLAIMS , SHOW_YEARTODATE_CLAIMS} from "../../constants/splits";
+import { SHOW_CLAIMS, SHOW_YEARTODATE_CLAIMS } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
-import SubmitClaimButton from './submitClaimButton'
+import SubmitClaimButton from "./submitClaimButton";
 import { Box } from "@material-ui/core";
 import SubmitClaimModal from "./submitClaimModal";
 
 import { AnalyticsTrack } from "../../components/common/segment/analytics";
-import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "./../../constants/segment";
-import { useMediaQuery,useTheme } from "@material-ui/core";
+import {
+  ANALYTICS_TRACK_TYPE,
+  ANALYTICS_TRACK_CATEGORY,
+} from "./../../constants/segment";
+import { useMediaQuery, useTheme } from "@material-ui/core";
 import { MainContentContainer } from "../common/styles";
 import GlobalError from "../common/globalErrors/globalErrors";
 
-const ClaimsPage = ({ignoreSplit}) => {
+const ClaimsPage = ({ ignoreSplit }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("xs"))
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const [selectedTab, setSelectedTab] = useState(0);
-  const [showSubmitClaimModal, setShowSubmitClaimModal] = useState(false)
+  const [showSubmitClaimModal, setShowSubmitClaimModal] = useState(false);
   const history = useHistory();
   const claimList = useSelector((state) => state.claim.claimList);
   const claimListLoading = useSelector((state) => state.claim.loading);
@@ -40,7 +46,7 @@ const ClaimsPage = ({ignoreSplit}) => {
     benefitPackage: customerInfo.data.benefitPackage,
     membershipStatus: customerInfo.data.membershipStatus,
     accountStatus: customerInfo.data.accountStatus,
-  }
+  };
 
   const handleTabChange = (e, selection) => {
     setSelectedTab(selection);
@@ -49,97 +55,151 @@ const ClaimsPage = ({ignoreSplit}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(!customerInfo.data?.access_token || !customerInfo.data?.id_token) return;
+    if (!customerInfo.data?.access_token || !customerInfo.data?.id_token)
+      return;
     dispatch(requestClaimList());
     dispatch(requestCustomerDemographicsInfo(customerInfo.data.customerId));
-    sessionStorage.setItem("longLoad", false)
+    sessionStorage.setItem("longLoad", false);
   }, [customerInfo?.data]);
 
   const columns = [
-    { id: "claimId", selector: row => row.claimId, name: 'CLAIM', sortable: true, cell: row => <ClaimNbr data-tag="allowRowEvents">{row.claimId}</ClaimNbr> },
-    { id: "memberName", selector: row => row.memberName, name: 'MEMBER', sortable: true },
-    { id: "providerName", selector: row => row.providerName, name: 'PROVIDER', sortable: true },
+    {
+      id: "claimId",
+      selector: (row) => row.claimId,
+      name: "CLAIM",
+      sortable: true,
+      cell: (row) => (
+        <ClaimNbr data-tag="allowRowEvents">{row.claimId}</ClaimNbr>
+      ),
+    },
+    {
+      id: "memberName",
+      selector: (row) => row.memberName,
+      name: "MEMBER",
+      sortable: true,
+    },
+    {
+      id: "providerName",
+      selector: (row) => row.providerName,
+      name: "PROVIDER",
+      sortable: true,
+    },
     {
       id: "serviceDate",
-      selector: "serviceDate", name: 'SERVICE DATE', sortable: true,
+      selector: "serviceDate",
+      name: "SERVICE DATE",
+      sortable: true,
       sortFunction: (rowA, rowB) => {
-        const aField = new Date(rowA.serviceDate)
-        const bField = new Date(rowB.serviceDate)
-      
+        const aField = new Date(rowA.serviceDate);
+        const bField = new Date(rowB.serviceDate);
+
         if (aField > bField) {
-         return 1;
+          return 1;
         } else {
-         return -1;
+          return -1;
         }
-      }
+      },
     },
     {
-      id: "claimStatus", selector: row => row.claimStatus, name: 'STATUS', sortable: true, cell: row => (row.claimStatus === "Processed") ?
-        <ProcessedStatus data-tag="allowRowEvents">
-          Processed
-        </ProcessedStatus> :
-        <PendingStatus data-tag="allowRowEvents">
-          Pending
-        </PendingStatus>
+      id: "claimStatus",
+      selector: (row) => row.claimStatus,
+      name: "STATUS",
+      sortable: true,
+      cell: (row) =>
+        row.claimStatus === "Processed" ? (
+          <ProcessedStatus data-tag="allowRowEvents">Processed</ProcessedStatus>
+        ) : (
+          <PendingStatus data-tag="allowRowEvents">Pending</PendingStatus>
+        ),
     },
-    , {
+    ,
+    {
       id: "claimDetailsBtn",
-      cell: (row) => <img alt = "" src="/react/images/icn-arrow-right.svg" onClick={() =>
-        history.push({
-          pathname: "/claimDetails",
-          state: row
-        })} />,
-      button: true
-    }
+      cell: (row) => (
+        <img
+          alt=""
+          src="/react/images/icn-arrow-right.svg"
+          onClick={() =>
+            history.push({
+              pathname: "/claimDetails",
+              state: row,
+            })
+          }
+        />
+      ),
+      button: true,
+    },
   ];
 
-  
-
-
   // Remove MEMBER column if no dependents
-  if (customerInfo.data.dependents === undefined || customerInfo.data.dependents.length == 0) {
+  if (
+    customerInfo.data.dependents === undefined ||
+    customerInfo.data.dependents.length == 0
+  ) {
     if (customerInfo.data.hohPlans && customerInfo.data.hohPlans.length <= 1) {
-      columns.splice(1,1)
+      columns.splice(1, 1);
     }
   }
 
-  const Mobilecolumns = [{
-    cell: (row) => <Paper id = {row.claimId} onClick={() => history.push({
-      pathname: "/claimDetails",
-      state: row
-    })}>
-      <Content>
-        <ClaimTxt>CLAIM </ClaimTxt> <Claim>{row.claimId}</Claim>
-        <span style={{ float: "right" }}><img alt = "" src="/react/images/icn-arrow-right.svg" style={{ float: 'right', marginRight: '15px' }} onClick={() =>
-          history.push({
-            pathname: "/claimDetails",
-            state: row
-          })} /></span></Content>
-      <Content><ProviderTxt>PROVIDER</ProviderTxt> <Provider>{row.providerName}</Provider></Content>
-      {
-        !(customerInfo.data.dependents === undefined || customerInfo.data.dependents.length == 0) ?
-          <Content><ProviderTxt>MEMBER</ProviderTxt> <Member>{row.memberName}</Member></Content>
-          :
-          null
-      }
-      <Content><ServiceTxt>SERVICE DATE</ServiceTxt> <Service>{row.serviceDate}</Service></Content>
-      <Content><StatusTxt>STATUS</StatusTxt>
-        {
-          (row.claimStatus === "Processed" ?
-            <MobileProcessedStatus>
-              Processed
-            </MobileProcessedStatus> : (row.claimStatus === "Denied") ?
-              <MobileRejectedStatus>
-                Denied
-              </MobileRejectedStatus> :
-              <MobilePendingStatus>
-                Pending
-              </MobilePendingStatus>
-          )
-        }
-      </Content>
-    </Paper>
-  }];
+  const Mobilecolumns = [
+    {
+      cell: (row) => (
+        <Paper
+          id={row.claimId}
+          onClick={() =>
+            history.push({
+              pathname: "/claimDetails",
+              state: row,
+            })
+          }
+        >
+          <Content>
+            <ClaimTxt>CLAIM </ClaimTxt> <Claim>{row.claimId}</Claim>
+            <span style={{ float: "right" }}>
+              <img
+                alt=""
+                src="/react/images/icn-arrow-right.svg"
+                style={{ float: "right", marginRight: "15px" }}
+                onClick={() =>
+                  history.push({
+                    pathname: "/claimDetails",
+                    state: row,
+                  })
+                }
+              />
+            </span>
+          </Content>
+          <Content>
+            <ProviderTxt>PROVIDER</ProviderTxt>{" "}
+            <Provider>{row.providerName}</Provider>
+          </Content>
+          {!(
+            customerInfo.data.dependents === undefined ||
+            customerInfo.data.dependents.length == 0
+          ) ? (
+            <Content>
+              <ProviderTxt>MEMBER</ProviderTxt>{" "}
+              <Member>{row.memberName}</Member>
+            </Content>
+          ) : null}
+          <Content>
+            <ServiceTxt>SERVICE DATE</ServiceTxt>{" "}
+            <Service>{row.serviceDate}</Service>
+          </Content>
+          <Content>
+            <StatusTxt>STATUS</StatusTxt>
+            {row.claimStatus === "Processed" ? (
+              <MobileProcessedStatus>Processed</MobileProcessedStatus>
+            ) : row.claimStatus === "Denied" ? (
+              <MobileRejectedStatus>Denied</MobileRejectedStatus>
+            ) : (
+              <MobilePendingStatus>Pending</MobilePendingStatus>
+            )}
+          </Content>
+        </Paper>
+      ),
+    },
+  ];
 
   const tabStyle = {
     default: {
@@ -154,7 +214,7 @@ const ClaimsPage = ({ignoreSplit}) => {
       color: "#474b55",
       textTransform: "none",
       minWidth: "80px",
-      padding: "0 20px"
+      padding: "0 20px",
     },
     active: {
       fontSize: "14px",
@@ -168,113 +228,138 @@ const ClaimsPage = ({ignoreSplit}) => {
       textTransform: "none",
       fontFamily: "museo-sans",
       minWidth: "80px",
-      padding: "0 20px"
+      padding: "0 20px",
     },
   };
 
   const isValidLOB = (code) => {
     return code == "42" || code == "45";
-  }
-  const handleSegmentBtn  = (row) => {
- 
+  };
+  const handleSegmentBtn = (row) => {
     // Segment Track
-    const {claimId } = row;
-    AnalyticsTrack( 
-      'Claim Link Clicked', 
-      customerInfo, 
-      {
-          "raw_text": 'Claim Link Clicked',
-          "destination_url":  window.location.origin + '/claimsDetail',
-          "category": ANALYTICS_TRACK_CATEGORY.claims, 
-          "type": ANALYTICS_TRACK_TYPE.linkClicked,  
-          "targetMemberId":row?.targetMemberId,
-          "description": `Claim # ${claimId} Clicked`,
-          "location": {
-              "desktop":{
-                  "width": 968,
-                  "value": "center"
-              },
-              "tablet":{
-                  "width": 768,
-                  "value": "center"
-              },
-              "mobile":{
-                  "width": 0,
-                  "value": "center"
-              }
-          }
-      }
-    );
-  }
+    const { claimId } = row;
+    AnalyticsTrack("Claim Link Clicked", customerInfo, {
+      raw_text: "Claim Link Clicked",
+      destination_url: window.location.origin + "/claimsDetail",
+      category: ANALYTICS_TRACK_CATEGORY.claims,
+      type: ANALYTICS_TRACK_TYPE.linkClicked,
+      targetMemberId: row?.targetMemberId,
+      description: `Claim # ${claimId} Clicked`,
+      location: {
+        desktop: {
+          width: 968,
+          value: "center",
+        },
+        tablet: {
+          width: 768,
+          value: "center",
+        },
+        mobile: {
+          width: 0,
+          value: "center",
+        },
+      },
+    });
+  };
   return (
     <Container>
-    <FeatureTreatment
+      <FeatureTreatment
         ignoreSplit={ignoreSplit}
-      treatmentName={SHOW_CLAIMS}
-      onLoad={() => { }}
-      onTimedout={() => { }}
-      attributes={splitAttributes}
-    >
-      <>
-        <GlobalStyle />
-        <Box margin="40px 16px 8px 16px" display="flex" justifyContent="space-between">
-          <ClaimText>Claims</ClaimText>
-          {!isMobile && (
-            <SubmitClaimButton handleClick={() => setShowSubmitClaimModal(true)} isMobile={isMobile}/>
-          )}
-          
-        </Box>
-        <Box margin="8px 16px 24px 16px" display="flex" justifyContent="space-between">
-        <ClaimContent>
-          Your Healthfirst account lets you access important information about your health plan. Here you can see the status of your claims.
-          <br /><br />
-          <ClaimContentSmallPrint>Keep in mind that due to sensitive health information, you may not able to view all your claims. If you have any questions, please call the Member Services phone number on your Member ID card for assistance.</ClaimContentSmallPrint>
-          </ClaimContent>
-          <ClaimButtonHidden isMobile={isMobile}><SubmitClaimButton  /></ClaimButtonHidden>
-        </Box>
-        
-          
+        treatmentName={SHOW_CLAIMS}
+        onLoad={() => {}}
+        onTimedout={() => {}}
+        attributes={splitAttributes}
+      >
+        <>
+          <GlobalStyle />
+          <Box
+            margin="40px 16px 8px 16px"
+            display="flex"
+            justifyContent="space-between"
+          >
+            <ClaimText>Claims</ClaimText>
+            {!isMobile && (
+              <SubmitClaimButton
+                handleClick={() => setShowSubmitClaimModal(true)}
+                isMobile={isMobile}
+              />
+            )}
+          </Box>
+          <Box
+            margin="8px 16px 24px 16px"
+            display="flex"
+            justifyContent="space-between"
+          >
+            <ClaimContent>
+              Your Healthfirst account lets you access important information
+              about your health plan. Here you can see the status of your
+              claims.
+              <br />
+              <br />
+              <ClaimContentSmallPrint>
+                Keep in mind that due to sensitive health information, you may
+                not able to view all your claims. If you have any questions,
+                please call the Member Services phone number on your Member ID
+                card for assistance.
+              </ClaimContentSmallPrint>
+            </ClaimContent>
+            <ClaimButtonHidden isMobile={isMobile}>
+              <SubmitClaimButton />
+            </ClaimButtonHidden>
+          </Box>
+
           {isMobile && (
-            <Box margin="10px 16px 8px 16px" display="flex" justifyContent="space-between"><SubmitClaimButton isMobile={isMobile} handleClick={() => setShowSubmitClaimModal(true)} /></Box>
-            
-          )}
-        {!customerInfo.loading && isValidLOB(customerInfo.data.companyCode) && membershipStatus === "active" && <TabsWrapper>
-          <TabsContainer>
-            <Tabs
-              value={selectedTab}
-              onChange={handleTabChange}
-              TabIndicatorProps={{
-                style: { background: "#3e7128" },
-              }}
+            <Box
+              margin="10px 16px 8px 16px"
+              display="flex"
+              justifyContent="space-between"
             >
-              <Tab
-                onClick={() => handleTabChange(0,0)}
-                style={selectedTab === 0 ? tabStyle.active : tabStyle.default}
-                label="Claims"
+              <SubmitClaimButton
+                isMobile={isMobile}
+                handleClick={() => setShowSubmitClaimModal(true)}
               />
-              <FeatureTreatment
-              treatmentName={SHOW_YEARTODATE_CLAIMS}
-              onLoad={() => { }}
-              onTimedout={() => { }}
-              attributes={splitAttributes}
-        >  
-              <Tab
-                onClick={() => handleTabChange(1,1)}
-                style={selectedTab === 1 ? tabStyle.active : tabStyle.default}
-                label="Year to Date"
-              />
-             </FeatureTreatment> 
-            </Tabs>
-          </TabsContainer>
-          <HorizontalDivider />
-        </TabsWrapper>
-        }
-        {
-         ( selectedTab === 1 ) ?   
-           <YearToDatePage /> :  null
-        }
-        {
-          (selectedTab === 0 && claimListLoading != true ) ?
+            </Box>
+          )}
+          {!customerInfo.loading &&
+            isValidLOB(customerInfo.data.companyCode) &&
+            membershipStatus === "active" && (
+              <TabsWrapper>
+                <TabsContainer>
+                  <Tabs
+                    value={selectedTab}
+                    onChange={handleTabChange}
+                    TabIndicatorProps={{
+                      style: { background: "#3e7128" },
+                    }}
+                  >
+                    <Tab
+                      onClick={() => handleTabChange(0, 0)}
+                      style={
+                        selectedTab === 0 ? tabStyle.active : tabStyle.default
+                      }
+                      label="Claims"
+                    />
+                    <FeatureTreatment
+                      treatmentName={SHOW_YEARTODATE_CLAIMS}
+                      onLoad={() => {}}
+                      onTimedout={() => {}}
+                      attributes={splitAttributes}
+                    >
+                      <Tab
+                        onClick={() => handleTabChange(1, 1)}
+                        style={
+                          selectedTab === 1 ? tabStyle.active : tabStyle.default
+                        }
+                        label="Year to Date"
+                      />
+                    </FeatureTreatment>
+                  </Tabs>
+                </TabsContainer>
+                <HorizontalDivider />
+              </TabsWrapper>
+            )}
+          {selectedTab === 1 ? <YearToDatePage /> : null}
+          {selectedTab === 0 && claimListLoading != true ? (
             <TableContent
               tab="claim"
               searchPlaceHolder="Search claims #'s, providers, etc."
@@ -285,47 +370,48 @@ const ClaimsPage = ({ignoreSplit}) => {
               defaultSortFieldId="serviceDate"
               pathName="/claimDetails"
               defaultSortAsc={false}
-              handleSegmentBtn={(row)=>handleSegmentBtn(row)}
+              handleSegmentBtn={(row) => handleSegmentBtn(row)}
               displayInactiveMembers={true}
             />
-            :
-            (selectedTab === 0) ?
-              <ProgressWrapper>
-                <Spinner />
-              </ProgressWrapper>
-              :
-              null
-        }
-      </>
-      <SubmitClaimModal unmountMe={() => setShowSubmitClaimModal(false)} showModal={showSubmitClaimModal} />
-    </FeatureTreatment>
-    <FeatureTreatment
-      treatmentName={SHOW_CLAIMS}
-      onLoad={() => { }}
-      onTimedout={() => { }}
-      attributes={splitAttributes}
-      invertBehavior
-    >
-      <GlobalError/>
+          ) : selectedTab === 0 ? (
+            <ProgressWrapper>
+              <Spinner />
+            </ProgressWrapper>
+          ) : null}
+        </>
+        <SubmitClaimModal
+          unmountMe={() => setShowSubmitClaimModal(false)}
+          showModal={showSubmitClaimModal}
+        />
+      </FeatureTreatment>
+      <FeatureTreatment
+        treatmentName={SHOW_CLAIMS}
+        onLoad={() => {}}
+        onTimedout={() => {}}
+        attributes={splitAttributes}
+        invertBehavior
+      >
+        <GlobalError />
       </FeatureTreatment>
     </Container>
   );
 };
 const SubmitClaimButtonMobile = styled(SubmitClaimButton)`
-width:100%`
+  width: 100%;
+`;
 const Container = styled(MainContentContainer)`
-  background-color:#f4f4f4;
+  background-color: #f4f4f4;
   max-width: 1024px;
   position: relative;
   // margin: auto;
   align-self: center;
   width: 100%;
-  margin-bottom:1rem;
+  margin-bottom: 1rem;
 `;
 
 const HorizontalDivider = styled.div`
   height: 1px;
-  background-color: #d8d8d8  ;
+  background-color: #d8d8d8;
   @media only screen and (min-width: 769px) {
   }
   margin: 0px 16px 0px;
@@ -333,33 +419,32 @@ const HorizontalDivider = styled.div`
 `;
 
 const ClaimText = styled.div`
-@media only screen and (min-width: 769px) {
-}
+  @media only screen and (min-width: 769px) {
+  }
   font-size: 24px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color:#003863;
+  color: #003863;
   display: flex;
   align-self: flex-end;
 `;
 const ClaimButtonHidden = styled.div`
-${({isMobile}) => !isMobile ? `visibility : hidden` : `display:none`};
+  ${({ isMobile }) => (!isMobile ? `visibility : hidden` : `display:none`)};
 `;
 const ClaimContent = styled.div`
-@media only screen and (min-width: 769px) {
-}
+  @media only screen and (min-width: 769px) {
+  }
   font-size: 16px;
   font-weight: 300;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.5;
   letter-spacing: normal;
-  color:#474b55;
+  color: #474b55;
   margin-right: 73px;
-  
 `;
 
 const ClaimContentSmallPrint = styled.div`
@@ -367,19 +452,17 @@ const ClaimContentSmallPrint = styled.div`
   font-weight: 500;
 `;
 
-const TabsWrapper = styled.div`
-`;
+const TabsWrapper = styled.div``;
 
 const TabsContainer = styled.div`
-@media only screen and (min-width: 769px) {
-}
-margin: 0px 16px 0px;
+  @media only screen and (min-width: 769px) {
+  }
+  margin: 0px 16px 0px;
 `;
 
 const PendingStatus = styled.span`
-  
   padding: 5px;
-  background-color:#a8abac;
+  background-color: #a8abac;
   border-radius: 5px;
   font-size: 12px;
   font-weight: bold;
@@ -393,9 +476,9 @@ const PendingStatus = styled.span`
 
 const MobilePendingStatus = styled.span`
   margin-left: 25px;
-  
+
   padding: 3px 31px;
-  background-color:#a8abac;
+  background-color: #a8abac;
   border-radius: 5px;
   font-size: 12px;
   font-weight: bold;
@@ -408,9 +491,8 @@ const MobilePendingStatus = styled.span`
 `;
 
 const ProcessedStatus = styled.p`
-  
   padding: 5px;
-  background-color:#003863;
+  background-color: #003863;
   border-radius: 5px;
   font-size: 12px;
   font-weight: bold;
@@ -426,16 +508,16 @@ const ProcessedStatus = styled.p`
 
 const MobileProcessedStatus = styled.span`
   margin-left: 25px;
-  
+
   padding: 3px 31px;
-  background-color:#003863;
+  background-color: #003863;
   border-radius: 5px;
   font-size: 12px;
   font-weight: bold;
   text-align: center;
   color: #ffffff;
   text-transform: uppercase;
-  margin-top:0px;
+  margin-top: 0px;
   margin-right: -15px;
   box-sizing: initial;
   line-height: normal;
@@ -443,9 +525,8 @@ const MobileProcessedStatus = styled.span`
 `;
 
 const RejectedStatus = styled.p`
-  
   padding: 5px;
-  background-color:#ad122a;
+  background-color: #ad122a;
   border-radius: 5px;
   font-size: 12px;
   font-weight: bold;
@@ -460,10 +541,10 @@ const RejectedStatus = styled.p`
 const MobileRejectedStatus = styled.span`
   margin-left: 25px;
   margin-right: 10px;
-  margin-top:0px;
-  
+  margin-top: 0px;
+
   padding: 3px 31px;
-  background-color:#ad122a;
+  background-color: #ad122a;
   border-radius: 5px;
   font-size: 12px;
   font-weight: bold;
@@ -476,9 +557,8 @@ const MobileRejectedStatus = styled.span`
 `;
 
 const UnknownStatus = styled.p`
-  
   padding: 5px;
-  background-color:#a8abac;
+  background-color: #a8abac;
   border-radius: 5px;
   font-size: 12px;
   font-weight: bold;
@@ -493,10 +573,10 @@ const UnknownStatus = styled.p`
 const MobileUnknownStatus = styled.span`
   margin-left: 25px;
   margin-right: 10px;
-  margin-top:0px;
-  
+  margin-top: 0px;
+
   padding: 3px 31px;
-  background-color:#a8abac;
+  background-color: #a8abac;
   border-radius: 5px;
   font-size: 12px;
   font-weight: bold;
@@ -516,10 +596,8 @@ const ClaimTxt = styled.span`
   font-style: normal;
   line-height: 2.33;
   letter-spacing: 0.2px;
-  color: #757575;`
-  ;
-
-
+  color: #757575;
+`;
 const Claim = styled.span`
   margin: 0 62px 4px 24px;
   font-size: 14px;
@@ -541,7 +619,6 @@ const ProviderTxt = styled.span`
   letter-spacing: 0.2px;
   color: #757575;
 `;
-
 
 const Provider = styled.span`
   margin: 4px 0px 5px 24px;
@@ -578,7 +655,6 @@ const ServiceTxt = styled.span`
   color: #757575;
 `;
 
-
 const Service = styled.span`
   margin: 4px 0px 5px 24px;
   font-size: 14px;
@@ -604,7 +680,7 @@ const StatusTxt = styled.span`
 const Content = styled.div``;
 
 const Paper = styled.div`
-  width:100%;
+  width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
 `;
@@ -612,14 +688,14 @@ const Paper = styled.div`
 const ClaimNbr = styled.p`
   font-size: 14px;
   font-weight: bold;
-  color:#474b55;
+  color: #474b55;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const ProgressWrapper = styled.div`
-  width:100%;
+  width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
 `;

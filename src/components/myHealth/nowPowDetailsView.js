@@ -4,71 +4,84 @@ import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 
 import Details from "./details";
-import { getIndMapDetails } from '../../store/actions/index';
+import { getIndMapDetails } from "../../store/actions/index";
 import Spinner from "../common/spinner";
 
-import DetailsMap from './detailsMap'
+import DetailsMap from "./detailsMap";
 import { MainContentContainer } from "../common/styles";
 import { SHOW_MYHEALTH } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import GlobalError from "../common/globalErrors/globalErrors";
 
 const NowPowDetailsView = () => {
-    /* states */
-    const mapRef = useRef();
-    const details = useSelector((state) => state.myHealth.indMapDetails);
-    const customerInfo = useSelector((state) => state.customerInfo);
+  /* states */
+  const mapRef = useRef();
+  const details = useSelector((state) => state.myHealth.indMapDetails);
+  const customerInfo = useSelector((state) => state.customerInfo);
 
-    const splitAttributes = {
-      lob: customerInfo.data.sessLobCode,
-      companyCode: customerInfo.data.companyCode,
-      benefitPackage: customerInfo.data.benefitPackage,
-      membershipStatus: customerInfo.data.membershipStatus,
-      accountStatus: customerInfo.data.accountStatus,
-    }
+  const splitAttributes = {
+    lob: customerInfo.data.sessLobCode,
+    companyCode: customerInfo.data.companyCode,
+    benefitPackage: customerInfo.data.benefitPackage,
+    membershipStatus: customerInfo.data.membershipStatus,
+    accountStatus: customerInfo.data.accountStatus,
+  };
 
-    /* hooks */
-    const dispatch = useDispatch();
-    const location = useLocation();
+  /* hooks */
+  const dispatch = useDispatch();
+  const location = useLocation();
 
-    useEffect(() => {
-        let state = location.state;
-        //Get Details Map page data from API
-        dispatch(getIndMapDetails({ resourceTypeId: state.resTypeId, resourceId: state.resId, lat: state.lat, lon: state.lon, categoryId: state.categoryId, categoryIconId: state.iconId, csrf: customerInfo?.data?.csrf }));
-    }, []);
-
-    return (
-        <Suspense fallback={<Spinner />}>
-        <MainContainer>
-        <FeatureTreatment
-            treatmentName={SHOW_MYHEALTH}
-            onLoad={() => { }}
-            onTimedout={() => { }}
-            attributes={splitAttributes}
-          >
-           { details?.location && <DetailsMap mapRef={mapRef} location={{ lat: details.location.latitude, lng: details.location.longitude }} /> }
-            <Container>
-                <Details
-                historyState={location.state}
-                />
-            </Container>
-          </FeatureTreatment>
-          <FeatureTreatment
-            treatmentName={SHOW_MYHEALTH}
-            onLoad={() => { }}
-            onTimedout={() => { }}
-            attributes={splitAttributes}
-            invertBehavior
-          >
-            <GlobalError/>
-          </FeatureTreatment>
-            
-            </MainContainer>
-            
-
-        </Suspense>
+  useEffect(() => {
+    let state = location.state;
+    //Get Details Map page data from API
+    dispatch(
+      getIndMapDetails({
+        resourceTypeId: state.resTypeId,
+        resourceId: state.resId,
+        lat: state.lat,
+        lon: state.lon,
+        categoryId: state.categoryId,
+        categoryIconId: state.iconId,
+        csrf: customerInfo?.data?.csrf,
+      }),
     );
-}
+  }, []);
+
+  return (
+    <Suspense fallback={<Spinner />}>
+      <MainContainer>
+        <FeatureTreatment
+          treatmentName={SHOW_MYHEALTH}
+          onLoad={() => {}}
+          onTimedout={() => {}}
+          attributes={splitAttributes}
+        >
+          {details?.location && (
+            <DetailsMap
+              mapRef={mapRef}
+              location={{
+                lat: details.location.latitude,
+                lng: details.location.longitude,
+              }}
+            />
+          )}
+          <Container>
+            <Details historyState={location.state} />
+          </Container>
+        </FeatureTreatment>
+        <FeatureTreatment
+          treatmentName={SHOW_MYHEALTH}
+          onLoad={() => {}}
+          onTimedout={() => {}}
+          attributes={splitAttributes}
+          invertBehavior
+        >
+          <GlobalError />
+        </FeatureTreatment>
+      </MainContainer>
+    </Suspense>
+  );
+};
 const MainContainer = styled(MainContentContainer)``;
 
 const Container = styled.div`

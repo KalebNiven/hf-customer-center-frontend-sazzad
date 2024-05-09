@@ -3,7 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 export const initialState = {
   data: null,
   loading: false,
-  error: ""
+  error: "",
 };
 
 export default function pcpHousehold(state = initialState, action) {
@@ -13,36 +13,34 @@ export default function pcpHousehold(state = initialState, action) {
         ...state,
         data: null,
         loading: true,
-        error: ""
+        error: "",
       };
     }
     case actionTypes.RECEIVE_PCP_HOUSEHOLD: {
       switch (action.payload.status) {
-        case 'ERROR':
-          {
-            return {
-              ...state,
-              data: null,
-              loading: false,
-              error: action.payload.errorData
-            };
-          }
-        default:
-          {
-            return {
-              ...state,
-              data: action.payload.data,
-              // data: mapToArray(action.payload.data),
-              loading: false,
-              error: ""
-            };
-          }
+        case "ERROR": {
+          return {
+            ...state,
+            data: null,
+            loading: false,
+            error: action.payload.errorData,
+          };
+        }
+        default: {
+          return {
+            ...state,
+            data: action.payload.data,
+            // data: mapToArray(action.payload.data),
+            loading: false,
+            error: "",
+          };
+        }
       }
     }
     default:
       return state;
   }
-};
+}
 
 // Convert API response object desired form (array)
 function mapToArray(data) {
@@ -52,19 +50,19 @@ function mapToArray(data) {
   const dependentsKeys = Object.keys(dependents);
   const obj = {
     hohPlans: [],
-    dependents: []
-  }
-  hohPlansKeys.forEach(key => {
+    dependents: [],
+  };
+  hohPlansKeys.forEach((key) => {
     obj.hohPlans.push({
       ...hohPlans[key],
-      memberId: key
-    })
-  })
-  dependentsKeys.forEach(key => {
+      memberId: key,
+    });
+  });
+  dependentsKeys.forEach((key) => {
     obj.dependents.push({
       ...dependents[key],
-      memberId: key
-    })
-  })
+      memberId: key,
+    });
+  });
   return obj;
 }

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useEffect, useState, } from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "./carousel";
 import HealthFirstPlan from "./healthFirstPlan";
 import PreviousHealthPlan from "./prevHealthPlan";
@@ -18,69 +18,82 @@ import HelpfulTips from "./helpfulTips";
 import { Hidden } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../common/spinner";
-import { requestCarouselItems} from "../../store/actions";
-import OTC from './otc/index'
+import { requestCarouselItems } from "../../store/actions";
+import OTC from "./otc/index";
 
 const HomeDetails = () => {
-  const carouselLoading = useSelector((state) => state.homeDetails.carouselLoading);
+  const carouselLoading = useSelector(
+    (state) => state.homeDetails.carouselLoading,
+  );
   const customerInfo = useSelector((state) => state.customerInfo);
   const dispatch = useDispatch();
 
   const formatCarouselReqPayload = (memberships) => {
     let arr = [];
-    memberships.forEach(membership => {
-      arr.push({'benefitPackage': membership['BenefitPackage'], 'companyCode': membership['CompanyNumber'], 'membershipStatus': membership['MembershipStatus']});
+    memberships.forEach((membership) => {
+      arr.push({
+        benefitPackage: membership["BenefitPackage"],
+        companyCode: membership["CompanyNumber"],
+        membershipStatus: membership["MembershipStatus"],
+      });
     });
     return arr;
-  }
+  };
 
   useEffect(() => {
-    if(customerInfo.data.customerId ){
-      dispatch(requestCarouselItems(formatCarouselReqPayload(customerInfo.data.hohPlans)));
+    if (customerInfo.data.customerId) {
+      dispatch(
+        requestCarouselItems(
+          formatCarouselReqPayload(customerInfo.data.hohPlans),
+        ),
+      );
     }
   }, []);
 
-  return (
-    customerInfo.data.accountStatus === "MEMBER" ?
-      (customerInfo.data.membershipStatus === "active" ? (
-        !customerInfo.loading && (!carouselLoading) ?
-          (<Container>
-            <Hidden smDown>
-              <InnerContainer>
-                <LeftContainer>
-                <HealthFirstPlan />
-                  <HOHDependents />
-                  <PrimaryCareProvider />
-                  <PreviousHealthPlan/>
-                  <OTC />
-                </LeftContainer>
-                <RightContainer>
-                  <Carousel/>
-                  <HelpfulTips/>
-                  <SSOCards />
-                </RightContainer>
-              </InnerContainer>
-            </Hidden>
-            <Hidden mdUp>
-              <MobContainer>
-                <Carousel />
-                <HelpfulTips />
+  return customerInfo.data.accountStatus === "MEMBER" ? (
+    customerInfo.data.membershipStatus === "active" ? (
+      !customerInfo.loading && !carouselLoading ? (
+        <Container>
+          <Hidden smDown>
+            <InnerContainer>
+              <LeftContainer>
                 <HealthFirstPlan />
                 <HOHDependents />
                 <PrimaryCareProvider />
-                <PreviousHealthPlan/>
+                <PreviousHealthPlan />
                 <OTC />
+              </LeftContainer>
+              <RightContainer>
+                <Carousel />
+                <HelpfulTips />
                 <SSOCards />
-              </MobContainer>
-            </Hidden>
-          </Container>) : (<ProgressWrapper>
-            <Spinner /></ProgressWrapper>)
-      ) : (customerInfo.data.membershipStatus === "inactive" ?( <Container>
+              </RightContainer>
+            </InnerContainer>
+          </Hidden>
+          <Hidden mdUp>
+            <MobContainer>
+              <Carousel />
+              <HelpfulTips />
+              <HealthFirstPlan />
+              <HOHDependents />
+              <PrimaryCareProvider />
+              <PreviousHealthPlan />
+              <OTC />
+              <SSOCards />
+            </MobContainer>
+          </Hidden>
+        </Container>
+      ) : (
+        <ProgressWrapper>
+          <Spinner />
+        </ProgressWrapper>
+      )
+    ) : customerInfo.data.membershipStatus === "inactive" ? (
+      <Container>
         <Hidden smDown>
           <InnerContainer>
-            <LeftContainer membershipStatus = "inactive">
-            </LeftContainer>
-            <RightContainer membershipStatus = "inactive">
+            <LeftContainer membershipStatus="inactive"></LeftContainer>
+            <RightContainer membershipStatus="inactive">
               <Carousel />
               <MakePayment />
               <SSOCards />
@@ -91,70 +104,73 @@ const HomeDetails = () => {
         <Hidden mdUp>
           <MobContainer>
             <Carousel />
-            <MakePayment/>
+            <MakePayment />
             <SSOCards />
             <PlanDetails />
           </MobContainer>
         </Hidden>
-      </Container> ): (<Container>
+      </Container>
+    ) : (
+      <Container>
         <Hidden smDown>
           <InnerContainer>
             <LeftContainer>
               {/* <HealthFirstPlan /> */}
-              <PreviousHealthPlan/>
+              <PreviousHealthPlan />
             </LeftContainer>
             <RightContainer>
-            <Carousel />
-            <UpcomingPlan/>
+              <Carousel />
+              <UpcomingPlan />
             </RightContainer>
           </InnerContainer>
         </Hidden>
         <Hidden mdUp>
           <MobContainer>
-          <Carousel />
-          <UpcomingPlan/>
+            <Carousel />
+            <UpcomingPlan />
             {/* <HealthFirstPlan /> */}
-            <PreviousHealthPlan/>
+            <PreviousHealthPlan />
           </MobContainer>
         </Hidden>
-      </Container>))) :
-      (<Container>
-        <Hidden smDown>
-          <InnerContainer>
-            <LeftContainer>
-              {/* <HealthFirstPlan /> */}
-              <AddMembership />
-              {/* <ReportAnIssue /> */}
-            </LeftContainer>
-            <RightContainer>
-              <CoverageActivation />
-              <HealthFirstChecklist />
-            </RightContainer>
-          </InnerContainer>
-        </Hidden>
-        <Hidden mdUp>
+      </Container>
+    )
+  ) : (
+    <Container>
+      <Hidden smDown>
+        <InnerContainer>
+          <LeftContainer>
+            {/* <HealthFirstPlan /> */}
+            <AddMembership />
+            {/* <ReportAnIssue /> */}
+          </LeftContainer>
+          <RightContainer>
+            <CoverageActivation />
+            <HealthFirstChecklist />
+          </RightContainer>
+        </InnerContainer>
+      </Hidden>
+      <Hidden mdUp>
         <MobContainer>
-          <CoverageActivation  />
+          <CoverageActivation />
           {/* <HealthFirstPlan /> */}
           <AddMembership />
           {/* <ReportAnIssue /> */}
           <HealthFirstChecklist />
-          </MobContainer>
-        </Hidden>
-      </Container>)
-    )
+        </MobContainer>
+      </Hidden>
+    </Container>
+  );
 };
 
 const Container = styled.div`
-  backgroundColor:#484c55;
-  color:black;
-  position:relative;
-  margin-top:56px;
-  width:100%;
+  backgroundcolor: #484c55;
+  color: black;
+  position: relative;
+  margin-top: 56px;
+  width: 100%;
   @media only screen and (max-width: 896px) {
-    margin-top:56px;
-  };
-
+    margin-top: 56px;
+  }
 `;
 
 const InnerContainer = styled.div`
@@ -165,43 +181,40 @@ const InnerContainer = styled.div`
   align-items: flex-start;
   box-sizing: border-box;
   margin: 0 144px;
-  width:calc(100% - 288px);
+  width: calc(100% - 288px);
   @media only screen and (max-width: 1200px) {
     margin: 0 86px;
-    width:calc(100% - 172px);
-  };
+    width: calc(100% - 172px);
+  }
 `;
 
 const LeftContainer = styled.div`
   display: block;
-  width:310px;
-  ${props => props.membershipStatus === "inactive" && "order:2"};
+  width: 310px;
+  ${(props) => props.membershipStatus === "inactive" && "order:2"};
 `;
 
 const RightContainer = styled.div`
   display: block;
-  width:650px;
-  ${props => props.membershipStatus === "inactive" && "order:1"};
+  width: 650px;
+  ${(props) => props.membershipStatus === "inactive" && "order:1"};
 `;
 
 const MobContainer = styled.div`
-  
   @media only screen and (max-width: 960px) {
     margin: 0 86px;
-    width:calc(100% - 172px);
-  };
+    width: calc(100% - 172px);
+  }
   @media only screen and (max-width: 668px) {
     margin: 0 16px;
-    width:calc(100% - 32px);
-  };
+    width: calc(100% - 32px);
+  }
 `;
 
 const ProgressWrapper = styled.div`
-  width:100%;
+  width: 100%;
   position: relative;
   margin-top: 100px;
 `;
-
-
 
 export default HomeDetails;

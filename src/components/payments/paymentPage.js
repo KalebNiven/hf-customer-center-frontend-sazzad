@@ -9,13 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { SplitContext } from "@splitsoftware/splitio-react";
 import { requestSelectPlan } from "../../store/actions";
 import { usePaymentsModalContext } from "../../context/paymentsModalContext";
-import * as splits from '../../constants/splits';
+import * as splits from "../../constants/splits";
 import {
   getSplitpAttributes,
   handleSegmentBtn,
   getEnabledAccountsAndTreatments,
   accountTreatmentsInit,
-} from './paymentPage.utils';
+} from "./paymentPage.utils";
 import GlobalError from "../common/globalErrors/globalErrors";
 import Spinner from "../common/spinner";
 import BinderPortal from "./binderPortal";
@@ -42,7 +42,7 @@ import {
   PaymentButton,
   RightContainer,
   FirstPaymentButton,
-} from './paymentPage.styles';
+} from "./paymentPage.styles";
 
 const { MIX_REACT_APP_BINDER_SITE_HREF } = process.env;
 const { MIX_REACT_APP_PAYMENT_SITE_HREF } = process.env;
@@ -58,53 +58,108 @@ function PaymentPage() {
   const dispatch = useDispatch();
   const splitHookContext = useContext(SplitContext);
   const customerInfo = useSelector((state) => state.customerInfo);
-  const { paymentsModalState, setPaymentsModalState } = usePaymentsModalContext();
-  const { accountStatus, memberId, hohPlans } = customerInfo.data ?? '';
+  const { paymentsModalState, setPaymentsModalState } =
+    usePaymentsModalContext();
+  const { accountStatus, memberId, hohPlans } = customerInfo.data ?? "";
 
-  const accountSelectedOnModal = useMemo(() => paymentsModalState.membership?.MembershipKey ?? null, [paymentsModalState.membership]);
+  const accountSelectedOnModal = useMemo(
+    () => paymentsModalState.membership?.MembershipKey ?? null,
+    [paymentsModalState.membership],
+  );
 
   const accountId = useMemo(() => {
-    let updatedAccountId = memberId || 'NON-MENBER';
-    if (accountIds.length > 1 && accountSelectedOnModal) updatedAccountId = accountSelectedOnModal;
+    let updatedAccountId = memberId || "NON-MENBER";
+    if (accountIds.length > 1 && accountSelectedOnModal)
+      updatedAccountId = accountSelectedOnModal;
     if (accountIds.length === 1) updatedAccountId = accountIds[0];
     return updatedAccountId;
   }, [accountIds, accountSelectedOnModal, memberId]);
 
-  const accountTreatments = useMemo(() => accountIds.includes(accountId) ? treatments[accountIds.indexOf(accountId)] : accountTreatmentsInit, [treatments, accountId]);
-  const isBinderEnabled = useMemo(() => accountTreatments[splits.BINDER_ACL], [accountTreatments]);
-  const isPaymentsEnabled = useMemo(() => accountTreatments[splits.PAYMENTS_ACL], [accountTreatments]);
-  const showGlobalError = useMemo(() => !isBinderEnabled && !isPaymentsEnabled && (accountIds.length < 2 ||  accountSelectedOnModal), [isBinderEnabled, isPaymentsEnabled, accountIds,  accountSelectedOnModal]);
+  const accountTreatments = useMemo(
+    () =>
+      accountIds.includes(accountId)
+        ? treatments[accountIds.indexOf(accountId)]
+        : accountTreatmentsInit,
+    [treatments, accountId],
+  );
+  const isBinderEnabled = useMemo(
+    () => accountTreatments[splits.BINDER_ACL],
+    [accountTreatments],
+  );
+  const isPaymentsEnabled = useMemo(
+    () => accountTreatments[splits.PAYMENTS_ACL],
+    [accountTreatments],
+  );
+  const showGlobalError = useMemo(
+    () =>
+      !isBinderEnabled &&
+      !isPaymentsEnabled &&
+      (accountIds.length < 2 || accountSelectedOnModal),
+    [isBinderEnabled, isPaymentsEnabled, accountIds, accountSelectedOnModal],
+  );
 
-  const onShowPaymentPortal = useCallback((isBtnClick = true) => {
-    const isReactAppEnabled = accountTreatments[splits.SHOW_PAYMENTS_REACT_APP];
-    // analytics
-    if (isBtnClick) handleSegmentBtn(customerInfo, "Monthly premium payment", !isReactAppEnabled && MIX_REACT_APP_PAYMENT_SITE_HREF);
-    // show payments react app
-    if (isReactAppEnabled) setShowPaymentPortal(true);
-    // or redirect to LAMP
-    else window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
-  }, [accountTreatments, customerInfo]);
+  const onShowPaymentPortal = useCallback(
+    (isBtnClick = true) => {
+      const isReactAppEnabled =
+        accountTreatments[splits.SHOW_PAYMENTS_REACT_APP];
+      // analytics
+      if (isBtnClick)
+        handleSegmentBtn(
+          customerInfo,
+          "Monthly premium payment",
+          !isReactAppEnabled && MIX_REACT_APP_PAYMENT_SITE_HREF,
+        );
+      // show payments react app
+      if (isReactAppEnabled) setShowPaymentPortal(true);
+      // or redirect to LAMP
+      else window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
+    },
+    [accountTreatments, customerInfo],
+  );
 
-  const onShowBinder = useCallback((isBtnClick = true) => {
-    const isReactAppEnabled = accountTreatments[splits.SHOW_BINDER_REACT_APP];
-    // analytics
-    if (isBtnClick) handleSegmentBtn(customerInfo, "First premium payment", !isReactAppEnabled && MIX_REACT_APP_BINDER_SITE_HREF);
-    // show binder react app
-    if (isReactAppEnabled) setShowBinderPortal(true);
-    // or redirect to LAMP
-    else window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
-  }, [accountTreatments, customerInfo]);
+  const onShowBinder = useCallback(
+    (isBtnClick = true) => {
+      const isReactAppEnabled = accountTreatments[splits.SHOW_BINDER_REACT_APP];
+      // analytics
+      if (isBtnClick)
+        handleSegmentBtn(
+          customerInfo,
+          "First premium payment",
+          !isReactAppEnabled && MIX_REACT_APP_BINDER_SITE_HREF,
+        );
+      // show binder react app
+      if (isReactAppEnabled) setShowBinderPortal(true);
+      // or redirect to LAMP
+      else window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
+    },
+    [accountTreatments, customerInfo],
+  );
 
   // 1. onLoad: get treatment for all accounts -> runs once
   useEffect(() => {
-    if (accountIds.length > 0 || !isLoading || !splitHookContext.isReady || localStorage.getItem('okta-token-storage') === null) return;
+    if (
+      accountIds.length > 0 ||
+      !isLoading ||
+      !splitHookContext.isReady ||
+      localStorage.getItem("okta-token-storage") === null
+    )
+      return;
     sessionStorage.setItem("longLoad", false);
     // get treatments for main account
-    const acountSplitAttributes = getSplitpAttributes(customerInfo.data, accountStatus ?? '');
-    const plansAttributes = hohPlans.map((plan) => getSplitpAttributes(plan, accountStatus ?? ''));
+    const acountSplitAttributes = getSplitpAttributes(
+      customerInfo.data,
+      accountStatus ?? "",
+    );
+    const plansAttributes = hohPlans.map((plan) =>
+      getSplitpAttributes(plan, accountStatus ?? ""),
+    );
 
     const allAccountsAttributes = [acountSplitAttributes, ...plansAttributes];
-    const [updatedAccountIds, updatedTreatments] = getEnabledAccountsAndTreatments(allAccountsAttributes, splitHookContext.client);
+    const [updatedAccountIds, updatedTreatments] =
+      getEnabledAccountsAndTreatments(
+        allAccountsAttributes,
+        splitHookContext.client,
+      );
 
     setAccountIds(updatedAccountIds);
     setTreatments(updatedTreatments);
@@ -121,8 +176,8 @@ function PaymentPage() {
     setPaymentsModalState({
       ...paymentsModalState,
       showMemberModal: true,
-      routeLink: 'link',
-      externalLinkName: 'Payments',
+      routeLink: "link",
+      externalLinkName: "Payments",
     });
     // reset form controls for edge case: displaying modal more than once
     setShowBinderPortal(false);
@@ -131,7 +186,11 @@ function PaymentPage() {
 
   // 3. handle ACLs -> runs once
   useEffect(() => {
-    if (accountIds.length === 0 || (accountIds.length > 1 && !accountSelectedOnModal)) return;
+    if (
+      accountIds.length === 0 ||
+      (accountIds.length > 1 && !accountSelectedOnModal)
+    )
+      return;
     if (isBinderEnabled && !isPaymentsEnabled) onShowBinder(false);
     if (!isBinderEnabled && isPaymentsEnabled) onShowPaymentPortal(false);
   }, [accountIds, accountSelectedOnModal, isBinderEnabled, isPaymentsEnabled]);
@@ -146,7 +205,7 @@ function PaymentPage() {
     );
   }
 
-  if (showGlobalError) return (<GlobalError />);
+  if (showGlobalError) return <GlobalError />;
 
   if (showBinderPortal) {
     return (
@@ -163,7 +222,11 @@ function PaymentPage() {
           <BrandingContainer>
             <BrandingInnerContainer>
               <BrandingLeftContainer>
-                <LeafIcon alt="" type={accountStatus} src="/react/images/leaf-icon@3x.png" />
+                <LeafIcon
+                  alt=""
+                  type={accountStatus}
+                  src="/react/images/leaf-icon@3x.png"
+                />
                 <Div type={accountStatus}>
                   <BrandingTitle>Payments</BrandingTitle>
                 </Div>
@@ -181,20 +244,31 @@ function PaymentPage() {
     <Container>
       <>
         <GlobalStyle />
-        <PaymentTypeTxt>What type of payment would you like to make?</PaymentTypeTxt>
+        <PaymentTypeTxt>
+          What type of payment would you like to make?
+        </PaymentTypeTxt>
         <InnerContainer>
           <LeftContainer>
             <Card>
               <Heading>Monthly premium payment</Heading>
-              <Description>Make ongoing monthly payments towards your premium plan.</Description>
-              <PaymentButton onClick={onShowPaymentPortal}>Monthly Premium Payment</PaymentButton>
+              <Description>
+                Make ongoing monthly payments towards your premium plan.
+              </Description>
+              <PaymentButton onClick={onShowPaymentPortal}>
+                Monthly Premium Payment
+              </PaymentButton>
             </Card>
           </LeftContainer>
           <RightContainer>
             <Card>
               <Heading>First premium payment for a new plan</Heading>
-              <Description>Make your first payment for your new plan. This payment will confirm your enrollment so you can start using your benefits. </Description>
-              <FirstPaymentButton onClick={onShowBinder}>First Premium Payment</FirstPaymentButton>
+              <Description>
+                Make your first payment for your new plan. This payment will
+                confirm your enrollment so you can start using your benefits.{" "}
+              </Description>
+              <FirstPaymentButton onClick={onShowBinder}>
+                First Premium Payment
+              </FirstPaymentButton>
             </Card>
           </RightContainer>
         </InnerContainer>

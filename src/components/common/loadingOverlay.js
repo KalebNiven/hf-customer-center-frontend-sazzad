@@ -1,28 +1,28 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components';
-import Spinner from './spinner'
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import Spinner from "./spinner";
 
 const LoadingOverlay = ({ isLoading }) => {
-    useEffect(() => {
-        if(isLoading){
-            document.querySelector("body").style.overflow = "hidden";
-            window.scrollTo(0, 0);
-        } else {
-            document.querySelector("body").style.overflow = null;
-        }
-        return () => {
-            document.querySelector("body").style.overflow = null;
-        }
-    }, [isLoading])
+  useEffect(() => {
+    if (isLoading) {
+      document.querySelector("body").style.overflow = "hidden";
+      window.scrollTo(0, 0);
+    } else {
+      document.querySelector("body").style.overflow = null;
+    }
+    return () => {
+      document.querySelector("body").style.overflow = null;
+    };
+  }, [isLoading]);
 
-    return (
-        <Container>
-            <SpinnerWrapper>
-                <Spinner />
-            </SpinnerWrapper>
-        </Container>
-    )
-}
+  return (
+    <Container>
+      <SpinnerWrapper>
+        <Spinner />
+      </SpinnerWrapper>
+    </Container>
+  );
+};
 
 export const Container = styled.div`
   position: absolute;
@@ -39,4 +39,4 @@ export const SpinnerWrapper = styled.div`
   height: 100%;
 `;
 
-export default LoadingOverlay
+export default LoadingOverlay;

@@ -1,45 +1,47 @@
 import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
-  submittedAttestationAgreement:{},
-  loading:false,
-  error:""
+  submittedAttestationAgreement: {},
+  loading: false,
+  error: "",
 };
 
-export default function submitAttestationAgreement(state = initialState, action) {
+export default function submitAttestationAgreement(
+  state = initialState,
+  action,
+) {
   switch (action.type) {
     case actionTypes.REQUEST_SUBMIT_ATTESTATION_AGREEMENT: {
       return {
         ...state,
         submittedAttestationAgreement: action.payload.data,
-        loading:true,
-        error:""
+        loading: true,
+        error: "",
       };
     }
     case actionTypes.RECEIVE_SUBMIT_ATTESTATION_AGREEMENT: {
       switch (action.payload.status) {
-        case 'ERROR':
-        {
+        case "ERROR": {
           return {
             ...state,
             submittedAttestationAgreement: {},
-            loading:false,
-            error:action.payload.errorData
+            loading: false,
+            error: action.payload.errorData,
           };
         }
-        default:{
-        const value = action.payload.data;
+        default: {
+          const value = action.payload.data;
 
-      return {
-        ...state,
-        submittedAttestationAgreement: value,
-        loading:false,
-        error:""
-        };
-      }
+          return {
+            ...state,
+            submittedAttestationAgreement: value,
+            loading: false,
+            error: "",
+          };
+        }
       }
     }
     default:
       return state;
   }
-};
+}

@@ -2,8 +2,8 @@ import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
   data: {},
-  loading:false,
-  error:""
+  loading: false,
+  error: "",
 };
 
 export default function customerInfo(state = initialState, action) {
@@ -12,39 +12,46 @@ export default function customerInfo(state = initialState, action) {
       return {
         ...state,
         data: {},
-        loading:true,
-        error:""
+        loading: true,
+        error: "",
       };
     }
     case actionTypes.UPDATE_CUSTOMER_INFO: {
       return {
         ...state,
-        data: { ...state.data, ...action.payload.data},
-        loading:false,
-        error:""
+        data: { ...state.data, ...action.payload.data },
+        loading: false,
+        error: "",
       };
     }
     case actionTypes.RECEIVE_CUSTOMER_INFO: {
       switch (action?.payload?.status) {
-        case 'ERROR':
-        {
+        case "ERROR": {
           return {
             ...state,
             data: {},
-            loading:false,
-            error:action.payload.errorData
+            loading: false,
+            error: action.payload.errorData,
           };
         }
         default: {
-          const localStorageOKTA = JSON.parse(localStorage.getItem('okta-token-storage'));
-          const accessToken = 'Bearer ' + localStorageOKTA.accessToken.accessToken;
-          const idToken = 'Bearer ' + localStorageOKTA.idToken.idToken;
+          const localStorageOKTA = JSON.parse(
+            localStorage.getItem("okta-token-storage"),
+          );
+          const accessToken =
+            "Bearer " + localStorageOKTA.accessToken.accessToken;
+          const idToken = "Bearer " + localStorageOKTA.idToken.idToken;
           const nonce = localStorageOKTA.idToken.claims.nonce;
           return {
             ...state,
-            data: {...action.payload.data, access_token: accessToken, id_token: idToken, nonce },
-            loading:false,
-            error:""
+            data: {
+              ...action.payload.data,
+              access_token: accessToken,
+              id_token: idToken,
+              nonce,
+            },
+            loading: false,
+            error: "",
           };
         }
       }
@@ -52,5 +59,4 @@ export default function customerInfo(state = initialState, action) {
     default:
       return state;
   }
-};
-    
+}

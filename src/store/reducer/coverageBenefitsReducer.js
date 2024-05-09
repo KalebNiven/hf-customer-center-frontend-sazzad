@@ -2,8 +2,8 @@ import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
   coverage: {},
-  loading:false,
-  error:""
+  loading: false,
+  error: "",
 };
 
 export default function coverageBenefits(state = initialState, action) {
@@ -12,29 +12,28 @@ export default function coverageBenefits(state = initialState, action) {
       return {
         ...state,
         coverage: {},
-        loading:true,
-        error:"",
+        loading: true,
+        error: "",
         documents: [],
-        docsError:""
+        docsError: "",
       };
     }
     case actionTypes.RECEIVE_COVERAGE_DATA: {
       switch (action.payload.status) {
-        case 'ERROR':
-        {
+        case "ERROR": {
           return {
             ...state,
             coverage: {},
-            loading:false,
-            error:action.payload.errorData
+            loading: false,
+            error: action.payload.errorData,
           };
         }
         default: {
           return {
             ...state,
             coverage: action.payload.data,
-            loading:false,
-            error:""
+            loading: false,
+            error: "",
           };
         }
       }
@@ -43,24 +42,23 @@ export default function coverageBenefits(state = initialState, action) {
       return {
         ...state,
         documents: [],
-        docsError: ""
+        docsError: "",
       };
     }
     case actionTypes.RECEIVE_FORMS_DOCS: {
       switch (action.payload.status) {
-        case 'ERROR':
-        {
+        case "ERROR": {
           return {
             ...state,
             documents: [],
-            docsError: action.payload.errorData
+            docsError: action.payload.errorData,
           };
         }
         default: {
           return {
             ...state,
             documents: action.payload.data,
-            docsError: ""
+            docsError: "",
           };
         }
       }
@@ -68,5 +66,4 @@ export default function coverageBenefits(state = initialState, action) {
     default:
       return state;
   }
-};
-    
+}

@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import moment from 'moment'; 
-import { ButtonWrapper, CloseIcon, Header, ModalContent, ModalInnerWrapper, ModalWrapper } from "../../styles/commonStyles";
+import moment from "moment";
+import {
+  ButtonWrapper,
+  CloseIcon,
+  Header,
+  ModalContent,
+  ModalInnerWrapper,
+  ModalWrapper,
+} from "../../styles/commonStyles";
 import { AppBar, Link, Toolbar } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import { StyledButton } from '../common/styles';
+import { StyledButton } from "../common/styles";
 import { reportError as reportErrorAction } from "../../store/actions/index";
 import { AnalyticsTrack } from "../../components/common/segment/analytics";
-import { ANALYTICS_TRACK_TYPE, ANALYTICS_TRACK_CATEGORY } from "../../constants/segment";
-import { useLogout } from '../../hooks/useLogout'
-import { getRecertificationDate, isEligibleForRecertDate } from '../../utils/misc'
-
+import {
+  ANALYTICS_TRACK_TYPE,
+  ANALYTICS_TRACK_CATEGORY,
+} from "../../constants/segment";
+import { useLogout } from "../../hooks/useLogout";
+import {
+  getRecertificationDate,
+  isEligibleForRecertDate,
+} from "../../utils/misc";
 
 const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
   const { MIX_REACT_OKTA_API_URL } = process.env;
@@ -20,11 +32,16 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
   const [inactivePlans, setInactivePlans] = useState([]);
   const [activeDepPlans, setActiveDepPlans] = useState([]);
   const [inactiveDepPlans, setInactiveDepPlans] = useState([]);
-  const [reportErrorModal, setReportErrorModal] = useState(false)
-  const [reportErrorConfirmation, setReportErrorConfirmation] = useState({ value: false, error: false })
-  const [finalReportingModal, setFinalReportingModal] = useState(false)
-  const reportErrorSuccess = useSelector(state => state.settingsReducer.reportErrorSuccess)
-  const [reportingError, setReportingError] = useState(false)
+  const [reportErrorModal, setReportErrorModal] = useState(false);
+  const [reportErrorConfirmation, setReportErrorConfirmation] = useState({
+    value: false,
+    error: false,
+  });
+  const [finalReportingModal, setFinalReportingModal] = useState(false);
+  const reportErrorSuccess = useSelector(
+    (state) => state.settingsReducer.reportErrorSuccess,
+  );
+  const [reportingError, setReportingError] = useState(false);
   const logoutApi = useLogout();
 
   useEffect(() => {
@@ -33,29 +50,35 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
 
   useEffect(() => {
     if (reportErrorSuccess) {
-      setReportErrorModal(false)
-      setFinalReportingModal(true)
-      logoutApi()
+      setReportErrorModal(false);
+      setFinalReportingModal(true);
+      logoutApi();
     }
-  }, [reportErrorSuccess])
+  }, [reportErrorSuccess]);
 
   const handleDate = (dateFrom, dateTo) => {
-    const from = moment(dateFrom).format('LL');
-    const to = moment(dateTo).format('LL');
-    const expirationInUnix = moment(dateTo).format('X');
-    const effectiveInUnix = moment(dateFrom).format('X');
+    const from = moment(dateFrom).format("LL");
+    const to = moment(dateTo).format("LL");
+    const expirationInUnix = moment(dateTo).format("X");
+    const effectiveInUnix = moment(dateFrom).format("X");
     const todayInUnix = moment().unix();
     if (expirationInUnix > todayInUnix && effectiveInUnix <= todayInUnix) {
       return `${from} - Present`;
-    } else if (expirationInUnix > todayInUnix && effectiveInUnix > todayInUnix) {
+    } else if (
+      expirationInUnix > todayInUnix &&
+      effectiveInUnix > todayInUnix
+    ) {
       return `${from}`;
     } else {
       return `${from} - ${to}`;
     }
-  }
+  };
 
   const splitPlans = () => {
-    let activeArr = [], inactiveArr = [], activeDepArr = [], inactiveDepArr = [];
+    let activeArr = [],
+      inactiveArr = [],
+      activeDepArr = [],
+      inactiveDepArr = [];
 
     // This is the assumption that the previous plans only shows inactive plans for hoh
     customerInfo?.previousPlans?.map((plan) => {
@@ -64,7 +87,10 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
 
     // Split Active & Inactive Plans for Primary
     customerInfo?.hohPlans?.map((plan) => {
-      if (plan.MembershipStatus === 'active' || plan.MembershipStatus === 'upcoming')
+      if (
+        plan.MembershipStatus === "active" ||
+        plan.MembershipStatus === "upcoming"
+      )
         activeArr.push(plan);
     });
     setActivePlans(activeArr);
@@ -72,281 +98,442 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
 
     // Split Active & Inactive Plans for Dependants
     customerInfo?.dependents?.map((plan) => {
-      if (plan.Status === 'active' || plan.Status === 'upcoming')
+      if (plan.Status === "active" || plan.Status === "upcoming")
         activeDepArr.push(plan);
-      else
-        inactiveDepArr.push(plan);
+      else inactiveDepArr.push(plan);
     });
     setActiveDepPlans(activeDepArr);
     setInactiveDepPlans(inactiveDepArr);
-  }
+  };
 
   const closeReportErrorModal = () => {
-    setReportErrorConfirmation({ error: false, value: false })
+    setReportErrorConfirmation({ error: false, value: false });
     setReportErrorModal(false);
-  }
+  };
 
-  const reportError = () => <Report>Not you? <Blue onClick= {() => handleSegmentBtn('Report Error')}>Report Error</Blue></Report>
+  const reportError = () => (
+    <Report>
+      Not you?{" "}
+      <Blue onClick={() => handleSegmentBtn("Report Error")}>Report Error</Blue>
+    </Report>
+  );
 
   const reportErrorModalTemplete = () => {
     return (
       <FormModalWrapper visible={reportErrorModal}>
         <ModalInnerWrapper>
           <FormModalContent>
-            <CloseIcon alt = "" src="/react/images/icn-close.svg" onClick={closeReportErrorModal} />
+            <CloseIcon
+              alt=""
+              src="/react/images/icn-close.svg"
+              onClick={closeReportErrorModal}
+            />
             <div>
-              <Header>
-                Report an Error
-              </Header>
+              <Header>Report an Error</Header>
               <SubHeader>
-                Don’t recognize this information as yours? Please report the error and we’ll look into it.  Do you want to continue?
+                Don’t recognize this information as yours? Please report the
+                error and we’ll look into it.  Do you want to continue?
               </SubHeader>
               <ReportErrorCheckboxWrapper>
-                <ReportErrorCheckboxCustom className="checkbox-container" htmlFor="reportErrorCheckbox" checked={reportErrorConfirmation.value}
-                  onClick={() => setReportErrorConfirmation({ value: !reportErrorConfirmation.value, error: false })}
-                  error={reportErrorConfirmation.error}>
-                  <CheckboxConfirmationText>Yes. I do not recognize this membership and want Healthfirst to look into it.</CheckboxConfirmationText>
-                  <span><ReportErrorCheckChar checked={reportErrorConfirmation.value} error={reportErrorConfirmation.error}></ReportErrorCheckChar></span>
+                <ReportErrorCheckboxCustom
+                  className="checkbox-container"
+                  htmlFor="reportErrorCheckbox"
+                  checked={reportErrorConfirmation.value}
+                  onClick={() =>
+                    setReportErrorConfirmation({
+                      value: !reportErrorConfirmation.value,
+                      error: false,
+                    })
+                  }
+                  error={reportErrorConfirmation.error}
+                >
+                  <CheckboxConfirmationText>
+                    Yes. I do not recognize this membership and want Healthfirst
+                    to look into it.
+                  </CheckboxConfirmationText>
+                  <span>
+                    <ReportErrorCheckChar
+                      checked={reportErrorConfirmation.value}
+                      error={reportErrorConfirmation.error}
+                    ></ReportErrorCheckChar>
+                  </span>
                 </ReportErrorCheckboxCustom>
-                {reportErrorConfirmation.error && <InputErrorMsg>Selection is required</InputErrorMsg>}
+                {reportErrorConfirmation.error && (
+                  <InputErrorMsg>Selection is required</InputErrorMsg>
+                )}
               </ReportErrorCheckboxWrapper>
               <FormButtonWrapper>
-                <StyledButton variant="secondary" onClick={closeReportErrorModal}>
+                <StyledButton
+                  variant="secondary"
+                  onClick={closeReportErrorModal}
+                >
                   Cancel
                 </StyledButton>
                 <Spacer></Spacer>
-                <StyledButton variant={"primary"} onClick={() => {
-                  if (!reportErrorConfirmation.value) {
-                    setReportErrorConfirmation({ ...reportErrorConfirmation, error: true })
-                  } else {
-                    setReportingError(true)
-                    dispatch(reportErrorAction(customerInfo?.hohPlans[0]?.MembershipKey))
-                    handleSegmentBtn('Widget Report Error')
-                  }
-                }} >
-                  {reportingError ? <ProgressSpinnerWrapper><ProgressSpinner /> </ProgressSpinnerWrapper>: "Report Error"}
-              </StyledButton>
-            </FormButtonWrapper>
-          </div>
-        </FormModalContent>
-      </ModalInnerWrapper>
-      </FormModalWrapper >
-    )
-  }
-  const handleSegmentBtn = (label) => {  
-    if (label=== 'Report Error'){
-       setReportErrorModal(true); 
-    } 
-    else if (label=== 'Active Plans'){  
-      setActiveTab("active")
-    }
-    else if(label=== 'Previous Plans'){ 
-      setActiveTab("inactive")
-    }
-    AnalyticsTrack(
-      label + " " + "Clicked",
-      customerInfo,
-      {
-        "raw_text": label,
-        "destination_url": label,
-        "description": label + " in HealthPlans Tab",
-        "category": ANALYTICS_TRACK_CATEGORY.settings,
-        "type": ANALYTICS_TRACK_TYPE.buttonClicked,
-        "targetMemberId":customerInfo?.memberId,
-        "location": {
-          "desktop": {
-            "width": 960,
-            "value": "center"
-          },
-          "tablet": {
-            "width": 768,
-            "value": "center"
-          },
-          "mobile": {
-            "width": 0,
-            "value": "center"
-          }
-        }
-      }
+                <StyledButton
+                  variant={"primary"}
+                  onClick={() => {
+                    if (!reportErrorConfirmation.value) {
+                      setReportErrorConfirmation({
+                        ...reportErrorConfirmation,
+                        error: true,
+                      });
+                    } else {
+                      setReportingError(true);
+                      dispatch(
+                        reportErrorAction(
+                          customerInfo?.hohPlans[0]?.MembershipKey,
+                        ),
+                      );
+                      handleSegmentBtn("Widget Report Error");
+                    }
+                  }}
+                >
+                  {reportingError ? (
+                    <ProgressSpinnerWrapper>
+                      <ProgressSpinner />{" "}
+                    </ProgressSpinnerWrapper>
+                  ) : (
+                    "Report Error"
+                  )}
+                </StyledButton>
+              </FormButtonWrapper>
+            </div>
+          </FormModalContent>
+        </ModalInnerWrapper>
+      </FormModalWrapper>
     );
-  }
+  };
+  const handleSegmentBtn = (label) => {
+    if (label === "Report Error") {
+      setReportErrorModal(true);
+    } else if (label === "Active Plans") {
+      setActiveTab("active");
+    } else if (label === "Previous Plans") {
+      setActiveTab("inactive");
+    }
+    AnalyticsTrack(label + " " + "Clicked", customerInfo, {
+      raw_text: label,
+      destination_url: label,
+      description: label + " in HealthPlans Tab",
+      category: ANALYTICS_TRACK_CATEGORY.settings,
+      type: ANALYTICS_TRACK_TYPE.buttonClicked,
+      targetMemberId: customerInfo?.memberId,
+      location: {
+        desktop: {
+          width: 960,
+          value: "center",
+        },
+        tablet: {
+          width: 768,
+          value: "center",
+        },
+        mobile: {
+          width: 0,
+          value: "center",
+        },
+      },
+    });
+  };
 
-const finalReportingModalTemplete = () => {
-  return (
-    <GreyFormModalWrapper visible={finalReportingModal}>
-      <AppBar position="sticky" className="no-print" style={{ color: 'black', zIndex: 500 }}>
-        <Toolbar style={{ justifyContent: 'space-between', backgroundColor: 'white' }}>
-          <img alt = "" src={`${window.location.origin}/react/images/icn-hf-logo.svg`} />
-        </Toolbar>
-      </AppBar>
-      <ModalInnerWrapper>
-        <FormModalContent>
-          <div>
-            <CenterHeader>
-              Thank You For Reporting An Error
-            </CenterHeader>
-            <CenterSubHeader>
-              To ensure your privacy and account security, we need to temporarily disable access to your account. You’ll receive an email once you’re able to log in within 3–5 days. We apologize for the inconvenience.
-            </CenterSubHeader>
-            <CenterSubHeader>
-              Please <BlueLink href="https://healthfirst.org/contact">contact us</BlueLink> if you have any questions.
-            </CenterSubHeader>
-          </div>
-        </FormModalContent>
-      </ModalInnerWrapper>
-    </GreyFormModalWrapper >
-  )
-}
+  const finalReportingModalTemplete = () => {
+    return (
+      <GreyFormModalWrapper visible={finalReportingModal}>
+        <AppBar
+          position="sticky"
+          className="no-print"
+          style={{ color: "black", zIndex: 500 }}
+        >
+          <Toolbar
+            style={{
+              justifyContent: "space-between",
+              backgroundColor: "white",
+            }}
+          >
+            <img
+              alt=""
+              src={`${window.location.origin}/react/images/icn-hf-logo.svg`}
+            />
+          </Toolbar>
+        </AppBar>
+        <ModalInnerWrapper>
+          <FormModalContent>
+            <div>
+              <CenterHeader>Thank You For Reporting An Error</CenterHeader>
+              <CenterSubHeader>
+                To ensure your privacy and account security, we need to
+                temporarily disable access to your account. You’ll receive an
+                email once you’re able to log in within 3–5 days. We apologize
+                for the inconvenience.
+              </CenterSubHeader>
+              <CenterSubHeader>
+                Please{" "}
+                <BlueLink href="https://healthfirst.org/contact">
+                  contact us
+                </BlueLink>{" "}
+                if you have any questions.
+              </CenterSubHeader>
+            </div>
+          </FormModalContent>
+        </ModalInnerWrapper>
+      </GreyFormModalWrapper>
+    );
+  };
 
-const displayMainComponent = () => (
-  activeTab === "active" ?
-    <>
-      {
-        activePlans.length === 0 && activeDepPlans.length === 0 &&
-        <PlanCard>
-          <CenterImgBlock><ImgContent src="/react/images/gray/ico-plan.svg" background="#ffffff" /></CenterImgBlock>
-          <Info>There are no plans to display.</Info>
-        </PlanCard>
-      }
-      {
-        activePlans.length > 0 &&
-        activePlans.map((plan,index) => {
-          return (
-            <PlanCard key={index}>
-              <PlanName>{plan.PlanName}</PlanName>
-              <MemberName>{plan.FirstName?.toLowerCase()}  {plan.LastName?.toLowerCase()}</MemberName>
-              <Member>
-                <MemberTitle>MEMBER ID:</MemberTitle>
-                <MemberID>{plan.MemberId}</MemberID>
-              </Member>
-              <PlanDuration>Active on {handleDate(plan.MembershipEffectiveDate, plan.MembershipExpirationDate)}</PlanDuration>
-              { isEligibleForRecertDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate) && <PlanDuration>{getRecertificationDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate, "LL", ':')}</PlanDuration> }
-              <Row>
-                {
-                  plan.MembershipStatus === 'active' ?
-                    <ActivePlan>{plan.MembershipStatus.toUpperCase()}</ActivePlan>
-                    :
-                    <UpcomingPlan>{plan.MembershipStatus.toUpperCase()}</UpcomingPlan>
-                }
-                {reportError()}
-              </Row>
-            </PlanCard>
-          )
-        })
-      }
-      {
-        activeDepPlans.length > 0 &&
-        activeDepPlans.map((plan) => {
-          return (
-            <PlanCard>
-              <ImgBlock><PlanName>{plan.planName}</PlanName>
-                <LinkIcon alt = "" src="/react/images/ico-linked-account.svg" />
-              </ImgBlock>
-              <MemberName>{plan.firstName?.toLowerCase()}  {plan.lastName?.toLowerCase()}</MemberName>
-              <Member>
-                <MemberTitle>MEMBER ID:</MemberTitle>
-                <MemberID>{plan.memberId}</MemberID>
-              </Member>
-              <PlanDuration>Active on {handleDate(plan.MembershipEffectiveDate, plan.MembershipExpirationDate)}</PlanDuration>
-              { isEligibleForRecertDate(plan.companyCode, plan.benefitPackage, plan.renewalDate) && <PlanDuration>{getRecertificationDate(plan.companyCode, plan.benefitPackage, plan.renewalDate, "LL", ':')}</PlanDuration> }
-              <Row>
-                {
-                  plan.Status === 'active' ?
+  const displayMainComponent = () =>
+    activeTab === "active" ? (
+      <>
+        {activePlans.length === 0 && activeDepPlans.length === 0 && (
+          <PlanCard>
+            <CenterImgBlock>
+              <ImgContent
+                src="/react/images/gray/ico-plan.svg"
+                background="#ffffff"
+              />
+            </CenterImgBlock>
+            <Info>There are no plans to display.</Info>
+          </PlanCard>
+        )}
+        {activePlans.length > 0 &&
+          activePlans.map((plan, index) => {
+            return (
+              <PlanCard key={index}>
+                <PlanName>{plan.PlanName}</PlanName>
+                <MemberName>
+                  {plan.FirstName?.toLowerCase()} {plan.LastName?.toLowerCase()}
+                </MemberName>
+                <Member>
+                  <MemberTitle>MEMBER ID:</MemberTitle>
+                  <MemberID>{plan.MemberId}</MemberID>
+                </Member>
+                <PlanDuration>
+                  Active on{" "}
+                  {handleDate(
+                    plan.MembershipEffectiveDate,
+                    plan.MembershipExpirationDate,
+                  )}
+                </PlanDuration>
+                {isEligibleForRecertDate(
+                  plan.CompanyNumber,
+                  plan.BenefitPackage,
+                  plan.renewalDate,
+                ) && (
+                  <PlanDuration>
+                    {getRecertificationDate(
+                      plan.CompanyNumber,
+                      plan.BenefitPackage,
+                      plan.renewalDate,
+                      "LL",
+                      ":",
+                    )}
+                  </PlanDuration>
+                )}
+                <Row>
+                  {plan.MembershipStatus === "active" ? (
+                    <ActivePlan>
+                      {plan.MembershipStatus.toUpperCase()}
+                    </ActivePlan>
+                  ) : (
+                    <UpcomingPlan>
+                      {plan.MembershipStatus.toUpperCase()}
+                    </UpcomingPlan>
+                  )}
+                  {reportError()}
+                </Row>
+              </PlanCard>
+            );
+          })}
+        {activeDepPlans.length > 0 &&
+          activeDepPlans.map((plan) => {
+            return (
+              <PlanCard>
+                <ImgBlock>
+                  <PlanName>{plan.planName}</PlanName>
+                  <LinkIcon alt="" src="/react/images/ico-linked-account.svg" />
+                </ImgBlock>
+                <MemberName>
+                  {plan.firstName?.toLowerCase()} {plan.lastName?.toLowerCase()}
+                </MemberName>
+                <Member>
+                  <MemberTitle>MEMBER ID:</MemberTitle>
+                  <MemberID>{plan.memberId}</MemberID>
+                </Member>
+                <PlanDuration>
+                  Active on{" "}
+                  {handleDate(
+                    plan.MembershipEffectiveDate,
+                    plan.MembershipExpirationDate,
+                  )}
+                </PlanDuration>
+                {isEligibleForRecertDate(
+                  plan.companyCode,
+                  plan.benefitPackage,
+                  plan.renewalDate,
+                ) && (
+                  <PlanDuration>
+                    {getRecertificationDate(
+                      plan.companyCode,
+                      plan.benefitPackage,
+                      plan.renewalDate,
+                      "LL",
+                      ":",
+                    )}
+                  </PlanDuration>
+                )}
+                <Row>
+                  {plan.Status === "active" ? (
                     <ActivePlan>{plan.Status.toUpperCase()}</ActivePlan>
-                    :
+                  ) : (
                     <UpcomingPlan>{plan.Status.toUpperCase()}</UpcomingPlan>
-                }
-                {reportError()}
-              </Row>
-            </PlanCard>
-          )
-        })
-      }
-    </>
-    :
-    <>
-      {
-        inactivePlans.length === 0 && inactiveDepPlans.length === 0 &&
-        <PlanCard>
-          <CenterImgBlock><ImgContent src="/react/images/gray/ico-plan.svg" background="#ffffff" /></CenterImgBlock>
-          <Info>There are no plans to display.</Info>
-        </PlanCard>
-      }
-      {
-        inactivePlans.length > 0 &&
-        inactivePlans.map((plan) => {
-          return (
-            <PlanCard>
-              <PlanName>{plan.PlanName}</PlanName>
-              <MemberName>{plan.FirstName?.toLowerCase()}  {plan.LastName?.toLowerCase()}</MemberName>
-              <Member>
-                <MemberTitle>MEMBER ID:</MemberTitle>
-                <MemberID>{plan.MemberId}</MemberID>
-              </Member>
-              <PlanDuration>Active on {handleDate(plan.MembershipEffectiveDate, plan.MembershipExpirationDate)}</PlanDuration>
-              { isEligibleForRecertDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate) && <PlanDuration>{getRecertificationDate(plan.CompanyNumber, plan.BenefitPackage, plan.renewalDate, "LL", ':')}</PlanDuration> }
-              <Row>
-                <InactivePlan>{plan.MembershipStatus.toUpperCase()}</InactivePlan>
-                {reportError()}
-              </Row>
-            </PlanCard>
-          )
-        })
-      }
-      {
-        inactiveDepPlans.length > 0 &&
-        inactiveDepPlans.map((plan) => {
-          return (
-            <PlanCard>
-              <ImgBlock><PlanName>{plan.planName}</PlanName>
-                <LinkIcon alt = "" src="/react/images/ico-linked-account.svg" />
-              </ImgBlock>
-              <MemberName>{plan.firstName?.toLowerCase()}  {plan.lastName?.toLowerCase()}</MemberName>
-              <Member>
-                <MemberTitle>MEMBER ID:</MemberTitle>
-                <MemberID>{plan.memberId}</MemberID>
-              </Member>
-              <PlanDuration>Active on {handleDate(plan.MembershipEffectiveDate, plan.MembershipExpirationDate)}</PlanDuration>
-              { isEligibleForRecertDate(plan.companyCode, plan.benefitPackage, plan.renewalDate) && <PlanDuration>{getRecertificationDate(plan.companyCode, plan.benefitPackage, plan.renewalDate, "LL", ':')}</PlanDuration> }
-              <Row>
-                <InactivePlan>{plan.Status.toUpperCase()}</InactivePlan>
-                {reportError()}
-              </Row>
-            </PlanCard>
-          )
-        })
-      }
-    </>
-)
+                  )}
+                  {reportError()}
+                </Row>
+              </PlanCard>
+            );
+          })}
+      </>
+    ) : (
+      <>
+        {inactivePlans.length === 0 && inactiveDepPlans.length === 0 && (
+          <PlanCard>
+            <CenterImgBlock>
+              <ImgContent
+                src="/react/images/gray/ico-plan.svg"
+                background="#ffffff"
+              />
+            </CenterImgBlock>
+            <Info>There are no plans to display.</Info>
+          </PlanCard>
+        )}
+        {inactivePlans.length > 0 &&
+          inactivePlans.map((plan) => {
+            return (
+              <PlanCard>
+                <PlanName>{plan.PlanName}</PlanName>
+                <MemberName>
+                  {plan.FirstName?.toLowerCase()} {plan.LastName?.toLowerCase()}
+                </MemberName>
+                <Member>
+                  <MemberTitle>MEMBER ID:</MemberTitle>
+                  <MemberID>{plan.MemberId}</MemberID>
+                </Member>
+                <PlanDuration>
+                  Active on{" "}
+                  {handleDate(
+                    plan.MembershipEffectiveDate,
+                    plan.MembershipExpirationDate,
+                  )}
+                </PlanDuration>
+                {isEligibleForRecertDate(
+                  plan.CompanyNumber,
+                  plan.BenefitPackage,
+                  plan.renewalDate,
+                ) && (
+                  <PlanDuration>
+                    {getRecertificationDate(
+                      plan.CompanyNumber,
+                      plan.BenefitPackage,
+                      plan.renewalDate,
+                      "LL",
+                      ":",
+                    )}
+                  </PlanDuration>
+                )}
+                <Row>
+                  <InactivePlan>
+                    {plan.MembershipStatus.toUpperCase()}
+                  </InactivePlan>
+                  {reportError()}
+                </Row>
+              </PlanCard>
+            );
+          })}
+        {inactiveDepPlans.length > 0 &&
+          inactiveDepPlans.map((plan) => {
+            return (
+              <PlanCard>
+                <ImgBlock>
+                  <PlanName>{plan.planName}</PlanName>
+                  <LinkIcon alt="" src="/react/images/ico-linked-account.svg" />
+                </ImgBlock>
+                <MemberName>
+                  {plan.firstName?.toLowerCase()} {plan.lastName?.toLowerCase()}
+                </MemberName>
+                <Member>
+                  <MemberTitle>MEMBER ID:</MemberTitle>
+                  <MemberID>{plan.memberId}</MemberID>
+                </Member>
+                <PlanDuration>
+                  Active on{" "}
+                  {handleDate(
+                    plan.MembershipEffectiveDate,
+                    plan.MembershipExpirationDate,
+                  )}
+                </PlanDuration>
+                {isEligibleForRecertDate(
+                  plan.companyCode,
+                  plan.benefitPackage,
+                  plan.renewalDate,
+                ) && (
+                  <PlanDuration>
+                    {getRecertificationDate(
+                      plan.companyCode,
+                      plan.benefitPackage,
+                      plan.renewalDate,
+                      "LL",
+                      ":",
+                    )}
+                  </PlanDuration>
+                )}
+                <Row>
+                  <InactivePlan>{plan.Status.toUpperCase()}</InactivePlan>
+                  {reportError()}
+                </Row>
+              </PlanCard>
+            );
+          })}
+      </>
+    );
 
-return (
-  <Container>
-    <RightHeader>Your Healthfirst Plans</RightHeader>
-    <ButtonRow>
-      <Button onClick= {() => handleSegmentBtn('Active Plans')} active={activeTab === "active" ? true : false}>Active Plans</Button>
-      <Button onClick={() => handleSegmentBtn('Previous Plans')} active={activeTab === "inactive" ? true : false}>Previous Plans</Button>
-    </ButtonRow>
-    {displayMainComponent()}
-    <EndNotice>If you have any questions regarding your Healthfirst coverage, please call the Member Services
-      phone number on your Member ID card or visit us at
-      <Mail>member.healthfirst.org/contactus</Mail>
-    </EndNotice>
-    {reportErrorModal && reportErrorModalTemplete()}
-    {finalReportingModal && finalReportingModalTemplete()}
-  </Container>
-)
-
-}
+  return (
+    <Container>
+      <RightHeader>Your Healthfirst Plans</RightHeader>
+      <ButtonRow>
+        <Button
+          onClick={() => handleSegmentBtn("Active Plans")}
+          active={activeTab === "active" ? true : false}
+        >
+          Active Plans
+        </Button>
+        <Button
+          onClick={() => handleSegmentBtn("Previous Plans")}
+          active={activeTab === "inactive" ? true : false}
+        >
+          Previous Plans
+        </Button>
+      </ButtonRow>
+      {displayMainComponent()}
+      <EndNotice>
+        If you have any questions regarding your Healthfirst coverage, please
+        call the Member Services phone number on your Member ID card or visit us
+        at
+        <Mail>member.healthfirst.org/contactus</Mail>
+      </EndNotice>
+      {reportErrorModal && reportErrorModalTemplete()}
+      {finalReportingModal && finalReportingModalTemplete()}
+    </Container>
+  );
+};
 
 export default HealthPlans;
 const Container = styled.div`
   // padding: 0 16px;
   @media only screen and (max-width: 1024px) {
-    padding:0;
-  };
+    padding: 0;
+  }
   @media only screen and (max-width: 767px) {
-    padding:0 16px
-  };
+    padding: 0 16px;
+  }
 `;
 const Button = styled.button`
   margin-top: 32px;
@@ -355,8 +542,8 @@ const Button = styled.button`
   padding: 2px 12px;
   border-radius: 14px;
   border: none;
-  background-color: ${(props) => props.active ? '#3e7128' : '#f4f4f4'};
-  color: ${(props) => props.active ? '#ffffff' : '#474b55'};
+  background-color: ${(props) => (props.active ? "#3e7128" : "#f4f4f4")};
+  color: ${(props) => (props.active ? "#ffffff" : "#474b55")};
   margin-right: 10px;
   cursor: pointer;
 `;
@@ -424,7 +611,7 @@ const MemberName = styled.div`
   text-align: left;
   color: #474b55;
   margin-top: 4px;
-`
+`;
 
 const PlanDuration = styled.div`
   font-size: 12px;
@@ -507,8 +694,8 @@ const Report = styled.div`
 const Blue = styled.span`
   color: #008bbf;
   cursor: pointer;
-  &:hover{
-    color: #2A6A9E;
+  &:hover {
+    color: #2a6a9e;
     text-decoration: underline;
   }
 `;
@@ -538,7 +725,7 @@ const EndNotice = styled.div`
 
 const Mail = styled.div`
   font-weight: bold;
-  color: #3e7128
+  color: #3e7128;
 `;
 
 const LinkIcon = styled.img`
@@ -583,67 +770,69 @@ const CenterImgBlock = styled.span`
 const ImgContent = styled.div`
   width: 42px;
   height: 42px;
-  background: ${(props) => props.background ? `url(${props.src}) no-repeat ${props.background} 4px`
-    : `url(${props.src}) no-repeat #ffffff`};
+  background: ${(props) =>
+    props.background
+      ? `url(${props.src}) no-repeat ${props.background} 4px`
+      : `url(${props.src}) no-repeat #ffffff`};
   border-radius: 4px;
   padding: 4px;
 `;
 
 const Spacer = styled.div`
-width:20px;
+  width: 20px;
 `;
 const FormButtonWrapper = styled(ButtonWrapper)`
-margin-top: 4rem;
-margin-bottom: 0.5rem;
-display: flex;
- justify-content: end;
+  margin-top: 4rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: end;
   @media only screen and (max-width: 375px) {
-	width:100%;
-  display:flex;
-	flex-direction:column-reverse;
-    gap:8px;
-    >button{
-        margin:0
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+    > button {
+      margin: 0;
     }
-}
+  }
 `;
 
 const FormModalWrapper = styled(ModalWrapper)`
-    transition: opacity 300ms ease-in-out;
-    opacity: ${props => props.visible ? "1" : "0"};
-`
+  transition: opacity 300ms ease-in-out;
+  opacity: ${(props) => (props.visible ? "1" : "0")};
+`;
 const GreyFormModalWrapper = styled(FormModalWrapper)`
-  background-color:#f4f4f4;
-`
+  background-color: #f4f4f4;
+`;
 
 const FormModalContent = styled(ModalContent)`
-    transition: opacity 300ms ease-in-out;
-    top: 50%;
-    transform: translateY(-50%);
-    border:none;
-    width: 440px;
-    height:fit-content;
-    padding:18px;
-    @media only screen and (max-width: 768px) {
-      width:95%;
-    };
-    @media only screen and (max-width: 375px) {
-      padding:12px;
-    };
-`
+  transition: opacity 300ms ease-in-out;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  width: 440px;
+  height: fit-content;
+  padding: 18px;
+  @media only screen and (max-width: 768px) {
+    width: 95%;
+  }
+  @media only screen and (max-width: 375px) {
+    padding: 12px;
+  }
+`;
 const CenterHeader = styled(Header)`
-  text-align:center;
-  font-size:24px;
+  text-align: center;
+  font-size: 24px;
   font-family: "museo-sans", san-serif;
-`
+`;
 const CenterSubHeader = styled(SubHeader)`
-  text-align:center;
+  text-align: center;
   font-family: "museo-sans", san-serif;
   font-weight: 500;
-`
+`;
 const BlueLink = styled(Link)`
-  color:#008bbf;
-`
+  color: #008bbf;
+`;
 
 const SpinnerRotate = keyframes`
   from {transform: rotate(0deg);}
@@ -651,13 +840,13 @@ const SpinnerRotate = keyframes`
 `;
 
 const ProgressSpinnerWrapper = styled.div`
-    width:125px
-`
+  width: 125px;
+`;
 const ProgressSpinner = styled.div`
   text-align: center;
   margin: auto;
-  border: .2rem solid #375225;
-  border-top: .2rem solid white;
+  border: 0.2rem solid #375225;
+  border-top: 0.2rem solid white;
   border-radius: 50%;
   height: 1rem;
   width: 1rem;
@@ -666,71 +855,72 @@ const ProgressSpinner = styled.div`
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   @media only screen and (max-width: 768px) {
-	margin:auto;
-  };
+    margin: auto;
+  }
 `;
 
 const ReportErrorCheckboxWrapper = styled.div`
-	margin-top: 1rem;
-	width: 100%;
+  margin-top: 1rem;
+  width: 100%;
 `;
 
 const CheckboxConfirmationText = styled.p`
   padding-top: 0.2rem;
-  font-weight:500;
+  font-weight: 500;
 `;
 const ReportErrorCheckboxCustom = styled.div`
-	display: block;
-    position: relative;
-    padding-left: 35px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-	p{
-		color: ${props => props.error ? "#ad122a" : "#474b55"};
-		font-size: 14px;
-		font-weight: 500;
-		font-stretch: normal;
-		font-style: normal;
-		line-height: 1.43;
-		letter-spacing: normal;
-		padding-top: .5rem;
-	}
-	span{
-		display: ${props => props.checked ? "block" : "default"};
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 20px;
-		width: 20px;
-		background-color: ${props => props.checked ? "#003863" : "#fff"};
-		margin-top: 7px;
-		border: ${props => props.error ? "1px solid #ad122a" : "1px solid #a8abac"};
-		border-radius: 4px;
-	}
-	
-	span:hover {
-		background-color: ${props => props.checked ? "#003863" : "#ccc"};
-	}
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  p {
+    color: ${(props) => (props.error ? "#ad122a" : "#474b55")};
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.43;
+    letter-spacing: normal;
+    padding-top: 0.5rem;
+  }
+  span {
+    display: ${(props) => (props.checked ? "block" : "default")};
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: ${(props) => (props.checked ? "#003863" : "#fff")};
+    margin-top: 7px;
+    border: ${(props) =>
+      props.error ? "1px solid #ad122a" : "1px solid #a8abac"};
+    border-radius: 4px;
+  }
+
+  span:hover {
+    background-color: ${(props) => (props.checked ? "#003863" : "#ccc")};
+  }
 `;
 
 const ReportErrorCheckChar = styled.div`
-${props => props.checked && ({
-    content: '',
-    position: 'absolute',
-    left: '7px',
-    top: '4px',
-    width: '5px',
-    height: '10px',
-    border: 'solid white',
-    borderWidth: '0 3px 3px 0',
-    webkitTransform: 'rotate(45deg)',
-    msTransform: 'rotate(45deg)',
-    transform: 'rotate(45deg)'
-  })
-  }
+  ${(props) =>
+    props.checked && {
+      content: "",
+      position: "absolute",
+      left: "7px",
+      top: "4px",
+      width: "5px",
+      height: "10px",
+      border: "solid white",
+      borderWidth: "0 3px 3px 0",
+      webkitTransform: "rotate(45deg)",
+      msTransform: "rotate(45deg)",
+      transform: "rotate(45deg)",
+    }}
 `;
 
 const InputErrorMsg = styled.div`

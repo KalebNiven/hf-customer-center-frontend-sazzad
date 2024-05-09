@@ -2,9 +2,9 @@ import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
   pcpDetails: null,
-  loading:false,
+  loading: false,
   stateStatus: "init",
-  error:""
+  error: "",
 };
 
 export default function pcpDetails(state = initialState, action) {
@@ -12,37 +12,36 @@ export default function pcpDetails(state = initialState, action) {
     case actionTypes.REQUEST_PCP_UPDATE: {
       return {
         ...state,
-        loading:true,
-        error:""
+        loading: true,
+        error: "",
       };
     }
     case actionTypes.REQUEST_RESET_PCP_DETAILS: {
-      return { ...initialState, stateStatus: "Reset" }
- }
- 
+      return { ...initialState, stateStatus: "Reset" };
+    }
+
     case actionTypes.RECEIVE_PCP_UPDATE: {
       switch (action.payload.status) {
-        case 'ERROR':
-        {
+        case "ERROR": {
           return {
             ...state,
             pcpDetails: {},
-            loading:false,
-            error:action.payload.errorData
+            loading: false,
+            error: action.payload.errorData,
           };
         }
-        default:{
-        const value = action.payload.data
-      return {
-        ...state,
-        pcpDetails: value,
-        loading:false,
-        error:""
-        };
-      }
+        default: {
+          const value = action.payload.data;
+          return {
+            ...state,
+            pcpDetails: value,
+            loading: false,
+            error: "",
+          };
+        }
       }
     }
     default:
       return state;
   }
-};
+}

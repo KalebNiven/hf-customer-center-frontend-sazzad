@@ -56,16 +56,16 @@ import {
   setPassword,
   verifyAddress,
   getPcpHousehold,
-  ccFormsDocs
+  ccFormsDocs,
 } from "./apis";
 
 const formatNameCapitalize = (name) => {
-  if (typeof (name) !== "undefined") {
+  if (typeof name !== "undefined") {
     name = name.toLowerCase();
     return name.charAt(0).toUpperCase() + name.slice(1);
   }
   return name;
-}
+};
 
 export function* getClaimList() {
   try {
@@ -75,8 +75,7 @@ export function* getClaimList() {
     if (res.data != undefined && res.data != null) {
       var claims = res.data;
       for (var member in claims) {
-        claims[member].forEach(claim => {
-
+        claims[member].forEach((claim) => {
           if (claim.ClaimStatus === "Paid") {
             claimStatus = "Processed";
           } else {
@@ -91,15 +90,15 @@ export function* getClaimList() {
             lastName: formatNameCapitalize(claim.Member.LastName),
             provider: {
               firstName: claim.Provider.FirstName,
-              lastName: claim.Provider.LastName
+              lastName: claim.Provider.LastName,
             },
             serviceDate: formatDate(claim.ServiceFromDate),
             claimStatus: claimStatus,
             copayAmount: claim.CopayAmt,
-            prepaidAmount: claim.PrepaidAmt
+            prepaidAmount: claim.PrepaidAmt,
           });
         });
-      };
+      }
     }
     yield put(actions.receiveClaimList(claimsList));
   } catch (e) {
@@ -111,18 +110,22 @@ function* watchClaimListSaga() {
   yield takeLatest(actionTypes.REQUEST_CLAIM_LIST, getClaimList);
 }
 
-
 export function* getClaimDetails(action) {
   try {
-    const res = yield call(getClaimsDetails, action.payload.memberId, action.payload.claimId);
+    const res = yield call(
+      getClaimsDetails,
+      action.payload.memberId,
+      action.payload.claimId,
+    );
     var claimDetails = null;
     var claimStatus = "";
     if (res.data != undefined && res.data != null) {
       var data = res.data;
       var lineItems = new Array();
-      data.ServiceLine.forEach(lineItem => {
+      data.ServiceLine.forEach((lineItem) => {
         lineItems.push(new claimLineItem(lineItem));
-      }); (data.lineItemDetails)
+      });
+      data.lineItemDetails;
 
       if (data.ClaimStatus === "Paid") {
         claimStatus = "Processed";
@@ -136,30 +139,30 @@ export function* getClaimDetails(action) {
           claimStatus: claimStatus,
           serviceFromDate: formatDate(data.ServiceFromDate),
           serviceEndDate: formatDate(data.ServiceToDate),
-          claimStatusDate: formatDate(data.ClaimReceivedDate)
+          claimStatusDate: formatDate(data.ClaimReceivedDate),
         },
         patient: {
           id: data.Member.MemberId,
           planName: data.Member.planName,
           firstName: data.Member.FirstName,
-          lastName: data.Member.LastName
+          lastName: data.Member.LastName,
         },
         payment: {
           lineItemChargeAmount: data.TotalBilled,
           copayAmount: data.CopayAmt,
           prepaidAmount: data.PrepaidAmt,
           toPayAmount: data.ProviderDisbursementAmt,
-          totalAmountOwedToProvider: data.TotalAmountOwedToProvider
+          totalAmountOwedToProvider: data.TotalAmountOwedToProvider,
         },
         renderingProvider: {
           lastName: data.Provider.LastName,
-          firstName: data.Provider.FirstName
+          firstName: data.Provider.FirstName,
         },
         address: {
-          mailingAddress: data.Provider.MailingAddress
+          mailingAddress: data.Provider.MailingAddress,
         },
         phonenumber: formatPhoneNumber(data.Provider.PhoneNumber),
-        claimLine: lineItems
+        claimLine: lineItems,
       };
     }
     yield put(actions.receiveClaimDetails(claimDetails));
@@ -169,10 +172,7 @@ export function* getClaimDetails(action) {
 }
 
 function* watchClaimDetailsSaga() {
-  yield takeLatest(
-    actionTypes.REQUEST_CLAIM_DETAILS,
-    getClaimDetails
-  );
+  yield takeLatest(actionTypes.REQUEST_CLAIM_DETAILS, getClaimDetails);
 }
 
 export function* getAuthorizationsList(action) {
@@ -182,21 +182,24 @@ export function* getAuthorizationsList(action) {
     if (res.data != undefined && res.data != null) {
       var authorizations = res.data;
       for (var member in authorizations) {
-        authorizations[member].forEach(authorization => {
+        authorizations[member].forEach((authorization) => {
           authorizationsList.push({
             authorizationId: authorization.authorizationNumber,
             memberId: authorization.memberId,
             firstName: formatNameCapitalize(authorization.firstName),
             lastName: formatNameCapitalize(authorization.lastName),
             provider: {
-              name: (authorization.servicingProviderName != "") ? authorization.servicingProviderName : '-'
+              name:
+                authorization.servicingProviderName != ""
+                  ? authorization.servicingProviderName
+                  : "-",
             },
             startDate: formatDate(authorization.fromDateofService),
             endDate: formatDate(authorization.thruDateofService),
-            authorizationStatus: authorization.authorizationStatus
+            authorizationStatus: authorization.authorizationStatus,
           });
         });
-      };
+      }
     }
     yield put(actions.receiveAuthorizationList(authorizationsList));
   } catch (e) {
@@ -205,88 +208,110 @@ export function* getAuthorizationsList(action) {
 }
 
 function* watchAuthorizationListSaga() {
-  yield takeLatest(actionTypes.REQUEST_AUTHORIZATION_LIST, getAuthorizationsList);
+  yield takeLatest(
+    actionTypes.REQUEST_AUTHORIZATION_LIST,
+    getAuthorizationsList,
+  );
 }
 
 function claimLineItem(lineItem) {
   var claimStatus = "";
-  this.typeofservice = lineItem.ServiceDescription,
-    this.payment = {
+  (this.typeofservice = lineItem.ServiceDescription),
+    (this.payment = {
       lineItemChargeAmount: lineItem.ClaimAmount,
       nonCovered: lineItem.NonCoveredAmount,
       amount: lineItem.PayAmount,
       patientCalculatedAmount: lineItem.CoInsuranceAmount,
       copayAmount: lineItem.CopayAmount,
-      amountOwedToProvider: lineItem.AmountOwedPerService
-    }
+      amountOwedToProvider: lineItem.AmountOwedPerService,
+    });
 
-  if ((lineItem.Status === "Paid" && lineItem.PayAmount > 0) || (lineItem.Status === "Paid" && lineItem.CapitationAmount > 0) || (lineItem.Status === "Posted" && lineItem.PayAmount > 0) || (lineItem.Status === "Posted" && lineItem.CapitationAmount > 0)) {
+  if (
+    (lineItem.Status === "Paid" && lineItem.PayAmount > 0) ||
+    (lineItem.Status === "Paid" && lineItem.CapitationAmount > 0) ||
+    (lineItem.Status === "Posted" && lineItem.PayAmount > 0) ||
+    (lineItem.Status === "Posted" && lineItem.CapitationAmount > 0)
+  ) {
     claimStatus = "Paid";
-  }
-  else if ((lineItem.Status === "Paid" && lineItem.PayAmount == 0 && lineItem.CapitationAmount == 0) || (lineItem.Status === "Posted" && lineItem.PayAmount == 0 && lineItem.CapitationAmount == 0)) {
+  } else if (
+    (lineItem.Status === "Paid" &&
+      lineItem.PayAmount == 0 &&
+      lineItem.CapitationAmount == 0) ||
+    (lineItem.Status === "Posted" &&
+      lineItem.PayAmount == 0 &&
+      lineItem.CapitationAmount == 0)
+  ) {
     claimStatus = "Denied";
-  }
-  else {
+  } else {
     claimStatus = "Pending";
   }
-  this.status = claimStatus
+  this.status = claimStatus;
 }
 
 function authorizationLineItem(lineItem, placeOfService, requestDate) {
-  this.typeofservice = lineItem.serviceType,
-    this.serviceOverview = {
+  (this.typeofservice = lineItem.serviceType),
+    (this.serviceOverview = {
       placeOfService: placeOfService,
       requestedDate: formatDate(requestDate),
       startDate: formatDate(lineItem.startDateofService),
       endDate: formatDate(lineItem.endDateofService),
       status: lineItem.lineItemStatus,
-    }
+    });
 }
 
 function formatDate(date) {
   if (date != "") {
     try {
       var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
         year = d.getFullYear();
 
-      if (month.length < 2)
-        month = '0' + month;
-      if (day.length < 2)
-        day = '0' + day;
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
 
-      return [month, day, year].join('/');
-    }
-    catch (e) {
+      return [month, day, year].join("/");
+    } catch (e) {
       return "\u2014";
     }
-  }
-  else {
+  } else {
     return "\u2014";
   }
 }
 
 function formatPhoneNumber(phoneNumberString) {
-  var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+  var cleaned = ("" + phoneNumberString).replace(/\D/g, "");
   var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
   if (match) {
-    var intlCode = (match[1] ? '+1 ' : '');
-    return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
+    var intlCode = match[1] ? "+1 " : "";
+    return [intlCode, "(", match[2], ") ", match[3], "-", match[4]].join("");
   }
   return null;
 }
 
 export function* getAuthorizationDetails(action) {
   try {
-    const res = yield call(getAuthorizationsDetails, action.payload.authorizationId);
+    const res = yield call(
+      getAuthorizationsDetails,
+      action.payload.authorizationId,
+    );
     var authorizationDetails = null;
-    if (res.data.Authorizations[0] != undefined && res.data.Authorizations[0] != null) {
+    if (
+      res.data.Authorizations[0] != undefined &&
+      res.data.Authorizations[0] != null
+    ) {
       var data = res.data.Authorizations[0];
       var lineItems = new Array();
-      data.lineItemDetails.forEach(lineItem => {
-        lineItems.push(new authorizationLineItem(lineItem, data.servicingFacilityDetails.organizationName, data.requestDate));
-      }); (data.lineItemDetails)
+      data.lineItemDetails.forEach((lineItem) => {
+        lineItems.push(
+          new authorizationLineItem(
+            lineItem,
+            data.servicingFacilityDetails.organizationName,
+            data.requestDate,
+          ),
+        );
+      });
+      data.lineItemDetails;
       authorizationDetails = {
         authorizationHeader: {
           authorizationId: data.authorizationNumber,
@@ -298,20 +323,22 @@ export function* getAuthorizationDetails(action) {
           id: data.memberId,
           type: data.placeofServiceDescription,
           firstName: data.firstName,
-          lastName: data.lastName
+          lastName: data.lastName,
         },
         renderingProvider: {
-          name: data.servicingProviderOrganizationName
+          name: data.servicingProviderOrganizationName,
         },
         address: {
           addressLine1: data.servicingFacilityDetails.addressLine1,
           addressLine2: data.servicingFacilityDetails.addressLine2,
           city: data.servicingFacilityDetails.city,
           state: data.servicingFacilityDetails.state,
-          zip: data.servicingFacilityDetails.zip
+          zip: data.servicingFacilityDetails.zip,
         },
-        phonenumber: formatPhoneNumber(data.servicingFacilityDetails.phoneNumber),
-        authorizationLine: lineItems
+        phonenumber: formatPhoneNumber(
+          data.servicingFacilityDetails.phoneNumber,
+        ),
+        authorizationLine: lineItems,
       };
     }
     yield put(actions.receiveAuthorizationDetails(authorizationDetails));
@@ -323,7 +350,7 @@ export function* getAuthorizationDetails(action) {
 function* watchAuthorizationDetailsSaga() {
   yield takeLatest(
     actionTypes.REQUEST_AUTHORIZATION_DETAILS,
-    getAuthorizationDetails
+    getAuthorizationDetails,
   );
 }
 
@@ -400,18 +427,23 @@ export function* getCustomerInfo(action) {
 }
 
 function* watchCustomerDemographicsInfoSaga() {
-  yield takeLatest(actionTypes.REQUEST_CUSTOMER_DEMOGRAPHICS_INFO, getCustomerDemographicsInfo);
+  yield takeLatest(
+    actionTypes.REQUEST_CUSTOMER_DEMOGRAPHICS_INFO,
+    getCustomerDemographicsInfo,
+  );
 }
 
 export function* getCustomerDemographicsInfo(action) {
   try {
-    const data = yield call(getCustomerDemographicsInfoData, action.payload.customerId);
+    const data = yield call(
+      getCustomerDemographicsInfoData,
+      action.payload.customerId,
+    );
     yield put(actions.receiveCustomerDemographicsInfo(data));
   } catch (e) {
     yield put(actions.errorCustomerDemographicsInfo(e));
   }
 }
-
 
 function* watchFormsDocumentsDataSaga() {
   yield takeLatest(actionTypes.REQUEST_FORMS_DOCS, getFormsDocumentsData);
@@ -432,7 +464,11 @@ function* watchClaimsEOBSaga() {
 
 export function* getClaimsEOBs(action) {
   try {
-    const data = yield call(getClaimsEOB, action.payload.memberId, action.payload.claimId);
+    const data = yield call(
+      getClaimsEOB,
+      action.payload.memberId,
+      action.payload.claimId,
+    );
     yield put(actions.receiveClaimsEOB(data));
   } catch (e) {
     yield put(actions.errorClaimsEOB(e));
@@ -487,19 +523,31 @@ function* watchSubmitHraSurvey() {
 }
 
 function* watchSubmitMailMemberIDCardForm() {
-  yield takeLatest(actionTypes.REQUEST_SUBMIT_MAIL_MEMBER_ID_CARD_FORM, submitMailMemberIDCardForms);
+  yield takeLatest(
+    actionTypes.REQUEST_SUBMIT_MAIL_MEMBER_ID_CARD_FORM,
+    submitMailMemberIDCardForms,
+  );
 }
 
 function* watchGetMailMemberIDCardStatus() {
-  yield takeLatest(actionTypes.REQUEST_MAIL_MEMBER_ID_CARD_STATUS, getMailMemberIDCardStatuss);
+  yield takeLatest(
+    actionTypes.REQUEST_MAIL_MEMBER_ID_CARD_STATUS,
+    getMailMemberIDCardStatuss,
+  );
 }
 
 function* watchSubmitPreferredContactInfo() {
-  yield takeLatest(actionTypes.REQUEST_PREFERRED_CONTACT_INFO_SUBMIT, submitPreferredContactInfos);
+  yield takeLatest(
+    actionTypes.REQUEST_PREFERRED_CONTACT_INFO_SUBMIT,
+    submitPreferredContactInfos,
+  );
 }
 
 function* watchGetPreferenceCenterInfo() {
-  yield takeLatest(actionTypes.REQUEST_PREFERENCE_CENTER_INFO, getPreferenceCenterInfos);
+  yield takeLatest(
+    actionTypes.REQUEST_PREFERENCE_CENTER_INFO,
+    getPreferenceCenterInfos,
+  );
 }
 
 function* watchRequestMFACode() {
@@ -514,14 +562,16 @@ function* watchRequestMFAFactors() {
   yield takeLatest(actionTypes.REQUEST_MFA_FACTORS, requestMFAFactor);
 }
 
-function* watchRequestRegister(){
-  yield takeLatest(actionTypes.REQUEST_REGISTER,registerMember);
+function* watchRequestRegister() {
+  yield takeLatest(actionTypes.REQUEST_REGISTER, registerMember);
 }
 
-function* watchCreateUserNamePassword(){
-  yield takeLatest(actionTypes.REQUEST_CREATE_USERNAME_PASSWORD,requestCreateUserNamePassword);
+function* watchCreateUserNamePassword() {
+  yield takeLatest(
+    actionTypes.REQUEST_CREATE_USERNAME_PASSWORD,
+    requestCreateUserNamePassword,
+  );
 }
-
 
 function* watchVerifyMFACode() {
   yield takeLatest(actionTypes.REQUEST_MFA_VERIFY, verifyTheMFACode);
@@ -534,9 +584,9 @@ function* watchVerifyUserMFACode() {
 export function* submitHraSurveys(action) {
   try {
     const data = yield call(submitHraSurvey, action.payload.response);
-    return data
+    return data;
   } catch (e) {
-    console.log('Failed submiting HRA Survey: ', e.message)
+    console.log("Failed submiting HRA Survey: ", e.message);
   }
 }
 
@@ -545,8 +595,7 @@ export function* submitMailMemberIDCardForms(action) {
     const res = yield call(submitMailMemberIDCardForm, action.payload.response);
     if (res.status != 200) {
       yield put(actions.errorSubmitMailMemberIDCardForm(res));
-    }
-    else {
+    } else {
       yield put(actions.receiveSubmitMailMemberIDCardForm(res));
     }
   } catch (e) {
@@ -555,7 +604,10 @@ export function* submitMailMemberIDCardForms(action) {
 }
 //submit claim details
 function* watchSubmitClaimPayload() {
-  yield takeLatest(actionTypes.REQUEST_SUBMIT_CLAIM_DETAILS, submitClaimPayload);
+  yield takeLatest(
+    actionTypes.REQUEST_SUBMIT_CLAIM_DETAILS,
+    submitClaimPayload,
+  );
 }
 
 export function* submitClaimPayload(action) {
@@ -563,8 +615,7 @@ export function* submitClaimPayload(action) {
     const res = yield call(submitClaimPayloadApi, action.payload.data);
     if (res.status != 200) {
       yield put(actions.errorSubmitClaimDetails(res));
-    }
-    else {
+    } else {
       yield put(actions.receiveSubmitClaimDetails(res));
     }
   } catch (e) {
@@ -573,7 +624,10 @@ export function* submitClaimPayload(action) {
 }
 
 function* watchSubmitAttestationAgreement() {
-  yield takeLatest(actionTypes.REQUEST_SUBMIT_ATTESTATION_AGREEMENT, submitAttestationAgreement);
+  yield takeLatest(
+    actionTypes.REQUEST_SUBMIT_ATTESTATION_AGREEMENT,
+    submitAttestationAgreement,
+  );
 }
 
 export function* submitAttestationAgreement(action) {
@@ -581,8 +635,7 @@ export function* submitAttestationAgreement(action) {
     const res = yield call(submitAttestationAgreementAPI, action.payload.data);
     if (res.status != 200) {
       yield put(actions.errorAttestationAgreement(res));
-    }
-    else {
+    } else {
       yield put(actions.receiveAttestationAgreement(res));
     }
   } catch (e) {
@@ -590,14 +643,12 @@ export function* submitAttestationAgreement(action) {
   }
 }
 
-
 export function* getMailMemberIDCardStatuss(action) {
   try {
     const res = yield call(getMailMemberIDCardStatus, action.payload.response);
     if (res.status != 200) {
       yield put(actions.errorMailMemberIDCardStatus(res));
-    }
-    else {
+    } else {
       yield put(actions.receiveMailMemberIDCardStatus(res));
     }
   } catch (e) {
@@ -626,7 +677,7 @@ export function* getUserInfo(action) {
     const data = yield call(getUserName, action.payload);
     yield put(actions.updateUserName(data));
   } catch (e) {
-    console.log('Could not Get UserName', e.message);
+    console.log("Could not Get UserName", e.message);
   }
 }
 function* watchChangeUserName() {
@@ -637,7 +688,7 @@ export function* receiveUserName(action) {
     const data = yield call(changeUserName, action.payload);
     yield put(actions.receiveChangeUsername(data, action.payload.data));
   } catch (e) {
-    console.log('Could not Update Username', e.message);
+    console.log("Could not Update Username", e.message);
   }
 }
 function* watchChangePassword() {
@@ -648,7 +699,7 @@ export function* receivePassword(action) {
     const data = yield call(changePassword, action.payload);
     yield put(actions.receiveChangePassword(data));
   } catch (e) {
-    console.log('Could not Update Password', e.message);
+    console.log("Could not Update Password", e.message);
   }
 }
 // MY HEALTH (NowPow)
@@ -662,12 +713,11 @@ export function* getCategoriesData() {
     yield put(actions.receiveCategories(data));
     try {
       let icons = data.map((categ) => {
-        const elem = { id: categ.iconId, data: { icon: categ.icon } }
+        const elem = { id: categ.iconId, data: { icon: categ.icon } };
         return elem;
       });
       yield put(actions.updateIconById(icons));
-    }
-    catch (e) {
+    } catch (e) {
       yield put(actions.errorGetIcon(e));
     }
   } catch (e) {
@@ -679,7 +729,6 @@ function* watchGetCategDetailsDataSaga() {
   yield takeLatest(actionTypes.GET_CATEGORY_DETAILS, getCategDetailsData);
 }
 
-
 export function* getCategDetailsData(action) {
   try {
     const data = yield call(getCategDetails, action.payload);
@@ -690,7 +739,10 @@ export function* getCategDetailsData(action) {
 }
 
 function* watchGetCategDetailsAllDataSaga() {
-  yield takeLatest(actionTypes.GET_CATEGORY_DETAILS_ALL, getCategDetailsAllData);
+  yield takeLatest(
+    actionTypes.GET_CATEGORY_DETAILS_ALL,
+    getCategDetailsAllData,
+  );
 }
 
 export function* getCategDetailsAllData(action) {
@@ -717,11 +769,14 @@ export function* getIndMapDetailsData(action) {
 
 export function* submitPreferredContactInfos(action) {
   try {
-    const res = yield call(submitPreferredContactInfo, action.payload.data, action.payload.csrf);
+    const res = yield call(
+      submitPreferredContactInfo,
+      action.payload.data,
+      action.payload.csrf,
+    );
     if (res.status != 200) {
       yield put(actions.errorPreferredContactInfoSubmit(res));
-    }
-    else {
+    } else {
       yield put(actions.receivePreferredContactInfoSubmit(res));
     }
   } catch (e) {
@@ -734,8 +789,7 @@ export function* getPreferenceCenterInfos(action) {
     const res = yield call(getPreferenceCenterInfo, action.payload.response);
     if (res.status != 200) {
       yield put(actions.errorPreferenceCenterInfo(res));
-    }
-    else {
+    } else {
       yield put(actions.receivePreferenceCenterInfo(res));
     }
   } catch (e) {
@@ -745,11 +799,14 @@ export function* getPreferenceCenterInfos(action) {
 
 export function* requestMFACodea(action) {
   try {
-    const res = yield call(requestMFACode, action.payload.data, action.payload.mfaToken);
+    const res = yield call(
+      requestMFACode,
+      action.payload.data,
+      action.payload.mfaToken,
+    );
     if (res.status != 200) {
       yield put(actions.errorMFACode(res));
-    }
-    else {
+    } else {
       yield put(actions.receiveMFACode(res));
     }
   } catch (e) {
@@ -759,11 +816,14 @@ export function* requestMFACodea(action) {
 
 export function* requestUserMFACodea(action) {
   try {
-    const res = yield call(requestUserMFACode, action.payload.data, action.payload.mfaToken);
+    const res = yield call(
+      requestUserMFACode,
+      action.payload.data,
+      action.payload.mfaToken,
+    );
     if (res.status != 200) {
       yield put(actions.errorUserMFACode(res));
-    }
-    else {
+    } else {
       yield put(actions.receiveUserMFACode(res));
     }
   } catch (e) {
@@ -771,14 +831,12 @@ export function* requestUserMFACodea(action) {
   }
 }
 
-
-export function* requestMFAFactor(action) { 
+export function* requestMFAFactor(action) {
   try {
-    const res = yield call(requestMFAFactors,action.payload.mfaToken);
-    if (res.status != 200) {  
+    const res = yield call(requestMFAFactors, action.payload.mfaToken);
+    if (res.status != 200) {
       yield put(actions.errorMFAFactors(res));
-    }
-    else {
+    } else {
       yield put(actions.receiveMFAFactors(res.data.data));
     }
   } catch (e) {
@@ -786,14 +844,16 @@ export function* requestMFAFactor(action) {
   }
 }
 
-export function* requestCreateUserNamePassword(action) { 
+export function* requestCreateUserNamePassword(action) {
   try {
-    const res = yield call(createUsernamePassword,action.payload.data,action.payload.mfaVerifiedAuth);
-    if (res.status != 200) {   
+    const res = yield call(
+      createUsernamePassword,
+      action.payload.data,
+      action.payload.mfaVerifiedAuth,
+    );
+    if (res.status != 200) {
       yield put(actions.errorCreateUserNamePassword(res.data));
-    }
-    else {
-      
+    } else {
       yield put(actions.receiveCreateUserNamePassword(res.data));
     }
   } catch (e) {
@@ -801,18 +861,20 @@ export function* requestCreateUserNamePassword(action) {
   }
 }
 
-export function* registerMember(action){
+export function* registerMember(action) {
   try {
-    const res = yield call(requestRegister,action.payload.data,action.payload.mfaToken);
-    if (res.status === 500) {   
+    const res = yield call(
+      requestRegister,
+      action.payload.data,
+      action.payload.mfaToken,
+    );
+    if (res.status === 500) {
       yield put(actions.errorRegister(res.data));
-    }else if(res.status === 400){
+    } else if (res.status === 400) {
       yield put(actions.errorRegister(res.data));
-    }
-    else if(res.status === 401){
+    } else if (res.status === 401) {
       yield put(actions.receiveRegister(res.data.data.errorData));
-    }
-    else {
+    } else {
       yield put(actions.receiveRegister(res.data));
     }
   } catch (e) {
@@ -821,7 +883,10 @@ export function* registerMember(action){
 }
 
 function* watchPhoneContactInfoDetails() {
-  yield takeLatest(actionTypes.REQUEST_CONTACT_PHONE_INFO, getPhoneContactInfoDetails);
+  yield takeLatest(
+    actionTypes.REQUEST_CONTACT_PHONE_INFO,
+    getPhoneContactInfoDetails,
+  );
 }
 
 export function* getEmailContactInfoDetails(action) {
@@ -841,15 +906,22 @@ export function* getPhoneContactInfoDetails(action) {
   }
 }
 function* watchEmailContactInfoDetails() {
-  yield takeLatest(actionTypes.REQUEST_CONTACT_EMAIL_INFO, getEmailContactInfoDetails);
+  yield takeLatest(
+    actionTypes.REQUEST_CONTACT_EMAIL_INFO,
+    getEmailContactInfoDetails,
+  );
 }
 export function* verifyTheMFACode(action) {
   try {
-    const res = yield call(verifyMFACode, action.payload.data, action.payload.mfaToken,action.payload.channel);
+    const res = yield call(
+      verifyMFACode,
+      action.payload.data,
+      action.payload.mfaToken,
+      action.payload.channel,
+    );
     if (res.status != 200) {
       yield put(actions.errorMFAVerify(res));
-    }
-    else {
+    } else {
       yield put(actions.receiveMFAVerify(res.data.data));
     }
   } catch (e) {
@@ -858,11 +930,14 @@ export function* verifyTheMFACode(action) {
 }
 export function* verifyTheUserMFACode(action) {
   try {
-    const res = yield call(verifyUserMFACode, action.payload.data, action.payload.mfaToken);
+    const res = yield call(
+      verifyUserMFACode,
+      action.payload.data,
+      action.payload.mfaToken,
+    );
     if (res.status != 200) {
       yield put(actions.errorUserMFAVerify(res));
-    }
-    else {
+    } else {
       yield put(actions.receiveUserMFAVerify(res));
     }
   } catch (e) {
@@ -898,18 +973,17 @@ export function* getPcpDetailsData(action) {
 
 //Report Error
 function* watchReportError() {
-  yield takeLatest(actionTypes.REPORT_ERROR, reportError)
+  yield takeLatest(actionTypes.REPORT_ERROR, reportError);
 }
 
 export function* reportError(action) {
   try {
-    yield call(reportErrorService, action.payload)
-    yield put(actions.reportErrorSuccess())
+    yield call(reportErrorService, action.payload);
+    yield put(actions.reportErrorSuccess());
   } catch (error) {
-    yield put(actions.reportErrorSuccess())
+    yield put(actions.reportErrorSuccess());
   }
 }
-
 
 function* watchGetGlobalAlertsSaga() {
   yield takeLatest(actionTypes.REQUEST_GLOBAL_ALERTS, getAllGlobalAlerts);
@@ -924,19 +998,21 @@ export function* getAllGlobalAlerts(action) {
   }
 }
 
-function* watchGetOTCClaimReimbursementData(){
-  yield takeLatest(actionTypes.REQUEST_OTC_CLAIM_REIMBURSEMENT_DATA,getAllOTCClaimReimbursementData)
+function* watchGetOTCClaimReimbursementData() {
+  yield takeLatest(
+    actionTypes.REQUEST_OTC_CLAIM_REIMBURSEMENT_DATA,
+    getAllOTCClaimReimbursementData,
+  );
 }
 
-export function* getAllOTCClaimReimbursementData(action){
-  try{
-    const data = yield call(getOTCClaimReimbursementData,action.payload);
-    yield put (actions.receiveOTCClaimReimbursementData(data));
-  }catch(e){
+export function* getAllOTCClaimReimbursementData(action) {
+  try {
+    const data = yield call(getOTCClaimReimbursementData, action.payload);
+    yield put(actions.receiveOTCClaimReimbursementData(data));
+  } catch (e) {
     yield put(actions.errorOTCClaimReimbursementData(e));
   }
 }
-
 
 function* watchAddMembershipSaga() {
   yield takeLatest(actionTypes.REQUEST_ADD_MEMBERSHIP, addMembershipDetails);
@@ -947,8 +1023,7 @@ export function* addMembershipDetails(action) {
     const res = yield call(addMbrshipDetails, action.payload);
     if (res.status != 200) {
       yield put(actions.errorAddMembership(res.data.message));
-    }
-    else {
+    } else {
       yield put(actions.receiveAddMembership(res.data.message));
     }
   } catch (e) {
@@ -965,7 +1040,7 @@ export function* submitSelectPlan(action) {
     const res = yield call(submitPlanForExternalLink, action.payload);
     if (res.status === "ok") {
       yield put(actions.receiveSelectPlan(res.status));
-    }else {
+    } else {
       yield put(actions.errorSelectPlan(res.data.message));
     }
   } catch (e) {
@@ -989,11 +1064,14 @@ export function* getOTCProfileData() {
 
 export function* requestForgotUsername(action) {
   try {
-    const res = yield call(forgotUsername, action.payload.data, action.payload.mfaToken);
+    const res = yield call(
+      forgotUsername,
+      action.payload.data,
+      action.payload.mfaToken,
+    );
     if (res.status === 200) {
       yield put(actions.receiveForgotUsername(res));
-    }
-    else {
+    } else {
       yield put(actions.errorForgotUsername(res));
     }
   } catch (e) {
@@ -1007,11 +1085,14 @@ function* watchForgotUsernameSaga() {
 
 export function* requestForgotPassword(action) {
   try {
-    const res = yield call(forgotPassword, action.payload.data, action.payload.mfaToken);
+    const res = yield call(
+      forgotPassword,
+      action.payload.data,
+      action.payload.mfaToken,
+    );
     if (res.status === 200) {
       yield put(actions.receiveForgotPassword(res));
-    }
-    else {
+    } else {
       yield put(actions.errorForgotPassword(res));
     }
   } catch (e) {
@@ -1025,11 +1106,14 @@ function* watchForgotPasswordSaga() {
 
 export function* requestSetPassword(action) {
   try {
-    const res = yield call(setPassword, action.payload.data, action.payload.mfaToken);
+    const res = yield call(
+      setPassword,
+      action.payload.data,
+      action.payload.mfaToken,
+    );
     if (res.status === 200) {
       yield put(actions.receiveSetPassword(res));
-    }
-    else {
+    } else {
       yield put(actions.errorSetPassword(res));
     }
   } catch (e) {
@@ -1045,7 +1129,7 @@ function* watchDocumentsSaga() {
   yield takeLatest(actionTypes.GET_DOCUMENT_LIST, getDocumentsData);
 }
 
-export function* getDocumentsData(payload) {  
+export function* getDocumentsData(payload) {
   try {
     const data = yield call(getDocuments, payload);
     yield put(actions.receiveDocumentsList(data));
@@ -1059,8 +1143,7 @@ function* watchDocumentFileSaga() {
   yield takeLatest(actionTypes.GET_DOCUMENT, getDocumentFileData);
 }
 
-
-export function* getDocumentFileData(payload) {  
+export function* getDocumentFileData(payload) {
   try {
     const data = yield call(getDocumentFile, payload);
     yield put(actions.receivedDocumentFile(data));
@@ -1074,7 +1157,7 @@ function* watchVerifyAddressSaga() {
   yield takeLatest(actionTypes.REQUEST_VERIFY_ADDRESS, getVerifyAddress);
 }
 
-export function* getVerifyAddress(payload) {  
+export function* getVerifyAddress(payload) {
   try {
     const data = yield call(verifyAddress, payload);
     yield put(actions.receiveVerifyAddress(data));
@@ -1102,15 +1185,14 @@ function* watchCCFormsDocs() {
   yield takeLatest(actionTypes.REQUEST_CC_FORMS_DOCS, getCCFormsDocs);
 }
 
-export function* getCCFormsDocs(payload){
-  try{
+export function* getCCFormsDocs(payload) {
+  try {
     const data = yield call(ccFormsDocs, payload);
     yield put(actions.receiveCCFormsDocs(data));
-  }catch (e){
+  } catch (e) {
     yield put(actions.errorCCFormsDocs(e));
   }
 }
-
 
 export default function* rootSaga() {
   yield all([
@@ -1156,7 +1238,7 @@ export default function* rootSaga() {
     watchCreateUserNamePassword(),
     watchVerifyMFACode(),
     watchVerifyUserMFACode(),
-    watchGetGlobalAlertsSaga(), 
+    watchGetGlobalAlertsSaga(),
     watchSelectPlanSaga(),
     watchReportError(),
     watchGetOTCProfileSaga(),
@@ -1168,6 +1250,6 @@ export default function* rootSaga() {
     watchGetOTCClaimReimbursementData(),
     watchVerifyAddressSaga(),
     watchPcpHousehold(),
-    watchCCFormsDocs()
+    watchCCFormsDocs(),
   ]);
 }

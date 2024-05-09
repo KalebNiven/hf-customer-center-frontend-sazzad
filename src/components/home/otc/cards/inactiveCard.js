@@ -1,76 +1,73 @@
 import React from "react";
 import styled from "styled-components";
 import {
-    CardFooter,
-    Card,
-    FooterActions,
-    FooterBody,
-    TooltipIcon,
+  CardFooter,
+  Card,
+  FooterActions,
+  FooterBody,
+  TooltipIcon,
 } from "./styles.js";
 import ActivateButton from "./activateButton";
 import LearnMoreButton from "./learnMoreButton";
 import { usePopperTooltip } from "react-popper-tooltip";
 
 const InactiveCard = ({ handleActivate, handleLearnMore }) => {
-    const {
-        getArrowProps,
-        getTooltipProps,
-        setTooltipRef,
-        setTriggerRef,
-        visible,
-    } = usePopperTooltip({ placement: "top" });
+  const {
+    getArrowProps,
+    getTooltipProps,
+    setTooltipRef,
+    setTriggerRef,
+    visible,
+  } = usePopperTooltip({ placement: "top" });
 
-    return (
-        <Card>
-            <CardFooter>
-                <FooterBody>
-                    <ActivateCTATitleWrapper>
-                        <ActivateCTATitle>
-                            Activate Your OTC Card
-                        </ActivateCTATitle>
-                        {visible && (
-                            <Align
-                                ref={setTooltipRef}
-                                {...getTooltipProps({
-                                    className: "tooltip-container",
-                                })}
-                            >
-                                <div
-                                    {...getArrowProps({
-                                        className: "tooltip-arrow",
-                                    })}
-                                />
-                                Click “Activate Card” below to activate your card. For any questions please call Member Services at 1 (888) 260-1010.
-                            </Align>
-                        )}
-                        <CustomTooltipIcon ref={setTriggerRef} />
-                    </ActivateCTATitleWrapper>
-                    <ActivateCTADesc>
-                        Activate your Healthfirst OTC card to start using your
-                        allowance.
-                    </ActivateCTADesc>
-                </FooterBody>
-                <FooterActions>
-                    <LearnMoreButton handleLearnMore={handleLearnMore} />
-                    <ActivateButton handleActivate={handleActivate} />
-                </FooterActions>
-            </CardFooter>
-        </Card>
-    );
+  return (
+    <Card>
+      <CardFooter>
+        <FooterBody>
+          <ActivateCTATitleWrapper>
+            <ActivateCTATitle>Activate Your OTC Card</ActivateCTATitle>
+            {visible && (
+              <Align
+                ref={setTooltipRef}
+                {...getTooltipProps({
+                  className: "tooltip-container",
+                })}
+              >
+                <div
+                  {...getArrowProps({
+                    className: "tooltip-arrow",
+                  })}
+                />
+                Click “Activate Card” below to activate your card. For any
+                questions please call Member Services at 1 (888) 260-1010.
+              </Align>
+            )}
+            <CustomTooltipIcon ref={setTriggerRef} />
+          </ActivateCTATitleWrapper>
+          <ActivateCTADesc>
+            Activate your Healthfirst OTC card to start using your allowance.
+          </ActivateCTADesc>
+        </FooterBody>
+        <FooterActions>
+          <LearnMoreButton handleLearnMore={handleLearnMore} />
+          <ActivateButton handleActivate={handleActivate} />
+        </FooterActions>
+      </CardFooter>
+    </Card>
+  );
 };
 
 export const Wrapper = styled.div`
-    margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 `;
 
 export const ActivateCTATitleWrapper = styled.div`
-    position: relative;
-    display: flex;
+  position: relative;
+  display: flex;
 `;
 
-
 const Align = styled.div`
-text-align:left;
+  text-align: left;
 `;
 
 export const Title = styled.h3`
@@ -93,8 +90,8 @@ export const OTCIcon = styled.img`
 `;
 
 export const CustomTooltipIcon = styled(TooltipIcon)`
-margin :0px 0px 0px 9.33px;
-`
+  margin: 0px 0px 0px 9.33px;
+`;
 
 export const HeaderLeft = styled.div``;
 
@@ -189,7 +186,7 @@ export const ShopOnlineIcon = styled.img`
 export const Paragraph = styled.div`
   font-size: 12px;
   font-weight: 500;
-  margin-bottom:8px;
+  margin-bottom: 8px;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.33;

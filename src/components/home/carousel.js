@@ -1,24 +1,23 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 import GlobalStyle from "../../styles/GlobalStyle";
 import Slider from "react-slick";
 import { useSelector } from "react-redux";
-import { useAppContext } from '../../AppContext';
+import { useAppContext } from "../../AppContext";
 import { SHOW_SLIDES } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
-import { useHistory } from 'react-router-dom';
-import { useHomeContext } from './homeContext';
+import { useHistory } from "react-router-dom";
+import { useHomeContext } from "./homeContext";
 import { Tooltip } from "@material-ui/core";
-import ReactMarkdown from 'react-markdown';
-import ExternalSiteLink from '../common/externalSiteLink';
+import ReactMarkdown from "react-markdown";
+import ExternalSiteLink from "../common/externalSiteLink";
 import { handleSegmentClick } from "../../libs/segment";
 const Carousel = () => {
-
   const history = useHistory();
   const slideItems = useSelector((state) => state.homeDetails.carouselItems);
   const customerInfo = useSelector((state) => state.customerInfo);
   const { innerWidth } = useAppContext();
-  const LINK_TYPE = { external: "External", cc: "CC" }
+  const LINK_TYPE = { external: "External", cc: "CC" };
   const { showSlides, setShowSlides } = useHomeContext();
   const settings = {
     dots: false,
@@ -31,80 +30,150 @@ const Carousel = () => {
     prevArrow: <PrevArrow />,
   };
   const onCarouselActionClick = (item) => {
-    const { linkType, slideLink,  slideTitle, linkVerbiage } = item;
+    const { linkType, slideLink, slideTitle, linkVerbiage } = item;
     if (linkType !== LINK_TYPE.external) {
       // Check if absolute vs relative URL
       slideLink.indexOf("://") > 0 || slideLink.indexOf("//") === 0
-      ? window.location.href = slideLink
-      : history.push(slideLink);
+        ? (window.location.href = slideLink)
+        : history.push(slideLink);
     }
     // The single quotes in the title comes back from the API as unicode, which we need to replace to quote
     const escapedTitle = slideTitle?.replace(/[\u2018\u2019]/g, "'");
-    handleSegmentClick("/home", linkVerbiage, escapedTitle, "link", "top", customerInfo , "home"); 
-  }
+    handleSegmentClick(
+      "/home",
+      linkVerbiage,
+      escapedTitle,
+      "link",
+      "top",
+      customerInfo,
+      "home",
+    );
+  };
 
   return (
-    (showSlides && Array.isArray(slideItems) && slideItems.length > 0) &&
-    <FeatureTreatment
-      treatmentName={SHOW_SLIDES}
-      onLoad={() => { }}
-      onTimedout={() => { }}
-    >
-      <Card >
-        <GlobalStyle />
-        <Slider {...settings} className="now-pow-resources-carousel">
-          {
-            slideItems.map((item, index) => (
+    showSlides &&
+    Array.isArray(slideItems) &&
+    slideItems.length > 0 && (
+      <FeatureTreatment
+        treatmentName={SHOW_SLIDES}
+        onLoad={() => {}}
+        onTimedout={() => {}}
+      >
+        <Card>
+          <GlobalStyle />
+          <Slider {...settings} className="now-pow-resources-carousel">
+            {slideItems.map((item, index) => (
               <div key={index}>
                 <Paper innerWidth={innerWidth}>
-                  {
-                    (item.slideImage.length > 0 ) ?
-                      ((innerWidth > 480 ) ?
-                      <Images alt = "" src={item.slideImage.length > 0 ? item.slideImage[0].url : ""} />
-                       : <Images alt = "" src={item.slideImage.length > 1 ? item.slideImage[1].url : ""} />
-                      )
-                      : null
-                  }
+                  {item.slideImage.length > 0 ? (
+                    innerWidth > 480 ? (
+                      <Images
+                        alt=""
+                        src={
+                          item.slideImage.length > 0
+                            ? item.slideImage[0].url
+                            : ""
+                        }
+                      />
+                    ) : (
+                      <Images
+                        alt=""
+                        src={
+                          item.slideImage.length > 1
+                            ? item.slideImage[1].url
+                            : ""
+                        }
+                      />
+                    )
+                  ) : null}
                   <Content>
-                    <ContentText >
+                    <ContentText>
                       <ContentTitle>{item.slideTitle}</ContentTitle>
-                      {item.slideContent.replace(/<\/?span[^>]*>/g, "").length >= (innerWidth > "480px" ? 173 : 206) ?
-                      <Tooltip
-                      title = {<ReactMarkdown children={item.slideContent.replace(/<\/?span[^>]*>/g, "") }/>}
-                     >
-                      <ContentDesc><ReactMarkdown
-                        components={{
-                          p: ({node, ...props}) => <p style={{color: "#474b55", lineHeight: "1.29", fontSize: "14px" }} {...props} />
-                        }}
-                        children={item.slideContent.replace(/<\/?span[^>]*>/g, "")}/>
-                        </ContentDesc></Tooltip> : <ContentDesc><ReactMarkdown
-                        components={{
-                          p: ({node, ...props}) => <p style={{color: "#474b55", lineHeight: "1.29", fontSize: "14px" }} {...props} />
-                        }}
-                        children={item.slideContent.replace(/<\/?span[^>]*>/g, "")}/>
-                        </ContentDesc>}
-
+                      {item.slideContent.replace(/<\/?span[^>]*>/g, "")
+                        .length >= (innerWidth > "480px" ? 173 : 206) ? (
+                        <Tooltip
+                          title={
+                            <ReactMarkdown
+                              children={item.slideContent.replace(
+                                /<\/?span[^>]*>/g,
+                                "",
+                              )}
+                            />
+                          }
+                        >
+                          <ContentDesc>
+                            <ReactMarkdown
+                              components={{
+                                p: ({ node, ...props }) => (
+                                  <p
+                                    style={{
+                                      color: "#474b55",
+                                      lineHeight: "1.29",
+                                      fontSize: "14px",
+                                    }}
+                                    {...props}
+                                  />
+                                ),
+                              }}
+                              children={item.slideContent.replace(
+                                /<\/?span[^>]*>/g,
+                                "",
+                              )}
+                            />
+                          </ContentDesc>
+                        </Tooltip>
+                      ) : (
+                        <ContentDesc>
+                          <ReactMarkdown
+                            components={{
+                              p: ({ node, ...props }) => (
+                                <p
+                                  style={{
+                                    color: "#474b55",
+                                    lineHeight: "1.29",
+                                    fontSize: "14px",
+                                  }}
+                                  {...props}
+                                />
+                              ),
+                            }}
+                            children={item.slideContent.replace(
+                              /<\/?span[^>]*>/g,
+                              "",
+                            )}
+                          />
+                        </ContentDesc>
+                      )}
                     </ContentText>
 
-                    {
-                      item.linkType === 'External' ?
-                      <ExternalSiteLink link={item.slideLink} label={item.linkVerbiage} target="_blank" >
-                        <SlideLink onClick={()=> onCarouselActionClick(item)}>
+                    {item.linkType === "External" ? (
+                      <ExternalSiteLink
+                        link={item.slideLink}
+                        label={item.linkVerbiage}
+                        target="_blank"
+                      >
+                        <SlideLink onClick={() => onCarouselActionClick(item)}>
                           {item.linkVerbiage}
-                        </SlideLink>  
-                      </ExternalSiteLink> :
-                      <SlideLink onClick={() => onCarouselActionClick(item)} >
+                        </SlideLink>
+                      </ExternalSiteLink>
+                    ) : (
+                      <SlideLink onClick={() => onCarouselActionClick(item)}>
                         {item.linkVerbiage}
                       </SlideLink>
-                    }
+                    )}
                   </Content>
                 </Paper>
               </div>
             ))}
-        </Slider>
-        <CloseIcon alt = "" src="/react/images/icn-close.svg" onClick={() => setShowSlides(false)} />
-      </Card>
-    </FeatureTreatment>
+          </Slider>
+          <CloseIcon
+            alt=""
+            src="/react/images/icn-close.svg"
+            onClick={() => setShowSlides(false)}
+          />
+        </Card>
+      </FeatureTreatment>
+    )
   );
 };
 
@@ -112,9 +181,18 @@ function NextArrow(props) {
   const { style, onClick } = props;
   return (
     <NextArrowImg
-      alt = ""
+      alt=""
       src="/react/images/arrow-right.svg"
-      style={props.currentSlide + 1 === props.slideCount ? { ...style, display: "block", pointerEvents: "none", filter: "opacity(0.4) drop-shadow(0 0 0 #474b55)" } : { ...style, display: "block",cursor:"pointer" }}
+      style={
+        props.currentSlide + 1 === props.slideCount
+          ? {
+              ...style,
+              display: "block",
+              pointerEvents: "none",
+              filter: "opacity(0.4) drop-shadow(0 0 0 #474b55)",
+            }
+          : { ...style, display: "block", cursor: "pointer" }
+      }
       onClick={onClick}
     />
   );
@@ -124,22 +202,29 @@ function PrevArrow(props) {
   const { style, onClick } = props;
   return (
     <PrevArrowImg
-      alt = ""
+      alt=""
       src="/react/images/arrow-left.svg"
-      style={props.currentSlide === 0 ? { ...style, display: "block", pointerEvents: "none", filter: "opacity(0.4) drop-shadow(0 0 0 #474b55)" } : { ...style, display: "block",cursor:"pointer"}}
+      style={
+        props.currentSlide === 0
+          ? {
+              ...style,
+              display: "block",
+              pointerEvents: "none",
+              filter: "opacity(0.4) drop-shadow(0 0 0 #474b55)",
+            }
+          : { ...style, display: "block", cursor: "pointer" }
+      }
       onClick={onClick}
     />
   );
 }
 
-
-
 const Card = styled.div`
   background-color: #ffffff;
   word-break: break-word;
-  margin-bottom:40px;
+  margin-bottom: 40px;
   border-radius: 4px;
-  box-shadow:  0 0 8px 0 rgba(0, 0, 0, 0.10);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
   position: relative;
   @media only screen and (max-width: 668px) {
     padding-bottom: 20px;
@@ -148,7 +233,7 @@ const Card = styled.div`
 
 const Images = styled.img`
   @media only screen and (max-width: 668px) {
-    order:2;
+    order: 2;
     margin-bottom: 25px;
     width: 100%;
   }
@@ -161,28 +246,28 @@ const Images = styled.img`
 
 const Paper = styled.div`
   @media only screen and (max-width: 668px) {
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 10px;
-    min-height:343px;
+    min-height: 343px;
   }
-  display:flex;
-  flex-direction:row;
+  display: flex;
+  flex-direction: row;
 `;
 
 const Content = styled.div`
   @media only screen and (max-width: 668px) {
-    order:1;
+    order: 1;
   }
 `;
 
 const ContentText = styled.div`
-@media only screen and (max-width: 668px) {
-  padding: 24px 0px 18px 15px;
-}
-    padding:10px;
-    min-height:140px;
-    padding: 24px 16px 18px 24px;
+  @media only screen and (max-width: 668px) {
+    padding: 24px 0px 18px 15px;
+  }
+  padding: 10px;
+  min-height: 140px;
+  padding: 24px 16px 18px 24px;
 `;
 
 const ContentTitle = styled.div`
@@ -198,8 +283,8 @@ const ContentTitle = styled.div`
   letter-spacing: normal;
   text-align: left;
   color: #003863;
-  height:24px;
-  display:inline;
+  height: 24px;
+  display: inline;
 `;
 
 const ContentDesc = styled.div`
@@ -222,7 +307,6 @@ const ContentDesc = styled.div`
   -webkit-box-orient: vertical;
 `;
 
-
 const SlideLink = styled.div`
   @media only screen and (min-width: 667px) {
     bottom: 2px;
@@ -238,7 +322,7 @@ const SlideLink = styled.div`
   position: absolute;
   height: 16px;
   flex-grow: 0;
-  margin-top:-5px;
+  margin-top: -5px;
   font-size: 14px;
   font-weight: bold;
   font-stretch: normal;
@@ -247,51 +331,50 @@ const SlideLink = styled.div`
   letter-spacing: normal;
   text-align: left;
   color: #008bbf;
-  &:hover{
-      color:#2A6A9E;
-      text-decoration:underline;
-      cursor:pointer;
-    }
+  &:hover {
+    color: #2a6a9e;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 `;
 
-
 const CloseIcon = styled.img`
-   margin: 16px 0 88px 12px;
-   object-fit: contain;
-   width: 15px;
-   height: 15px;
-   position: absolute;
+  margin: 16px 0 88px 12px;
+  object-fit: contain;
+  width: 15px;
+  height: 15px;
+  position: absolute;
   right: 1rem;
   top: 0;
-   &:hover {
+  &:hover {
     cursor: pointer;
-   }
-   bottom:150px;
-   @media only screen and (max-width: 668px) {
+  }
+  bottom: 150px;
+  @media only screen and (max-width: 668px) {
     top: 0;
     right: 1rem;
-   };
+  }
 `;
 
 const NextArrowImg = styled.div`
+  position: absolute;
+  right: 18px;
+  padding: 10px;
+  bottom: 8px;
+  &::before {
+    display: block;
+    content: " ";
+    background-image: ${(props) => props.src && `url(${props.src})`};
+    background-size: 20px 20px;
+    height: 20px;
+    width: 20px;
     position: absolute;
-    right: 18px;
-    padding: 10px;
+    opacity: 1;
+  }
+  @media only screen and (min-width: 667px) {
     bottom: 8px;
-    &::before {
-      display:block;
-      content: " ";
-      background-image: ${props => props.src && `url(${props.src})`};
-      background-size: 20px 20px;
-      height: 20px;
-      width: 20px;
-      position: absolute;
-      opacity: 1;
-    }
-    @media only screen and (min-width: 667px) {
-      bottom:8px;
-      top:70%;
-    }
+    top: 70%;
+  }
 `;
 
 const PrevArrowImg = styled.div`
@@ -303,7 +386,7 @@ const PrevArrowImg = styled.div`
   &::before {
     display: block;
     content: " ";
-    background-image: ${props => props.src && `url(${props.src})`};
+    background-image: ${(props) => props.src && `url(${props.src})`};
     background-size: 20px 20px;
     height: 20px;
     width: 20px;
@@ -311,8 +394,8 @@ const PrevArrowImg = styled.div`
     opacity: 1;
   }
   @media only screen and (min-width: 667px) {
-    bottom:8px;
-    top:70%;
+    bottom: 8px;
+    top: 70%;
   }
 `;
 

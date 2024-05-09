@@ -1,10 +1,10 @@
 import * as actionTypes from "../actions/actionTypes";
-import { toCamelCase } from '../../utils/strings.js'
+import { toCamelCase } from "../../utils/strings.js";
 
 export const initialState = {
   oopList: null,
-  loading:false,
-  error:""
+  loading: false,
+  error: "",
 };
 
 export default function oop(state = initialState, action) {
@@ -13,33 +13,38 @@ export default function oop(state = initialState, action) {
       return {
         ...state,
         oopList: null,
-        loading:true,
-        error:""
+        loading: true,
+        error: "",
       };
     }
     case actionTypes.RECEIVE_CUSTOMER_OOP: {
       switch (action.payload.status) {
-        case 'ERROR':
-        {
+        case "ERROR": {
           return {
             ...state,
             oopList: null,
-            loading:false,
-            error:action.payload.errorData
+            loading: false,
+            error: action.payload.errorData,
           };
         }
-        default:{
+        default: {
           function mapOOP(items) {
-            const result = {}
-            items.forEach(item => result[toCamelCase(item.accum_name)] = {...item})
-            return result
+            const result = {};
+            items.forEach(
+              (item) => (result[toCamelCase(item.accum_name)] = { ...item }),
+            );
+            return result;
           }
-          const value = action.payload.data.map(item => ({ memberId: item.memberId, oop: mapOOP(item.oop), oopLength: item.oop.length }))
+          const value = action.payload.data.map((item) => ({
+            memberId: item.memberId,
+            oop: mapOOP(item.oop),
+            oopLength: item.oop.length,
+          }));
           return {
             ...state,
             oopList: value,
-            loading:false,
-            error:""
+            loading: false,
+            error: "",
           };
         }
       }
@@ -47,5 +52,4 @@ export default function oop(state = initialState, action) {
     default:
       return state;
   }
-};
-    
+}

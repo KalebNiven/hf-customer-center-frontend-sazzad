@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 const { MIX_APP_DOMAIN, MIX_APP_DOMAIN_PORT } = process.env;
 
@@ -23,7 +23,7 @@ const useRedirect = (url, callback) => {
     // check if requested URL is an related to EOB document
     const isEOBDocumentURL = (url) => {
       // check if URL contains either 'documents' or 'claims/eob' which means it's related to EOB
-      if (url.indexOf('documents') !== -1 || url.indexOf('claims/eob') !== -1) {
+      if (url.indexOf("documents") !== -1 || url.indexOf("claims/eob") !== -1) {
         return true; // this is EOB url
       }
       return false; // this isn't EOB url
@@ -41,7 +41,9 @@ const useRedirect = (url, callback) => {
         const urlObj = new URL(decodedRedirectURL);
         const domainURLObject = new URL(MIX_APP_DOMAIN);
         if (urlObj.port === MIX_APP_DOMAIN_PORT) {
-          window.location.href = `${MIX_APP_DOMAIN + urlObj.pathname}?${urlObj.searchParams}`;
+          window.location.href = `${MIX_APP_DOMAIN + urlObj.pathname}?${
+            urlObj.searchParams
+          }`;
         } else {
           window.location.href = `https://${domainURLObject.hostname}${urlObj.pathname}?${urlObj.searchParams}`;
         }

@@ -11,7 +11,7 @@ const stylesHandler = "style-loader";
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const InterpolateHtmlPlugin = require("interpolate-html-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const devPort = "3000"
+const devPort = "3000";
 
 const getEnvVars = (envVars) => {
   const vars = { ...envVars, LOCALE_VERSION: new Date().getTime() };
@@ -31,45 +31,70 @@ const config = {
   },
   optimization: {
     splitChunks: {
-      chunks: 'all',
+      chunks: "all",
     },
   },
   performance: {
     hints: false,
     maxEntrypointSize: 512000,
-    maxAssetSize: 512000
+    maxAssetSize: 512000,
   },
   devServer: {
     open: true,
     host: "localhost",
     static: {
-      directory: publicDir
+      directory: publicDir,
     },
     hot: true,
     port: devPort,
-    historyApiFallback: true
+    historyApiFallback: true,
   },
   plugins: [
     new webpack.DefinePlugin({
       "process.env": getEnvVars(dotenv.config({ path: envDir }).parsed),
     }),
     new HtmlWebpackPlugin({
-      template: __dirname + '/src/index.html',
-      filename: 'index.html',
-      inject: 'body',
-      publicPath: '/',
-      custom: '<script src="'+process.env.MIX_REACT_CONTACT_INFO_LINK+'prefManagementWidget.js"></script>'
+      template: __dirname + "/src/index.html",
+      filename: "index.html",
+      inject: "body",
+      publicPath: "/",
+      custom:
+        '<script src="' +
+        process.env.MIX_REACT_CONTACT_INFO_LINK +
+        'prefManagementWidget.js"></script>',
     }),
     new InterpolateHtmlPlugin({
-      JENKINS_JOB_NAME: process.env.JOB_NAME || 'Customer-center-Frontend',
-      JENKINS_BUILD_NUMBER: process.env.BUILD_NUMBER || '0000',
-      JENKINS_BUILD_TAG: process.env.BUILD_TAG || '0000',
-      JENKINS_NODE_NAME: process.env.NODE_NAME || '0000',
-      JENKINS_BUILD_ID: process.env.BUILD_ID || '0000',
+      JENKINS_JOB_NAME: process.env.JOB_NAME || "Customer-center-Frontend",
+      JENKINS_BUILD_NUMBER: process.env.BUILD_NUMBER || "0000",
+      JENKINS_BUILD_TAG: process.env.BUILD_TAG || "0000",
+      JENKINS_NODE_NAME: process.env.NODE_NAME || "0000",
+      JENKINS_BUILD_ID: process.env.BUILD_ID || "0000",
     }),
-    new CopyPlugin({ patterns: [{ from: "public", to: "." }, { from: "src/images", to: "react/images" }] }),
-    new CopyPlugin({ patterns: [{ from: "public", to: "." }, { from: "src/css", to: "css" }] }),
-    new CopyPlugin({ patterns: [{ from: path.join(__dirname, "src", "assets", process.env.MIX_REACT_ENVIRONMENT), to: "." }] }),
+    new CopyPlugin({
+      patterns: [
+        { from: "public", to: "." },
+        { from: "src/images", to: "react/images" },
+      ],
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "public", to: "." },
+        { from: "src/css", to: "css" },
+      ],
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.join(
+            __dirname,
+            "src",
+            "assets",
+            process.env.MIX_REACT_ENVIRONMENT,
+          ),
+          to: ".",
+        },
+      ],
+    }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -86,7 +111,7 @@ const config = {
           __dirname + "src/**/*.test.js",
           __dirname + "src/**/*.test.jsx",
           /__snapshots__/,
-          /node_modules/
+          /node_modules/,
         ],
         use: "babel-loader",
       },
@@ -103,12 +128,12 @@ const config = {
     ],
   },
   resolve: {
-    extensions: [".*",".js",".jsx",".*.mjs"],
+    extensions: [".*", ".js", ".jsx", ".*.mjs"],
     alias: {
       "react/jsx-dev-runtime": "react/jsx-dev-runtime.js",
-      "react/jsx-runtime": "react/jsx-runtime.js"
-    }
-  }
+      "react/jsx-runtime": "react/jsx-runtime.js",
+    },
+  },
 };
 
 module.exports = () => {

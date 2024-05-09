@@ -5,7 +5,7 @@ import Spinner from "../common/spinner";
 import React, { useState, useEffect, useRef } from "react";
 import { useMediaQuery, useTheme, Hidden } from "@material-ui/core";
 import DataTable from "react-data-table-component";
- import { LanguageSelect, Language } from "../common/styles";
+import { LanguageSelect, Language } from "../common/styles";
 import CommonlyUsedForm from "./commonlyUsedForm";
 import DependentBlock from "../common/dependentBlock";
 import { FeatureTreatment } from "../../libs/featureFlags";
@@ -67,24 +67,30 @@ const FormsAndDocuments = (props) => {
   const customerInfo = useSelector((state) => state.customerInfo);
   const { memberId } = memberSelection;
 
-  const setTab = () =>{
+  const setTab = () => {
     const plansAndDocumentTreatment = splitHookClient.getTreatmentWithConfig(
       SHOW_FORMS_AND_DOCS,
       splitAttributes,
     );
-   
-    if(plansAndDocumentTreatment.treatment === "off" || plansAndDocumentTreatment.treatment === "control" ){
+
+    if (
+      plansAndDocumentTreatment.treatment === "off" ||
+      plansAndDocumentTreatment.treatment === "control"
+    ) {
       setSelectedTab(navItems[1].href);
     }
-  }
-
+  };
 
   const splitAttributes = {
     memberId: customerInfo?.data?.memberId,
     customerId: customerInfo?.data?.customerId,
-    lob: customerInfo?.data?.sessLobCode, 
-    companyCode: customerInfo?.data?.hohPlans?.map(plan => plan?.CompanyNumber),
-    benefitPackage: customerInfo?.data?.hohPlans?.map(plan => plan?.BenefitPackage),
+    lob: customerInfo?.data?.sessLobCode,
+    companyCode: customerInfo?.data?.hohPlans?.map(
+      (plan) => plan?.CompanyNumber,
+    ),
+    benefitPackage: customerInfo?.data?.hohPlans?.map(
+      (plan) => plan?.BenefitPackage,
+    ),
     membershipStatus: customerInfo?.data?.membershipStatus,
     accountStatus: customerInfo?.data?.accountStatus,
   };
@@ -117,20 +123,22 @@ const FormsAndDocuments = (props) => {
       memberId: customerInfo?.data?.hohPlans[0]?.MemberId,
       planName: customerInfo?.data?.hohPlans[0]?.PlanName,
       membershipStatus: customerInfo?.data?.hohPlans[0]?.MembershipStatus,
-      membershipEffectiveDate: customerInfo?.data?.hohPlans[0]?.MembershipEffectiveDate,
-      membershipExpirationDate: customerInfo?.data?.hohPlans[0]?.MembershipExpirationDate,
+      membershipEffectiveDate:
+        customerInfo?.data?.hohPlans[0]?.MembershipEffectiveDate,
+      membershipExpirationDate:
+        customerInfo?.data?.hohPlans[0]?.MembershipExpirationDate,
       companyCode: customerInfo.data.companyCode,
       lob: customerInfo.data.sessLobCode,
       groupNumber: customerInfo?.data?.hohPlans[0]?.GroupNumber,
       benefitPackage: customerInfo?.data?.hohPlans[0]?.BenefitPackage,
       firstName: customerInfo?.data?.hohPlans[0]?.FirstName,
-      lastName:  customerInfo?.data?.hohPlans[0]?.LastName,
+      lastName: customerInfo?.data?.hohPlans[0]?.LastName,
       memberYear: customerInfo?.data?.hohPlans[0]?.memberYear,
     });
   }, [customerInfo]);
 
   useEffect(() => {
-    setTab()
+    setTab();
     sessionStorage.setItem("longLoad", false);
   }, []);
 
@@ -184,76 +192,79 @@ const FormsAndDocuments = (props) => {
               <DocumentsCenterPage />
             ) : (
               <FeatureTreatment
-              key="forms_and_document_page_feature"
-              treatmentNames={SHOW_FORMS_AND_DOCS}
-              treatmentName={SHOW_FORMS_AND_DOCS}
-              onLoad={() => {}}
-              onTimedout={() => {}}
-              attributes={splitAttributes}
-            >
-              <Main>
-                <MyDocuments>Forms and Plan Documents</MyDocuments>
-                <DependentBlockWrapper>
-                  {
-                    <DependentBlock
-                      memberSelection={memberSelection}
-                      setMemberSelection={setMemberSelection}
-                      halfWidth
-                      activeOnly={
-                        memberSelection?.accountStatus === "active"
-                          ? false
-                          : true
-                      }
-                      minorsOnly={false}
-                      activeDepsOnly={false}
-                    />
-                  }
-                </DependentBlockWrapper>
-                 {((ccForms.ccFormsDocDetails?.data?.length === 0 || ccForms.ccFormsDocDetails?.data?.length === undefined) &&  ccForms.ccFormsDocLoading === false) ? (
-                  <NoFormsAndDocument />
-                ) : (
-                  <>
-                    {(ccForms?.ccFormsDocDetails?.data != null &&  ccForms.ccFormsDocLoading === false) ? (
-                      <Main>
-                        <SubTitle>Commonly Used Forms</SubTitle>
-                        <Wrapper>
-                          <CommonlyUsedForm
+                key="forms_and_document_page_feature"
+                treatmentNames={SHOW_FORMS_AND_DOCS}
+                treatmentName={SHOW_FORMS_AND_DOCS}
+                onLoad={() => {}}
+                onTimedout={() => {}}
+                attributes={splitAttributes}
+              >
+                <Main>
+                  <MyDocuments>Forms and Plan Documents</MyDocuments>
+                  <DependentBlockWrapper>
+                    {
+                      <DependentBlock
+                        memberSelection={memberSelection}
+                        setMemberSelection={setMemberSelection}
+                        halfWidth
+                        activeOnly={
+                          memberSelection?.accountStatus === "active"
+                            ? false
+                            : true
+                        }
+                        minorsOnly={false}
+                        activeDepsOnly={false}
+                      />
+                    }
+                  </DependentBlockWrapper>
+                  {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
+                    ccForms.ccFormsDocDetails?.data?.length === undefined) &&
+                  ccForms.ccFormsDocLoading === false ? (
+                    <NoFormsAndDocument />
+                  ) : (
+                    <>
+                      {ccForms?.ccFormsDocDetails?.data != null &&
+                      ccForms.ccFormsDocLoading === false ? (
+                        <Main>
+                          <SubTitle>Commonly Used Forms</SubTitle>
+                          <Wrapper>
+                            <CommonlyUsedForm
+                              data={
+                                ccForms?.ccFormsDocDetails?.data[0]
+                                  .cc_commonly_used_forms
+                              }
+                            />
+                          </Wrapper>
+                          <SubTitle>General Forms</SubTitle>
+                          <DocsList
                             data={
                               ccForms?.ccFormsDocDetails?.data[0]
-                                .cc_commonly_used_forms
+                                .cc_general_forms
                             }
                           />
-                        </Wrapper>
-                        <SubTitle>General Forms</SubTitle>
-                        <DocsList
-                          data={
-                            ccForms?.ccFormsDocDetails?.data[0].cc_general_forms
-                          }
-                        />
-                        <SubTitle>Plan Documents</SubTitle>
-                        <DocsList
-                          data={
-                            ccForms?.ccFormsDocDetails?.data[0]
-                              .cc_plan_documents
-                          }
-                        />
-                        <SubTitle>Additional Resources</SubTitle>
-                        <DocsList
-                          data={
-                            ccForms?.ccFormsDocDetails?.data[0]
-                              .cc_additional_resources
-                          }
-                        />
-                      </Main>
-                    ) : (
-                      <ProgressWrapper>
-                        <Spinner />
-                      </ProgressWrapper>
-                    )}
-                  </>
-                )}
-                
-              </Main>
+                          <SubTitle>Plan Documents</SubTitle>
+                          <DocsList
+                            data={
+                              ccForms?.ccFormsDocDetails?.data[0]
+                                .cc_plan_documents
+                            }
+                          />
+                          <SubTitle>Additional Resources</SubTitle>
+                          <DocsList
+                            data={
+                              ccForms?.ccFormsDocDetails?.data[0]
+                                .cc_additional_resources
+                            }
+                          />
+                        </Main>
+                      ) : (
+                        <ProgressWrapper>
+                          <Spinner />
+                        </ProgressWrapper>
+                      )}
+                    </>
+                  )}
+                </Main>
               </FeatureTreatment>
             )}
           </Main>
@@ -267,13 +278,16 @@ const DocsList = (props) => {
   const [isOpen, setIsOpen] = useState();
   const [RowName, setRowName] = useState();
   const [downloadImage, setDownloadImage] = useState(
-    "/react/images/download_pdf.svg"
+    "/react/images/download_pdf.svg",
   );
 
   const languageModelRef = useRef(null);
 
   useOnClickOutside(languageModelRef, (event) => {
-    if(event.target.id !== "download" && event.target.id !== "languageSelection"){
+    if (
+      event.target.id !== "download" &&
+      event.target.id !== "languageSelection"
+    ) {
       setRowName();
     }
   });
@@ -321,7 +335,7 @@ const DocsList = (props) => {
       "link",
       "bottom",
       "",
-      "formsAndDocument"
+      "formsAndDocument",
     );
     setRowName();
     window.open(documentUrl);
@@ -350,9 +364,9 @@ const DocsList = (props) => {
       cell: (row) => (
         <>
           <a
-              ref={languageModelRef}
-              className="download"
-              onClick={() => {
+            ref={languageModelRef}
+            className="download"
+            onClick={() => {
               setIsOpen(true), setRowName(row.Name);
               setDownloadImage("/react/images/download_blue.svg");
             }}
@@ -369,7 +383,11 @@ const DocsList = (props) => {
               ></DownloadImg>
             )}
           </a>
-          <LanguageSelect id="languageSelection" isOpen={row.Name === RowName} last={false}>
+          <LanguageSelect
+            id="languageSelection"
+            isOpen={row.Name === RowName}
+            last={false}
+          >
             {row.assetUrl.en != null && row.assetUrl.en != "" && (
               <Language
                 id="languageSelection"

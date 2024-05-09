@@ -22,30 +22,30 @@ const options = {
 };
 
 const DetailsMap = ({ mapRef, location }) => {
-
   /* callbacks */
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   }, []);
 
   return (
-    location != null &&
-    <MapContainer>
-      <Suspense fallback={<Spinner />}>
-        <GoogleMap
-          mapContainerStyle={mapContainerStyle}
-          zoom={18}
-          center={location}
-          options={options}
-          onLoad={onMapLoad}
-        >
-          <Marker
-            key={`${location.lat}-${location.lng}`}
-            position={{ lat: location.lat, lng: location.lng }}
-          />
-        </GoogleMap>
-      </Suspense>
-    </MapContainer>
+    location != null && (
+      <MapContainer>
+        <Suspense fallback={<Spinner />}>
+          <GoogleMap
+            mapContainerStyle={mapContainerStyle}
+            zoom={18}
+            center={location}
+            options={options}
+            onLoad={onMapLoad}
+          >
+            <Marker
+              key={`${location.lat}-${location.lng}`}
+              position={{ lat: location.lat, lng: location.lng }}
+            />
+          </GoogleMap>
+        </Suspense>
+      </MapContainer>
+    )
   );
 };
 

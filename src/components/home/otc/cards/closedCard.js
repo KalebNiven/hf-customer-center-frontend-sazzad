@@ -1,10 +1,18 @@
-import React from 'react'
-import styled from 'styled-components';
-import { CardHeader, CardBody, CardFooter, Card, FooterActions, FooterBody,TooltipIcon } from './styles.js'
-import { usePopperTooltip } from 'react-popper-tooltip';
-import '../../../../styles/tooltipStyles.css';
-import ActivateButton from './activateButton';
-import LearnMoreButton from './learnMoreButton';
+import React from "react";
+import styled from "styled-components";
+import {
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Card,
+  FooterActions,
+  FooterBody,
+  TooltipIcon,
+} from "./styles.js";
+import { usePopperTooltip } from "react-popper-tooltip";
+import "../../../../styles/tooltipStyles.css";
+import ActivateButton from "./activateButton";
+import LearnMoreButton from "./learnMoreButton";
 
 const ClosedCard = ({ handleLearnMore, handleActivate }) => {
   const {
@@ -13,40 +21,51 @@ const ClosedCard = ({ handleLearnMore, handleActivate }) => {
     setTooltipRef,
     setTriggerRef,
     visible,
-  } = usePopperTooltip({ placement: 'top' });
+  } = usePopperTooltip({ placement: "top" });
 
   return (
     <Card>
-        <OTCIcon alt = "" src="/react/images/otc-icon.svg" />
-        <CardHeader>
+      <OTCIcon alt="" src="/react/images/otc-icon.svg" />
+      <CardHeader>
         <BalanceTitle>Account Status</BalanceTitle>
-        </CardHeader>
-        <CardBody>
+      </CardHeader>
+      <CardBody>
         <BalanceWrapper>
           <BalanceTitleWrapper>
             <Balance>Closed</Balance>
           </BalanceTitleWrapper>
-          {visible && <div ref={setTooltipRef} {...getTooltipProps({ className: 'tooltip-container' })}>
-              <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-              Your OTC Card has been automatically closed. This happens when your card has been on hold for more than 30 days. 
-          </div>}
-            <TooltipIcon ref={setTriggerRef} />
+          {visible && (
+            <div
+              ref={setTooltipRef}
+              {...getTooltipProps({ className: "tooltip-container" })}
+            >
+              <div {...getArrowProps({ className: "tooltip-arrow" })} />
+              Your OTC Card has been automatically closed. This happens when
+              your card has been on hold for more than 30 days.
+            </div>
+          )}
+          <TooltipIcon ref={setTriggerRef} />
         </BalanceWrapper>
-        <Paragraph>Please, call Member Services at <b>1 (888) 260-1010</b> to request a new card.</Paragraph>
-        </CardBody>
-        <CardFooter>
-          <FooterBody>
-            <ActivateCTATitle>Activate Your OTC Card</ActivateCTATitle>
-            <ActivateCTADesc>Activate your Healthfirst OTC card to view your account balance.</ActivateCTADesc>
-          </FooterBody>
-          <FooterActions>
-            <LearnMoreButton handleLearnMore={handleLearnMore} />
-            <ActivateButton handleActivate={handleActivate} />
-          </FooterActions>
-        </CardFooter>
+        <Paragraph>
+          Please, call Member Services at <b>1 (888) 260-1010</b> to request a
+          new card.
+        </Paragraph>
+      </CardBody>
+      <CardFooter>
+        <FooterBody>
+          <ActivateCTATitle>Activate Your OTC Card</ActivateCTATitle>
+          <ActivateCTADesc>
+            Activate your Healthfirst OTC card to view your account balance.
+          </ActivateCTADesc>
+        </FooterBody>
+        <FooterActions>
+          <LearnMoreButton handleLearnMore={handleLearnMore} />
+          <ActivateButton handleActivate={handleActivate} />
+        </FooterActions>
+      </CardFooter>
     </Card>
-  )
-}
+  );
+};
 
 export const Wrapper = styled.div`
   margin-bottom: 1.5rem;
@@ -71,11 +90,9 @@ export const OTCIcon = styled.img`
   right: 16px;
 `;
 
-export const HeaderLeft = styled.div`
-`;
+export const HeaderLeft = styled.div``;
 
-export const HeaderRight = styled.div`
-`;
+export const HeaderRight = styled.div``;
 
 export const BalanceTitle = styled.h4`
   flex-grow: 0;
@@ -165,7 +182,7 @@ export const ShopOnlineIcon = styled.img`
 
 export const Paragraph = styled.div`
   font-size: 12px;
-  margin-bottom:8px;
+  margin-bottom: 8px;
   font-weight: 500;
   font-stretch: normal;
   font-style: normal;
@@ -180,9 +197,7 @@ export const BalanceWrapper = styled.div`
   display: flex;
 `;
 
-export const BalanceTitleWrapper = styled.div`
-`;
-
+export const BalanceTitleWrapper = styled.div``;
 
 export const TooltipCloud = styled.div`
   padding: 12px 16px;
@@ -193,7 +208,7 @@ export const TooltipCloud = styled.div`
   min-width: 300px;
   top: -127px;
   left: -145px;
-  display: ${props => !props.visible && "none"};
+  display: ${(props) => !props.visible && "none"};
   z-index: 1;
 `;
 

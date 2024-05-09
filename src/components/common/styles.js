@@ -2,17 +2,17 @@ import styled from "styled-components";
 import DependentDropdown from "./dependentDropdown";
 
 const colorCodes = {
-  white:'#ffffff',
-  darkGreen:'#3e7128',
-  hoverGreen: '#517f3d',
-  secondaryHoverGreen:'#3e71280d',
-  disabledBg:'#d8d8d8',
-  disabledText:'#757575'
-}
+  white: "#ffffff",
+  darkGreen: "#3e7128",
+  hoverGreen: "#517f3d",
+  secondaryHoverGreen: "#3e71280d",
+  disabledBg: "#d8d8d8",
+  disabledText: "#757575",
+};
 export const Container = styled.div`
-  overflow:hidden;
-  background-color:#f4f4f4;
-  
+  overflow: hidden;
+  background-color: #f4f4f4;
+
   * {
     box-sizing: content-box;
   }
@@ -37,10 +37,10 @@ export const MainHeader = styled.div`
   line-height: 1.33;
   letter-spacing: normal;
   color: #003863;
-  margin-bottom: ${props => props.hasDependents ? `30px` : `0px`};
-  margin-top: ${props => props.noTopMargin ? `0` : `30px`};
+  margin-bottom: ${(props) => (props.hasDependents ? `30px` : `0px`)};
+  margin-top: ${(props) => (props.noTopMargin ? `0` : `30px`)};
   @media only screen and (max-width: 480px) {
-    padding-left:16px;
+    padding-left: 16px;
   }
 `;
 
@@ -52,8 +52,8 @@ export const Name = styled.div`
   line-height: 1.6;
   letter-spacing: normal;
   color: #003863;
-  margin-top: ${props => props.documents ? `` : `32px`};
-  margin-left: ${props => props.documents ? `20px` : ``};
+  margin-top: ${(props) => (props.documents ? `` : `32px`)};
+  margin-left: ${(props) => (props.documents ? `20px` : ``)};
   @media only screen and (max-width: 480px) {
     margin: 20px 20px 0;
   }
@@ -116,7 +116,7 @@ export const CardBlock = styled.div`
 
   @media only screen and (min-width: 601px) and (max-width: 1324px) {
     width: 100%;
-    margin-right: ${props => props.left && "15px"}
+    margin-right: ${(props) => props.left && "15px"};
   }
 `;
 
@@ -155,7 +155,8 @@ export const DateValid = styled.div`
 
 export const Status = styled.div`
   padding: 4px 6px;
-  background-color: ${props => props.status === 'ACTIVE' ? `#3e7128` : `#e3342f`};;
+  background-color: ${(props) =>
+    props.status === "ACTIVE" ? `#3e7128` : `#e3342f`};
   color: white;
   font-size: 12px;
   font-weight: bold;
@@ -171,8 +172,8 @@ export const Status = styled.div`
 
 export const Icon = styled.img`
   float: left;
-  margin-top: ${props => props.margin ? `24px` : ``};
-  margin-right: ${props => props.right ? `10px` : ``};
+  margin-top: ${(props) => (props.margin ? `24px` : ``)};
+  margin-right: ${(props) => (props.right ? `10px` : ``)};
 `;
 
 export const IconRight = styled.div`
@@ -180,8 +181,10 @@ export const IconRight = styled.div`
   position: relative;
   padding: 20px;
   border-radius: 4px;
-  background: ${props => props.selected ? 'url(/react/images/icn-download.svg) no-repeat 10px 10px #e6e6e6'
-    : 'url(/react/images/icn-download.svg) no-repeat 10px 10px'};
+  background: ${(props) =>
+    props.selected
+      ? "url(/react/images/icn-download.svg) no-repeat 10px 10px #e6e6e6"
+      : "url(/react/images/icn-download.svg) no-repeat 10px 10px"};
   align-self: flex-start;
   top: -2px;
   cursor: pointer;
@@ -195,14 +198,15 @@ export const BlueHeader = styled.div`
   line-height: 1.33;
   letter-spacing: normal;
   color: #003863;
-  margin: ${props => props.margin ? `24px 0px 0px 30px` : `0px 0px 0px 30px`};
+  margin: ${(props) =>
+    props.margin ? `24px 0px 0px 30px` : `0px 0px 0px 30px`};
 `;
 
 export const Row = styled.div`
   padding: 20px 0;
-  margin-bottom: ${props => props.space ? `15px` : ``};
+  margin-bottom: ${(props) => (props.space ? `15px` : ``)};
   @media only screen and (max-width: 480px) {
-    margin-bottom: ${props => props.space ? `55px` : ``};
+    margin-bottom: ${(props) => (props.space ? `55px` : ``)};
   }
 `;
 
@@ -214,7 +218,7 @@ export const DocRow = styled.div`
 export const HorizontalDivider = styled.div`
   height: 1px;
   background-color: #d8d8d8;
-  margin: ${props => props.noMargin ? '0px' : '0px -20px'};
+  margin: ${(props) => (props.noMargin ? "0px" : "0px -20px")};
 `;
 
 export const Category = styled.div`
@@ -237,15 +241,15 @@ export const CostData = styled.div`
   letter-spacing: normal;
   color: #474b55;
   display: inline-block;
-  width: ${props => props.moreWidth ? `45%` : `25%`};
+  width: ${(props) => (props.moreWidth ? `45%` : `25%`)};
   text-align: right;
-  white-space: ${props => props.moreWidth ? '' : 'nowrap'};
-  flex: ${props => props.customFlex ? props.customFlex : .4};
+  white-space: ${(props) => (props.moreWidth ? "" : "nowrap")};
+  flex: ${(props) => (props.customFlex ? props.customFlex : 0.4)};
   /* flex-grow: 1; */
-  flex-grow: ${props => !props.extraSpace && .8};
-  
+  flex-grow: ${(props) => !props.extraSpace && 0.8};
+
   @media only screen and (max-width: 480px) {
-    flex: ${props => props.customFlexMobile ? props.customFlexMobile : .4};
+    flex: ${(props) => (props.customFlexMobile ? props.customFlexMobile : 0.4)};
   }
 `;
 
@@ -265,8 +269,8 @@ export const BenefitsData = styled.div`
 `;
 
 export const DataSpacer = styled.div`
-  flex: .6;
-`
+  flex: 0.6;
+`;
 
 export const SubCategory = styled.div`
   font-size: 12px;
@@ -279,7 +283,7 @@ export const SubCategory = styled.div`
   color: #474b55;
   width: 100%;
   white-space: normal;
-  /* flex: ${props => props.deductible ? 1 : .4}; */
+  /* flex: ${(props) => (props.deductible ? 1 : 0.4)}; */
 `;
 
 export const DataBlock = styled.div`
@@ -311,25 +315,25 @@ export const CoversageBenefitsHeaderWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
   }
-`
+`;
 
 export const UserInfoWrapper = styled.div`
-  flex: .3;
-`
+  flex: 0.3;
+`;
 
 export const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   /* margin-left: 15px; */
   flex: 1;
-  margin: ${props => props.hasDependents ? "8px 0px" : "0px"};
+  margin: ${(props) => (props.hasDependents ? "8px 0px" : "0px")};
 
   @media only screen and (max-width: 600px) {
     flex-direction: column;
     width: 90%;
     margin: 0 auto;
   }
-`
+`;
 
 export const DownloadButton = styled.a`
   display: flex;
@@ -346,12 +350,12 @@ export const DownloadButton = styled.a`
 
   @media only screen and (max-width: 600px) {
     margin: 8px 0;
-    margin-top: ${props => props.firstItem ? "20px" : "0"};
+    margin-top: ${(props) => (props.firstItem ? "20px" : "0")};
   }
 
   @media only screen and (min-width: 601px) and (max-width: 1324px) {
     margin-right: 0;
-    margin-left: ${props => props.firstItem ? "0" : "15px"};
+    margin-left: ${(props) => (props.firstItem ? "0" : "15px")};
     margin-top: 15px;
   }
 
@@ -366,7 +370,6 @@ export const DownloadButton = styled.a`
     text-decoration: none;
   }
 `;
-
 
 export const FormsAndDocsButton = styled.span`
   display: flex;
@@ -383,12 +386,12 @@ export const FormsAndDocsButton = styled.span`
 
   @media only screen and (max-width: 600px) {
     margin: 8px 0;
-    margin-top: ${props => props.firstItem ? "20px" : "0"};
+    margin-top: ${(props) => (props.firstItem ? "20px" : "0")};
   }
 
   @media only screen and (min-width: 601px) and (max-width: 1324px) {
     margin-right: 0;
-    margin-left: ${props => props.firstItem ? "0" : "15px"};
+    margin-left: ${(props) => (props.firstItem ? "0" : "15px")};
     margin-top: 15px;
   }
 
@@ -424,20 +427,20 @@ export const Benefits = styled.span`
   color: #474b55;
   display: inline-block;
   float: left;
-  width: ${props => props.textWrap ? `50%` : ``};
+  width: ${(props) => (props.textWrap ? `50%` : ``)};
 `;
 
 export const DocText = styled.span`
   flex: 1;
-  font-size: 14px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.29;
-  letter-spacing: normal;
-  color: #474b55;
-  display: inline-block;
-  margin-top: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    color: #474b55;
+    display: inline-block;
+    margin-top: 3px;
   @media only screen and (max-width: 480px) {
     width: 75%;
   }
@@ -448,14 +451,13 @@ export const LanguageSelect = styled.div`
   position: absolute;
   top: 44px;
   border-radius: 4px;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.23);;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.23);
   background-color: #ffffff;
   list-style-type: none;
   padding: 4px 0;
   z-index: 1;
   width: 132px;
-  bottom: ${(props) => (props.last ? '100%' : '')};
-
+  bottom: ${(props) => (props.last ? "100%" : "")};
 `;
 export const Language = styled.div`
   padding: 8px 12px 3px 14px;
@@ -475,17 +477,16 @@ export const Language = styled.div`
 
 export const ValidLOBBlockWrapper = styled.div`
   margin-bottom: 50px;
-`
+`;
 
 export const Anchor = styled.div`
-    display: block;
-    position: relative;
-    top: -150px;
-    visibility: hidden;
-`
-
-export const MemberDropDownSelect = styled(DependentDropdown)`
+  display: block;
+  position: relative;
+  top: -150px;
+  visibility: hidden;
 `;
+
+export const MemberDropDownSelect = styled(DependentDropdown)``;
 
 export const MemberDropDownSelectWrapper = styled.div`
   flex: 1;
@@ -498,8 +499,8 @@ export const DropdownFieldContainer = styled.div`
   margin-right: 9px;
   color: #474b55;
 
-  *{
-    box-sizing: border-box!important;
+  * {
+    box-sizing: border-box !important;
   }
 
   @media only screen and (min-width: 1324px) {
@@ -572,7 +573,6 @@ export const DropdownSecondFieldText = styled.div`
   color: #474b55;
 `;
 
-
 export const DropdownFieldTextContainer = styled.div`
   width: 100%;
 `;
@@ -581,7 +581,7 @@ export const UserIconContainer = styled.div`
   display: inline-block;
   vertical-align: middle;
   margin-left: 7px;
-`
+`;
 
 export const DropdownIconContainer = styled.div`
   display: inline-block;
@@ -638,7 +638,8 @@ export const DropdownListItem = styled.button`
   color: #474b55;
   text-align: left;
   border: none;
-  background-color: ${props => props.currentSelection == props.value? "#e2e2e2" : "#ffffff"};
+  background-color: ${(props) =>
+    props.currentSelection == props.value ? "#e2e2e2" : "#ffffff"};
   padding: 9px 12px;
   display: inline-block;
   vertical-align: middle;
@@ -651,14 +652,14 @@ export const DropdownListItem = styled.button`
   &:hover {
     background-color: #f8f8f8;
   }
-  ${UserIconContainer}{
+  ${UserIconContainer} {
     margin-left: -5px;
   }
-  div{
+  div {
     display: inline-block;
     vertical-align: middle;
   }
-  h1{
+  h1 {
     font-weight: 500;
     font-family: "museo-sans";
     font-size: 16px;
@@ -666,7 +667,7 @@ export const DropdownListItem = styled.button`
     padding: 0;
     margin: 0;
   }
-  h2{
+  h2 {
     font-weight: 300;
     font-family: "museo-sans";
     font-size: 16px;
@@ -674,7 +675,7 @@ export const DropdownListItem = styled.button`
     padding: 0;
     margin: 0;
   }
-  p{
+  p {
     font-weight: 300;
     font-family: "museo-sans";
     font-size: 12px;
@@ -718,54 +719,60 @@ export const DropdownFieldTitle = styled.div`
   color: #474b55;
   margin: 10px 0;
 
-  @media only screen  and (max-width: 480px) {
+  @media only screen and (max-width: 480px) {
     margin-left: 0;
     margin-right: 0;
   }
-`
+`;
 
 export const DependentBlockWrapper = styled.div`
-  width: ${props => props.halfWidth && "50%"};
+  width: ${(props) => props.halfWidth && "50%"};
 
-  @media only screen  and (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
     width: 100%;
   }
-`
-const {darkGreen,white,hoverGreen,secondaryHoverGreen,disabledText,disabledBg}= colorCodes;
-const handleButtonBgColor = variant => {
-  
+`;
+const {
+  darkGreen,
+  white,
+  hoverGreen,
+  secondaryHoverGreen,
+  disabledText,
+  disabledBg,
+} = colorCodes;
+const handleButtonBgColor = (variant) => {
   switch (variant) {
-    case 'primary':
-      return {default:darkGreen,hover:hoverGreen};
-      case 'secondary':
-        return {default:white,hover:secondaryHoverGreen};
-        case 'disabled':
-          return {default:disabledBg,hover:disabledBg};
+    case "primary":
+      return { default: darkGreen, hover: hoverGreen };
+    case "secondary":
+      return { default: white, hover: secondaryHoverGreen };
+    case "disabled":
+      return { default: disabledBg, hover: disabledBg };
     default:
       break;
   }
-}
-const handleButtonTextColor = variant => {
+};
+const handleButtonTextColor = (variant) => {
   switch (variant) {
-    case 'primary':
-      return {default:white,hover:white};
-      case 'secondary':
-        return {default:darkGreen,hover:darkGreen};
-        case 'disabled':
-          return {default:disabledText,hover:disabledText};
+    case "primary":
+      return { default: white, hover: white };
+    case "secondary":
+      return { default: darkGreen, hover: darkGreen };
+    case "disabled":
+      return { default: disabledText, hover: disabledText };
     default:
       break;
   }
-}
+};
 
 export const StyledButton = styled.button`
-height: 40px;
-border-radius: 4px;
-padding:8px 16px;
-white-space: nowrap;
-width:${({isMobile}) => isMobile? '100%' : 'auto'};
-background-color: ${({ variant }) => handleButtonBgColor(variant).default};
-font-family: "museo-sans";
+  height: 40px;
+  border-radius: 4px;
+  padding: 8px 16px;
+  white-space: nowrap;
+  width: ${({ isMobile }) => (isMobile ? "100%" : "auto")};
+  background-color: ${({ variant }) => handleButtonBgColor(variant).default};
+  font-family: "museo-sans";
   font-size: 18px;
   font-weight: bold;
   font-stretch: normal;
@@ -773,30 +780,31 @@ font-family: "museo-sans";
   line-height: 1.33;
   letter-spacing: -0.08px;
   text-align: center;
-  border:${({ variant }) =>variant === 'secondary' ? `1px solid ${darkGreen}` : '0px'};
+  border: ${({ variant }) =>
+    variant === "secondary" ? `1px solid ${darkGreen}` : "0px"};
   color: ${({ variant }) => handleButtonTextColor(variant).default};
   &:hover {
-    cursor:pointer;
+    cursor: pointer;
     background-color: ${({ variant }) => handleButtonBgColor(variant).hover};
   }
 `;
 
 export const MainContentContainer = styled.div`
   height: 100%;
-`
+`;
 
-export const MinorText=styled.div`
+export const MinorText = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
 
-display: flex;
-flex-direction: row;
-align-items: center;
-gap: 5px;
-margin-top: 10px;
-
-span{
-  font-family: 'Museo Sans',sans-serif;
-font-weight: 600;
-font-size: 14px;
-color: #474B55;
-line-height: 16px} 
-` 
+  span {
+    font-family: "Museo Sans", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #474b55;
+    line-height: 16px;
+  }
+`;

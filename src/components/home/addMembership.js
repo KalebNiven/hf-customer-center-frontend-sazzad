@@ -1,16 +1,16 @@
 import styled from "styled-components";
-import React,  { useState } from "react";
+import React, { useState } from "react";
 import GlobalStyle from "../../styles/GlobalStyle";
 import AddMembershipModal from "./addMembershipModal";
-import { useHomeContext } from './homeContext';
+import { useHomeContext } from "./homeContext";
 
 const AddMembership = () => {
-
-  const { showAddMembershipModal, setShowAddMembershipModal } = useHomeContext();
-
+  const { showAddMembershipModal, setShowAddMembershipModal } =
+    useHomeContext();
 
   return (
-    <><GlobalStyle />
+    <>
+      <GlobalStyle />
       <Card>
         <AddMembershiptxt>Add Your Membership</AddMembershiptxt>
         <SuggestionTxt>
@@ -19,7 +19,10 @@ const AddMembership = () => {
         <AddMembershipBtn onClick={() => setShowAddMembershipModal(true)}>
           Add Membership
         </AddMembershipBtn>
-        <AddMembershipModal unmountMe={() => setShowAddMembershipModal(false)} showModal={showAddMembershipModal}/>
+        <AddMembershipModal
+          unmountMe={() => setShowAddMembershipModal(false)}
+          showModal={showAddMembershipModal}
+        />
       </Card>
     </>
   );
@@ -32,31 +35,31 @@ const Card = styled.div`
   padding: 16px 16px 16px 16px;
   border-radius: 4px;
   background-color: #ffffff;
-  height:152px;
+  height: 152px;
 `;
 
 const AddMembershiptxt = styled.div`
-margin: 0 0 6px;
-font-size: 16px;
-font-weight: bold;
-font-stretch: normal;
-font-style: normal;
-line-height: 1.29;
-letter-spacing: normal;
-text-align: left;
-color:#474b55;
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.29;
+  letter-spacing: normal;
+  text-align: left;
+  color: #474b55;
 `;
 
 const SuggestionTxt = styled.div`
-margin: 0 0 16px;
-font-size: 14px;
-font-weight: 400;
-font-stretch: normal;
-font-style: normal;
-line-height: 1.29;
-letter-spacing: normal;
-text-align: left;
-color:#474b55;
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 400;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.29;
+  letter-spacing: normal;
+  text-align: left;
+  color: #474b55;
 `;
 
 const AddMembershipBtn = styled.div`
@@ -78,7 +81,7 @@ const AddMembershipBtn = styled.div`
   background-color: #3e7128;
   color: #ffffff;
   margin: auto;
-  &:hover{
-    cursor:pointer;
+  &:hover {
+    cursor: pointer;
   }
 `;

@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 
 export const initialState = {
-  dependentPcpId: null
+  dependentPcpId: null,
 };
 
 export default function selectedMember(state = initialState, action) {
@@ -9,10 +9,10 @@ export default function selectedMember(state = initialState, action) {
     case actionTypes.REQUEST_DD_SELECTED_MEMBER: {
       return {
         ...state,
-        dependentPcpId: action.payload.id
+        dependentPcpId: action.payload.id,
       };
     }
     default:
       return state;
   }
-};
+}

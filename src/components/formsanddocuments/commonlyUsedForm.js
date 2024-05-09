@@ -23,16 +23,16 @@ const CommonlyUsedForm = (props) => {
             member, caregiver, or another company) access to your health or
             coverage information.
           </Content>
-          {item.id === rowID ?(
+          {item.id === rowID ? (
             <Image
-            onClick={() => setRowId(item.id)}
-            src="/react/images/download_blue.svg"
-          />
-          ):(
+              onClick={() => setRowId(item.id)}
+              src="/react/images/download_blue.svg"
+            />
+          ) : (
             <Image
-            onClick={() => setRowId(item.id)}
-            src="/react/images/download_pdf.svg"
-          />
+              onClick={() => setRowId(item.id)}
+              src="/react/images/download_pdf.svg"
+            />
           )}
           <Wrapper isOpen={item.id === rowID} last={false}>
             <Language
@@ -44,17 +44,22 @@ const CommonlyUsedForm = (props) => {
               English
             </Language>
 
-            <Language onClick={() => {
-              window.open(item.assetUrl.es);
-              setRowId();
-              }}>
+            <Language
+              onClick={() => {
+                window.open(item.assetUrl.es);
+                setRowId();
+              }}
+            >
               Spanish
             </Language>
 
-            <Language ref={ref} onClick={() => {
-              window.open(item.assetUrl.zh);
-              setRowId();
-            }}>
+            <Language
+              ref={ref}
+              onClick={() => {
+                window.open(item.assetUrl.zh);
+                setRowId();
+              }}
+            >
               Chinese
             </Language>
           </Wrapper>
@@ -82,7 +87,7 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
-  height:290px;
+  height: 290px;
   margin-right: 3rem;
   max-width: 54%;
   padding: 24px;
@@ -96,7 +101,7 @@ const Container = styled.div`
     margin-top: 16px;
     margin-right: 0;
     max-width: 100%;
-} ;
+  }
 `;
 
 const Image = styled.img`

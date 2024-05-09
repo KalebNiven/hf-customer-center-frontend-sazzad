@@ -16,7 +16,7 @@ exports[`ClaimsPage renders correctly 1`] = `
 }
 
 .c11 * {
-  box-sizing: border-box!important;
+  box-sizing: border-box !important;
 }
 
 .c12 {

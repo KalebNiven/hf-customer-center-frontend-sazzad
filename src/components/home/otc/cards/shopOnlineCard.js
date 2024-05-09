@@ -1,27 +1,37 @@
-import React from 'react'
-import styled from 'styled-components';
-import ExternalSiteLinkSSO from '../../../common/externalSiteLinkSSO'
+import React from "react";
+import styled from "styled-components";
+import ExternalSiteLinkSSO from "../../../common/externalSiteLinkSSO";
 const { MIX_REACT_APP_NATIONS_OTC_HREF_V2 } = process.env;
 
 const ShopOnlineCard = ({ cardType }) => {
   return (
     <>
       {
-        <ExternalSiteLinkSSO link={MIX_REACT_APP_NATIONS_OTC_HREF_V2} label="Nations OTC" target="_blank">
+        <ExternalSiteLinkSSO
+          link={MIX_REACT_APP_NATIONS_OTC_HREF_V2}
+          label="Nations OTC"
+          target="_blank"
+        >
           <ShopOnlineCardWrapper>
-              <ShopOnlineCardLeft>
-                  <ShopOnlineTitle>NationsOTC</ShopOnlineTitle>
-                  <ShopOnlineDescription>Use your {cardType} card to order health and wellness products online.</ShopOnlineDescription>
-              </ShopOnlineCardLeft>
-              <ShopOnlineCardRight>
-                  <ShopOnlineIcon alt = "" src="/react/images/icon-chevron-right.svg" />
-              </ShopOnlineCardRight>
+            <ShopOnlineCardLeft>
+              <ShopOnlineTitle>NationsOTC</ShopOnlineTitle>
+              <ShopOnlineDescription>
+                Use your {cardType} card to order health and wellness products
+                online.
+              </ShopOnlineDescription>
+            </ShopOnlineCardLeft>
+            <ShopOnlineCardRight>
+              <ShopOnlineIcon
+                alt=""
+                src="/react/images/icon-chevron-right.svg"
+              />
+            </ShopOnlineCardRight>
           </ShopOnlineCardWrapper>
         </ExternalSiteLinkSSO>
       }
     </>
-  )
-}
+  );
+};
 
 export const ShopOnlineCardWrapper = styled.div`
   display: flex;
@@ -35,15 +45,13 @@ export const ShopOnlineCardWrapper = styled.div`
   border-radius: 4px;
 `;
 
-export const ShopOnlineCardLeft = styled.div`
-`;
+export const ShopOnlineCardLeft = styled.div``;
 
 export const ShopOnlineCardRight = styled.div`
   align-self: center;
 `;
 
-export const ShopOnlineCardMiddle = styled.div`
-`;
+export const ShopOnlineCardMiddle = styled.div``;
 
 export const ShopOnlineTitle = styled.h4`
   font-size: 16px;
@@ -68,7 +76,6 @@ export const ShopOnlineDescription = styled.p`
   margin-top: 8px;
 `;
 
-export const ShopOnlineIcon = styled.img`
-`;
+export const ShopOnlineIcon = styled.img``;
 
-export default ShopOnlineCard
+export default ShopOnlineCard;

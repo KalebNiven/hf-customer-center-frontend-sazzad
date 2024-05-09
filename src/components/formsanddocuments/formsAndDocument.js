@@ -80,7 +80,8 @@ const FormsAndDocumentsModel = ({ onBack }) => {
         <NoFormsAndDocument />
       ) : (
         <>
-          {(ccForms?.ccFormsDocDetails?.data != null &&  ccForms.ccFormsDocLoading === false) ? (
+          {ccForms?.ccFormsDocDetails?.data != null &&
+          ccForms.ccFormsDocLoading === false ? (
             <>
               <MyDocuments>Forms and Plan Documents</MyDocuments>
               <DependentBlockWrapper>
@@ -108,19 +109,24 @@ const FormsAndDocumentsModel = ({ onBack }) => {
                       family member, caregiver, or another company) access to
                       your health or coverage information.
                     </Text>
-                    {item.id === rowID ?(
-                       <DownloadImg
-                       onClick={() => setRowId(item.id)}
-                       src="/react/images/download_blue.svg"
-                     />
-                    ):(
-                       <DownloadImg
-                       onClick={() => setRowId(item.id)}
-                       src="/react/images/download_pdf.svg"
-                     />
+                    {item.id === rowID ? (
+                      <DownloadImg
+                        onClick={() => setRowId(item.id)}
+                        src="/react/images/download_blue.svg"
+                      />
+                    ) : (
+                      <DownloadImg
+                        onClick={() => setRowId(item.id)}
+                        src="/react/images/download_pdf.svg"
+                      />
                     )}
-                   
-                    <LangWrapper id="languageSelection" isOpen={item.id === rowID} last={false} ref={ref}>
+
+                    <LangWrapper
+                      id="languageSelection"
+                      isOpen={item.id === rowID}
+                      last={false}
+                      ref={ref}
+                    >
                       <Language
                         id="languageSelectionEN"
                         onClick={() => {
@@ -131,9 +137,9 @@ const FormsAndDocumentsModel = ({ onBack }) => {
                         English
                       </Language>
 
-                      <Language 
-                        id="languageSelectionES" 
-                        onClick={() => { 
+                      <Language
+                        id="languageSelectionES"
+                        onClick={() => {
                           window.open(item.assetUrl.es);
                           setRowId();
                         }}
@@ -141,9 +147,9 @@ const FormsAndDocumentsModel = ({ onBack }) => {
                         Spanish
                       </Language>
 
-                      <Language 
+                      <Language
                         id="languageSelectionZH"
-                        onClick={() =>  {
+                        onClick={() => {
                           window.open(item.assetUrl.zh);
                           setRowId();
                         }}
@@ -152,7 +158,7 @@ const FormsAndDocumentsModel = ({ onBack }) => {
                       </Language>
                     </LangWrapper>
                   </FormsWrapper>
-                )
+                ),
               )}
 
               <SubTitle>General Forms</SubTitle>
@@ -210,9 +216,14 @@ const DocsList = (props) => {
               src="/react/images/download_pdf.svg"
             />
           )}
-          <LangWrapper id="languageSelection" isOpen={item.Name === rowName} last={false} ref={ref} >
+          <LangWrapper
+            id="languageSelection"
+            isOpen={item.Name === rowName}
+            last={false}
+            ref={ref}
+          >
             {item.assetUrl.en != null && item.assetUrl.en != "" && (
-              <Language 
+              <Language
                 id="languageSelectionEN"
                 onClick={() => {
                   window.open(item.assetUrl.en);
@@ -224,9 +235,9 @@ const DocsList = (props) => {
             )}
 
             {item.assetUrl.es != null && item.assetUrl.es != "" && (
-              <Language 
-                id="languageSelectionES" 
-                onClick={() => { 
+              <Language
+                id="languageSelectionES"
+                onClick={() => {
                   window.open(item.assetUrl.es);
                   setRowName("");
                 }}
@@ -236,8 +247,8 @@ const DocsList = (props) => {
             )}
 
             {item.assetUrl.zh != null && item.assetUrl.zh != "" && (
-              <Language 
-                id="languageSelectionZH" 
+              <Language
+                id="languageSelectionZH"
                 onClick={() => {
                   window.open(item.assetUrl.zh);
                   setRowName("");
@@ -277,7 +288,9 @@ const LangWrapper = styled.div`
 const GeneralFormText = styled.div`
   margin-left: 10px;
   color: var(--Colors-Primary-Slate-500, #474b55);
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: "museo-sans", san-serif;
   font-size: 16px;
   font-style: normal;
@@ -341,7 +354,9 @@ const FormsWrapper = styled.div`
 const DocumentType = styled.div`
   margin-top: 5px;
   color: var(--Colors-Primary-Blue-500, #003863);
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
 
   /* Web/H3/h3.bold */
   font-family: "museo-sans", san-serif;

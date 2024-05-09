@@ -1,10 +1,18 @@
-import React from 'react'
-import styled from 'styled-components';
-import { CardHeader, CardBody, CardFooter, Card, FooterActions, FooterBody,TooltipIcon } from './styles.js'
-import { usePopperTooltip } from 'react-popper-tooltip';
-import '../../../../styles/tooltipStyles.css';
-import ActivateButton from './activateButton';
-import LearnMoreButton from './learnMoreButton';
+import React from "react";
+import styled from "styled-components";
+import {
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Card,
+  FooterActions,
+  FooterBody,
+  TooltipIcon,
+} from "./styles.js";
+import { usePopperTooltip } from "react-popper-tooltip";
+import "../../../../styles/tooltipStyles.css";
+import ActivateButton from "./activateButton";
+import LearnMoreButton from "./learnMoreButton";
 
 const LostCard = ({ handleLearnMore, handleActivate }) => {
   const {
@@ -13,51 +21,62 @@ const LostCard = ({ handleLearnMore, handleActivate }) => {
     setTooltipRef,
     setTriggerRef,
     visible,
-  } = usePopperTooltip({ placement: 'top' });
+  } = usePopperTooltip({ placement: "top" });
 
   return (
     <Card>
-        <OTCIcon alt = "" src="/react/images/otc-icon.svg" />
-        <CardHeader>
+      <OTCIcon alt="" src="/react/images/otc-icon.svg" />
+      <CardHeader>
         <BalanceTitle>Account Status</BalanceTitle>
-        </CardHeader>
-        <CardBody>
+      </CardHeader>
+      <CardBody>
         <BalanceWrapper>
           <BalanceTitleWrapper>
             <Balance>New Card is on its Way</Balance>
           </BalanceTitleWrapper>
-          {visible && <div ref={setTooltipRef} {...getTooltipProps({ className: 'tooltip-container' })}>
-              <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-              A new card is being sent to you. You can activate you new OTC Card once it arrives.
-          </div>}
-            <CustomTooltipIcon ref={setTriggerRef} />
+          {visible && (
+            <div
+              ref={setTooltipRef}
+              {...getTooltipProps({ className: "tooltip-container" })}
+            >
+              <div {...getArrowProps({ className: "tooltip-arrow" })} />A new
+              card is being sent to you. You can activate you new OTC Card once
+              it arrives.
+            </div>
+          )}
+          <CustomTooltipIcon ref={setTriggerRef} />
         </BalanceWrapper>
-        <Paragraph>Please, call Member Services at <b>1 (888) 260-1010</b> if you have any questions.</Paragraph>
-        </CardBody>
-        <CardFooter>
-          <FooterBody>
-            <ActivateCTATitle>Activate Your OTC Card</ActivateCTATitle>
-            <ActivateCTADesc>Once you receive your new OTC Card you can activate your card below.</ActivateCTADesc>
-          </FooterBody>
-          <FooterActions>
-            <LearnMoreButton handleLearnMore={handleLearnMore} />
-            <ActivateButton handleActivate={handleActivate} />
-          </FooterActions>
-        </CardFooter>
+        <Paragraph>
+          Please, call Member Services at <b>1 (888) 260-1010</b> if you have
+          any questions.
+        </Paragraph>
+      </CardBody>
+      <CardFooter>
+        <FooterBody>
+          <ActivateCTATitle>Activate Your OTC Card</ActivateCTATitle>
+          <ActivateCTADesc>
+            Once you receive your new OTC Card you can activate your card below.
+          </ActivateCTADesc>
+        </FooterBody>
+        <FooterActions>
+          <LearnMoreButton handleLearnMore={handleLearnMore} />
+          <ActivateButton handleActivate={handleActivate} />
+        </FooterActions>
+      </CardFooter>
     </Card>
-  )
-}
+  );
+};
 
 export const Wrapper = styled.div`
   margin-bottom: 1.5rem;
 `;
 
 const CustomTooltipIcon = styled(TooltipIcon)`
-margin : 3px 30px 0px 0px;
+  margin: 3px 30px 0px 0px;
 
-@media only screen and (max-width: 480px) {
-  margin : 3px 50px 0px 0px;
-}
+  @media only screen and (max-width: 480px) {
+    margin: 3px 50px 0px 0px;
+  }
 `;
 
 export const Title = styled.h3`
@@ -79,11 +98,9 @@ export const OTCIcon = styled.img`
   right: 16px;
 `;
 
-export const HeaderLeft = styled.div`
-`;
+export const HeaderLeft = styled.div``;
 
-export const HeaderRight = styled.div`
-`;
+export const HeaderRight = styled.div``;
 
 export const BalanceTitle = styled.h4`
   flex-grow: 0;
@@ -174,7 +191,7 @@ export const ShopOnlineIcon = styled.img`
 export const Paragraph = styled.div`
   font-size: 12px;
   font-weight: 500;
-  margin-bottom:8px;
+  margin-bottom: 8px;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.33;
@@ -188,9 +205,7 @@ export const BalanceWrapper = styled.div`
   display: flex;
 `;
 
-export const BalanceTitleWrapper = styled.div`
-`;
-
+export const BalanceTitleWrapper = styled.div``;
 
 export const TooltipCloud = styled.div`
   padding: 12px 16px;
@@ -201,7 +216,7 @@ export const TooltipCloud = styled.div`
   min-width: 300px;
   top: -102px;
   left: -145px;
-  display: ${props => !props.visible && "none"};
+  display: ${(props) => !props.visible && "none"};
   z-index: 1;
 `;
 

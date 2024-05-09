@@ -41,7 +41,7 @@ import userMfaVerify from "./userMfaVerifyReducer";
 import pcp from "./pcpReducer";
 import selectPlan from "./selectPlanReducer";
 import verifyAddress from "./verifyAddressReducer";
-import pcpHousehold from './pcpHousehold';
+import pcpHousehold from "./pcpHousehold";
 import ccFormsDoc from "./ccFormsDocReducer";
 
 const appReducer = combineReducers({
@@ -65,7 +65,7 @@ const appReducer = combineReducers({
   homeDetails,
   addMembership,
   submitAttestationAgreement,
-  submitClaimDetails, 
+  submitClaimDetails,
   correspondenceStatus,
   submitContactInfoPayload,
   preferenceCenterInfo,
@@ -87,13 +87,13 @@ const appReducer = combineReducers({
   selectPlan,
   verifyAddress,
   pcpHousehold,
-  ccFormsDoc
+  ccFormsDoc,
 });
 
 export default (state, action) => {
   if (action.type === actionTypes.REQUEST_RESET_STATE) {
-    return appReducer(undefined, action)
+    return appReducer(undefined, action);
   }
 
-  return appReducer(state, action)
-}
+  return appReducer(state, action);
+};
