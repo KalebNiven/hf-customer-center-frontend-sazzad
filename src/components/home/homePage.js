@@ -33,6 +33,7 @@ import { usePopperTooltip } from "react-popper-tooltip";
 import {
   getRecertificationDate,
   isEligibleForRecertDate,
+  getSplitAttributes,
 } from "../../utils/misc.js";
 import { useSplitEval } from "../../hooks/useSplitEval";
 const HomePage = () => {
@@ -74,15 +75,7 @@ const HomePage = () => {
   const history = useHistory();
   const splitEval = useSplitEval();
   let paperlessFlag = customerInfo?.data?.preferenceCenterPaperless?.status;
-
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
-
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
   let greetingTxt = "";
 
   if (timeHrs >= 0 && timeHrs <= 11) {

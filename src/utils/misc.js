@@ -93,3 +93,15 @@ export const getLanguageFromUrl = () => {
       return "en";
   }
 };
+
+export const getSplitAttributes = (customerInfoData) => {
+  return {
+    memberId: customerInfoData?.memberId,
+    customerId: customerInfoData?.customerId,
+    lob: customerInfoData?.sessLobCode,
+    companyCode: customerInfoData?.companyCode,
+    benefitPackage: customerInfoData?.benefitPackage,
+    membershipStatus: customerInfoData?.membershipStatus,
+    accountStatus: customerInfoData?.accountStatus,
+  };
+};

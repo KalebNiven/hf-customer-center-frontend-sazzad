@@ -27,6 +27,7 @@ import { useLogout } from "../../hooks/useLogout";
 import LongLoadSpinner from "../common/longLoadSpinner";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import { useAppContext } from "../../AppContext";
+import { getSplitAttributes } from "../../utils/misc";
 
 const useStyles = (top) =>
   makeStyles((theme) => ({
@@ -102,13 +103,7 @@ const ErrorNavBar = () => {
     setLoaderShow(longLoad);
   }, [sessionStorage.getItem("longLoad")]);
 
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   const getUserProfile = () => {
     return (

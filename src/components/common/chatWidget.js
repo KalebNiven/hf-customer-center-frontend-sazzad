@@ -4,17 +4,11 @@ import { SHOW_CHAT_WIDGET } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import useLogError from "../../hooks/useLogError";
 import { useSurveyContext } from "../../context/surveyContext";
+import { getSplitAttributes } from "../../utils/misc";
 
 export const ChatWidget = ({ memberId, jwt, nonce }) => {
   const customerInfo = useSelector((state) => state.customerInfo);
-
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   return (
     <>

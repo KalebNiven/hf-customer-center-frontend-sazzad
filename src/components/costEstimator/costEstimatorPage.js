@@ -4,17 +4,11 @@ import { useSelector } from "react-redux";
 import { SHOW_COST_ESTIMATOR_WIDGET } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import useLogError from "../../hooks/useLogError";
+import { getSplitAttributes } from "../../utils/misc";
 
 export const CostEstimatorPage = () => {
   const customerInfo = useSelector((state) => state.customerInfo.data);
-
-  const splitAttributes = {
-    lob: customerInfo.sessLobCode,
-    companyCode: customerInfo.companyCode,
-    benefitPackage: customerInfo.benefitPackage,
-    membershipStatus: customerInfo.membershipStatus,
-    accountStatus: customerInfo.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo);
 
   return (
     <>

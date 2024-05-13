@@ -22,6 +22,7 @@ import { FeatureTreatment } from "../../libs/featureFlags";
 import Spinner from "../common/spinner";
 import DependentBlock from "./dependentBlock";
 import { useHistory } from "react-router-dom";
+import { getSplitAttributes } from "../../utils/misc";
 
 const ValidLOBBlock = ({ memberSelection, setMemberSelection }) => {
   const customerInfo = useSelector((state) => state.customerInfo);
@@ -31,13 +32,7 @@ const ValidLOBBlock = ({ memberSelection, setMemberSelection }) => {
   const coverageBenefits = useSelector((state) => state.coverageBenefits);
   const { coverage, loading } = coverageBenefits;
   const history = useHistory();
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   const handleFormAndDocsAchorButton = () => {
     window.location.href = "#forms-and-documents";

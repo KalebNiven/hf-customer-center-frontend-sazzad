@@ -27,6 +27,8 @@ const MyHealthPage = () => {
   const customerInfo = useSelector((state) => state.customerInfo.data);
 
   const splitAttributes = {
+    memberId: customerInfo?.memberId,
+    customerId: customerInfo?.customerId,
     lob: customerInfo?.sessLobCode,
     membershipStatus: customerInfo?.membershipStatus,
     accountStatus: customerInfo?.accountStatus,

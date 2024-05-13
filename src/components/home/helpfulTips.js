@@ -6,6 +6,7 @@ import { useHomeContext } from "./homeContext";
 import { useHistory } from "react-router-dom";
 import { useClient } from "@splitsoftware/splitio-react";
 import { PAYMENTS_ACL } from "../../constants/splits";
+import { getSplitAttributes } from "../../utils/misc";
 
 const HelpfulTips = () => {
   const history = useHistory();
@@ -13,15 +14,7 @@ const HelpfulTips = () => {
   const splitHookClient = useClient(customerInfo?.customerId);
   const { showhelpfulTips, setShowHelpfulTips } = useHomeContext();
   const [paymentsEnabled, setPaymentsEnabled] = useState(false);
-
-  const splitAttributes = {
-    memberId: customerInfo?.memberId,
-    lob: customerInfo?.sessLobCode,
-    membershipStatus: customerInfo?.membershipStatus,
-    benefitPackage: customerInfo?.benefitPackage,
-    accountStatus: customerInfo?.accountStatus,
-    companyCode: customerInfo?.companyCode,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo);
 
   useEffect(() => {
     if (!splitHookClient) return;

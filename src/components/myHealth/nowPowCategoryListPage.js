@@ -21,6 +21,7 @@ import { MainContentContainer } from "../common/styles";
 import { SHOW_MYHEALTH } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import GlobalError from "../common/globalErrors/globalErrors";
+import { getSplitAttributes } from "../../utils/misc";
 
 const NowPowCategoryListPage = () => {
   const [selectedIndex, setSelectedIndex] = useState([]);
@@ -37,15 +38,7 @@ const NowPowCategoryListPage = () => {
   const myHealth = useSelector((state) => state.myHealth);
   const icon = useSelector((state) => state.myHealth.currentCategIcon);
   const customerInfo = useSelector((state) => state.customerInfo);
-
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
-
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
   const { categoryDetails, categoryDetailsAll, loading } = myHealth;
   const details = categoryDetails;
 

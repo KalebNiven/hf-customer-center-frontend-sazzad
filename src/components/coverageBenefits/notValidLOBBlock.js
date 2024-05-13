@@ -5,16 +5,11 @@ import { FeatureTreatment } from "../../libs/featureFlags";
 import { useSelector } from "react-redux";
 import { MainHeader } from "./styles";
 import DependentBlock from "./dependentBlock";
+import { getSplitAttributes } from "../../utils/misc";
 
 const NotValidLOBBlock = ({ memberSelection, setMemberSelection }) => {
   const customerInfo = useSelector((state) => state.customerInfo);
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   return (
     <Wrapper>

@@ -63,7 +63,7 @@ import { useLogout } from "./hooks/useLogout";
 import { usePaymentsModalContext } from "./context/paymentsModalContext";
 import { purgePaymentsSessionData } from "./components/payments/paymentPage.utils";
 import { generateCardType } from "./components/overTheCounter/utils";
-import { getSplitAttributesForHOHPlan } from "./utils/misc";
+import { getSplitAttributesForHOHPlan, getSplitAttributes } from "./utils/misc";
 import { useSplitEval } from "./hooks/useSplitEval";
 
 const LINK_TYPE = { external: "External", cc: "CC" };
@@ -167,15 +167,7 @@ function AppBarComponent() {
     setLoaderShow(longLoad);
   }, [sessionStorage.getItem("longLoad")]);
 
-  const splitAttributes = {
-    memberId: customerInfo.data.memberId,
-    customerId: customerInfo.data.customerId,
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   const splitHookClient = useClient();
 

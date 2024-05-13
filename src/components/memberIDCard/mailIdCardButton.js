@@ -9,6 +9,7 @@ import {
 } from "../../constants/segment";
 import { AnalyticsTrack } from "../common/segment/analytics";
 import { Button } from "../../styles/commonStyles";
+import { getSplitAttributes } from "../../utils/misc";
 
 const MailIdCardButton = ({ handleClick, disableBtn, memberId }) => {
   const dispatch = useDispatch();
@@ -16,13 +17,7 @@ const MailIdCardButton = ({ handleClick, disableBtn, memberId }) => {
   const mailMemberIDCardStatus = useSelector(
     (state) => state.correspondenceStatus,
   );
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   const handleClickWithAnalytics = () => {
     AnalyticsTrack("Mail Me a New ID Card Button Clicked", customerInfo, {
