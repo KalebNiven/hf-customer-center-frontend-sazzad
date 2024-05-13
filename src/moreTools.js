@@ -6,6 +6,7 @@ import { FeatureTreatment } from "./libs/featureFlags";
 import store from "./store/store";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { requestCustomerInfo } from "./store/actions";
+import { getSplitAttributes } from "./utils/misc";
 
 const MoreTools = () => {
   const { MIX_REACT_OKTA_HEALTHX_SAML_LINK } = process.env;
@@ -16,13 +17,7 @@ const MoreTools = () => {
     dispatch(requestCustomerInfo());
   }, []);
 
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   const MoreToolsWrapper = styled.div`
     box-shadow: 0 2px 8px 0 #d8d8d8;

@@ -13,6 +13,7 @@ import {
 import FormsAndDocumentBlock from "./formsAndDocumentBlock";
 import { FeatureTreatment } from "./../../../libs/featureFlags";
 import { SHOW_FORMS_AND_DOCS } from "./../../../constants/splits";
+import { getSplitAttributes } from "../../../utils/misc";
 
 const FormsAndDocuments = ({ selectedMemberId }) => {
   const { loading, documents } = useSelector((state) => state.coverageBenefits);
@@ -90,13 +91,7 @@ const FormsAndDocuments = ({ selectedMemberId }) => {
     docIndex ? setBenfBtnIndex(index) : setGenBtnIndex(index);
   };
 
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   return loading && documents.length === 0 ? (
     <Spinner />

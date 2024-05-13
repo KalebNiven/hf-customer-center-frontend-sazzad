@@ -19,6 +19,7 @@ import { useAppContext } from "../../AppContext";
 import { MainContentContainer } from "../common/styles";
 import GlobalError from "../common/globalErrors/globalErrors";
 import MailIdCard from "./mailIdCard";
+import { getSplitAttributes } from "../../utils/misc";
 
 const DUMMY_PACKAGES = ["RK", "SU", "OC", "WC", "NY", "LI"];
 const MemberIDCardPage = (props) => {
@@ -237,13 +238,7 @@ const MemberIDCardPage = (props) => {
     }
   }, [submitMailMemberIDCardFormResponse]);
 
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
   const backImg =
     physicalIdCard[memberSelection.memberId] &&
     physicalIdCard[memberSelection.memberId].physicalIdCard.backImage;

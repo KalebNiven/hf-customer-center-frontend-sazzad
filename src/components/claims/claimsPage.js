@@ -26,6 +26,7 @@ import {
 import { useMediaQuery, useTheme } from "@material-ui/core";
 import { MainContentContainer } from "../common/styles";
 import GlobalError from "../common/globalErrors/globalErrors";
+import { getSplitAttributes } from "../../utils/misc";
 
 const ClaimsPage = ({ ignoreSplit }) => {
   const theme = useTheme();
@@ -37,16 +38,7 @@ const ClaimsPage = ({ ignoreSplit }) => {
   const claimListLoading = useSelector((state) => state.claim.loading);
   const customerInfo = useSelector((state) => state.customerInfo);
   const { membershipStatus } = customerInfo.data;
-
-  const splitAttributes = {
-    memberId: customerInfo.data.memberId,
-    customerId: customerInfo.data.customerId,
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   const handleTabChange = (e, selection) => {
     setSelectedTab(selection);

@@ -20,6 +20,7 @@ import DependentBlock from "./dependentBlock";
 import styled from "styled-components";
 import GlobalError from "../common/globalErrors/globalErrors";
 import CoverageBenefitsVideoCards from "./coverageBenefitsVideos";
+import { getSplitAttributes } from "../../utils/misc";
 
 const CoverageBenefitsPage = () => {
   const dispatch = useDispatch();
@@ -59,13 +60,7 @@ const CoverageBenefitsPage = () => {
     return validLOBs.includes(code);
   };
 
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   return customerInfo.loading && Object.keys(memberSelection).length === 0 ? (
     <Spinner />

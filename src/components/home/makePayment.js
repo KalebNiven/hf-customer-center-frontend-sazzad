@@ -7,6 +7,7 @@ import { FeatureTreatment } from "../../libs/featureFlags";
 import { PAYMENTS_ACL } from "../../constants/splits";
 import { handleSegmentClick } from "../../libs/segment";
 import { useHistory } from "react-router-dom";
+import { getSplitAttributes } from "../../utils/misc";
 
 const MakePayment = () => {
   const customerInfoData = useSelector((state) => state.customerInfo);
@@ -27,13 +28,7 @@ const MakePayment = () => {
     history.push("/payments");
   };
 
-  const splitAttributes = {
-    lob: customerInfo.sessLobCode,
-    companyCode: customerInfo.companyCode,
-    benefitPackage: customerInfo.benefitPackage,
-    membershipStatus: customerInfo.membershipStatus,
-    accountStatus: customerInfo.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo);
 
   return (
     showPayment && (

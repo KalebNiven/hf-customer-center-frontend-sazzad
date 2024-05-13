@@ -23,6 +23,7 @@ import {
 } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import GlobalError from "../common/globalErrors/globalErrors";
+import { getSplitAttributes } from "../../utils/misc";
 
 const ClaimDetailsPage = () => {
   const location = useLocation();
@@ -38,16 +39,7 @@ const ClaimDetailsPage = () => {
   );
   const claimEOB = useSelector((state) => state.claimDetails.eob);
   const customerInfo = useSelector((state) => state.customerInfo);
-
-  const splitAttributes = {
-    memberId: customerInfo.data.memberId,
-    customerId: customerInfo.data.customerId,
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   useEffect(() => {
     dispatch(requestClaimDetails(memberId, claimId));

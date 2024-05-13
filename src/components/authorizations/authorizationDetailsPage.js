@@ -12,6 +12,7 @@ import { SHOW_AUTHS, SHOW_GLOBAL_ERROR } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import GlobalError from "../common/globalErrors/globalErrors";
 import { AnalyticsTrack } from "../common/segment/analytics";
+import { getSplitAttributes } from "../../utils/misc";
 
 const AuthorizationDetailsPage = () => {
   const location = useLocation();
@@ -29,15 +30,7 @@ const AuthorizationDetailsPage = () => {
 
   const customerInfo = useSelector((state) => state.customerInfo);
 
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-    customerId: customerInfo.data.customerId,
-    memberId: customerInfo.data.memberId,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   const handleSegmentBtn = (label) => {
     // Segment Track

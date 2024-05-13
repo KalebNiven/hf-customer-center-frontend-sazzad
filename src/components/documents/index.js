@@ -1293,6 +1293,8 @@ const Index = (props) => {
   const customerInfo = useSelector((state) => state.customerInfo);
 
   const splitAttributes = {
+    memberId: customerInfo.data?.memberId,
+    customerId: customerInfo.data?.customerId,
     lob: customerInfo.data?.sessLobCode,
     membershipStatus: customerInfo.data?.membershipStatus,
     accountStatus: customerInfo.data?.accountStatus,

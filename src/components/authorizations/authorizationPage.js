@@ -7,13 +7,13 @@ import { requestAuthorizationList } from "../../store/actions/index";
 import { useHistory } from "react-router-dom";
 import { SHOW_AUTHS } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
-
 import { AnalyticsTrack } from "../../components/common/segment/analytics";
 import {
   ANALYTICS_TRACK_TYPE,
   ANALYTICS_TRACK_CATEGORY,
 } from "./../../constants/segment";
 import GlobalError from "../common/globalErrors/globalErrors";
+import { getSplitAttributes } from "../../utils/misc";
 
 const AuthorizationPage = () => {
   const dispatch = useDispatch();
@@ -31,17 +31,7 @@ const AuthorizationPage = () => {
     (state) => state.authorization.loading,
   );
   const customerInfo = useSelector((state) => state.customerInfo);
-
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-    customerId: customerInfo.data.customerId,
-    memberId: customerInfo.data.memberId,
-  };
-
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
   const columns = [
     {
       id: "authorizationId",

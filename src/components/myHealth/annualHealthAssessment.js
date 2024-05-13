@@ -32,6 +32,8 @@ const AnnualHealthAssessment = () => {
   const history = useHistory();
 
   const splitAttributes = {
+    memberId: customerInfo?.memberId,
+    customerId: customerInfo?.customerId,
     lob: customerInfo?.sessLobCode,
     membershipStatus: customerInfo?.membershipStatus,
     accountStatus: customerInfo?.accountStatus,

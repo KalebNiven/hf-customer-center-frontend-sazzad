@@ -12,6 +12,8 @@ import {
   ANALYTICS_TRACK_TYPE,
   ANALYTICS_TRACK_CATEGORY,
 } from "../../constants/segment";
+import { getSplitAttributes } from "../../utils/misc";
+
 const SubmitClaimButton = ({ handleClick, isMobile }) => {
   const handleSegmentBtn = (label) => {
     handleClick();
@@ -41,13 +43,7 @@ const SubmitClaimButton = ({ handleClick, isMobile }) => {
   };
 
   const customerInfo = useSelector((state) => state.customerInfo);
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   return (
     <>

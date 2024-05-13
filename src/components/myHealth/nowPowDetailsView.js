@@ -12,20 +12,14 @@ import { MainContentContainer } from "../common/styles";
 import { SHOW_MYHEALTH } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import GlobalError from "../common/globalErrors/globalErrors";
+import { getSplitAttributes } from "../../utils/misc";
 
 const NowPowDetailsView = () => {
   /* states */
   const mapRef = useRef();
   const details = useSelector((state) => state.myHealth.indMapDetails);
   const customerInfo = useSelector((state) => state.customerInfo);
-
-  const splitAttributes = {
-    lob: customerInfo.data.sessLobCode,
-    companyCode: customerInfo.data.companyCode,
-    benefitPackage: customerInfo.data.benefitPackage,
-    membershipStatus: customerInfo.data.membershipStatus,
-    accountStatus: customerInfo.data.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo?.data);
 
   /* hooks */
   const dispatch = useDispatch();

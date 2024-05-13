@@ -21,6 +21,7 @@ import {
 import { FeatureTreatment } from "../../libs/featureFlags";
 import { useAppContext } from "../../AppContext";
 import { useSplitEval } from "../../hooks/useSplitEval";
+import { getSplitAttributes } from "../../utils/misc";
 
 function AccountSettings() {
   const [selectIndex, setSelectIndex] = useState(0);
@@ -36,13 +37,7 @@ function AccountSettings() {
   const lastName = customerInfo?.hohPlans[0]
     ? customerInfo?.hohPlans[0].LastName
     : customerInfo?.lastName;
-  const splitAttributes = {
-    lob: customerInfo?.sessLobCode,
-    companyCode: customerInfo?.companyCode,
-    benefitPackage: customerInfo?.benefitPackage,
-    membershipStatus: customerInfo?.membershipStatus,
-    accountStatus: customerInfo?.accountStatus,
-  };
+  const splitAttributes = getSplitAttributes(customerInfo);
   const location = useLocation();
   const splitEval = useSplitEval();
 
