@@ -35,10 +35,10 @@ const customTheme = createMuiTheme({
   overrides: {
     MuiTab: {
       root: {
-        maxWidth: "400px"
-      }
-    }
-  }
+        maxWidth: "400px",
+      },
+    },
+  },
 });
 
 const FormsAndDocuments = (props) => {
