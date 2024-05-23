@@ -4,6 +4,7 @@ import { handleSegmentClick } from "../../libs/segment";
 import Spinner from "../common/spinner";
 import React, { useState, useEffect, useRef } from "react";
 import { useMediaQuery, useTheme, Hidden } from "@material-ui/core";
+import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import DataTable from "react-data-table-component";
 import { LanguageSelect, Language } from "../common/styles";
 import CommonlyUsedForm from "./commonlyUsedForm";
@@ -28,6 +29,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { requestCCFormsDocs } from "../../store/actions";
 import { SHOW_DOC, SHOW_FORMS_AND_DOCS } from "../../constants/splits";
 import { NoFormsAndDocument } from "./formsAndDocumentErrors";
+
+//Custom theme
+const customTheme = createMuiTheme({
+  overrides: {
+    MuiTab: {
+      root: {
+        maxWidth: "400px"
+      }
+    }
+  }
+});
 
 const FormsAndDocuments = (props) => {
   const dispatch = useDispatch();
@@ -155,119 +167,121 @@ const FormsAndDocuments = (props) => {
             <DocumentType />
           </>
         ) : (
-          <Main>
-            <Tabs
-              value={false}
-              TabIndicatorProps={{
-                style: { background: "#3e7128" },
-              }}
-              className="reactNavMenu-coachmark"
-              style={{ display: "inline-flex" }}
-            >
-              {navItems.map((eachNav, index) => (
+          <ThemeProvider theme={customTheme}>
+            <Main>
+              <Tabs
+                value={false}
+                TabIndicatorProps={{
+                  style: { background: "#3e7128" },
+                }}
+                className="reactNavMenu-coachmark"
+                style={{ display: "inline-flex" }}
+              >
+                {navItems.map((eachNav, index) => (
+                  <FeatureTreatment
+                    key="forms_and_document_page_feature"
+                    treatmentNames={[eachNav.treatmentName]}
+                    treatmentName={eachNav.treatmentName}
+                    onLoad={() => {}}
+                    onTimedout={() => {}}
+                    attributes={splitAttributes}
+                  >
+                    <Tab
+                      label={eachNav.label}
+                      value={eachNav.href}
+                      onClick={() => handleClick(eachNav.href)}
+                      className={
+                        selectedTab == eachNav.href
+                          ? "child-tab-active"
+                          : "child-tab-inactive"
+                      }
+                    />
+                  </FeatureTreatment>
+                ))}
+              </Tabs>
+              <HrLine />
+
+              {selectedTab === "/document-center" ? (
+                <DocumentsCenterPage />
+              ) : (
                 <FeatureTreatment
                   key="forms_and_document_page_feature"
-                  treatmentNames={[eachNav.treatmentName]}
-                  treatmentName={eachNav.treatmentName}
+                  treatmentNames={SHOW_FORMS_AND_DOCS}
+                  treatmentName={SHOW_FORMS_AND_DOCS}
                   onLoad={() => {}}
                   onTimedout={() => {}}
                   attributes={splitAttributes}
                 >
-                  <Tab
-                    label={eachNav.label}
-                    value={eachNav.href}
-                    onClick={() => handleClick(eachNav.href)}
-                    className={
-                      selectedTab == eachNav.href
-                        ? "child-tab-active"
-                        : "child-tab-inactive"
-                    }
-                  />
-                </FeatureTreatment>
-              ))}
-            </Tabs>
-            <HrLine />
-
-            {selectedTab === "/document-center" ? (
-              <DocumentsCenterPage />
-            ) : (
-              <FeatureTreatment
-                key="forms_and_document_page_feature"
-                treatmentNames={SHOW_FORMS_AND_DOCS}
-                treatmentName={SHOW_FORMS_AND_DOCS}
-                onLoad={() => {}}
-                onTimedout={() => {}}
-                attributes={splitAttributes}
-              >
-                <Main>
-                  <MyDocuments>Forms and Plan Documents</MyDocuments>
-                  <DependentBlockWrapper>
-                    {
-                      <DependentBlock
-                        memberSelection={memberSelection}
-                        setMemberSelection={setMemberSelection}
-                        halfWidth
-                        activeOnly={
-                          memberSelection?.accountStatus === "active"
-                            ? false
-                            : true
-                        }
-                        minorsOnly={false}
-                        activeDepsOnly={false}
-                      />
-                    }
-                  </DependentBlockWrapper>
-                  {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
-                    ccForms.ccFormsDocDetails?.data?.length === undefined) &&
-                  ccForms.ccFormsDocLoading === false ? (
-                    <NoFormsAndDocument />
-                  ) : (
-                    <>
-                      {ccForms?.ccFormsDocDetails?.data != null &&
-                      ccForms.ccFormsDocLoading === false ? (
-                        <Main>
-                          <SubTitle>Commonly Used Forms</SubTitle>
-                          <Wrapper>
-                            <CommonlyUsedForm
+                  <Main>
+                    <MyDocuments>Forms and Plan Documents</MyDocuments>
+                    <DependentBlockWrapper>
+                      {
+                        <DependentBlock
+                          memberSelection={memberSelection}
+                          setMemberSelection={setMemberSelection}
+                          halfWidth
+                          activeOnly={
+                            memberSelection?.accountStatus === "active"
+                              ? false
+                              : true
+                          }
+                          minorsOnly={false}
+                          activeDepsOnly={false}
+                        />
+                      }
+                    </DependentBlockWrapper>
+                    {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
+                      ccForms.ccFormsDocDetails?.data?.length === undefined) &&
+                    ccForms.ccFormsDocLoading === false ? (
+                      <NoFormsAndDocument />
+                    ) : (
+                      <>
+                        {ccForms?.ccFormsDocDetails?.data != null &&
+                        ccForms.ccFormsDocLoading === false ? (
+                          <Main>
+                            <SubTitle>Commonly Used Forms</SubTitle>
+                            <Wrapper>
+                              <CommonlyUsedForm
+                                data={
+                                  ccForms?.ccFormsDocDetails?.data[0]
+                                    .cc_commonly_used_forms
+                                }
+                              />
+                            </Wrapper>
+                            <SubTitle>General Forms</SubTitle>
+                            <DocsList
                               data={
                                 ccForms?.ccFormsDocDetails?.data[0]
-                                  .cc_commonly_used_forms
+                                  .cc_general_forms
                               }
                             />
-                          </Wrapper>
-                          <SubTitle>General Forms</SubTitle>
-                          <DocsList
-                            data={
-                              ccForms?.ccFormsDocDetails?.data[0]
-                                .cc_general_forms
-                            }
-                          />
-                          <SubTitle>Plan Documents</SubTitle>
-                          <DocsList
-                            data={
-                              ccForms?.ccFormsDocDetails?.data[0]
-                                .cc_plan_documents
-                            }
-                          />
-                          <SubTitle>Additional Resources</SubTitle>
-                          <DocsList
-                            data={
-                              ccForms?.ccFormsDocDetails?.data[0]
-                                .cc_additional_resources
-                            }
-                          />
-                        </Main>
-                      ) : (
-                        <ProgressWrapper>
-                          <Spinner />
-                        </ProgressWrapper>
-                      )}
-                    </>
-                  )}
-                </Main>
-              </FeatureTreatment>
-            )}
-          </Main>
+                            <SubTitle>Plan Documents</SubTitle>
+                            <DocsList
+                              data={
+                                ccForms?.ccFormsDocDetails?.data[0]
+                                  .cc_plan_documents
+                              }
+                            />
+                            <SubTitle>Additional Resources</SubTitle>
+                            <DocsList
+                              data={
+                                ccForms?.ccFormsDocDetails?.data[0]
+                                  .cc_additional_resources
+                              }
+                            />
+                          </Main>
+                        ) : (
+                          <ProgressWrapper>
+                            <Spinner />
+                          </ProgressWrapper>
+                        )}
+                      </>
+                    )}
+                  </Main>
+                </FeatureTreatment>
+              )}
+            </Main>
+          </ThemeProvider>
         )}
       </>
     </Container>
