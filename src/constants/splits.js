@@ -5,6 +5,7 @@ export const SHOW_COVERAGE_AND_BENEFITS =
 export const SHOW_PRIMARY_CARE_PROVIDER =
   "CustomerCenter_ShowPrimaryCareProvider";
 export const SHOW_FORMS_AND_DOCS = "CustomerCenter_ShowFormsAndDocs";
+export const SHOW_DIGITAL_FORMS = "CustomerCenter_ShowDigitalForms";
 export const SHOW_MORE_TOOLS = "CustomerCenter_ShowMoreTools";
 export const SHOW_ID_CARD = "CustomerCenter_ShowIDCard";
 export const SHOW_HEALTH_ASSESMENT_SURVEY =

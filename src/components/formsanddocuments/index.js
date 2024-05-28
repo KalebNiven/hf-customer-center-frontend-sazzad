@@ -27,8 +27,13 @@ import DocumentType from "./documentType";
 import DocumentsCenterPage from "../../pages/documents-center/DocumentsCenterPage";
 import { useDispatch, useSelector } from "react-redux";
 import { requestCCFormsDocs } from "../../store/actions";
-import { SHOW_DOC, SHOW_FORMS_AND_DOCS } from "../../constants/splits";
+import {
+  SHOW_DIGITAL_FORMS,
+  SHOW_DOC,
+  SHOW_FORMS_AND_DOCS,
+} from "../../constants/splits";
 import { NoFormsAndDocument } from "./formsAndDocumentErrors";
+import DigitalForm from "./digitalForm";
 
 //Custom theme
 const customTheme = createMuiTheme({
@@ -158,6 +163,17 @@ const FormsAndDocuments = (props) => {
     setSelectedTab(href);
   };
 
+  const renderCommonlyUserForms = () => (
+    <>
+      <SubTitle>Commonly Used Forms</SubTitle>
+      <Wrapper>
+        <CommonlyUsedForm
+          data={ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms}
+        />
+      </Wrapper>
+    </>
+  );
+
   return (
     <Container>
       <MyDocuments isMobile={isMobile}>Forms and Documents</MyDocuments>
@@ -239,15 +255,34 @@ const FormsAndDocuments = (props) => {
                         {ccForms?.ccFormsDocDetails?.data != null &&
                         ccForms.ccFormsDocLoading === false ? (
                           <Main>
-                            <SubTitle>Commonly Used Forms</SubTitle>
-                            <Wrapper>
-                              <CommonlyUsedForm
-                                data={
-                                  ccForms?.ccFormsDocDetails?.data[0]
-                                    .cc_commonly_used_forms
-                                }
-                              />
-                            </Wrapper>
+                            {customerInfo.data?.age >= 18 ? (
+                              <>
+                                <FeatureTreatment
+                                  key="forms_and_document_page_feature"
+                                  treatmentNames={SHOW_DIGITAL_FORMS}
+                                  treatmentName={SHOW_DIGITAL_FORMS}
+                                  onLoad={() => {}}
+                                  onTimedout={() => {}}
+                                  attributes={splitAttributes}
+                                >
+                                  <SubTitle>Digital Forms</SubTitle>
+                                  <DigitalForm />
+                                </FeatureTreatment>
+                                <FeatureTreatment
+                                  key="forms_and_document_page_feature"
+                                  treatmentNames={SHOW_DIGITAL_FORMS}
+                                  treatmentName={SHOW_DIGITAL_FORMS}
+                                  onLoad={() => {}}
+                                  onTimedout={() => {}}
+                                  attributes={splitAttributes}
+                                  invertBehavior
+                                >
+                                  {renderCommonlyUserForms()}
+                                </FeatureTreatment>
+                              </>
+                            ) : (
+                              <>{renderCommonlyUserForms()}</>
+                            )}
                             <SubTitle>General Forms</SubTitle>
                             <DocsList
                               data={
