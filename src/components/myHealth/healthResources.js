@@ -183,7 +183,11 @@ const HealthResources = ({ customerInfo }) => {
           companyCode: company_code,
         },
       });
-      allFilteredResources[member_id] = filteredResources;
+      let uniq = filteredResources.filter(
+        (value, index, self) =>
+          index === self.findIndex((t) => t.title === value.title),
+      );
+      allFilteredResources[member_id] = uniq;
     };
 
     const memberIds = [];
