@@ -6,7 +6,7 @@ import Spinner from "../common/spinner";
 const DropDownContent = ({ content }) => {
   return (
     <ResoucesDropdownWrapper>
-      <ResoucesDropdownTitle>Recommened Resources</ResoucesDropdownTitle>
+      <ResoucesDropdownTitle>Recommended Resources</ResoucesDropdownTitle>
       <ResoucesList content={content} withBorder />
       {content.length > 0 ? null : <Spinner />}
     </ResoucesDropdownWrapper>
