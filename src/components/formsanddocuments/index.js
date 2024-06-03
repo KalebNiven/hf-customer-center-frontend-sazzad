@@ -82,7 +82,7 @@ const FormsAndDocuments = (props) => {
   const [selectedTab, setSelectedTab] = useState(navItems[0].href);
   const ccForms = useSelector((state) => state.ccFormsDoc);
   const customerInfo = useSelector((state) => state.customerInfo);
-  const { memberId } = memberSelection;
+  const { memberId, customerId } = memberSelection;
 
   const setTab = () => {
     const plansAndDocumentTreatment = splitHookClient.getTreatmentWithConfig(
@@ -151,6 +151,7 @@ const FormsAndDocuments = (props) => {
       firstName: customerInfo?.data?.hohPlans[0]?.FirstName,
       lastName: customerInfo?.data?.hohPlans[0]?.LastName,
       memberYear: customerInfo?.data?.hohPlans[0]?.memberYear,
+      customerId: customerInfo?.data?.hohPlans[0]?.CustomerId,
     });
   }, [customerInfo]);
 
@@ -266,7 +267,10 @@ const FormsAndDocuments = (props) => {
                                   attributes={splitAttributes}
                                 >
                                   <SubTitle>Digital Forms</SubTitle>
-                                  <DigitalForm />
+                                  <DigitalForm
+                                    memberId={memberId}
+                                    customerId={customerId}
+                                  />
                                 </FeatureTreatment>
                                 <FeatureTreatment
                                   key="forms_and_document_page_feature"

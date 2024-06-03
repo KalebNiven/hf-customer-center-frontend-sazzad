@@ -6,7 +6,7 @@ import useLogError from "../../hooks/useLogError";
 
 const DIGITAL_FORM_WIDGET_SCRIPT_ID = "DigitalFormWidgetScript";
 
-const DigitalForm = () => {
+const DigitalForm = ({ memberId, customerId }) => {
   const { MIX_REACT_DIGITAL_FORM_WIDGET_BASE_URL } = process.env;
 
   const [templateId, setTemplateId] = useState(null);
@@ -37,6 +37,8 @@ const DigitalForm = () => {
       setTemplateId(null);
     },
     templateId,
+    memberId,
+    customerId,
     locale: "en",
   };
 
