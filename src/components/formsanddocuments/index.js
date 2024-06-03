@@ -153,6 +153,9 @@ const FormsAndDocuments = (props) => {
       lastName: customerInfo?.data?.hohPlans[0]?.LastName,
       memberYear: customerInfo?.data?.hohPlans[0]?.memberYear,
       customerId: customerInfo?.data?.hohPlans[0]?.CustomerId,
+      age: customerInfo?.data?.hohPlans[0]?.age,
+      relationshipType:
+        customerInfo?.data?.hohPlans[0]?.relationshipType || "SELF",
     });
   }, [customerInfo]);
 
@@ -164,6 +167,11 @@ const FormsAndDocuments = (props) => {
   const handleClick = (href) => {
     setSelectedTab(href);
   };
+
+  const enableDigitalForms =
+    memberSelection.age >= 18 &&
+    memberSelection.membershipStatus === "active" &&
+    memberSelection.relationshipType === "SELF";
 
   const renderCommonlyUserForms = () => (
     <>
@@ -257,7 +265,7 @@ const FormsAndDocuments = (props) => {
                         {ccForms?.ccFormsDocDetails?.data != null &&
                         ccForms.ccFormsDocLoading === false ? (
                           <Main>
-                            {customerInfo.data?.age >= 18 ? (
+                            {enableDigitalForms ? (
                               <>
                                 <FeatureTreatment
                                   treatmentName={SHOW_DIGITAL_FORMS}
