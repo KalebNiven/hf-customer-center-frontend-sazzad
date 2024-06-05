@@ -80,6 +80,7 @@ const FormsAndDocuments = (props) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const [memberSelection, setMemberSelection] = useState({});
   const [selectedTab, setSelectedTab] = useState(navItems[0].href);
+  const [templateId, setTemplateId] = useState(null);
   const ccForms = useSelector((state) => state.ccFormsDoc);
   const customerInfo = useSelector((state) => state.customerInfo);
   const { memberId, customerId } = memberSelection;
@@ -270,6 +271,8 @@ const FormsAndDocuments = (props) => {
                                   <DigitalForm
                                     memberId={memberId}
                                     customerId={customerId}
+                                    templateId={templateId}
+                                    setTemplateId={setTemplateId}
                                   />
                                 </FeatureTreatment>
                                 <FeatureTreatment
@@ -287,6 +290,8 @@ const FormsAndDocuments = (props) => {
                             ) : (
                               <>{renderCommonlyUserForms()}</>
                             )}
+                            {!templateId ? (
+                              <>
                             <SubTitle>General Forms</SubTitle>
                             <DocsList
                               data={
@@ -308,6 +313,8 @@ const FormsAndDocuments = (props) => {
                                   .cc_additional_resources
                               }
                             />
+                              </>
+                            ) : null}
                           </Main>
                         ) : (
                           <ProgressWrapper>
