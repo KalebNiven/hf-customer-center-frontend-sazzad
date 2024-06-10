@@ -46,7 +46,7 @@ const Carousel = () => {
       "link",
       "top",
       customerInfo,
-      "home"
+      "home",
     );
   };
 
@@ -96,7 +96,7 @@ const Carousel = () => {
                             <ReactMarkdown
                               children={item.slideContent.replace(
                                 /<\/?span[^>]*>/g,
-                                ""
+                                "",
                               )}
                             />
                           }
@@ -117,7 +117,7 @@ const Carousel = () => {
                               }}
                               children={item.slideContent.replace(
                                 /<\/?span[^>]*>/g,
-                                ""
+                                "",
                               )}
                             />
                           </ContentDesc>
@@ -139,7 +139,7 @@ const Carousel = () => {
                             }}
                             children={item.slideContent.replace(
                               /<\/?span[^>]*>/g,
-                              ""
+                              "",
                             )}
                           />
                         </ContentDesc>

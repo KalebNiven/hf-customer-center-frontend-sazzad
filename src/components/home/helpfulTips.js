@@ -20,7 +20,7 @@ const HelpfulTips = () => {
     if (!splitHookClient) return;
     const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
       PAYMENTS_ACL,
-      splitAttributes
+      splitAttributes,
     );
     if (paymentsEnabledTreatment.treatment === "on") {
       setPaymentsEnabled(true);

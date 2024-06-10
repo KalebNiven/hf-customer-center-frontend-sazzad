@@ -103,7 +103,7 @@ ReactDOM.render(
       <MoreTools />
     </Provider>
   </React.StrictMode>,
-  document.getElementById("moreTools")
+  document.getElementById("moreTools"),
 );
 
 export default ReactDOM.render;

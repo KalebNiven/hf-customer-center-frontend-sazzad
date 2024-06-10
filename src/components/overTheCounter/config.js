@@ -3,48 +3,38 @@ export const NOTICE = "NOTICE";
 
 export const reimbursementFormsURL = {
   CompleteCare: {
-    url:
-      "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540",
+    url: "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540",
   },
   ConnectionHMO: {
-    url:
-      "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540",
+    url: "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540",
   },
   LifeImprovements: {
-    url:
-      "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540",
+    url: "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540",
   },
   IncreasedBenefits: {
-    url:
-      "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540",
+    url: "https://assets.healthfirst.org/pdf_b74f836b649623b4dbbbddfd5ea9c06e/2023-otc-plus-claim-reimbursement-form-english?v=0221152540",
   },
   SignatureHMO: { url: "" },
 };
 
 export const evidenceOfCoverageURL = {
   CompleteCare: {
-    url:
-      "https://assets.healthfirst.org/pdf_c70b04fe464de75e13a934468cb5a2e1/2023-completecare-plan-evidence-of-coverage-english",
+    url: "https://assets.healthfirst.org/pdf_c70b04fe464de75e13a934468cb5a2e1/2023-completecare-plan-evidence-of-coverage-english",
   },
   ConnectionHMO: {
-    url:
-      "https://assets.healthfirst.org/pdf_140d0ef8567e108044d667ee9009ebe5/2023-65-plus-plan-evidence-of-coverage-english",
+    url: "https://assets.healthfirst.org/pdf_140d0ef8567e108044d667ee9009ebe5/2023-65-plus-plan-evidence-of-coverage-english",
   },
   IncreasedBenefits: {
-    url:
-      "https://assets.healthfirst.org/pdf_6f4f6a7de0940cd7101f2f969bccd5d8/2023-increased-benefits-plan-evidence-of-coverage-english",
+    url: "https://assets.healthfirst.org/pdf_6f4f6a7de0940cd7101f2f969bccd5d8/2023-increased-benefits-plan-evidence-of-coverage-english",
   },
   LifeImprovements: {
-    url:
-      "https://assets.healthfirst.org/pdf_12f6fd5fb702f04c2054c71ed727e14a/2023-life-improvement-plan-evidence-of-coverage-english",
+    url: "https://assets.healthfirst.org/pdf_12f6fd5fb702f04c2054c71ed727e14a/2023-life-improvement-plan-evidence-of-coverage-english",
   },
   SignatureHMO: {
-    url:
-      "https://assets.healthfirst.org/pdf_60d83c9a26964c1061ff9c1480ec9ae0/2023-signature-hmo-evidence-of-coverage-english",
+    url: "https://assets.healthfirst.org/pdf_60d83c9a26964c1061ff9c1480ec9ae0/2023-signature-hmo-evidence-of-coverage-english",
   },
   SignaturePPO: {
-    url:
-      "https://assets.healthfirst.org/pdf_7c7b0f07d6ec541c74f9f9c162b2178a/2023-signature-ppo-evidence-of-coverage-english",
+    url: "https://assets.healthfirst.org/pdf_7c7b0f07d6ec541c74f9f9c162b2178a/2023-signature-ppo-evidence-of-coverage-english",
   },
 };
 

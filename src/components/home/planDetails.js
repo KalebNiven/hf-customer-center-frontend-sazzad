@@ -16,7 +16,7 @@ const PlanDetails = () => {
         <AlertMsg>
           <PlanTxt>Your {customerInfo.planName.toLowerCase()}</PlanTxt>
           {` plan is inactive as of ${moment(
-            customerInfo.membershipExpirationDate
+            customerInfo.membershipExpirationDate,
           ).format("L")}. For any other questions,`}
           <ContactTxt href="https://healthfirst.org/contact" target="_blank">
             contact us

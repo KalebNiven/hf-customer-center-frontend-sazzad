@@ -39,7 +39,7 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
   });
   const [finalReportingModal, setFinalReportingModal] = useState(false);
   const reportErrorSuccess = useSelector(
-    (state) => state.settingsReducer.reportErrorSuccess
+    (state) => state.settingsReducer.reportErrorSuccess,
   );
   const [reportingError, setReportingError] = useState(false);
   const logoutApi = useLogout();
@@ -182,8 +182,8 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
                       setReportingError(true);
                       dispatch(
                         reportErrorAction(
-                          customerInfo?.hohPlans[0]?.MembershipKey
-                        )
+                          customerInfo?.hohPlans[0]?.MembershipKey,
+                        ),
                       );
                       handleSegmentBtn("Widget Report Error");
                     }
@@ -310,13 +310,13 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
                   Active on{" "}
                   {handleDate(
                     plan.MembershipEffectiveDate,
-                    plan.MembershipExpirationDate
+                    plan.MembershipExpirationDate,
                   )}
                 </PlanDuration>
                 {isEligibleForRecertDate(
                   plan.CompanyNumber,
                   plan.BenefitPackage,
-                  plan.renewalDate
+                  plan.renewalDate,
                 ) && (
                   <PlanDuration>
                     {getRecertificationDate(
@@ -324,7 +324,7 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
                       plan.BenefitPackage,
                       plan.renewalDate,
                       "LL",
-                      ":"
+                      ":",
                     )}
                   </PlanDuration>
                 )}
@@ -362,13 +362,13 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
                   Active on{" "}
                   {handleDate(
                     plan.MembershipEffectiveDate,
-                    plan.MembershipExpirationDate
+                    plan.MembershipExpirationDate,
                   )}
                 </PlanDuration>
                 {isEligibleForRecertDate(
                   plan.companyCode,
                   plan.benefitPackage,
-                  plan.renewalDate
+                  plan.renewalDate,
                 ) && (
                   <PlanDuration>
                     {getRecertificationDate(
@@ -376,7 +376,7 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
                       plan.benefitPackage,
                       plan.renewalDate,
                       "LL",
-                      ":"
+                      ":",
                     )}
                   </PlanDuration>
                 )}
@@ -421,13 +421,13 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
                   Active on{" "}
                   {handleDate(
                     plan.MembershipEffectiveDate,
-                    plan.MembershipExpirationDate
+                    plan.MembershipExpirationDate,
                   )}
                 </PlanDuration>
                 {isEligibleForRecertDate(
                   plan.CompanyNumber,
                   plan.BenefitPackage,
-                  plan.renewalDate
+                  plan.renewalDate,
                 ) && (
                   <PlanDuration>
                     {getRecertificationDate(
@@ -435,7 +435,7 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
                       plan.BenefitPackage,
                       plan.renewalDate,
                       "LL",
-                      ":"
+                      ":",
                     )}
                   </PlanDuration>
                 )}
@@ -467,13 +467,13 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
                   Active on{" "}
                   {handleDate(
                     plan.MembershipEffectiveDate,
-                    plan.MembershipExpirationDate
+                    plan.MembershipExpirationDate,
                   )}
                 </PlanDuration>
                 {isEligibleForRecertDate(
                   plan.companyCode,
                   plan.benefitPackage,
-                  plan.renewalDate
+                  plan.renewalDate,
                 ) && (
                   <PlanDuration>
                     {getRecertificationDate(
@@ -481,7 +481,7 @@ const HealthPlans = ({ customerInfo, activeTabForPrevPlan }) => {
                       plan.benefitPackage,
                       plan.renewalDate,
                       "LL",
-                      ":"
+                      ":",
                     )}
                   </PlanDuration>
                 )}

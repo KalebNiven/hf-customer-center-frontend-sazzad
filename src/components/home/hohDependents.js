@@ -13,7 +13,7 @@ const HOHDependents = () => {
   const hohDependents = useSelector((state) => state.customerInfo.data);
   const activeOrUpcomingDependents = hohDependents.dependents.filter(
     (dependent) =>
-      dependent.Status === "active" || dependent.Status === "upcoming"
+      dependent.Status === "active" || dependent.Status === "upcoming",
   );
   const history = useHistory();
   const [showPlan, setShowPlan] = useState(false);
@@ -71,13 +71,13 @@ const HOHDependents = () => {
               {isEligibleForRecertDate(
                 dependent.companyCode,
                 dependent.benefitPackage,
-                dependent.renewalDate
+                dependent.renewalDate,
               ) && (
                 <RenewalDate>
                   {getRecertificationDate(
                     dependent.companyCode,
                     dependent.benefitPackage,
-                    dependent.renewalDate
+                    dependent.renewalDate,
                   )}
                 </RenewalDate>
               )}
@@ -220,8 +220,8 @@ const Status = styled.div`
     props.status === "active"
       ? "#3e7128"
       : props.status === "inactive"
-      ? "#d43900"
-      : "#ffffff"};
+        ? "#d43900"
+        : "#ffffff"};
   border-radius: 5px;
   border: ${(props) => props.status === "upcoming" && "solid 1px #529535"};
 `;

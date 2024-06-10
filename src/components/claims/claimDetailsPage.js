@@ -35,7 +35,7 @@ const ClaimDetailsPage = () => {
 
   const claimDetails = useSelector((state) => state.claimDetails.claimDetails);
   const claimDetailsLoading = useSelector(
-    (state) => state.claimDetails.loading
+    (state) => state.claimDetails.loading,
   );
   const claimEOB = useSelector((state) => state.claimDetails.eob);
   const customerInfo = useSelector((state) => state.customerInfo);
@@ -117,7 +117,7 @@ const ClaimDetailsPage = () => {
                 <PatientName>
                   {claimDetails.patient.firstName.concat(
                     " ",
-                    claimDetails.patient.lastName
+                    claimDetails.patient.lastName,
                   )}
                 </PatientName>
                 <PatientCompany>{claimDetails.patient.planName}</PatientCompany>
@@ -192,7 +192,7 @@ const ClaimDetailsPage = () => {
                   <ServiceProvider>
                     {claimDetails.renderingProvider.firstName.concat(
                       " ",
-                      claimDetails.renderingProvider.lastName
+                      claimDetails.renderingProvider.lastName,
                     )}
                   </ServiceProvider>
                   {claimDetails.address.mailingAddress === "" &&

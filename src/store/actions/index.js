@@ -1109,7 +1109,7 @@ export const getDocumentsList = (
   endDate,
   companyCode,
   benefitPackage,
-  featureconfig
+  featureconfig,
 ) => ({
   type: actionTypes.GET_DOCUMENT_LIST,
   payload: {
@@ -1179,7 +1179,7 @@ export const requestVerifyAddress = (
   streetAddressTwo,
   city,
   state,
-  zip
+  zip,
 ) => ({
   type: actionTypes.REQUEST_VERIFY_ADDRESS,
   payload: { streetAddress, streetAddressTwo, city, state, zip },

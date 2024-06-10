@@ -252,8 +252,8 @@ function AccountSettings() {
                         itemIndex === 0
                           ? "4px 4px 0 0"
                           : itemIndex === items.length - 1
-                          ? "0 0 4px 4px"
-                          : ""
+                            ? "0 0 4px 4px"
+                            : ""
                       }
                       onClick={() =>
                         navItemClick(eachItem, itemIndex, leafindex)
@@ -283,8 +283,8 @@ function AccountSettings() {
                       itemIndex === 0
                         ? "4px 4px 0 0"
                         : itemIndex === items.length - 1
-                        ? "0 0 4px 4px"
-                        : ""
+                          ? "0 0 4px 4px"
+                          : ""
                     }
                     onClick={() => navItemClick(eachItem, itemIndex, leafindex)}
                     active={
@@ -304,7 +304,7 @@ function AccountSettings() {
                       <IconImg alt="" src={eachItem.imgIconSrc} />
                     </InlineInnerFixedContainer>
                   </NavWrapper>
-                )
+                ),
               )}
             </Wrapper>
           ))}

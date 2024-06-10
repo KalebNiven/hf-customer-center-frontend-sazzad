@@ -115,7 +115,7 @@ export function* getClaimDetails(action) {
     const res = yield call(
       getClaimsDetails,
       action.payload.memberId,
-      action.payload.claimId
+      action.payload.claimId,
     );
     var claimDetails = null;
     var claimStatus = "";
@@ -210,7 +210,7 @@ export function* getAuthorizationsList(action) {
 function* watchAuthorizationListSaga() {
   yield takeLatest(
     actionTypes.REQUEST_AUTHORIZATION_LIST,
-    getAuthorizationsList
+    getAuthorizationsList,
   );
 }
 
@@ -293,7 +293,7 @@ export function* getAuthorizationDetails(action) {
   try {
     const res = yield call(
       getAuthorizationsDetails,
-      action.payload.authorizationId
+      action.payload.authorizationId,
     );
     var authorizationDetails = null;
     if (
@@ -307,8 +307,8 @@ export function* getAuthorizationDetails(action) {
           new authorizationLineItem(
             lineItem,
             data.servicingFacilityDetails.organizationName,
-            data.requestDate
-          )
+            data.requestDate,
+          ),
         );
       });
       data.lineItemDetails;
@@ -336,7 +336,7 @@ export function* getAuthorizationDetails(action) {
           zip: data.servicingFacilityDetails.zip,
         },
         phonenumber: formatPhoneNumber(
-          data.servicingFacilityDetails.phoneNumber
+          data.servicingFacilityDetails.phoneNumber,
         ),
         authorizationLine: lineItems,
       };
@@ -350,7 +350,7 @@ export function* getAuthorizationDetails(action) {
 function* watchAuthorizationDetailsSaga() {
   yield takeLatest(
     actionTypes.REQUEST_AUTHORIZATION_DETAILS,
-    getAuthorizationDetails
+    getAuthorizationDetails,
   );
 }
 
@@ -429,7 +429,7 @@ export function* getCustomerInfo(action) {
 function* watchCustomerDemographicsInfoSaga() {
   yield takeLatest(
     actionTypes.REQUEST_CUSTOMER_DEMOGRAPHICS_INFO,
-    getCustomerDemographicsInfo
+    getCustomerDemographicsInfo,
   );
 }
 
@@ -437,7 +437,7 @@ export function* getCustomerDemographicsInfo(action) {
   try {
     const data = yield call(
       getCustomerDemographicsInfoData,
-      action.payload.customerId
+      action.payload.customerId,
     );
     yield put(actions.receiveCustomerDemographicsInfo(data));
   } catch (e) {
@@ -467,7 +467,7 @@ export function* getClaimsEOBs(action) {
     const data = yield call(
       getClaimsEOB,
       action.payload.memberId,
-      action.payload.claimId
+      action.payload.claimId,
     );
     yield put(actions.receiveClaimsEOB(data));
   } catch (e) {
@@ -525,28 +525,28 @@ function* watchSubmitHraSurvey() {
 function* watchSubmitMailMemberIDCardForm() {
   yield takeLatest(
     actionTypes.REQUEST_SUBMIT_MAIL_MEMBER_ID_CARD_FORM,
-    submitMailMemberIDCardForms
+    submitMailMemberIDCardForms,
   );
 }
 
 function* watchGetMailMemberIDCardStatus() {
   yield takeLatest(
     actionTypes.REQUEST_MAIL_MEMBER_ID_CARD_STATUS,
-    getMailMemberIDCardStatuss
+    getMailMemberIDCardStatuss,
   );
 }
 
 function* watchSubmitPreferredContactInfo() {
   yield takeLatest(
     actionTypes.REQUEST_PREFERRED_CONTACT_INFO_SUBMIT,
-    submitPreferredContactInfos
+    submitPreferredContactInfos,
   );
 }
 
 function* watchGetPreferenceCenterInfo() {
   yield takeLatest(
     actionTypes.REQUEST_PREFERENCE_CENTER_INFO,
-    getPreferenceCenterInfos
+    getPreferenceCenterInfos,
   );
 }
 
@@ -569,7 +569,7 @@ function* watchRequestRegister() {
 function* watchCreateUserNamePassword() {
   yield takeLatest(
     actionTypes.REQUEST_CREATE_USERNAME_PASSWORD,
-    requestCreateUserNamePassword
+    requestCreateUserNamePassword,
   );
 }
 
@@ -606,7 +606,7 @@ export function* submitMailMemberIDCardForms(action) {
 function* watchSubmitClaimPayload() {
   yield takeLatest(
     actionTypes.REQUEST_SUBMIT_CLAIM_DETAILS,
-    submitClaimPayload
+    submitClaimPayload,
   );
 }
 
@@ -626,7 +626,7 @@ export function* submitClaimPayload(action) {
 function* watchSubmitAttestationAgreement() {
   yield takeLatest(
     actionTypes.REQUEST_SUBMIT_ATTESTATION_AGREEMENT,
-    submitAttestationAgreement
+    submitAttestationAgreement,
   );
 }
 
@@ -741,7 +741,7 @@ export function* getCategDetailsData(action) {
 function* watchGetCategDetailsAllDataSaga() {
   yield takeLatest(
     actionTypes.GET_CATEGORY_DETAILS_ALL,
-    getCategDetailsAllData
+    getCategDetailsAllData,
   );
 }
 
@@ -772,7 +772,7 @@ export function* submitPreferredContactInfos(action) {
     const res = yield call(
       submitPreferredContactInfo,
       action.payload.data,
-      action.payload.csrf
+      action.payload.csrf,
     );
     if (res.status != 200) {
       yield put(actions.errorPreferredContactInfoSubmit(res));
@@ -802,7 +802,7 @@ export function* requestMFACodea(action) {
     const res = yield call(
       requestMFACode,
       action.payload.data,
-      action.payload.mfaToken
+      action.payload.mfaToken,
     );
     if (res.status != 200) {
       yield put(actions.errorMFACode(res));
@@ -819,7 +819,7 @@ export function* requestUserMFACodea(action) {
     const res = yield call(
       requestUserMFACode,
       action.payload.data,
-      action.payload.mfaToken
+      action.payload.mfaToken,
     );
     if (res.status != 200) {
       yield put(actions.errorUserMFACode(res));
@@ -849,7 +849,7 @@ export function* requestCreateUserNamePassword(action) {
     const res = yield call(
       createUsernamePassword,
       action.payload.data,
-      action.payload.mfaVerifiedAuth
+      action.payload.mfaVerifiedAuth,
     );
     if (res.status != 200) {
       yield put(actions.errorCreateUserNamePassword(res.data));
@@ -866,7 +866,7 @@ export function* registerMember(action) {
     const res = yield call(
       requestRegister,
       action.payload.data,
-      action.payload.mfaToken
+      action.payload.mfaToken,
     );
     if (res.status === 500) {
       yield put(actions.errorRegister(res.data));
@@ -885,7 +885,7 @@ export function* registerMember(action) {
 function* watchPhoneContactInfoDetails() {
   yield takeLatest(
     actionTypes.REQUEST_CONTACT_PHONE_INFO,
-    getPhoneContactInfoDetails
+    getPhoneContactInfoDetails,
   );
 }
 
@@ -908,7 +908,7 @@ export function* getPhoneContactInfoDetails(action) {
 function* watchEmailContactInfoDetails() {
   yield takeLatest(
     actionTypes.REQUEST_CONTACT_EMAIL_INFO,
-    getEmailContactInfoDetails
+    getEmailContactInfoDetails,
   );
 }
 export function* verifyTheMFACode(action) {
@@ -917,7 +917,7 @@ export function* verifyTheMFACode(action) {
       verifyMFACode,
       action.payload.data,
       action.payload.mfaToken,
-      action.payload.channel
+      action.payload.channel,
     );
     if (res.status != 200) {
       yield put(actions.errorMFAVerify(res));
@@ -933,7 +933,7 @@ export function* verifyTheUserMFACode(action) {
     const res = yield call(
       verifyUserMFACode,
       action.payload.data,
-      action.payload.mfaToken
+      action.payload.mfaToken,
     );
     if (res.status != 200) {
       yield put(actions.errorUserMFAVerify(res));
@@ -1001,7 +1001,7 @@ export function* getAllGlobalAlerts(action) {
 function* watchGetOTCClaimReimbursementData() {
   yield takeLatest(
     actionTypes.REQUEST_OTC_CLAIM_REIMBURSEMENT_DATA,
-    getAllOTCClaimReimbursementData
+    getAllOTCClaimReimbursementData,
   );
 }
 
@@ -1067,7 +1067,7 @@ export function* requestForgotUsername(action) {
     const res = yield call(
       forgotUsername,
       action.payload.data,
-      action.payload.mfaToken
+      action.payload.mfaToken,
     );
     if (res.status === 200) {
       yield put(actions.receiveForgotUsername(res));
@@ -1088,7 +1088,7 @@ export function* requestForgotPassword(action) {
     const res = yield call(
       forgotPassword,
       action.payload.data,
-      action.payload.mfaToken
+      action.payload.mfaToken,
     );
     if (res.status === 200) {
       yield put(actions.receiveForgotPassword(res));
@@ -1109,7 +1109,7 @@ export function* requestSetPassword(action) {
     const res = yield call(
       setPassword,
       action.payload.data,
-      action.payload.mfaToken
+      action.payload.mfaToken,
     );
     if (res.status === 200) {
       yield put(actions.receiveSetPassword(res));

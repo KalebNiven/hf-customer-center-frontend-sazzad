@@ -11,7 +11,7 @@ const PreferredContactInfoPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const preferenceCenterInfo = useSelector(
-    (state) => state.preferenceCenterInfo
+    (state) => state.preferenceCenterInfo,
   );
   const [step, setStep] = useState(null);
 

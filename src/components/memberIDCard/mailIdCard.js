@@ -19,10 +19,10 @@ import { useAppContext } from "../../AppContext";
 const MailIdCard = (props) => {
   const customerInfo = useSelector((state) => state.customerInfo);
   const mailMemberIDCardStatus = useSelector(
-    (state) => state.correspondenceStatus
+    (state) => state.correspondenceStatus,
   );
   const customerDemographicsInfo = useSelector(
-    (state) => state.customerDemographicsInfo.data
+    (state) => state.customerDemographicsInfo.data,
   );
   const [renderIdCardForm, setRenderIdCardForm] = useState(false);
   const [latestStatusRecord, setLatestStatusRecord] = useState(null);
@@ -92,8 +92,8 @@ const MailIdCard = (props) => {
           mailMemberIDCardStatus.data[0].IMBbarcode,
           mailMemberIDCardStatus.data[0].SLA,
           mailMemberIDCardStatus.data[0].mailingAddress,
-          mailMemberIDCardStatus.data[0].newAddress
-        )
+          mailMemberIDCardStatus.data[0].newAddress,
+        ),
       );
     }
   }, [mailMemberIDCardStatus]);
@@ -154,7 +154,7 @@ const MailIdCard = (props) => {
     trackingCode,
     sla,
     mailingAddress,
-    newAddress
+    newAddress,
   ) => {
     let carrier = sla === "1 Day SLA" ? "FedEx" : "USPS"; // Honestly not sure what responses this is gonna return either... contract isnt clear regarding this. Oh well hopefully this gets figured out during QA testing since that will hopefully involve stepping through the whole process if done right... Then again if done right we'd have good contracts... fingers crossed ¯\_(ツ)_/¯
     switch (status) {
@@ -336,7 +336,7 @@ const MailIdCard = (props) => {
                           rel="noreferrer noopener"
                           onClick={() =>
                             handleClickToCarrierSite(
-                              latestStatusRecord["trackingCodeURL"]
+                              latestStatusRecord["trackingCodeURL"],
                             )
                           }
                         >

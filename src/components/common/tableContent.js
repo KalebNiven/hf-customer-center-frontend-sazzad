@@ -176,7 +176,7 @@ const TableContent = ({
             : item) &&
           (membershipSelection != null
             ? membershipSelection == item.memberId
-            : item)
+            : item),
       );
     } else {
       searchResult = data.filter(
@@ -202,7 +202,7 @@ const TableContent = ({
             : item) &&
           (membershipSelection != null
             ? membershipSelection == item.memberId
-            : item)
+            : item),
       );
     }
     setSrchResult(searchResult);

@@ -37,7 +37,7 @@ const NowPowDetailsView = () => {
         categoryId: state.categoryId,
         categoryIconId: state.iconId,
         csrf: customerInfo?.data?.csrf,
-      })
+      }),
     );
   }, []);
 

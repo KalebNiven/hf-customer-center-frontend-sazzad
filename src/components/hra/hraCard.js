@@ -39,7 +39,7 @@ function HRA() {
         (item) =>
           item.memberId === memberId &&
           item.companyCode === "30" &&
-          ["LIP1", "DMCR"].includes(item.benefitPackage)
+          ["LIP1", "DMCR"].includes(item.benefitPackage),
       )
     ) {
       eligible = true;
@@ -147,7 +147,7 @@ function HRACard() {
             pending,
             visited,
             active: visited[visited.length - 1],
-          })
+          }),
         );
       }
     });
@@ -176,7 +176,7 @@ function HRACard() {
         data.list,
         questionId,
         visited,
-        hraMemberInfo
+        hraMemberInfo,
       ).question_type;
       // select
       if (question_type === SINGLE_SELECT) {
@@ -217,7 +217,7 @@ function HRACard() {
           data.list,
           questionId,
           visited,
-          hraMemberInfo
+          hraMemberInfo,
         ).matrix_questions;
         matrix_questions.forEach((question) => {
           const answer = {
@@ -304,7 +304,7 @@ function HRACard() {
       data.list,
       active,
       visited,
-      hraMemberInfo
+      hraMemberInfo,
     );
     const { question_type, matrix_questions } = currentQuestion;
     if (question_type === MATRIX) {
@@ -393,7 +393,7 @@ function HRACard() {
       data.list,
       active,
       visited,
-      hraMemberInfo
+      hraMemberInfo,
     );
     switch (currentQuestion.question_type) {
       case MATRIX: {
@@ -409,7 +409,7 @@ function HRACard() {
           if (selectedItem && selectedItem.length > 0) {
             const answerDeps = getAnswerById(
               question.question_answers,
-              selectedItem[0].id
+              selectedItem[0].id,
             ).answer_dependencies;
             if (answerDeps.length !== 0) {
               hasDeps = true;
@@ -429,7 +429,7 @@ function HRACard() {
         const selectedAnswerId = selected[active] && selected[active][0].id;
         const answer = getAnswerById(
           currentQuestion.question_answers,
-          selectedAnswerId
+          selectedAnswerId,
         );
         const depsLength = answer ? answer.answer_dependencies.length : null;
         return depsLength === 0;
@@ -441,7 +441,7 @@ function HRACard() {
           selectedAnswersList.find((item) => {
             const answer = getAnswerById(
               currentQuestion.question_answers,
-              item.id
+              item.id,
             );
             return (
               answer.answer_dependencies && answer.answer_dependencies.length

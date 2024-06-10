@@ -14,7 +14,7 @@ const MyHealthCheckList = () => {
   const updatedJwt =
     jwt_token === undefined ? jwt_token : jwt_token.replace("Bearer ", "");
   const [existingScript, setExistingScript] = useState(
-    document.getElementById(MY_HEALTH_CHECKLIST_SCRIPT_ID)
+    document.getElementById(MY_HEALTH_CHECKLIST_SCRIPT_ID),
   );
   const history = useHistory();
   const { logError } = useLogError();
@@ -76,9 +76,9 @@ const MyHealthCheckList = () => {
           }
           sessionStorage.setItem("longLoad", false);
           setExistingScript(
-            document.getElementById(MY_HEALTH_CHECKLIST_SCRIPT_ID)
+            document.getElementById(MY_HEALTH_CHECKLIST_SCRIPT_ID),
           );
-        }
+        },
       );
     }
     return () => {

@@ -18,7 +18,7 @@ const MyHealthPage = () => {
   useEffect(() => {
     sessionStorage.setItem("longLoad", false);
     setShowHRACard(
-      getValidHRASurveryPlan(customerInfo?.hohPlans) ? true : false
+      getValidHRASurveryPlan(customerInfo?.hohPlans) ? true : false,
     );
   }, []);
 
@@ -44,7 +44,7 @@ const MyHealthPage = () => {
       "link",
       "bottom",
       customerInfo,
-      "myHealth"
+      "myHealth",
     );
     history.push(href);
   };
@@ -77,7 +77,7 @@ const MyHealthPage = () => {
                       handleSegment(
                         "Take Assessment",
                         "/my-health/annual-health-assessment",
-                        "Annual Health Assessment"
+                        "Annual Health Assessment",
                       )
                     }
                   >
@@ -110,7 +110,7 @@ const MyHealthPage = () => {
                     handleSegment(
                       "View My Health Checklist",
                       "/my-health/my-health-checklist",
-                      "My Health Checklist"
+                      "My Health Checklist",
                     )
                   }
                 >
@@ -140,7 +140,7 @@ const MyHealthPage = () => {
                     handleSegment(
                       "Browse Resources",
                       "/my-health/community-resources",
-                      "Community Resources"
+                      "Community Resources",
                     )
                   }
                 >

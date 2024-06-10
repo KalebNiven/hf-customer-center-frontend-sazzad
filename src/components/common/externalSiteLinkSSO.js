@@ -21,11 +21,8 @@ const ExternalSiteLinkSSO = ({
 }) => {
   const customerInfo = useSelector((state) => state.customerInfo);
   const { externalSiteModal, setExternalSiteModal } = useAppContext();
-  const {
-    ssoModalState,
-    setSsoModalState,
-    resetSsoModal,
-  } = useSSOModalContext();
+  const { ssoModalState, setSsoModalState, resetSsoModal } =
+    useSSOModalContext();
   const { showMemberModal, routeLink } = ssoModalState;
 
   useEffect(() => {
@@ -73,7 +70,7 @@ const ExternalSiteLinkSSO = ({
       : false;
   const isDual = (customerInfo) =>
     customerInfo?.data?.hohPlans.filter(
-      (plan) => plan.MembershipStatus === "active"
+      (plan) => plan.MembershipStatus === "active",
     ).length > 1
       ? true
       : false;

@@ -36,7 +36,7 @@ export default function customerInfo(state = initialState, action) {
         }
         default: {
           const localStorageOKTA = JSON.parse(
-            localStorage.getItem("okta-token-storage")
+            localStorage.getItem("okta-token-storage"),
           );
           const accessToken =
             "Bearer " + localStorageOKTA.accessToken.accessToken;

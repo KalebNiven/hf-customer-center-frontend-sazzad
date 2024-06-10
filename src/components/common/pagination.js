@@ -60,7 +60,7 @@ const Pagination = ({
   };
 
   const [visiblePages, setVisiblePages] = useState(
-    getVisiblePages(null, totalPages)
+    getVisiblePages(null, totalPages),
   );
   const [dropdownClick, setdropdownClick] = useState(false);
 

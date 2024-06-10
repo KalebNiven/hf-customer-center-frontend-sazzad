@@ -43,7 +43,7 @@ const HealthResourcesChevron = ({ currentMemberInfo }) => {
           onClick={() =>
             handleResoucesDropdownClick(
               currentMemberInfo.memberId,
-              currentMemberInfo.companyCode
+              currentMemberInfo.companyCode,
             )
           }
         />

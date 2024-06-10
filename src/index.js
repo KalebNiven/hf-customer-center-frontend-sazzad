@@ -27,7 +27,7 @@ ReactDOM.render(
       </BrowserRouter>
     </ErrorBoundary>
   </React.StrictMode>,
-  targetElement
+  targetElement,
 );
 
 export default ReactDOM.render;

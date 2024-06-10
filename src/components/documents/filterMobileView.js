@@ -191,7 +191,7 @@ function filterMobileView({
                     moment(endValue)
                       .subtract(1, "days")
                       .utcOffset(0, false)
-                      .format("MM/DD/YYYY")
+                      .format("MM/DD/YYYY"),
                   );
                   setDateRangeDisplay({
                     ...dateRangeDisplay,
@@ -202,11 +202,11 @@ function filterMobileView({
                   getDocuments(
                     null,
                     null,
-                    moment(endValue).subtract(1, "days").format("YYYY-MM-DD")
+                    moment(endValue).subtract(1, "days").format("YYYY-MM-DD"),
                   );
                 } else {
                   setStartValue(
-                    moment(value).utcOffset(0, false).format("MM/DD/YYYY")
+                    moment(value).utcOffset(0, false).format("MM/DD/YYYY"),
                   );
                   setDateRangeDisplay({
                     ...dateRangeDisplay,
@@ -259,7 +259,7 @@ function filterMobileView({
                     moment(startValue)
                       .add(1, "days")
                       .utcOffset(0, false)
-                      .format("MM/DD/YYYY")
+                      .format("MM/DD/YYYY"),
                   );
                   setDateRangeDisplay({
                     ...dateRangeDisplay,
@@ -268,11 +268,11 @@ function filterMobileView({
                   getDocuments(
                     null,
                     null,
-                    moment(startValue).add(1, "days").format("YYYY-MM-DD")
+                    moment(startValue).add(1, "days").format("YYYY-MM-DD"),
                   );
                 } else {
                   setEndValue(
-                    moment(value).utcOffset(0, false).format("MM/DD/YYYY")
+                    moment(value).utcOffset(0, false).format("MM/DD/YYYY"),
                   );
                   setDateRangeDisplay({
                     ...dateRangeDisplay,
@@ -282,7 +282,7 @@ function filterMobileView({
                     null,
                     null,
                     null,
-                    moment(value).format("YYYY-MM-DD")
+                    moment(value).format("YYYY-MM-DD"),
                   );
                 }
                 setDocumentsListLoaded(false);

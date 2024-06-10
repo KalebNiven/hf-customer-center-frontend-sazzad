@@ -48,7 +48,7 @@ export const CostEstimatorWidget = ({ removeCostEstimatorWidget }) => {
   useEffect(() => {
     if (!removeCostEstimatorWidget) {
       const costEstimatorContainer = document.querySelector(
-        "#costCalculatorPageWrapper"
+        "#costCalculatorPageWrapper",
       );
       if (!costEstimatorContainer) return;
       const script = document.createElement("script");

@@ -37,7 +37,7 @@ const ParticipatingLocations = ({ locations }) => {
               <ParticipatingLocationsLogo src={logo.img} />
             </ParticipatingLocationsLogoItem>
           </ExternalSiteLink>
-        )
+        ),
       )}
       {isEven(locations.length) && (
         <ParticipatingLocationsLogoItem></ParticipatingLocationsLogoItem>

@@ -68,24 +68,20 @@ const SSOCards = () => {
   const { MIX_REACT_EYE_MED_BASE_URL } = process.env;
   const [showReward, setShowReward] = useState(false);
   const [rewardsEnabled, setRewardsEnabled] = useState(false);
-  const [
-    costEstimatorWidgetEnabled,
-    setCostEstimatorWidgetEnabledEnabled,
-  ] = useState(null);
-  const [
-    managePrescriptionNoticeEnabled,
-    setManagePrescriptionNoticeEnabled,
-  ] = useState(false);
+  const [costEstimatorWidgetEnabled, setCostEstimatorWidgetEnabledEnabled] =
+    useState(null);
+  const [managePrescriptionNoticeEnabled, setManagePrescriptionNoticeEnabled] =
+    useState(false);
 
   const splitAttributes = {
     memberId: customerInfo?.data?.memberId,
     customerId: customerInfo?.data?.customerId,
     lob: customerInfo?.data?.sessLobCode,
     companyCode: customerInfo?.data?.hohPlans?.map(
-      (plan) => plan.CompanyNumber
+      (plan) => plan.CompanyNumber,
     ),
     benefitPackage: customerInfo?.data?.hohPlans?.map(
-      (plan) => plan.BenefitPackage
+      (plan) => plan.BenefitPackage,
     ),
     membershipStatus: customerInfo?.data?.membershipStatus,
     accountStatus: customerInfo?.data?.accountStatus,
@@ -94,45 +90,47 @@ const SSOCards = () => {
   const splitHookClient = useClient(
     customerInfo?.data?.customerId === null
       ? "Anonymous"
-      : customerInfo?.data?.customerId
+      : customerInfo?.data?.customerId,
   );
 
   useEffect(() => {
     splitAttributes.companyCode.map((value, index) => {
       const rewardsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
         SHOW_MY_REWARDS,
-        getSplitAttributesForHOHPlan(customerInfo.data, index)
+        getSplitAttributesForHOHPlan(customerInfo.data, index),
       );
 
       if (!splitHookClient) return;
-      const showCostEstimatorWidgetTreatment = splitHookClient.getTreatmentWithConfig(
-        SHOW_COST_ESTIMATOR_WIDGET,
-        splitAttributes
-      );
+      const showCostEstimatorWidgetTreatment =
+        splitHookClient.getTreatmentWithConfig(
+          SHOW_COST_ESTIMATOR_WIDGET,
+          splitAttributes,
+        );
       console.log("splitHookClient ", splitHookClient);
       console.log("SHOW_COST_ESTIMATOR_WIDGET ", SHOW_COST_ESTIMATOR_WIDGET);
       console.log("splitAttributes ", splitAttributes);
       console.log(
         "showCostEstimatorWidgetTreatmentL ",
-        showCostEstimatorWidgetTreatment
+        showCostEstimatorWidgetTreatment,
       );
-      const showManagePrescriptionNoticeTreatment = splitHookClient.getTreatmentWithConfig(
-        SHOW_MANAGE_PRESCRIPTIONS,
-        splitAttributes
-      );
+      const showManagePrescriptionNoticeTreatment =
+        splitHookClient.getTreatmentWithConfig(
+          SHOW_MANAGE_PRESCRIPTIONS,
+          splitAttributes,
+        );
       if (showCostEstimatorWidgetTreatment.treatment === "on")
         setCostEstimatorWidgetEnabledEnabled(true);
       if (showCostEstimatorWidgetTreatment.treatment === "off")
         setCostEstimatorWidgetEnabledEnabled(false);
       setManagePrescriptionNoticeEnabled(
-        showManagePrescriptionNoticeTreatment.treatment === "notice"
+        showManagePrescriptionNoticeTreatment.treatment === "notice",
       );
       setRewardsEnabled(
         rewardsEnabledTreatment.treatment === "off"
           ? false
           : rewardsEnabledTreatment.treatment === "on"
-          ? setShowReward(true)
-          : false
+            ? setShowReward(true)
+            : false,
       );
     });
   }, [splitHookClient, customerInfo, splitAttributes]);
@@ -325,7 +323,7 @@ const SSOCards = () => {
             data.data?.name,
             data.data?.routeLink,
             data.data?.name,
-            data.data
+            data.data,
           )
         }
         innerWidth={innerWidth}
@@ -339,7 +337,7 @@ const SSOCards = () => {
   const displaySuggestionCards = () => {
     const isDual =
       customerInfo.data.hohPlans.filter(
-        (plan) => plan.MembershipStatus === "active"
+        (plan) => plan.MembershipStatus === "active",
       ).length > 1;
     SuggestionData.push({
       featureName: SHOW_MY_REWARDS,
@@ -362,7 +360,7 @@ const SSOCards = () => {
             >
               {console.log(
                 "costEstimatorWidgetEnabled: ",
-                costEstimatorWidgetEnabled
+                costEstimatorWidgetEnabled,
               )}
               {row?.routeLink === "payments" &&
               costEstimatorWidgetEnabled !== null &&

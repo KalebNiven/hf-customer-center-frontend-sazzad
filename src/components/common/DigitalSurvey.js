@@ -17,7 +17,7 @@ const DigitalSurvey = () => {
   } = useSurveyContext();
   const { logError } = useLogError();
   const { memberId, id_token, customerId } = useSelector(
-    (state) => state.customerInfo.data
+    (state) => state.customerInfo.data,
   );
   const token =
     id_token === undefined ? id_token : id_token.replace("Bearer ", "");

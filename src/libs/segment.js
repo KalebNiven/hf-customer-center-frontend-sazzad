@@ -11,7 +11,7 @@ export const handleSegmentClick = (
   type,
   location,
   customerInfo,
-  category
+  category,
 ) => {
   AnalyticsTrack(rawText + " " + type + " clicked", customerInfo, {
     raw_text: rawText,

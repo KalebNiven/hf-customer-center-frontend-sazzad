@@ -32,7 +32,7 @@ describe("RegisterPage", () => {
             <CreateAccount ignoreSplit={true} />
           </Router>
         </Provider>
-      </AppContextProvider>
+      </AppContextProvider>,
     );
 
     expect(asFragment()).toMatchSnapshot();
@@ -54,7 +54,7 @@ describe("RegisterPage", () => {
             <CreateAccount ignoreSplit={true} />
           </Router>
         </Provider>
-      </AppContextProvider>
+      </AppContextProvider>,
     );
 
     fireEvent.click(screen.getByTestId("healthfirst-logo"));
@@ -78,7 +78,7 @@ describe("RegisterPage", () => {
             <CreateAccount ignoreSplit={true} />
           </Router>
         </Provider>
-      </AppContextProvider>
+      </AppContextProvider>,
     );
 
     fireEvent.click(screen.getByTestId("back-icon"));
@@ -102,7 +102,7 @@ describe("RegisterPage", () => {
             <CreateAccount ignoreSplit={true} />
           </Router>
         </Provider>
-      </AppContextProvider>
+      </AppContextProvider>,
     );
 
     fireEvent.click(screen.getByTestId("back-text"));

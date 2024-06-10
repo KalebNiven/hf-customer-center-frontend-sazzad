@@ -74,7 +74,7 @@ const PrimaryCareProvider = () => {
             status = `Closed`;
           } else {
             const formatteDate = moment(tmrwSchedule.openTime).format(
-              "hh:mm A "
+              "hh:mm A ",
             );
             msg = `- Opens tomorrow ${formatteDate} ${timeZone}`;
             status = `Closed`;
@@ -90,7 +90,7 @@ const PrimaryCareProvider = () => {
                   msg = ` - Opens ${nextOpeningDay} for 24 hours`;
                 } else {
                   const formatteDate = moment(
-                    nextOpeningDayTime.openTime
+                    nextOpeningDayTime.openTime,
                   ).format("hh:mm A ");
                   status = "Closed";
                   msg = ` - Opens ${nextOpeningDay} at ${formatteDate} ${timeZone}`;
@@ -162,7 +162,7 @@ const PrimaryCareProvider = () => {
             value: "right",
           },
         },
-      }
+      },
     );
   };
 

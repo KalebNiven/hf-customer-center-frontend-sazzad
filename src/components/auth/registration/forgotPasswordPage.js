@@ -116,7 +116,7 @@ const ForgotPasswordPage = () => {
   useEffect(() => {
     if (step === FORGOT_PASSWORD_STEP) {
       setIsValid(
-        username.length > 0 && dateOfBirth.length === FORMATTED_DOB_LENGTH
+        username.length > 0 && dateOfBirth.length === FORMATTED_DOB_LENGTH,
       );
     }
   }, [username, dateOfBirth]);
@@ -145,7 +145,7 @@ const ForgotPasswordPage = () => {
         case 1004:
           setmfaUnverifiedToken(forgotPassword.data?.data?.errorData?.mfaToken);
           dispatch(
-            requestMFAFactors(forgotPassword.data?.data?.errorData?.mfaToken)
+            requestMFAFactors(forgotPassword.data?.data?.errorData?.mfaToken),
           );
           // setStep(VERIFY_STEP);
           break;
@@ -164,7 +164,7 @@ const ForgotPasswordPage = () => {
         (accumulator, channel) => {
           return accumulator || channel.verificationStatus;
         },
-        false
+        false,
       );
       if (!hasVerfiedChannel) {
         addToast({
@@ -256,7 +256,7 @@ const ForgotPasswordPage = () => {
       "Verify",
       "Change Password Form Submission",
       "button",
-      "bottom"
+      "bottom",
     );
     dispatch(requestSetPassword(payload, mfaVerifiedToken));
   };
@@ -280,7 +280,7 @@ const ForgotPasswordPage = () => {
         "button",
         "bottom",
         "",
-        "registration"
+        "registration",
       );
       dispatch(requestForgotPassword(payload));
     }

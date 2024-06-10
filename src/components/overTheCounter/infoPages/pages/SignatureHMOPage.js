@@ -328,7 +328,7 @@ const SignatureHMOPage = () => {
                     "Button",
                     "/learn-more",
                     customerInfo,
-                    "otc"
+                    "otc",
                   )
                 }
                 href={evidenceOfCoverageURL.SignatureHMO.url}

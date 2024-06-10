@@ -17,10 +17,10 @@ const DocumentType = () => {
     customerId: customerInfo.data.customerId,
     lob: customerInfo?.data?.sessLobCode,
     companyCode: customerInfo?.data?.hohPlans?.map(
-      (plan) => plan.CompanyNumber
+      (plan) => plan.CompanyNumber,
     ),
     benefitPackage: customerInfo?.data?.hohPlans?.map(
-      (plan) => plan.BenefitPackage
+      (plan) => plan.BenefitPackage,
     ),
     membershipStatus: customerInfo.data.membershipStatus,
     accountStatus: customerInfo.data.accountStatus,
@@ -102,7 +102,9 @@ const Icon = styled.img`
 const Text = styled.div`
   color: #474b55;
   width: 260px;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: "museo-sans", san-serif;
   font-size: 16px;
   font-style: normal;

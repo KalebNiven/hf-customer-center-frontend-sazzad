@@ -19,11 +19,8 @@ import { PAYMENTS_ACL, BINDER_ACL } from "../../constants/splits";
 
 const MemberSelectionModal = () => {
   const customerInfo = useSelector((state) => state.customerInfo.data);
-  const {
-    paymentsModalState,
-    setPaymentsModalState,
-    resetPaymentsModal,
-  } = usePaymentsModalContext();
+  const { paymentsModalState, setPaymentsModalState, resetPaymentsModal } =
+    usePaymentsModalContext();
   const { showMemberModal, routeLink, externalLinkName } = paymentsModalState;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -34,7 +31,7 @@ const MemberSelectionModal = () => {
     membershipKey,
     membership,
     routeLink,
-    externalLinkName
+    externalLinkName,
   ) => {
     setPaymentsModalState({
       ...paymentsModalState,
@@ -73,11 +70,11 @@ const MemberSelectionModal = () => {
     };
     let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
       PAYMENTS_ACL,
-      planAttrs
+      planAttrs,
     );
     let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(
       BINDER_ACL,
-      planAttrs
+      planAttrs,
     );
     return (
       paymentsEnabledTreatment.treatment === "on" ||
@@ -128,7 +125,7 @@ const MemberSelectionModal = () => {
                                 row.MembershipKey,
                                 row,
                                 routeLink,
-                                externalLinkName
+                                externalLinkName,
                               );
                           }}
                         >

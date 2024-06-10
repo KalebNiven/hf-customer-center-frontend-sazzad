@@ -7,7 +7,7 @@ export const useSplitEval = () => {
   const splitHookClient = useClient(
     customerInfo?.data?.customerId === null
       ? "Anonymous"
-      : customerInfo?.data?.customerId
+      : customerInfo?.data?.customerId,
   );
 
   /*  Takes split name and evaluates it against hohPlans list.
@@ -29,7 +29,7 @@ export const useSplitEval = () => {
       };
       let { treatment } = splitHookClient.getTreatmentWithConfig(
         splitFeatureName,
-        splitAttributes
+        splitAttributes,
       );
       showFeature = showFeature || treatment === "on";
     });
