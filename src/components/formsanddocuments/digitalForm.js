@@ -58,7 +58,7 @@ const DigitalForm = ({ memberId, customerId, templateId, setTemplateId }) => {
 
   useEffect(() => {
     const existingScript = document.getElementById(
-      DIGITAL_FORM_WIDGET_SCRIPT_ID
+      DIGITAL_FORM_WIDGET_SCRIPT_ID,
     );
     if (existingScript) {
       onScriptLoad();
@@ -66,7 +66,7 @@ const DigitalForm = ({ memberId, customerId, templateId, setTemplateId }) => {
       loadExternalScript(
         MIX_REACT_DIGITAL_FORM_WIDGET_BASE_URL + "/embed/digitalFormsWidget.js",
         DIGITAL_FORM_WIDGET_SCRIPT_ID,
-        onScriptLoad
+        onScriptLoad,
       );
     }
 
