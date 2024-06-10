@@ -261,7 +261,6 @@ const FormsAndDocuments = (props) => {
                               <>
                                 <FeatureTreatment
                                   key="forms_and_document_page_feature"
-                                  treatmentNames={SHOW_DIGITAL_FORMS}
                                   treatmentName={SHOW_DIGITAL_FORMS}
                                   onLoad={() => {}}
                                   onTimedout={() => {}}
@@ -277,7 +276,6 @@ const FormsAndDocuments = (props) => {
                                 </FeatureTreatment>
                                 <FeatureTreatment
                                   key="forms_and_document_page_feature"
-                                  treatmentNames={SHOW_DIGITAL_FORMS}
                                   treatmentName={SHOW_DIGITAL_FORMS}
                                   onLoad={() => {}}
                                   onTimedout={() => {}}
