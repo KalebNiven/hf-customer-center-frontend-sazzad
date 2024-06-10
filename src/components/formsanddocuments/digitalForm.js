@@ -26,7 +26,7 @@ const DigitalForm = ({ memberId, customerId, templateId, setTemplateId }) => {
 
   const mountCardGrid = () =>
     window.digitalFormsWidget.mount(cardGridMountProps);
- 
+
   const stepperMountProps = {
     parent: "dfw-main",
     appId: "CUSTOMER_CENTER",
