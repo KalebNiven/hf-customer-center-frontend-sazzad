@@ -45,7 +45,6 @@ const DigitalForm = ({ memberId, customerId, templateId, setTemplateId }) => {
 
   const onScriptLoad = () => {
     try {
-      console.log("onScriptLoad");
       sessionStorage.setItem("longLoad", false);
       setIsScriptLoaded(true);
     } catch (error) {
