@@ -260,7 +260,6 @@ const FormsAndDocuments = (props) => {
                             {customerInfo.data?.age >= 18 ? (
                               <>
                                 <FeatureTreatment
-                                  key="forms_and_document_page_feature"
                                   treatmentName={SHOW_DIGITAL_FORMS}
                                   onLoad={() => {}}
                                   onTimedout={() => {}}
@@ -275,7 +274,6 @@ const FormsAndDocuments = (props) => {
                                   />
                                 </FeatureTreatment>
                                 <FeatureTreatment
-                                  key="forms_and_document_page_feature"
                                   treatmentName={SHOW_DIGITAL_FORMS}
                                   onLoad={() => {}}
                                   onTimedout={() => {}}
