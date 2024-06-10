@@ -15,7 +15,7 @@ describe("Miscellaneous utils functions", () => {
     };
     it("Get split attributes when values are present", () => {
       const splitAttributes = getSplitAttributes(
-        sampleCustomerInfoDataObject.data,
+        sampleCustomerInfoDataObject.data
       );
 
       expect(splitAttributes).toEqual({

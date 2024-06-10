@@ -243,7 +243,7 @@ const nonMemberForm = ({
           "button",
           "bottom",
           "",
-          "registration",
+          "registration"
         );
         setIsContinue(true);
       } else {
@@ -707,7 +707,7 @@ const nonMemberForm = ({
                   "link",
                   "bottom",
                   "",
-                  "registration",
+                  "registration"
                 )
               }
               href="https://healthfirst.org/terms-of-use"

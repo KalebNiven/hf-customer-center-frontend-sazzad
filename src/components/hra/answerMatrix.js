@@ -27,7 +27,7 @@ const AnswerMatrix = ({ isSelected, setIsSelected }) => {
           data.list,
           active,
           visited,
-          hraMemberInfo,
+          hraMemberInfo
         ).matrix_questions.map((question) => {
           const {
             question_type,
@@ -40,8 +40,12 @@ const AnswerMatrix = ({ isSelected, setIsSelected }) => {
               <Title>{question_text}</Title>
               <AnswerBody type={question_type}>
                 {question_answers.map((answer) => {
-                  const { id, answer_text, answer_code, answer_with_text } =
-                    answer;
+                  const {
+                    id,
+                    answer_text,
+                    answer_code,
+                    answer_with_text,
+                  } = answer;
                   const uid = question_id + answer_code;
                   switch (question_type) {
                     case SINGLE_SELECT:

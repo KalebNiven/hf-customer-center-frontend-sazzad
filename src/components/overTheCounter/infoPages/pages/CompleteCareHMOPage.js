@@ -283,7 +283,7 @@ const CompleteCareHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc",
+                "otc"
               )
             }
           >
@@ -313,7 +313,7 @@ const CompleteCareHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc",
+                "otc"
               )
             }
           >
@@ -351,7 +351,7 @@ const CompleteCareHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc",
+                "otc"
               )
             }
           >
@@ -381,7 +381,7 @@ const CompleteCareHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc",
+                "otc"
               )
             }
           >
@@ -615,7 +615,7 @@ const CompleteCareHMOPage = () => {
                     "Button",
                     "/learn-more",
                     customerInfo,
-                    "otc",
+                    "otc"
                   )
                 }
                 href={evidenceOfCoverageURL.CompleteCare.url}

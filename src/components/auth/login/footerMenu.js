@@ -39,7 +39,7 @@ const FooterMenu = () => {
       "link",
       "bottom",
       "",
-      "registration",
+      "registration"
     );
   };
 

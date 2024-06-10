@@ -41,8 +41,9 @@ const MFAModal = (props) => {
   const [selectedTarget, setSelectedTarget] = useState(null);
   const [selectContactError, setSelectContactError] = useState("");
   const [verificationCodeInput, setVerificationCodeInput] = useState("");
-  const [verificationCodeInputError, setVerificationCodeInputError] =
-    useState("");
+  const [verificationCodeInputError, setVerificationCodeInputError] = useState(
+    ""
+  );
   const [verificationAttemptsCount, setVerificationAttemptsCount] = useState(0);
   const [renderNotification, setRenderNotification] = useState(false);
   const [initialCodeSent, setInitialCodeSent] = useState(false);
@@ -92,7 +93,7 @@ const MFAModal = (props) => {
           mfaStatus("Invalid");
         }
         setVerificationCodeInputError(
-          "The value entered is invalid, please ensure the correct value is entered and try again.",
+          "The value entered is invalid, please ensure the correct value is entered and try again."
         );
       }
       if (mfaVerify?.error?.data?.status == "Failure") {
@@ -101,7 +102,7 @@ const MFAModal = (props) => {
           mfaStatus("Expired");
         }
         setVerificationCodeInputError(
-          "The value entered is invalid, please ensure the correct value is entered and try again.",
+          "The value entered is invalid, please ensure the correct value is entered and try again."
         );
       }
     }
@@ -134,7 +135,7 @@ const MFAModal = (props) => {
     setVerificationCodeInputError("");
     if (data.length < 6 || !isNumeric(data)) {
       setVerificationCodeInputError(
-        "Please ensure that the value entered is 6 digits and try again.",
+        "Please ensure that the value entered is 6 digits and try again."
       );
       return null;
     }
@@ -192,7 +193,7 @@ const MFAModal = (props) => {
         } else {
           phone = `(${phone.substring(0, 3)}) ${phone.substring(
             3,
-            6,
+            6
           )} - ${phone.substring(6, 10)}`;
         }
 
@@ -226,8 +227,8 @@ const MFAModal = (props) => {
                   selectContactError
                     ? "error"
                     : selectedTarget && selectedTarget?.text === targetEmail
-                      ? "selected"
-                      : ""
+                    ? "selected"
+                    : ""
                 }
               >
                 <RadioButtonContainer>
@@ -252,8 +253,8 @@ const MFAModal = (props) => {
                   selectContactError
                     ? "error"
                     : selectedTarget && selectedTarget?.text === targetPhone
-                      ? "selected"
-                      : ""
+                    ? "selected"
+                    : ""
                 }
               >
                 <RadioButtonContainer>
@@ -287,8 +288,8 @@ const MFAModal = (props) => {
                       selectedTarget?.type == "email"
                         ? "email"
                         : selectedTarget?.type == "phone"
-                          ? "sms"
-                          : "unknown",
+                        ? "sms"
+                        : "unknown"
                     )
                   }
                 >
@@ -312,8 +313,8 @@ const MFAModal = (props) => {
                 {selectedTarget?.text
                   ? selectedTarget.text
                   : targetEmail
-                    ? targetEmail
-                    : targetPhone}
+                  ? targetEmail
+                  : targetPhone}
               </VerifyTargetAddress>
             </SubHeader>
             {mfaCode.loading ? (
@@ -338,8 +339,8 @@ const MFAModal = (props) => {
                         selectedTarget?.type == "email"
                           ? "email"
                           : selectedTarget?.type == "phone"
-                            ? "sms"
-                            : "unknown",
+                          ? "sms"
+                          : "unknown"
                       )
                     }
                   >
@@ -364,8 +365,8 @@ const MFAModal = (props) => {
                           selectedTarget?.type == "email"
                             ? "email"
                             : selectedTarget?.type == "phone"
-                              ? "sms"
-                              : "unknown",
+                            ? "sms"
+                            : "unknown"
                         )
                       }
                     >

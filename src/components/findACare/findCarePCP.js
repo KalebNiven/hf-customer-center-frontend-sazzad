@@ -58,7 +58,7 @@ const FindCarePCP = (props) => {
           pcpId: pcpHousehold?.data?.dependents[dep?.memberId]?.id ?? null,
           disablePcpUpdate: dep.Status === "active" ? false : true,
           membershipEffectiveDate: moment(dep.MembershipEffectiveDate).format(
-            "MM-DD-YYYY",
+            "MM-DD-YYYY"
           ),
           lang: language,
         };
@@ -77,7 +77,7 @@ const FindCarePCP = (props) => {
           pcpId: pcpHousehold?.data?.hohPlans[plan?.MemberId]?.id ?? null,
           disablePcpUpdate: plan.MembershipStatus === "active" ? false : true,
           membershipEffectiveDate: moment(plan.MembershipEffectiveDate).format(
-            "MM-DD-YYYY",
+            "MM-DD-YYYY"
           ),
           lang: language,
         };
@@ -111,7 +111,7 @@ const FindCarePCP = (props) => {
         const currentMemberId = sessionStorage.getItem("currentMemberId");
         sessionStorage.setItem(
           "currentMemberId",
-          currentMemberId ? currentMemberId : customerInfo.memberId,
+          currentMemberId ? currentMemberId : customerInfo.memberId
         );
         if (!ProviderDirectoryWidget.isMounted(PRIMARY_CARE_PROVIDER)) {
           ProviderDirectoryWidget.mount(mountProps);

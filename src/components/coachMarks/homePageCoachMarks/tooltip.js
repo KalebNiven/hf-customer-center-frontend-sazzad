@@ -44,7 +44,7 @@ const generateStepProgressBar = (size, activeIndex) => {
   const stepsProgressBar = [];
   for (let i = 0; i < size; i++) {
     stepsProgressBar.push(
-      <ProgressDot active={i == activeIndex ? true : false} key={i} />,
+      <ProgressDot active={i == activeIndex ? true : false} key={i} />
     );
   }
   return stepsProgressBar;

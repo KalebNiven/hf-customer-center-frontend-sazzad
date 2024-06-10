@@ -23,7 +23,7 @@ export const sendErrorLog = async (error) => {
     };
 
     const localStorageOKTA = JSON.parse(
-      localStorage.getItem("okta-token-storage"),
+      localStorage.getItem("okta-token-storage")
     );
     const oktaClientId = localStorageOKTA?.idToken?.clientId;
 
@@ -40,7 +40,7 @@ export const sendErrorLog = async (error) => {
     const res = await LOFLv2(oktaClientId ? true : false).post(
       oktaClientId ? "/report" : "/report-anon",
       payload,
-      config,
+      config
     );
     return res.data;
   } catch (error) {
@@ -390,7 +390,7 @@ export const submitAttestationAgreementAPI = async (data) => {
 export const getMailMemberIDCardStatus = async (memberId) => {
   try {
     const res = await LOFLv2(true).get(
-      "/mail-member-id-card-status/" + memberId,
+      "/mail-member-id-card-status/" + memberId
     );
     return res;
   } catch (error) {
@@ -430,7 +430,7 @@ export const getMemberAnswers = async (memberIdsList) => {
     const calls = [];
     // create list of calls
     memberIdsList.forEach((memberId) =>
-      calls.push(LOFLv2(true).get(`/hra-surveys/${memberId}`)),
+      calls.push(LOFLv2(true).get(`/hra-surveys/${memberId}`))
     );
     const allData = await Promise.all(calls);
     return allData.map((data) => data.data);
@@ -451,9 +451,9 @@ export const getAllRecomendedResources = async (dataPairList) => {
     dataPairList.forEach((pair) =>
       calls.push(
         LOFLv2(true).get(
-          `/hra-resources/${pair.questionareId}/${pair.companyCode}/${pair.memberId}`,
-        ),
-      ),
+          `/hra-resources/${pair.questionareId}/${pair.companyCode}/${pair.memberId}`
+        )
+      )
     );
     const allData = await Promise.all(calls);
     return allData.map((data) => data.data);
@@ -498,7 +498,7 @@ export const getCategDetails = async (data) => {
     const res = await LOFLv2(true).post(
       "/community-resources/sub-categories",
       formData,
-      config,
+      config
     );
     return res.data;
   } catch (error) {
@@ -533,7 +533,7 @@ export const getCategDetailsAll = async (data) => {
     const res = await LOFLv2(true).post(
       "/community-resources/resources",
       formData,
-      config,
+      config
     );
     return res.data;
   } catch (error) {
@@ -566,7 +566,7 @@ export const getIndMapDetails = async (data) => {
     const res = await LOFLv2(true).post(
       "/community-resources/resource-details",
       formData,
-      config,
+      config
     );
     return res.data;
   } catch (error) {
@@ -621,7 +621,7 @@ export const addMbrshipDetails = async (membershipDetails) => {
     const res = await LOFLv2(true).post(
       "/attach-membership",
       membershipDetails.data,
-      config,
+      config
     );
     return res;
   } catch (error) {
@@ -708,7 +708,7 @@ export const requestUserMFACode = async (data, mfaToken) => {
     res = await LOFLv2(true).post(
       "settings/resend-verification-code",
       data,
-      config,
+      config
     );
 
     return res;
@@ -819,7 +819,7 @@ export const createUsernamePassword = async (data, mfaVerifiedAuth) => {
     const res = await LOFLv2(true).post(
       "create-username-password",
       data,
-      config,
+      config
     );
     return res;
   } catch (error) {
@@ -937,7 +937,7 @@ export const updatePhoneContactInfo = async (phoneNum) => {
 
 export const verifyPhoneContactInfo = async (
   payload,
-  authenticated = false,
+  authenticated = false
 ) => {
   try {
     return await LOFLv2(authenticated)
@@ -955,7 +955,7 @@ export const verifyPhoneContactInfo = async (
 
 export const verifyEmailContactInfo = async (
   payload,
-  authenticated = false,
+  authenticated = false
 ) => {
   try {
     return await LOFLv2(authenticated)
@@ -999,7 +999,7 @@ export const resendCodeContactInfo = async (payload, csrf) => {
     // }
     const res = await LOFLv2(true).post(
       "settings/resend-verification-code",
-      payload,
+      payload
     );
     return res.data;
   } catch (error) {
@@ -1044,11 +1044,11 @@ export const getCoverageBenefitsVideos = async (
   language,
   companyCode,
   benefitPackage,
-  membershipStatus,
+  membershipStatus
 ) => {
   try {
     const res = await LOFLv2(true).get(
-      `/videos/medicare/${language}?companyCode=${companyCode}&benefitPackage=${benefitPackage}&membershipStatus=${membershipStatus}`,
+      `/videos/medicare/${language}?companyCode=${companyCode}&benefitPackage=${benefitPackage}&membershipStatus=${membershipStatus}`
     );
     return res.data;
   } catch (error) {

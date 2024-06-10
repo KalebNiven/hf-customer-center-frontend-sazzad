@@ -52,8 +52,9 @@ const UnauthenticatedUserWrapper = ({ children }) => {
 const Wrapper = ({ children }) => {
   // Maintenance Mode
   const splitHookClient = useClient();
-  const maintenanceFeature =
-    splitHookClient.getTreatmentWithConfig(MAINTENANCE_PAGE);
+  const maintenanceFeature = splitHookClient.getTreatmentWithConfig(
+    MAINTENANCE_PAGE
+  );
   if (maintenanceFeature?.treatment === "on") return <Maintenance />;
   return children;
 };

@@ -16,10 +16,17 @@ import { SHOW_EXTERNAL_LINK_CARDS } from "../../constants/splits";
 
 const SSOModal = () => {
   const customerInfo = useSelector((state) => state.customerInfo.data);
-  const { ssoModalState, setSsoModalState, resetSsoModal } =
-    useSSOModalContext();
-  const { showMemberModal, routeLink, externalLinkName, membershipSplit } =
-    ssoModalState;
+  const {
+    ssoModalState,
+    setSsoModalState,
+    resetSsoModal,
+  } = useSSOModalContext();
+  const {
+    showMemberModal,
+    routeLink,
+    externalLinkName,
+    membershipSplit,
+  } = ssoModalState;
   const { setAcknowledgmentModal } = useAppContext();
   const { featureNameSplit } = ssoModalState;
 
@@ -27,7 +34,7 @@ const SSOModal = () => {
     membershipKey,
     routeLink,
     externalLinkName,
-    splitTreatment,
+    splitTreatment
   ) => {
     if (splitTreatment === "notice") {
       switch (externalLinkName) {
@@ -48,7 +55,7 @@ const SSOModal = () => {
       });
   };
   const splitHookClient = useClient(
-    customerInfo.customerId === null ? "Anonymous" : customerInfo.customerId,
+    customerInfo.customerId === null ? "Anonymous" : customerInfo.customerId
   );
 
   const closeModal = () => {
@@ -67,8 +74,10 @@ const SSOModal = () => {
       companyCode:
         memberType === "HOH" ? [plan.CompanyNumber] : [plan.companyCode],
     };
-    const showManagePrescriptionsOverride =
-      splitHookClient.getTreatmentWithConfig(membershipSplit, splitAttributes);
+    const showManagePrescriptionsOverride = splitHookClient.getTreatmentWithConfig(
+      membershipSplit,
+      splitAttributes
+    );
     return showManagePrescriptionsOverride.treatment;
   };
 
@@ -107,7 +116,7 @@ const SSOModal = () => {
                       checkMemberForTreatment(
                         row,
                         "HOH",
-                        SHOW_EXTERNAL_LINK_CARDS,
+                        SHOW_EXTERNAL_LINK_CARDS
                       ) === "on"
                         ? true
                         : false;
@@ -125,8 +134,8 @@ const SSOModal = () => {
                                 checkMemberForTreatment(
                                   row,
                                   "HOH",
-                                  membershipSplit,
-                                ),
+                                  membershipSplit
+                                )
                               );
                           }}
                         >
@@ -155,7 +164,7 @@ const SSOModal = () => {
                       checkMemberForTreatment(
                         row,
                         "Dependent",
-                        SHOW_EXTERNAL_LINK_CARDS,
+                        SHOW_EXTERNAL_LINK_CARDS
                       ) === "on"
                         ? true
                         : false;
@@ -173,8 +182,8 @@ const SSOModal = () => {
                                 checkMemberForTreatment(
                                   row,
                                   "Dependent",
-                                  membershipSplit,
-                                ),
+                                  membershipSplit
+                                )
                               );
                           }}
                         >

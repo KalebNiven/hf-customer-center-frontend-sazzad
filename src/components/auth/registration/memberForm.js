@@ -300,7 +300,7 @@ const memberForm = ({
           "button",
           "bottom",
           "",
-          "registration",
+          "registration"
         );
         setMemberRegisterDetails(data);
         memberInfomation(data);
@@ -757,7 +757,7 @@ const memberForm = ({
                   "link",
                   "bottom",
                   "",
-                  "registration",
+                  "registration"
                 )
               }
             >

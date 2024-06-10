@@ -19,7 +19,7 @@ const FirstTimeScreen = ({
       "button",
       "bottom",
       customerInfo,
-      "home",
+      "home"
     );
     handleStart();
   };

@@ -41,13 +41,13 @@ const OTCInfoPage = () => {
           planCode: customerInfo?.planCode,
           companyCode: customerInfo?.companyCode,
           benefitPackage: customerInfo?.hohPlans?.map(
-            (plan) => plan.BenefitPackage,
+            (plan) => plan.BenefitPackage
           ),
           membershipStatus: customerInfo?.membershipStatus,
         }}
       >
         {getInfoPage(
-          customerInfo?.hohPlans?.map((plan) => plan.BenefitPackage),
+          customerInfo?.hohPlans?.map((plan) => plan.BenefitPackage)
         )}
       </FeatureTreatment>
     </>

@@ -17,10 +17,10 @@ import MailMemberIDCardForm from "./mailMemberIDCardForm";
 const MailIdCardDB = (props) => {
   const customerInfo = useSelector((state) => state.customerInfo);
   const mailMemberIDCardStatus = useSelector(
-    (state) => state.correspondenceStatus,
+    (state) => state.correspondenceStatus
   );
   const customerDemographicsInfo = useSelector(
-    (state) => state.customerDemographicsInfo.data,
+    (state) => state.customerDemographicsInfo.data
   );
   const [renderIdCardForm, setRenderIdCardForm] = useState(false);
 

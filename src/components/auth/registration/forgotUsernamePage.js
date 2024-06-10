@@ -100,7 +100,7 @@ const ForgotUsernamePage = () => {
         switch (forgotUsername?.data?.data?.errorCode) {
           case 1004:
             setmfaUnverifiedToken(
-              forgotUsername.data?.data?.errorData?.mfaToken,
+              forgotUsername.data?.data?.errorData?.mfaToken
             );
             setStep(VERIFY_STEP);
             return;
@@ -181,7 +181,7 @@ const ForgotUsernamePage = () => {
         "button",
         "bottom",
         "",
-        "registration",
+        "registration"
       );
       dispatch(requestForgotUsername(createPayload()));
     }

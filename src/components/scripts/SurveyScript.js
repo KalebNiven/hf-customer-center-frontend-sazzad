@@ -16,7 +16,7 @@ const SurveyScript = () => {
       loadExternalScript(
         MIX_REACT_SURVEY_WIDGET_BASE_URL + "/embed/hraWidget.js",
         HRA_WIDGET_SCRIPT_ID,
-        callback,
+        callback
       );
     }
   }, []);

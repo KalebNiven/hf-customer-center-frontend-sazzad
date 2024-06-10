@@ -48,9 +48,9 @@ export default () => {
             memberName: val.firstName.concat(" ", val.lastName),
             providerName: val.provider.firstName.concat(
               " ",
-              val.provider.lastName,
+              val.provider.lastName
             ),
-          },
+          }
       ),
     },
     customerInfo: {

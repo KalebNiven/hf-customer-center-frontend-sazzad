@@ -8,7 +8,7 @@ export const initialState = {
 
 export default function submitAttestationAgreement(
   state = initialState,
-  action,
+  action
 ) {
   switch (action.type) {
     case actionTypes.REQUEST_SUBMIT_ATTESTATION_AGREEMENT: {

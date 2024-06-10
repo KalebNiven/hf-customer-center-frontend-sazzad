@@ -74,7 +74,7 @@ const ExternalSiteModal = () => {
             value: "center",
           },
         },
-      },
+      }
     );
 
     const isSSOLink = membershipKey !== null && membershipKey !== undefined;
@@ -130,7 +130,7 @@ const ExternalSiteModal = () => {
                         e,
                         externalSiteModal.link,
                         externalSiteModal.membershipKey,
-                        externalSiteModal.label,
+                        externalSiteModal.label
                       )
                     }
                   >

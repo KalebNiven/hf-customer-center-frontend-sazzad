@@ -62,7 +62,7 @@ export const ChatWidgetScript = ({
     if (digitalSurveyWidget)
       triggerDigitalSurveyByEventName(
         digitalSurveyWidget,
-        DIGITAL_SURVEY_EVENTS.CHAT,
+        DIGITAL_SURVEY_EVENTS.CHAT
       );
   };
 

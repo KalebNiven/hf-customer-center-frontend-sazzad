@@ -16,7 +16,7 @@ export const LOFLv2 = (authenticated = false) => {
   if (authenticated) {
     try {
       const localStorageOKTA = JSON.parse(
-        localStorage.getItem("okta-token-storage"),
+        localStorage.getItem("okta-token-storage")
       );
       const accessToken = "Bearer " + localStorageOKTA.accessToken.accessToken;
       const idToken = "Bearer " + localStorageOKTA.idToken.idToken;
@@ -29,7 +29,7 @@ export const LOFLv2 = (authenticated = false) => {
         },
         (error) => {
           return Promise.reject(error);
-        },
+        }
       );
     } catch (e) {
       console.log(e);

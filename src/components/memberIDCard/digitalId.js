@@ -17,7 +17,7 @@ function DigitalId(props) {
 
   const digitalIdCard = useSelector((state) => state.digitalIdCard.idCard);
   const digitalIdCardLoading = useSelector(
-    (state) => state.digitalIdCard.loading,
+    (state) => state.digitalIdCard.loading
   );
   const customerInfo = useSelector((state) => state.customerInfo);
   const COMPANYCODE02 = "02";
@@ -217,7 +217,7 @@ function DigitalId(props) {
                               onClick={() =>
                                 handleSegment(
                                   "GoogleAddress",
-                                  digitalIdCard.providerAddress,
+                                  digitalIdCard.providerAddress
                                 )
                               }
                             >
@@ -236,7 +236,7 @@ function DigitalId(props) {
                               onClick={() =>
                                 handleSegment(
                                   "PhoneNumber",
-                                  digitalIdCard.providerPhone,
+                                  digitalIdCard.providerPhone
                                 )
                               }
                             >

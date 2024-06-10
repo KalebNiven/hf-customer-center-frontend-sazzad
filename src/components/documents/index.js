@@ -132,13 +132,13 @@ const DocumentCenter = (props) => {
     ) {
       if (!startDate && dateRangeDisplay.start) {
         startDate = moment(dateRangeDisplay.start, "MM/DD/YYYY").format(
-          "YYYY-MM-DD",
+          "YYYY-MM-DD"
         );
       }
 
       if (!endDate && dateRangeDisplay.end) {
         endDate = moment(dateRangeDisplay.end, "MM/DD/YYYY").format(
-          "YYYY-MM-DD",
+          "YYYY-MM-DD"
         );
       }
     }
@@ -151,8 +151,8 @@ const DocumentCenter = (props) => {
         endDate,
         companyCode,
         benefitPackage,
-        featureconfig,
-      ),
+        featureconfig
+      )
     );
   };
 
@@ -239,7 +239,7 @@ const DocumentCenter = (props) => {
     if (!word?.length) return "";
     const wordArray = word.split(delimiter);
     const filteredWords = wordArray.filter(
-      (word) => word.toLowerCase() !== "sensitive",
+      (word) => word.toLowerCase() !== "sensitive"
     );
     let finalResult = filteredWords.join(" ");
     if (finalResult?.toLowerCase().indexOf("sensitive") >= 0) {
@@ -272,8 +272,8 @@ const DocumentCenter = (props) => {
             {row.DisplayDocumentTypeName
               ? row.DisplayDocumentTypeName
               : row.DocumentType
-                ? replaceChars({ word: row.DocumentType })
-                : ""}
+              ? replaceChars({ word: row.DocumentType })
+              : ""}
           </div>
         </div>
       ),
@@ -302,13 +302,13 @@ const DocumentCenter = (props) => {
           rowA.DocumentDate,
           rowA.DocumentDate.split("-")[0].length < 4
             ? "MM-DD-YYYY"
-            : "YYYY-MM-DD",
+            : "YYYY-MM-DD"
         );
         const bField = moment(
           rowB.DocumentDate,
           rowB.DocumentDate.split("-")[0].length < 4
             ? "MM-DD-YYYY"
-            : "YYYY-MM-DD",
+            : "YYYY-MM-DD"
         );
 
         if (aField > bField) {
@@ -353,7 +353,7 @@ const DocumentCenter = (props) => {
               `/documents/${
                 row.NodeID ? row.NodeID : row.DocumentID
               }?isNodeId=${row.NodeID ? "true" : "false"}`,
-              "_blank",
+              "_blank"
             );
           }}
         >
@@ -371,7 +371,7 @@ const DocumentCenter = (props) => {
   const getFormattedDate = (date) => {
     return moment(
       date,
-      date.split("-")[0].length < 4 ? "MM-DD-YYYY" : "YYYY-MM-DD",
+      date.split("-")[0].length < 4 ? "MM-DD-YYYY" : "YYYY-MM-DD"
     ).format("ll");
   };
 
@@ -393,7 +393,7 @@ const DocumentCenter = (props) => {
                 row.DocumentType
                   ? replaceChars({ word: row.DocumentType })
                   : "",
-                20,
+                20
               )}
             </span>
             <span data-tag="allowRowEvents" className="date">
@@ -408,13 +408,13 @@ const DocumentCenter = (props) => {
           rowA.DocumentDate,
           rowA.DocumentDate.split("-")[0].length < 4
             ? "MM-DD-YYYY"
-            : "YYYY-MM-DD",
+            : "YYYY-MM-DD"
         );
         const bField = moment(
           rowB.DocumentDate,
           rowB.DocumentDate.split("-")[0].length < 4
             ? "MM-DD-YYYY"
-            : "YYYY-MM-DD",
+            : "YYYY-MM-DD"
         );
 
         if (aField > bField) {
@@ -438,7 +438,7 @@ const DocumentCenter = (props) => {
               `/documents/${
                 row.NodeID ? row.NodeID : row.DocumentID
               }?isNodeId=${row.NodeID ? "true" : "false"}`,
-              "_blank",
+              "_blank"
             );
           }}
         >
@@ -539,7 +539,7 @@ const DocumentCenter = (props) => {
       selectedDocumentType?.length === 0
         ? documentsList
         : documentsList.filter(
-            (item) => selectedDocumentType.indexOf(item.DocumentType) > -1,
+            (item) => selectedDocumentType.indexOf(item.DocumentType) > -1
           );
     setDocumentList(displayArry);
   };
@@ -617,7 +617,7 @@ const DocumentCenter = (props) => {
               handleSegmentBtn(
                 "Clear Start Date Filter",
                 {},
-                "Clear Start Date Filter",
+                "Clear Start Date Filter"
               );
 
               clearStartDate(e);
@@ -768,7 +768,7 @@ const DocumentCenter = (props) => {
                       handleSegmentBtn(
                         "Select member dropdown",
                         undefined,
-                        "member",
+                        "member"
                       );
 
                       setDocumentsListLoaded(false);
@@ -828,7 +828,7 @@ const DocumentCenter = (props) => {
                         handleSegmentBtn(
                           "Enroll in paperless",
                           undefined,
-                          "enroll in paperless",
+                          "enroll in paperless"
                         );
                       }}
                     >
@@ -899,7 +899,7 @@ const DocumentCenter = (props) => {
                     handleSegmentBtn(
                       "Date range button",
                       {},
-                      "Date range button",
+                      "Date range button"
                     );
                     setDocumentTypeToggle(false);
                     setDocumentRangeToggle(!documentRangeToggle);
@@ -935,7 +935,7 @@ const DocumentCenter = (props) => {
                       handleSegmentBtn(
                         "Clear all button",
                         {},
-                        "Clear all button",
+                        "Clear all button"
                       );
                     }}
                   >
@@ -975,7 +975,7 @@ const DocumentCenter = (props) => {
                               moment(endValue)
                                 .subtract(1, "days")
                                 .utcOffset(0, false)
-                                .format("MM/DD/YYYY"),
+                                .format("MM/DD/YYYY")
                             );
                             setDateRangeDisplay({
                               ...dateRangeDisplay,
@@ -988,7 +988,7 @@ const DocumentCenter = (props) => {
                               null,
                               moment(endValue)
                                 .subtract(1, "days")
-                                .format("YYYY-MM-DD"),
+                                .format("YYYY-MM-DD")
                             );
                           } else {
                             setDateRangeDisplay({
@@ -998,12 +998,12 @@ const DocumentCenter = (props) => {
                             setStartValue(
                               moment(value)
                                 .utcOffset(0, false)
-                                .format("MM/DD/YYYY"),
+                                .format("MM/DD/YYYY")
                             );
                             getDocuments(
                               null,
                               null,
-                              moment(value).format("YYYY-MM-DD"),
+                              moment(value).format("YYYY-MM-DD")
                             );
                           }
 
@@ -1056,7 +1056,7 @@ const DocumentCenter = (props) => {
                               moment(startValue)
                                 .add(1, "days")
                                 .utcOffset(0, false)
-                                .format("MM/DD/YYYY"),
+                                .format("MM/DD/YYYY")
                             );
                             setDateRangeDisplay({
                               ...dateRangeDisplay,
@@ -1070,7 +1070,7 @@ const DocumentCenter = (props) => {
                               null,
                               moment(startValue)
                                 .add(1, "days")
-                                .format("YYYY-MM-DD"),
+                                .format("YYYY-MM-DD")
                             );
                           } else {
                             setDateRangeDisplay({
@@ -1080,13 +1080,13 @@ const DocumentCenter = (props) => {
                             setEndValue(
                               moment(value)
                                 .utcOffset(0, false)
-                                .format("MM/DD/YYYY"),
+                                .format("MM/DD/YYYY")
                             );
                             getDocuments(
                               null,
                               null,
                               null,
-                              moment(value).format("YYYY-MM-DD"),
+                              moment(value).format("YYYY-MM-DD")
                             );
                           }
 
@@ -1177,7 +1177,7 @@ const DocumentCenter = (props) => {
                       handleSegmentBtn(
                         "PageChangeButton",
                         undefined,
-                        segmentMessage,
+                        segmentMessage
                       );
                     }
                   }}
@@ -1187,7 +1187,7 @@ const DocumentCenter = (props) => {
                       handleSegmentBtn(
                         "DocumentsPerPage",
                         undefined,
-                        segmentMessage,
+                        segmentMessage
                       );
                     }
                   }}
@@ -1198,7 +1198,7 @@ const DocumentCenter = (props) => {
                       handleSegmentBtn(
                         segmentMessage,
                         undefined,
-                        segmentMessage,
+                        segmentMessage
                       );
                     }
                   }}
@@ -1216,7 +1216,7 @@ const DocumentCenter = (props) => {
                       `/documents/${
                         row.NodeID ? row.NodeID : row.DocumentID
                       }?isNodeId=${row.NodeID ? "true" : "false"}`,
-                      "_blank",
+                      "_blank"
                     );
                   }}
                   customStyles={customStyles}
@@ -1237,7 +1237,7 @@ const DocumentCenter = (props) => {
                       handleSegmentBtn(
                         "PageChangeButton",
                         undefined,
-                        segmentMessage,
+                        segmentMessage
                       );
                     }
                   }}
@@ -1247,7 +1247,7 @@ const DocumentCenter = (props) => {
                       handleSegmentBtn(
                         "DocumentsPerPage",
                         undefined,
-                        segmentMessage,
+                        segmentMessage
                       );
                     }
                   }}
@@ -1258,7 +1258,7 @@ const DocumentCenter = (props) => {
                       handleSegmentBtn(
                         segmentMmessage,
                         undefined,
-                        segmentMmessage,
+                        segmentMmessage
                       );
                     }
                   }}
@@ -1275,7 +1275,7 @@ const DocumentCenter = (props) => {
                       `/documents/${
                         row.NodeID ? row.NodeID : row.DocumentID
                       }?isNodeId=${row.NodeID ? "true" : "false"}`,
-                      "_blank",
+                      "_blank"
                     );
                   }}
                   customStyles={customStyles}
@@ -1300,7 +1300,7 @@ const Index = (props) => {
     accountStatus: customerInfo.data?.accountStatus,
     companyCode: customerInfo.data?.hohPlans?.map((plan) => plan.CompanyNumber),
     benefitPackage: customerInfo.data?.hohPlans?.map(
-      (plan) => plan.BenefitPackage,
+      (plan) => plan.BenefitPackage
     ),
   };
 

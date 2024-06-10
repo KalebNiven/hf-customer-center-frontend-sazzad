@@ -10,7 +10,7 @@ import AppWrapper from "./AppWrapper";
 
 const App = () => {
   const [loaderShow, setLoaderShow] = useState(
-    sessionStorage.getItem("longLoad"),
+    sessionStorage.getItem("longLoad")
   );
 
   useEffect(() => {

@@ -13,7 +13,7 @@ const PublicPageLayout = ({
   const splitHookClient = useClient();
   const feature = splitHookClient.getTreatmentWithConfig(
     splitFeatureName,
-    attributes,
+    attributes
   );
 
   switch (feature.treatment) {

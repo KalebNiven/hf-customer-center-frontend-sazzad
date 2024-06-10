@@ -41,9 +41,9 @@ export default function claim(state = initialState, action) {
                 memberName: val.firstName.concat(" ", val.lastName),
                 providerName: val.provider.firstName.concat(
                   " ",
-                  val.provider.lastName,
+                  val.provider.lastName
                 ),
-              },
+              }
           );
           return {
             ...state,

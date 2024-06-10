@@ -23,7 +23,7 @@ import OTC from "./otc/index";
 
 const HomeDetails = () => {
   const carouselLoading = useSelector(
-    (state) => state.homeDetails.carouselLoading,
+    (state) => state.homeDetails.carouselLoading
   );
   const customerInfo = useSelector((state) => state.customerInfo);
   const dispatch = useDispatch();
@@ -44,8 +44,8 @@ const HomeDetails = () => {
     if (customerInfo.data.customerId) {
       dispatch(
         requestCarouselItems(
-          formatCarouselReqPayload(customerInfo.data.hohPlans),
-        ),
+          formatCarouselReqPayload(customerInfo.data.hohPlans)
+        )
       );
     }
   }, []);

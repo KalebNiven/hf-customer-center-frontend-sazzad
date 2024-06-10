@@ -17,7 +17,7 @@ const AnswerRadio = ({ isSelected, setIsSelected }) => {
           data.list,
           active,
           visited,
-          hraMemberInfo,
+          hraMemberInfo
         ).question_answers.map((answer) => {
           const { id, answer_text, answer_code, answer_with_text } = answer;
           return (

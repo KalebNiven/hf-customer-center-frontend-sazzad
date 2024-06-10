@@ -41,7 +41,7 @@ const CreateAccount = () => {
         "button",
         "center",
         "",
-        "registration",
+        "registration"
       );
       setShowRegistration(true);
     } else if (selection == "coverageMember") {
@@ -52,7 +52,7 @@ const CreateAccount = () => {
         "button",
         "center",
         "",
-        "registration",
+        "registration"
       );
       setShowMemberShip(true);
     }
@@ -65,7 +65,7 @@ const CreateAccount = () => {
       "button",
       "center",
       "",
-      "registration",
+      "registration"
     );
     setShowRegistration(true);
     setShowMemberShip(false);
@@ -78,7 +78,7 @@ const CreateAccount = () => {
       "button",
       "center",
       "",
-      "registration",
+      "registration"
     );
     setShowRegistration(false);
     setShowMemberShip(true);
@@ -156,7 +156,7 @@ const CreateAccount = () => {
                             "button",
                             "bottom",
                             "",
-                            "registration",
+                            "registration"
                           )
                         }
                         href={MIX_REACT_REG_LEARN_MORE}
@@ -245,7 +245,7 @@ const CreateAccount = () => {
                         "link",
                         "bottom",
                         "",
-                        "registration",
+                        "registration"
                       )
                     }
                   >

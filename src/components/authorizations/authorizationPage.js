@@ -25,10 +25,10 @@ const AuthorizationPage = () => {
   }, []);
 
   const authorizationList = useSelector(
-    (state) => state.authorization.authorizationList,
+    (state) => state.authorization.authorizationList
   );
   const authorizationListLoading = useSelector(
-    (state) => state.authorization.loading,
+    (state) => state.authorization.loading
   );
   const customerInfo = useSelector((state) => state.customerInfo);
   const splitAttributes = getSplitAttributes(customerInfo?.data);

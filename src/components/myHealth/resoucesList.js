@@ -41,7 +41,7 @@ const ResoucesList = ({ content, withBorder }) => {
     rawText,
     link,
     label,
-    targetMemberId,
+    targetMemberId
   ) => {
     // Segment Track
     AnalyticsTrack(
@@ -68,7 +68,7 @@ const ResoucesList = ({ content, withBorder }) => {
             value: "center",
           },
         },
-      },
+      }
     );
 
     window.open(link);
@@ -89,7 +89,7 @@ const ResoucesList = ({ content, withBorder }) => {
                       e.target.textContent,
                       item.resource_url,
                       item.title,
-                      null,
+                      null
                     );
                   }}
                 >

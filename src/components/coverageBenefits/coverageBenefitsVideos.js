@@ -35,7 +35,7 @@ const CoverageBenefitsVideoCards = (props) => {
       language,
       props.companyCode,
       props.benefitPackage,
-      props.membershipStatus,
+      props.membershipStatus
     ).then((data) => {
       if (isMounted) {
         setVideoData(data);
@@ -122,7 +122,7 @@ const CoverageBenefitsVideoCards = (props) => {
             value: "right",
           },
         },
-      },
+      }
     );
 
     setShowPlayer(false);

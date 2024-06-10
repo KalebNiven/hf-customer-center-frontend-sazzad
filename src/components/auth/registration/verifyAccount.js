@@ -78,7 +78,7 @@ const VerifyAccount = (props) => {
 
   const verifiedChannelCheck = () => {
     const verfiedChannels = mfaFactors?.data?.channels.filter(
-      (channel) => channel.verificationStatus,
+      (channel) => channel.verificationStatus
     );
     if (verfiedChannels.length === 1) {
       let reqData = {
@@ -88,7 +88,7 @@ const VerifyAccount = (props) => {
       setSubmitClicked(true);
       setSendCodeTo(verfiedChannels[0].displayInfo);
       setPreferedSelectedItem(
-        verfiedChannels[0].method === "sms" ? SEND_TO_SMS : SEND_TO_EMAIL,
+        verfiedChannels[0].method === "sms" ? SEND_TO_SMS : SEND_TO_EMAIL
       );
       dispatch(requestMFACode(reqData, mfaUnverifiedToken));
     }
@@ -102,7 +102,7 @@ const VerifyAccount = (props) => {
       "button",
       "bottom",
       "",
-      "registration",
+      "registration"
     );
     setSubmitClicked(true);
 

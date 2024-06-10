@@ -56,7 +56,7 @@ const NowPowCategoryListPage = () => {
         categoryName: state.title,
         address: state.zip,
         csrf: customerInfo?.data?.csrf,
-      }),
+      })
     );
     dispatch(getCategoryIcon(state.iconId));
   }, []);
@@ -77,7 +77,7 @@ const NowPowCategoryListPage = () => {
         resourceTypeId: allSelectedState.resourceTypeId,
         resourceTypeName: allSelectedState.resourceTypeName,
         csrf: customerInfo?.data?.csrf,
-      }),
+      })
     );
   }, [allSelectedState]);
 
@@ -129,10 +129,10 @@ const NowPowCategoryListPage = () => {
           card[0] && card[1]
             ? [...card[0], ...card[1]]
             : card[0]
-              ? [...card[0]]
-              : card[1]
-                ? [...card[1]]
-                : [];
+            ? [...card[0]]
+            : card[1]
+            ? [...card[1]]
+            : [];
         return (
           <div key={index}>
             <MainDiv>
@@ -156,7 +156,7 @@ const NowPowCategoryListPage = () => {
                         handleCardClick(
                           details[index].resourceTypeId,
                           elem.id,
-                          elem.name,
+                          elem.name
                         )
                       }
                     >
@@ -253,7 +253,7 @@ const NowPowCategoryListPage = () => {
                     handleCardClick(
                       allSelectedState.resourceTypeId,
                       data.id,
-                      data.name,
+                      data.name
                     )
                   }
                 >

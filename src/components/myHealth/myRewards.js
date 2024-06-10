@@ -14,7 +14,7 @@ const MyRewards = () => {
   const updatedJwt =
     jwt_token === undefined ? jwt_token : jwt_token.replace("Bearer ", "");
   const [existingScript, setExistingScript] = useState(
-    document.getElementById(MY_REWARDS_SCRIPT_ID),
+    document.getElementById(MY_REWARDS_SCRIPT_ID)
   );
   const { logError } = useLogError();
 
@@ -76,7 +76,7 @@ const MyRewards = () => {
             })();
           }
           sessionStorage.setItem("longLoad", false);
-        },
+        }
       );
     }
 

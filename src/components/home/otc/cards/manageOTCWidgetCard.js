@@ -71,7 +71,7 @@ const ManageOTCWidgetCard = () => {
           <Paragraph>
             Allowance resets in{" "}
             {moment(otcProfile?.data?.balanceReloadDate, "MM-Do-YYYY").format(
-              "MMMM YYYY",
+              "MMMM YYYY"
             )}
           </Paragraph>
         </CardBody>

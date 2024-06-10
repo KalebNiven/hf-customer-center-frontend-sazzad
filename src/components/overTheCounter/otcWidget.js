@@ -40,7 +40,7 @@ const OTCWidget = () => {
   const updatedJwt =
     jwt_token === undefined ? jwt_token : jwt_token.replace("Bearer ", "");
   const [existingScript, setExistingScript] = useState(
-    document.getElementById(OTC_WIDGET_SCRIPT_ID),
+    document.getElementById(OTC_WIDGET_SCRIPT_ID)
   );
   const { externalSiteModal, setExternalSiteModal } = useAppContext();
   const { logError } = useLogError();
@@ -74,7 +74,7 @@ const OTCWidget = () => {
           handleExternalSiteClicked(
             otcWidgetLinks[action].link,
             otcWidgetLinks[action].type,
-            action,
+            action
           );
           break;
         default:
@@ -126,7 +126,7 @@ const OTCWidget = () => {
               }
             })();
           }
-        },
+        }
       );
     }
     return () => {

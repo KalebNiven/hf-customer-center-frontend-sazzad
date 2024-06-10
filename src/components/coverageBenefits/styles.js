@@ -158,8 +158,8 @@ export const Status = styled.div`
     props.status === "ACTIVE"
       ? `#3e7128`
       : props.status === "UPCOMING"
-        ? `#ffffff`
-        : `#e3342f`};
+      ? `#ffffff`
+      : `#e3342f`};
   color: ${(props) => (props.status === "UPCOMING" ? `#3e7128` : `#ffffff`)};
   font-size: 12px;
   font-weight: bold;

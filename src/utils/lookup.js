@@ -17,8 +17,8 @@ export const getQuestionById = (dataList, id, visited, customerInfo) => {
       gender === "F" || gender === "female"
         ? "female"
         : gender === "M" || gender === "male"
-          ? "male"
-          : "all";
+        ? "male"
+        : "all";
     if (
       question.question_gender !== "all" &&
       question.question_gender !== gender
@@ -35,7 +35,7 @@ export const getQuestionById = (dataList, id, visited, customerInfo) => {
   });
 
   let validQuestion = allMatchedQuestions.find(
-    (question) => isNotValidQuestion(question) === false,
+    (question) => isNotValidQuestion(question) === false
   );
 
   if (!validQuestion) {
@@ -51,7 +51,7 @@ export const getQuestionById = (dataList, id, visited, customerInfo) => {
       dataList,
       validQuestion.question_id,
       visited,
-      customerInfo,
+      customerInfo
     );
   }
 

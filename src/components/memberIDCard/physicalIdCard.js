@@ -149,7 +149,7 @@ const PhysicalIdCard = (props) => {
                           value: "bottom right",
                         },
                       },
-                    },
+                    }
                   );
                   print();
                 }}

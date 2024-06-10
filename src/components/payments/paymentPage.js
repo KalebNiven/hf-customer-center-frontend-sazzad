@@ -58,13 +58,15 @@ function PaymentPage() {
   const dispatch = useDispatch();
   const splitHookContext = useContext(SplitContext);
   const customerInfo = useSelector((state) => state.customerInfo);
-  const { paymentsModalState, setPaymentsModalState } =
-    usePaymentsModalContext();
+  const {
+    paymentsModalState,
+    setPaymentsModalState,
+  } = usePaymentsModalContext();
   const { accountStatus, memberId, hohPlans } = customerInfo.data ?? "";
 
   const accountSelectedOnModal = useMemo(
     () => paymentsModalState.membership?.MembershipKey ?? null,
-    [paymentsModalState.membership],
+    [paymentsModalState.membership]
   );
 
   const accountId = useMemo(() => {
@@ -80,22 +82,21 @@ function PaymentPage() {
       accountIds.includes(accountId)
         ? treatments[accountIds.indexOf(accountId)]
         : accountTreatmentsInit,
-    [treatments, accountId],
+    [treatments, accountId]
   );
-  const isBinderEnabled = useMemo(
-    () => accountTreatments[splits.BINDER_ACL],
-    [accountTreatments],
-  );
+  const isBinderEnabled = useMemo(() => accountTreatments[splits.BINDER_ACL], [
+    accountTreatments,
+  ]);
   const isPaymentsEnabled = useMemo(
     () => accountTreatments[splits.PAYMENTS_ACL],
-    [accountTreatments],
+    [accountTreatments]
   );
   const showGlobalError = useMemo(
     () =>
       !isBinderEnabled &&
       !isPaymentsEnabled &&
       (accountIds.length < 2 || accountSelectedOnModal),
-    [isBinderEnabled, isPaymentsEnabled, accountIds, accountSelectedOnModal],
+    [isBinderEnabled, isPaymentsEnabled, accountIds, accountSelectedOnModal]
   );
 
   const onShowPaymentPortal = useCallback(
@@ -107,14 +108,14 @@ function PaymentPage() {
         handleSegmentBtn(
           customerInfo,
           "Monthly premium payment",
-          !isReactAppEnabled && MIX_REACT_APP_PAYMENT_SITE_HREF,
+          !isReactAppEnabled && MIX_REACT_APP_PAYMENT_SITE_HREF
         );
       // show payments react app
       if (isReactAppEnabled) setShowPaymentPortal(true);
       // or redirect to LAMP
       else window.location.href = MIX_REACT_APP_PAYMENT_SITE_HREF;
     },
-    [accountTreatments, customerInfo],
+    [accountTreatments, customerInfo]
   );
 
   const onShowBinder = useCallback(
@@ -125,14 +126,14 @@ function PaymentPage() {
         handleSegmentBtn(
           customerInfo,
           "First premium payment",
-          !isReactAppEnabled && MIX_REACT_APP_BINDER_SITE_HREF,
+          !isReactAppEnabled && MIX_REACT_APP_BINDER_SITE_HREF
         );
       // show binder react app
       if (isReactAppEnabled) setShowBinderPortal(true);
       // or redirect to LAMP
       else window.location.href = MIX_REACT_APP_BINDER_SITE_HREF;
     },
-    [accountTreatments, customerInfo],
+    [accountTreatments, customerInfo]
   );
 
   // 1. onLoad: get treatment for all accounts -> runs once
@@ -148,18 +149,20 @@ function PaymentPage() {
     // get treatments for main account
     const acountSplitAttributes = getSplitpAttributes(
       customerInfo.data,
-      accountStatus ?? "",
+      accountStatus ?? ""
     );
     const plansAttributes = hohPlans.map((plan) =>
-      getSplitpAttributes(plan, accountStatus ?? ""),
+      getSplitpAttributes(plan, accountStatus ?? "")
     );
 
     const allAccountsAttributes = [acountSplitAttributes, ...plansAttributes];
-    const [updatedAccountIds, updatedTreatments] =
-      getEnabledAccountsAndTreatments(
-        allAccountsAttributes,
-        splitHookContext.client,
-      );
+    const [
+      updatedAccountIds,
+      updatedTreatments,
+    ] = getEnabledAccountsAndTreatments(
+      allAccountsAttributes,
+      splitHookContext.client
+    );
 
     setAccountIds(updatedAccountIds);
     setTreatments(updatedTreatments);

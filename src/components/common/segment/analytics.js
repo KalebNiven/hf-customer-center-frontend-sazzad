@@ -25,7 +25,7 @@ export const AnalyticsIdentifyNonMember = (fullName, memberEmail, oktaId) => {
           },
         ],
       },
-    },
+    }
   );
 };
 
@@ -34,7 +34,7 @@ export const AnalyticsIdentifyMember = (
   fullName,
   memberEmail,
   oktaId,
-  memberId,
+  memberId
 ) => {
   window.analytics.identify(
     CustomerId,
@@ -62,7 +62,7 @@ export const AnalyticsIdentifyMember = (
           },
         ],
       },
-    },
+    }
   );
 };
 
@@ -138,6 +138,6 @@ const compileFullPropsObj = (customerInfo, props) => {
 export const AnalyticsTrack = (action, customerInfo, props = null) => {
   window.analytics.track(
     action,
-    compileFullPropsObj(customerInfo?.data, props),
+    compileFullPropsObj(customerInfo?.data, props)
   );
 };

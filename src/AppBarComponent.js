@@ -117,7 +117,11 @@ function AppBarComponent() {
   const firstName = customerInfo?.data?.hohPlans[0]
     ? customerInfo.data.hohPlans[0].FirstName
     : customerInfo?.data?.firstName;
-  const userName = `${firstName} ${customerInfo?.data?.hohPlans[0] ? customerInfo?.data?.hohPlans[0]?.LastName : ""}`;
+  const userName = `${firstName} ${
+    customerInfo?.data?.hohPlans[0]
+      ? customerInfo?.data?.hohPlans[0]?.LastName
+      : ""
+  }`;
   const [homeMobileItems, setHomeMobileItems] = useState(false);
   const [findCareMobileItems, setFindCareMobileItems] = useState(false);
   const [myHealthMobileItems, setmyHealthMobileItems] = useState(false);
@@ -129,11 +133,16 @@ function AppBarComponent() {
   const { MIX_REACT_PAYMENTS_BASE_URL } = process.env;
   const { MIX_REACT_BINDER_BASE_URL } = process.env;
   const [loaderShow, setLoaderShow] = useState(
-    sessionStorage.getItem("longLoad"),
+    sessionStorage.getItem("longLoad")
   );
   const { drawerOpen, setDrawerOpen, globalError } = useAppContext();
-  const { currentStep, setCurrentStep, run, setRun, setIsStart } =
-    useCoachMarksContext();
+  const {
+    currentStep,
+    setCurrentStep,
+    run,
+    setRun,
+    setIsStart,
+  } = useCoachMarksContext();
   const [showReward, setShowReward] = useState(false);
   const appBarRef = useRef(null);
   const [appBarPosition, setAppBarPosition] = useState("relative");
@@ -141,8 +150,9 @@ function AppBarComponent() {
   const [showFormsAndDocument, setFormsAndDocument] = useState(false);
   const [binderEnabled, setBinderEnabled] = useState(false);
   const [rewardsEnabled, setRewardsEnabled] = useState(false);
-  const [reactPaymentsPortalEnabled, setReactPaymentsPortalEnabled] =
-    useState(false);
+  const [reactPaymentsPortalEnabled, setReactPaymentsPortalEnabled] = useState(
+    false
+  );
   const location = useLocation();
   const { resetPaymentsModal } = usePaymentsModalContext();
   const [loadSplit, setLoadSplit] = useState({
@@ -158,7 +168,7 @@ function AppBarComponent() {
     document.body.style.overflow = drawerOpen ? "hidden" : null;
     setMobileDrawerTop(
       appBarRef.current?.getBoundingClientRect().y +
-        appBarRef.current?.getBoundingClientRect().height,
+        appBarRef.current?.getBoundingClientRect().height
     );
   }, [drawerOpen]);
 
@@ -181,7 +191,7 @@ function AppBarComponent() {
       ? splitTreatment(getSplitAttributesForHOHPlan(customerInfo.data, null))
       : customerInfo.data.hohPlans.forEach((value, index) => {
           splitTreatment(
-            getSplitAttributesForHOHPlan(customerInfo.data, index),
+            getSplitAttributesForHOHPlan(customerInfo.data, index)
           );
         });
   };
@@ -189,34 +199,33 @@ function AppBarComponent() {
   const splitTreatment = (attributes) => {
     const paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
       PAYMENTS_ACL,
-      attributes,
+      attributes
     );
     const binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(
       BINDER_ACL,
-      attributes,
+      attributes
     );
     const showReactPaymentsPortal = splitHookClient.getTreatmentWithConfig(
       SHOW_PAYMENTS_REACT_APP,
-      attributes,
+      attributes
     );
     const rewardsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
       SHOW_MY_REWARDS,
-      attributes,
+      attributes
     );
     const showFormsAndDocs = splitHookClient.getTreatmentWithConfig(
       SHOW_CC_FORMS_AND_DOCS,
-      attributes,
+      attributes
     );
     const showDocument = splitHookClient.getTreatmentWithConfig(
       SHOW_DOC,
-      attributes,
+      attributes
     );
 
-    const healthAssessmentSurveyTreatment =
-      splitHookClient.getTreatmentWithConfig(
-        SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK,
-        attributes,
-      );
+    const healthAssessmentSurveyTreatment = splitHookClient.getTreatmentWithConfig(
+      SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK,
+      attributes
+    );
     checkTreatment(
       showDocument,
       paymentsEnabledTreatment,
@@ -224,7 +233,7 @@ function AppBarComponent() {
       showReactPaymentsPortal,
       rewardsEnabledTreatment,
       showFormsAndDocs,
-      healthAssessmentSurveyTreatment,
+      healthAssessmentSurveyTreatment
     );
   };
 
@@ -235,7 +244,7 @@ function AppBarComponent() {
     showReactPaymentsPortal,
     rewardsEnabledTreatment,
     showFormsAndDocs,
-    healthAssessmentSurveyTreatment,
+    healthAssessmentSurveyTreatment
   ) => {
     setLoadSplit(paymentsEnabledTreatment);
     if (
@@ -249,27 +258,27 @@ function AppBarComponent() {
       paymentsEnabledTreatment.treatment === "off"
         ? false
         : paymentsEnabledTreatment.treatment === "on"
-          ? setShowPaymentFlag(true)
-          : false,
+        ? setShowPaymentFlag(true)
+        : false
     );
     setBinderEnabled(
       binderEnabledTreatment.treatment === "off"
         ? false
         : binderEnabledTreatment.treatment === "on"
-          ? setShowPaymentFlag(true)
-          : false,
+        ? setShowPaymentFlag(true)
+        : false
     );
     setRewardsEnabled(
       rewardsEnabledTreatment.treatment === "off"
         ? false
         : rewardsEnabledTreatment.treatment === "on"
-          ? setShowReward(true)
-          : false,
+        ? setShowReward(true)
+        : false
     );
     setReactPaymentsPortalEnabled(
       showReactPaymentsPortal.treatment === "off"
         ? false
-        : showReactPaymentsPortal.treatment === "on",
+        : showReactPaymentsPortal.treatment === "on"
     );
     setFormsAndDocument(showFormsAndDocs.treatment === "off" ? false : true);
   };
@@ -300,11 +309,11 @@ function AppBarComponent() {
       };
       let paymentsEnabledTreatment = splitHookClient.getTreatmentWithConfig(
         PAYMENTS_ACL,
-        planAttrs,
+        planAttrs
       );
       let binderEnabledTreatment = splitHookClient.getTreatmentWithConfig(
         BINDER_ACL,
-        planAttrs,
+        planAttrs
       );
       showPayments =
         showPayments ||
@@ -349,7 +358,7 @@ function AppBarComponent() {
                   "/settings",
                   "",
                   "Account Settings",
-                  "Account Settings",
+                  "Account Settings"
                 );
                 setOpenUserCard(false);
               }}
@@ -358,7 +367,7 @@ function AppBarComponent() {
             </Settings>
           </SetDiv>
           {splitEval.evaluateSplitByName(
-            SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK,
+            SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK
           ) && (
             <SetDiv>
               <SettImg alt="" src={`/react/images/icn-document-center.svg`} />
@@ -369,7 +378,7 @@ function AppBarComponent() {
                     "/my-health/annual-health-assessment",
                     "",
                     "Health Assessment",
-                    "Health Assessment",
+                    "Health Assessment"
                   );
                   setOpenUserCard(false);
                 }}
@@ -392,7 +401,7 @@ function AppBarComponent() {
                     "/forms-and-documents",
                     "",
                     "Forms and Documents",
-                    "Forms and Documents",
+                    "Forms and Documents"
                   );
                   setOpenUserCard(false);
                 }}
@@ -593,7 +602,7 @@ function AppBarComponent() {
 
   const [selectedParentTab, setSelectedParentTab] = useState(navItems[1].href);
   const [selectedChildTab, setSelectedChildTab] = useState(
-    navItems[1].childNavs[0].href,
+    navItems[1].childNavs[0].href
   );
 
   const handleClick = (e, param, clickType, eachNavLabel, labelForSegment) => {
@@ -737,7 +746,7 @@ function AppBarComponent() {
                         eachNav.href,
                         "parent",
                         eachNav?.type === "logo" ? "Logo" : eachNav?.label,
-                        eachNav?.labelForSegment,
+                        eachNav?.labelForSegment
                       )
                     }
                     icon={
@@ -772,7 +781,7 @@ function AppBarComponent() {
                   eachNav.href,
                   "parent",
                   eachNav?.type === "logo" ? "Logo" : eachNav?.label,
-                  eachNav.labelForSegment,
+                  eachNav.labelForSegment
                 )
               }
               icon={
@@ -789,7 +798,7 @@ function AppBarComponent() {
                   : `tab-inactive ${eachNav?.coachmark}`
               }
             />
-          ),
+          )
         )}
       </Tabs>
       <Toolbar style={{ marginLeft: "auto" }}>{getUserProfile()}</Toolbar>
@@ -858,7 +867,7 @@ function AppBarComponent() {
                         eachNav.href,
                         "child",
                         eachNav?.label,
-                        eachNav.labelForSegment,
+                        eachNav.labelForSegment
                       )
                     }
                     value={eachNav.href}
@@ -885,7 +894,7 @@ function AppBarComponent() {
                         eachNav.href,
                         "child",
                         eachNav?.label,
-                        eachNav.labelForSegment,
+                        eachNav.labelForSegment
                       )
                     }
                     value={eachNav.href}
@@ -906,7 +915,7 @@ function AppBarComponent() {
                       eachNav.href,
                       "child",
                       eachNav?.label,
-                      eachNav.labelForSegment,
+                      eachNav.labelForSegment
                     )
                   }
                   value={eachNav.href}
@@ -916,7 +925,7 @@ function AppBarComponent() {
                       : "child-tab-inactive"
                   }
                 />
-              ),
+              )
             )}
         </Tabs>
       </div>
@@ -960,7 +969,7 @@ function AppBarComponent() {
     href,
     clickElement,
     eachNavLabel,
-    labelForSegment,
+    labelForSegment
   ) => {
     if (drawerOpen) {
       setDrawerOpen(!drawerOpen);
@@ -971,7 +980,7 @@ function AppBarComponent() {
       setSelectedParentTab(href);
       setSelectedChildTab(
         navItems.find((x) => x.href === href && x.type === "navItem")
-          .childNavs[0].href,
+          .childNavs[0].href
       );
       window.location.href = href;
     } else if (href === "/findcare" && clickElement === "parent") {
@@ -1038,13 +1047,13 @@ function AppBarComponent() {
   const displayNavMenu = () => {
     nav = [...navItems];
     const myHomeObj = nav.find(
-      (x) => x.href === "/home" && x.type === "navItem",
+      (x) => x.href === "/home" && x.type === "navItem"
     );
     const findCareObj = nav.find(
-      (x) => x.href === "/findcare" && x.type === "navItem",
+      (x) => x.href === "/findcare" && x.type === "navItem"
     );
     const myHealthObj = nav.find(
-      (x) => x.href === "/my-health" && x.type === "navItem",
+      (x) => x.href === "/my-health" && x.type === "navItem"
     );
     // if (window.location.pathname === "/search" || window.location.pathname === "/details") {
     //   findCareObj.childNavs = []
@@ -1071,7 +1080,7 @@ function AppBarComponent() {
                     "/settings",
                     "",
                     "Account Settings",
-                    "Account Settings",
+                    "Account Settings"
                   )
                 }
               >
@@ -1079,7 +1088,7 @@ function AppBarComponent() {
               </Settings>
             </SetDiv>
             {splitEval.evaluateSplitByName(
-              SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK,
+              SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK
             ) && (
               <SetDiv>
                 <SettImg alt="" src={`/react/images/icn-document-center.svg`} />
@@ -1090,7 +1099,7 @@ function AppBarComponent() {
                       "/my-health/annual-health-assessment",
                       "",
                       "Health Assessment",
-                      "Health Assessment",
+                      "Health Assessment"
                     );
                     setOpenUserCard(false);
                   }}
@@ -1109,7 +1118,7 @@ function AppBarComponent() {
                       "/forms-and-documents",
                       "",
                       "Forms and Documents",
-                      "Forms and Documents",
+                      "Forms and Documents"
                     )
                   }
                 >
@@ -1132,7 +1141,7 @@ function AppBarComponent() {
                       "/my-rewards",
                       "",
                       "My Rewards",
-                      "My Rewards",
+                      "My Rewards"
                     );
                     setOpenUserCard(false);
                   }}
@@ -1169,7 +1178,7 @@ function AppBarComponent() {
                                   eachNav.href,
                                   "parent",
                                   eachNav?.label,
-                                  eachNav?.labelForSegment,
+                                  eachNav?.labelForSegment
                                 )
                               }
                               button
@@ -1182,7 +1191,7 @@ function AppBarComponent() {
                                       eachNav.href ||
                                     myHomeObj.childNavs.find(
                                       (cNav) =>
-                                        cNav.href === window.location.pathname,
+                                        cNav.href === window.location.pathname
                                     ) ? (
                                       <LogoImg
                                         alt=""
@@ -1202,7 +1211,7 @@ function AppBarComponent() {
                                       eachNav.href ||
                                     findCareObj.childNavs.find(
                                       (cNav) =>
-                                        cNav.href === window.location.pathname,
+                                        cNav.href === window.location.pathname
                                     ) ||
                                     selectedParentTab === eachNav.href ? (
                                       <LogoImg
@@ -1223,7 +1232,7 @@ function AppBarComponent() {
                                       eachNav.href ||
                                     myHealthObj.childNavs.find(
                                       (cNav) =>
-                                        cNav.href === window.location.pathname,
+                                        cNav.href === window.location.pathname
                                     ) ||
                                     selectedParentTab === eachNav.href ? (
                                       <LogoImg
@@ -1267,7 +1276,7 @@ function AppBarComponent() {
                                       onCollapseExpand(
                                         e,
                                         eachNav.href,
-                                        "parent",
+                                        "parent"
                                       )
                                     }
                                   >
@@ -1297,7 +1306,7 @@ function AppBarComponent() {
                                       onCollapseExpand(
                                         e,
                                         eachNav.href,
-                                        "parent",
+                                        "parent"
                                       )
                                     }
                                   >
@@ -1318,14 +1327,14 @@ function AppBarComponent() {
                                 )}
                               {eachNav.type === "navItem" &&
                                 ["/my-health"].some(
-                                  (x) => x === eachNav.href,
+                                  (x) => x === eachNav.href
                                 ) && (
                                   <ListItemIcon
                                     onClick={(e) =>
                                       onCollapseExpand(
                                         e,
                                         eachNav.href,
-                                        "parent",
+                                        "parent"
                                       )
                                     }
                                   >
@@ -1377,7 +1386,7 @@ function AppBarComponent() {
                                                     childNav.href,
                                                     "child",
                                                     childNav?.label,
-                                                    childNav?.labelForSegment,
+                                                    childNav?.labelForSegment
                                                   )
                                                 }
                                                 button
@@ -1420,7 +1429,7 @@ function AppBarComponent() {
                                                   childNav.href,
                                                   "child",
                                                   childNav?.label,
-                                                  childNav?.labelForSegment,
+                                                  childNav?.labelForSegment
                                                 )
                                               }
                                               button
@@ -1450,7 +1459,7 @@ function AppBarComponent() {
                                                 {childNav.label}
                                               </ListItemText>
                                             </ListItem>
-                                          ),
+                                          )
                                       )}
                                   </List>
                                   <HorizontalDivider />
@@ -1470,7 +1479,7 @@ function AppBarComponent() {
                             eachNav.href,
                             "parent",
                             eachNav?.label,
-                            eachNav?.labelForSegment,
+                            eachNav?.labelForSegment
                           )
                         }
                         button
@@ -1481,8 +1490,7 @@ function AppBarComponent() {
                             <>
                               {window.location.pathname === eachNav.href ||
                               myHomeObj.childNavs.find(
-                                (cNav) =>
-                                  cNav.href === window.location.pathname,
+                                (cNav) => cNav.href === window.location.pathname
                               ) ? (
                                 <LogoImg alt="" src={eachNav.activeIcon} />
                               ) : (
@@ -1494,8 +1502,7 @@ function AppBarComponent() {
                             <>
                               {window.location.pathname === eachNav.href ||
                               findCareObj.childNavs.find(
-                                (cNav) =>
-                                  cNav.href === window.location.pathname,
+                                (cNav) => cNav.href === window.location.pathname
                               ) ||
                               selectedParentTab === eachNav.href ? (
                                 <LogoImg alt="" src={eachNav.activeIcon} />
@@ -1509,8 +1516,7 @@ function AppBarComponent() {
                             <>
                               {window.location.pathname === eachNav.href ||
                               myHealthObj.childNavs.find(
-                                (cNav) =>
-                                  cNav.href === window.location.pathname,
+                                (cNav) => cNav.href === window.location.pathname
                               ) ||
                               selectedParentTab === eachNav.href ? (
                                 <LogoImg alt="" src={eachNav.activeIcon} />
@@ -1606,118 +1612,32 @@ function AppBarComponent() {
                             </ListItemIcon>
                           )}
                       </ListItem>
-                      {eachNav.href === "/home" &&
-                        eachNav.type === "navItem" && (
-                          <Collapse
-                            in={homeMobileItems}
-                            timeout="auto"
-                            unmountOnExit
-                            key={myHomeObj.href}
-                            component="li"
-                          >
-                            <List>
-                              {myHomeObj.childNavs &&
-                                myHomeObj.childNavs.length > 0 &&
-                                myHomeObj.childNavs.map((childNav, childInd) =>
-                                  childNav.treatmentName === OTC_WIDGET_PAGE ||
-                                  childNav.treatmentName ===
-                                    SHOW_HEALTH_ASSESMENT_SURVEY ? (
-                                    splitEval.evaluateSplitByName(
-                                      childNav.treatmentName,
-                                    ) && (
-                                      <ListItem
-                                        className={classes.gutters}
-                                        onClick={(e) =>
-                                          handleClickMobile(
-                                            e,
-                                            childNav.href,
-                                            "child",
-                                            childNav?.label,
-                                          )
-                                        }
-                                        button
-                                      >
-                                        <ListItemIcon>
-                                          {selectedChildTab ===
-                                          childNav.href ? (
-                                            <LogoImg
-                                              alt=""
-                                              src={childNav.activeIcon}
-                                            />
-                                          ) : (
-                                            <LogoImg
-                                              alt=""
-                                              src={childNav.inactiveIcon}
-                                            />
-                                          )}
-                                        </ListItemIcon>
-                                        <ListItemText
-                                          className={
-                                            selectedChildTab === childNav.href
-                                              ? "child-tab-active"
-                                              : "child-tab-inactive"
-                                          }
-                                        >
-                                          {childNav.label}
-                                        </ListItemText>
-                                      </ListItem>
-                                    )
-                                  ) : childNav.treatmentName ? (
-                                    <FeatureTreatment
-                                      key={`${childNav.treatmentName}_${childInd}`}
-                                      treatmentName={childNav.treatmentName}
-                                      onLoad={() => {}}
-                                      onTimedout={() => {}}
-                                      attributes={splitAttributes}
-                                    >
-                                      <ListItem
-                                        className={classes.gutters}
-                                        onClick={(e) =>
-                                          handleClickMobile(
-                                            e,
-                                            childNav.href,
-                                            "child",
-                                            childNav?.label,
-                                          )
-                                        }
-                                        button
-                                      >
-                                        <ListItemIcon>
-                                          {selectedChildTab ===
-                                          childNav.href ? (
-                                            <LogoImg
-                                              alt=""
-                                              src={childNav.activeIcon}
-                                            />
-                                          ) : (
-                                            <LogoImg
-                                              alt=""
-                                              src={childNav.inactiveIcon}
-                                            />
-                                          )}
-                                        </ListItemIcon>
-                                        <ListItemText
-                                          className={
-                                            selectedChildTab === childNav.href
-                                              ? "child-tab-active"
-                                              : "child-tab-inactive"
-                                          }
-                                        >
-                                          {childNav.label}
-                                        </ListItemText>
-                                      </ListItem>
-                                    </FeatureTreatment>
-                                  ) : (
+                      {eachNav.href === "/home" && eachNav.type === "navItem" && (
+                        <Collapse
+                          in={homeMobileItems}
+                          timeout="auto"
+                          unmountOnExit
+                          key={myHomeObj.href}
+                          component="li"
+                        >
+                          <List>
+                            {myHomeObj.childNavs &&
+                              myHomeObj.childNavs.length > 0 &&
+                              myHomeObj.childNavs.map((childNav, childInd) =>
+                                childNav.treatmentName === OTC_WIDGET_PAGE ||
+                                childNav.treatmentName ===
+                                  SHOW_HEALTH_ASSESMENT_SURVEY ? (
+                                  splitEval.evaluateSplitByName(
+                                    childNav.treatmentName
+                                  ) && (
                                     <ListItem
-                                      key={`${childNav.treatmentName}_${childInd}`}
                                       className={classes.gutters}
                                       onClick={(e) =>
                                         handleClickMobile(
                                           e,
                                           childNav.href,
                                           "child",
-                                          childNav?.label,
-                                          childNav?.labelForSegment,
+                                          childNav?.label
                                         )
                                       }
                                       button
@@ -1745,134 +1665,54 @@ function AppBarComponent() {
                                         {childNav.label}
                                       </ListItemText>
                                     </ListItem>
-                                  ),
-                                )}
-                            </List>
-                            <HorizontalDivider />
-                          </Collapse>
-                        )}
-                    </div>
-                  )}
-                  {eachNav.href === "/findcare" &&
-                    eachNav.type === "navItem" && (
-                      <Collapse
-                        in={findCareMobileItems}
-                        timeout="auto"
-                        unmountOnExit
-                        key={findCareObj.href}
-                        component="li"
-                      >
-                        <List>
-                          {findCareObj.childNavs &&
-                            findCareObj.childNavs.length > 0 &&
-                            findCareObj.childNavs.map((childNav, childInd) =>
-                              childNav.treatmentName ? (
-                                <FeatureTreatment
-                                  treatmentName={childNav.treatmentName}
-                                  key={`${childNav.treatmentName}_${childInd}`}
-                                  onLoad={() => {}}
-                                  onTimedout={() => {}}
-                                  attributes={splitAttributes}
-                                >
-                                  <ListItem
-                                    className={classes.gutters}
-                                    onClick={(e) =>
-                                      handleClickMobile(
-                                        e,
-                                        childNav.href,
-                                        "child",
-                                        childNav?.label,
-                                        childNav?.labelForSegment,
-                                      )
-                                    }
-                                    button
+                                  )
+                                ) : childNav.treatmentName ? (
+                                  <FeatureTreatment
+                                    key={`${childNav.treatmentName}_${childInd}`}
+                                    treatmentName={childNav.treatmentName}
+                                    onLoad={() => {}}
+                                    onTimedout={() => {}}
+                                    attributes={splitAttributes}
                                   >
-                                    <ListItemIcon>
-                                      {selectedChildTab === childNav.href ? (
-                                        <LogoImg
-                                          alt=""
-                                          src={childNav.activeIcon}
-                                        />
-                                      ) : (
-                                        <LogoImg
-                                          alt=""
-                                          src={childNav.inactiveIcon}
-                                        />
-                                      )}
-                                    </ListItemIcon>
-                                    <ListItemText
-                                      className={
-                                        selectedChildTab === childNav.href
-                                          ? "child-tab-active"
-                                          : "child-tab-inactive"
+                                    <ListItem
+                                      className={classes.gutters}
+                                      onClick={(e) =>
+                                        handleClickMobile(
+                                          e,
+                                          childNav.href,
+                                          "child",
+                                          childNav?.label
+                                        )
                                       }
+                                      button
                                     >
-                                      {childNav.label}
-                                    </ListItemText>
-                                  </ListItem>
-                                </FeatureTreatment>
-                              ) : (
-                                <ListItem
-                                  className={classes.gutters}
-                                  onClick={(e) =>
-                                    handleClickMobile(
-                                      e,
-                                      childNav.href,
-                                      "child",
-                                      childNav?.label,
-                                      childNav?.labelForSegment,
-                                    )
-                                  }
-                                  button
-                                >
-                                  <ListItemIcon>
-                                    {selectedChildTab === childNav.href ? (
-                                      <LogoImg
-                                        alt=""
-                                        src={childNav.activeIcon}
-                                      />
-                                    ) : (
-                                      <LogoImg
-                                        alt=""
-                                        src={childNav.inactiveIcon}
-                                      />
-                                    )}
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    className={
-                                      selectedChildTab === childNav.href
-                                        ? "child-tab-active"
-                                        : "child-tab-inactive"
-                                    }
-                                  >
-                                    {childNav.label}
-                                  </ListItemText>
-                                </ListItem>
-                              ),
-                            )}
-                        </List>
-                        <HorizontalDivider />
-                      </Collapse>
-                    )}
-                  {eachNav.href === "/my-health" &&
-                    eachNav.type === "navItem" && (
-                      <Collapse
-                        in={myHealthMobileItems}
-                        timeout="auto"
-                        unmountOnExit
-                        key={myHealthObj.href}
-                        component="li"
-                      >
-                        <List>
-                          {myHealthObj.childNavs &&
-                            myHealthObj.childNavs.length > 0 &&
-                            myHealthObj.childNavs.map((childNav, childInd) =>
-                              childNav.treatmentName ===
-                              SHOW_HEALTH_ASSESMENT_SURVEY ? (
-                                splitEval.evaluateSplitByName(
-                                  childNav.treatmentName,
-                                ) && (
+                                      <ListItemIcon>
+                                        {selectedChildTab === childNav.href ? (
+                                          <LogoImg
+                                            alt=""
+                                            src={childNav.activeIcon}
+                                          />
+                                        ) : (
+                                          <LogoImg
+                                            alt=""
+                                            src={childNav.inactiveIcon}
+                                          />
+                                        )}
+                                      </ListItemIcon>
+                                      <ListItemText
+                                        className={
+                                          selectedChildTab === childNav.href
+                                            ? "child-tab-active"
+                                            : "child-tab-inactive"
+                                        }
+                                      >
+                                        {childNav.label}
+                                      </ListItemText>
+                                    </ListItem>
+                                  </FeatureTreatment>
+                                ) : (
                                   <ListItem
+                                    key={`${childNav.treatmentName}_${childInd}`}
                                     className={classes.gutters}
                                     onClick={(e) =>
                                       handleClickMobile(
@@ -1880,6 +1720,7 @@ function AppBarComponent() {
                                         childNav.href,
                                         "child",
                                         childNav?.label,
+                                        childNav?.labelForSegment
                                       )
                                     }
                                     button
@@ -1908,52 +1749,33 @@ function AppBarComponent() {
                                     </ListItemText>
                                   </ListItem>
                                 )
-                              ) : childNav.treatmentName ? (
-                                <FeatureTreatment
-                                  treatmentName={childNav.treatmentName}
-                                  key={`${childNav.treatmentName}_${childInd}`}
-                                  onLoad={() => {}}
-                                  onTimedout={() => {}}
-                                  attributes={splitAttributes}
-                                >
-                                  <ListItem
-                                    className={classes.gutters}
-                                    onClick={(e) =>
-                                      handleClickMobile(
-                                        e,
-                                        childNav.href,
-                                        "child",
-                                        childNav?.label,
-                                        childNav?.labelForSegment,
-                                      )
-                                    }
-                                    button
-                                  >
-                                    <ListItemIcon>
-                                      {selectedChildTab === childNav.href ? (
-                                        <LogoImg
-                                          alt=""
-                                          src={childNav.activeIcon}
-                                        />
-                                      ) : (
-                                        <LogoImg
-                                          alt=""
-                                          src={childNav.inactiveIcon}
-                                        />
-                                      )}
-                                    </ListItemIcon>
-                                    <ListItemText
-                                      className={
-                                        selectedChildTab === childNav.href
-                                          ? "child-tab-active"
-                                          : "child-tab-inactive"
-                                      }
-                                    >
-                                      {childNav.label}
-                                    </ListItemText>
-                                  </ListItem>
-                                </FeatureTreatment>
-                              ) : (
+                              )}
+                          </List>
+                          <HorizontalDivider />
+                        </Collapse>
+                      )}
+                    </div>
+                  )}
+                  {eachNav.href === "/findcare" && eachNav.type === "navItem" && (
+                    <Collapse
+                      in={findCareMobileItems}
+                      timeout="auto"
+                      unmountOnExit
+                      key={findCareObj.href}
+                      component="li"
+                    >
+                      <List>
+                        {findCareObj.childNavs &&
+                          findCareObj.childNavs.length > 0 &&
+                          findCareObj.childNavs.map((childNav, childInd) =>
+                            childNav.treatmentName ? (
+                              <FeatureTreatment
+                                treatmentName={childNav.treatmentName}
+                                key={`${childNav.treatmentName}_${childInd}`}
+                                onLoad={() => {}}
+                                onTimedout={() => {}}
+                                attributes={splitAttributes}
+                              >
                                 <ListItem
                                   className={classes.gutters}
                                   onClick={(e) =>
@@ -1962,7 +1784,7 @@ function AppBarComponent() {
                                       childNav.href,
                                       "child",
                                       childNav?.label,
-                                      childNav?.labelForSegment,
+                                      childNav?.labelForSegment
                                     )
                                   }
                                   button
@@ -1990,12 +1812,185 @@ function AppBarComponent() {
                                     {childNav.label}
                                   </ListItemText>
                                 </ListItem>
-                              ),
-                            )}
-                        </List>
-                        <HorizontalDivider />
-                      </Collapse>
-                    )}
+                              </FeatureTreatment>
+                            ) : (
+                              <ListItem
+                                className={classes.gutters}
+                                onClick={(e) =>
+                                  handleClickMobile(
+                                    e,
+                                    childNav.href,
+                                    "child",
+                                    childNav?.label,
+                                    childNav?.labelForSegment
+                                  )
+                                }
+                                button
+                              >
+                                <ListItemIcon>
+                                  {selectedChildTab === childNav.href ? (
+                                    <LogoImg alt="" src={childNav.activeIcon} />
+                                  ) : (
+                                    <LogoImg
+                                      alt=""
+                                      src={childNav.inactiveIcon}
+                                    />
+                                  )}
+                                </ListItemIcon>
+                                <ListItemText
+                                  className={
+                                    selectedChildTab === childNav.href
+                                      ? "child-tab-active"
+                                      : "child-tab-inactive"
+                                  }
+                                >
+                                  {childNav.label}
+                                </ListItemText>
+                              </ListItem>
+                            )
+                          )}
+                      </List>
+                      <HorizontalDivider />
+                    </Collapse>
+                  )}
+                  {eachNav.href === "/my-health" && eachNav.type === "navItem" && (
+                    <Collapse
+                      in={myHealthMobileItems}
+                      timeout="auto"
+                      unmountOnExit
+                      key={myHealthObj.href}
+                      component="li"
+                    >
+                      <List>
+                        {myHealthObj.childNavs &&
+                          myHealthObj.childNavs.length > 0 &&
+                          myHealthObj.childNavs.map((childNav, childInd) =>
+                            childNav.treatmentName ===
+                            SHOW_HEALTH_ASSESMENT_SURVEY ? (
+                              splitEval.evaluateSplitByName(
+                                childNav.treatmentName
+                              ) && (
+                                <ListItem
+                                  className={classes.gutters}
+                                  onClick={(e) =>
+                                    handleClickMobile(
+                                      e,
+                                      childNav.href,
+                                      "child",
+                                      childNav?.label
+                                    )
+                                  }
+                                  button
+                                >
+                                  <ListItemIcon>
+                                    {selectedChildTab === childNav.href ? (
+                                      <LogoImg
+                                        alt=""
+                                        src={childNav.activeIcon}
+                                      />
+                                    ) : (
+                                      <LogoImg
+                                        alt=""
+                                        src={childNav.inactiveIcon}
+                                      />
+                                    )}
+                                  </ListItemIcon>
+                                  <ListItemText
+                                    className={
+                                      selectedChildTab === childNav.href
+                                        ? "child-tab-active"
+                                        : "child-tab-inactive"
+                                    }
+                                  >
+                                    {childNav.label}
+                                  </ListItemText>
+                                </ListItem>
+                              )
+                            ) : childNav.treatmentName ? (
+                              <FeatureTreatment
+                                treatmentName={childNav.treatmentName}
+                                key={`${childNav.treatmentName}_${childInd}`}
+                                onLoad={() => {}}
+                                onTimedout={() => {}}
+                                attributes={splitAttributes}
+                              >
+                                <ListItem
+                                  className={classes.gutters}
+                                  onClick={(e) =>
+                                    handleClickMobile(
+                                      e,
+                                      childNav.href,
+                                      "child",
+                                      childNav?.label,
+                                      childNav?.labelForSegment
+                                    )
+                                  }
+                                  button
+                                >
+                                  <ListItemIcon>
+                                    {selectedChildTab === childNav.href ? (
+                                      <LogoImg
+                                        alt=""
+                                        src={childNav.activeIcon}
+                                      />
+                                    ) : (
+                                      <LogoImg
+                                        alt=""
+                                        src={childNav.inactiveIcon}
+                                      />
+                                    )}
+                                  </ListItemIcon>
+                                  <ListItemText
+                                    className={
+                                      selectedChildTab === childNav.href
+                                        ? "child-tab-active"
+                                        : "child-tab-inactive"
+                                    }
+                                  >
+                                    {childNav.label}
+                                  </ListItemText>
+                                </ListItem>
+                              </FeatureTreatment>
+                            ) : (
+                              <ListItem
+                                className={classes.gutters}
+                                onClick={(e) =>
+                                  handleClickMobile(
+                                    e,
+                                    childNav.href,
+                                    "child",
+                                    childNav?.label,
+                                    childNav?.labelForSegment
+                                  )
+                                }
+                                button
+                              >
+                                <ListItemIcon>
+                                  {selectedChildTab === childNav.href ? (
+                                    <LogoImg alt="" src={childNav.activeIcon} />
+                                  ) : (
+                                    <LogoImg
+                                      alt=""
+                                      src={childNav.inactiveIcon}
+                                    />
+                                  )}
+                                </ListItemIcon>
+                                <ListItemText
+                                  className={
+                                    selectedChildTab === childNav.href
+                                      ? "child-tab-active"
+                                      : "child-tab-inactive"
+                                  }
+                                >
+                                  {childNav.label}
+                                </ListItemText>
+                              </ListItem>
+                            )
+                          )}
+                      </List>
+                      <HorizontalDivider />
+                    </Collapse>
+                  )}
                 </React.Fragment>
               );
             }
@@ -2047,7 +2042,9 @@ function AppBarComponent() {
                   aria-label="open drawer"
                   edge="end"
                   onClick={handleDrawerOpen}
-                  className={`navbar-hamburger-coachmarks no-print ${drawerOpen && "drawer-is-open-coachmarks"}`}
+                  className={`navbar-hamburger-coachmarks no-print ${
+                    drawerOpen && "drawer-is-open-coachmarks"
+                  }`}
                 >
                   {!drawerOpen ? (
                     <MobileHamburgerImg
@@ -2092,7 +2089,7 @@ function AppBarComponent() {
                             "member-logout",
                             "",
                             "Log Out",
-                            "Log Out",
+                            "Log Out"
                           );
                         }}
                       >

@@ -9,7 +9,7 @@ export const handleSegmentForAuth = (
   rawText,
   description,
   type,
-  location,
+  location
 ) => {
   AnalyticsTrack(rawText + " " + "button clicked", "", {
     raw_text: rawText,

@@ -183,13 +183,13 @@ const HomePage = () => {
                         {isEligibleForRecertDate(
                           hohPlans?.[0]?.CompanyNumber,
                           hohPlans?.[0]?.BenefitPackage,
-                          hohPlans?.[0]?.renewalDate,
+                          hohPlans?.[0]?.renewalDate
                         ) && (
                           <RecertDate>
                             {getRecertificationDate(
                               hohPlans?.[0]?.CompanyNumber,
                               hohPlans?.[0]?.BenefitPackage,
-                              hohPlans?.[0]?.renewalDate,
+                              hohPlans?.[0]?.renewalDate
                             )}
                           </RecertDate>
                         )}
@@ -392,8 +392,8 @@ const StatusTxt = styled.p`
     props.status === "inactive"
       ? "#d43900"
       : props.status === "upcoming"
-        ? "#529535"
-        : "#3e7128"};
+      ? "#529535"
+      : "#3e7128"};
 `;
 
 const MemberIcon = styled.img`

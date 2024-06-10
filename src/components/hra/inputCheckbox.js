@@ -27,7 +27,7 @@ const InputCheckbox = ({
     setIsSelected(null);
     const info = { id: id, answer_code: code, answer_value: "" };
     dispatch(
-      setAnswerSelection({ id: depId || active, info, type: MULTY_SELECT }),
+      setAnswerSelection({ id: depId || active, info, type: MULTY_SELECT })
     );
   };
 
@@ -38,7 +38,7 @@ const InputCheckbox = ({
       answer_value: e.target.value ? e.target.value : "",
     };
     dispatch(
-      setAnswerSelection({ id: depId || active, info, type: FREE_TEXT }),
+      setAnswerSelection({ id: depId || active, info, type: FREE_TEXT })
     );
   };
 

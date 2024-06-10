@@ -160,7 +160,7 @@ const AddMemberPage = () => {
             handleAccountInfo(
               key,
               "Your Member ID does not meet our minimum requirements.",
-              value.value,
+              value.value
             );
           }
           break;
@@ -183,7 +183,7 @@ const AddMemberPage = () => {
             handleAccountInfo(
               key,
               "Zipcode should contains 5 Digits",
-              value.value,
+              value.value
             );
           }
           break;
@@ -193,7 +193,7 @@ const AddMemberPage = () => {
             handleAccountInfo(
               key,
               "Your Date of Birth is not correct. Please enter it again.",
-              value.value,
+              value.value
             );
           } else if (
             moment().diff(moment(value.value, "MM/DD/YYYY"), "years") < 18
@@ -201,7 +201,7 @@ const AddMemberPage = () => {
             handleAccountInfo(
               key,
               "Sorry! You must be 18 years of age or older to create an account",
-              value.value,
+              value.value
             );
           }
           break;

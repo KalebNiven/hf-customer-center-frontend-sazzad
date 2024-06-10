@@ -57,7 +57,7 @@ import {
 const ContactInformation = () => {
   const customerInfo = useSelector((state) => state.customerInfo.data);
   const submitContactInfoPayload = useSelector(
-    (state) => state.submitContactInfoPayload,
+    (state) => state.submitContactInfoPayload
   );
   const [loadingSpinner, setLoadingSpinner] = useState(false);
   const [loadingSpinnerSave, setLoadingSpinnerSave] = useState(false);
@@ -90,7 +90,7 @@ const ContactInformation = () => {
   });
   const [resendCodeState, setResendCodeState] = useState(false);
   const [resendVerificationCodeRes, setResendVerificationCodeRes] = useState(
-    {},
+    {}
   );
   const [postVerifyError, setPostVerifyError] = useState({
     error: false,
@@ -105,8 +105,12 @@ const ContactInformation = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    const { loading, error, submitEmailDetails, submitPhoneDetails } =
-      submitContactInfoPayload;
+    const {
+      loading,
+      error,
+      submitEmailDetails,
+      submitPhoneDetails,
+    } = submitContactInfoPayload;
     setLoadingSpinnerSave(loading);
     if (
       !loading &&
@@ -157,11 +161,11 @@ const ContactInformation = () => {
       setEmailError("An email address is required");
     } else if (emailAddress === customerInfo?.email && !emailAddressVerifying) {
       setEmailError(
-        "The email address is the same as the existing one. Please try again.",
+        "The email address is the same as the existing one. Please try again."
       );
     } else if (
       !/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
-        emailAddress,
+        emailAddress
       )
     ) {
       setEmailError("Please use the proper email format");
@@ -419,7 +423,7 @@ const ContactInformation = () => {
             unmountMe={() => {
               window.localStorage.setItem(
                 "contactInfoNavIndex",
-                JSON.stringify("1"),
+                JSON.stringify("1")
               );
               setToastOpen(false);
               setToastState("");
@@ -621,7 +625,7 @@ const ContactInformation = () => {
                     error: "",
                   });
                   setPhoneNumberHashed(
-                    getHashedPhoneNum(customerInfo?.mobilePhone),
+                    getHashedPhoneNum(customerInfo?.mobilePhone)
                   );
                 }}
                 variant="secondary"
@@ -701,7 +705,7 @@ const ContactInformation = () => {
                   setEmailAddressEditing(false);
                   setPhoneEditing(!phoneEditing);
                   setPhoneNumberHashed(
-                    getHashedPhoneNum(customerInfo?.mobilePhone),
+                    getHashedPhoneNum(customerInfo?.mobilePhone)
                   );
                   setPhoneNumber({
                     ...phoneNumberCopy,

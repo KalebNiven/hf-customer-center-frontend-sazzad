@@ -31,7 +31,7 @@ export default function oop(state = initialState, action) {
           function mapOOP(items) {
             const result = {};
             items.forEach(
-              (item) => (result[toCamelCase(item.accum_name)] = { ...item }),
+              (item) => (result[toCamelCase(item.accum_name)] = { ...item })
             );
             return result;
           }

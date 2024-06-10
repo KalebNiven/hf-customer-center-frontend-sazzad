@@ -33,7 +33,7 @@ export default function authorization(state = initialState, action) {
                 ...val,
                 memberName: val.firstName.concat(" ", val.lastName),
                 providerName: val.provider.name,
-              },
+              }
           );
           return {
             ...state,

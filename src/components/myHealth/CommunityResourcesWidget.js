@@ -29,7 +29,7 @@ function CommunityResourcesWidget() {
   const updatedJwt =
     jwt_token === undefined ? jwt_token : jwt_token.replace("Bearer ", "");
   const [existingScript, setExistingScript] = useState(
-    document.getElementById(COMMUNITY_RES_WIDGET_SCRIPT_ID),
+    document.getElementById(COMMUNITY_RES_WIDGET_SCRIPT_ID)
   );
   const { MIX_REACT_TRAILBLAZER_WIDGET_BASE_URL } = process.env;
 
@@ -66,7 +66,7 @@ function CommunityResourcesWidget() {
             window.CommunityResourcesWidget.mount(mountProps);
             sessionStorage.setItem("longLoad", false);
             setExistingScript(
-              document.getElementById(COMMUNITY_RES_WIDGET_SCRIPT_ID),
+              document.getElementById(COMMUNITY_RES_WIDGET_SCRIPT_ID)
             );
           } catch (error) {
             (async () => {
@@ -77,7 +77,7 @@ function CommunityResourcesWidget() {
               }
             })();
           }
-        },
+        }
       );
     }
     return () => {

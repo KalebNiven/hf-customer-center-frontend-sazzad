@@ -49,7 +49,7 @@ const NotificationModal = () => {
             value: "center",
           },
         },
-      },
+      }
     );
   };
 

@@ -354,7 +354,7 @@ const LifeImprovementHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc",
+                "otc"
               )
             }
           >
@@ -384,7 +384,7 @@ const LifeImprovementHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc",
+                "otc"
               )
             }
           >
@@ -422,7 +422,7 @@ const LifeImprovementHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc",
+                "otc"
               )
             }
           >
@@ -452,7 +452,7 @@ const LifeImprovementHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc",
+                "otc"
               )
             }
           >
@@ -485,7 +485,7 @@ const LifeImprovementHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc",
+                "otc"
               )
             }
           >
@@ -524,7 +524,7 @@ const LifeImprovementHMOPage = () => {
                 "Button",
                 "/learn-more",
                 customerInfo,
-                "otc",
+                "otc"
               )
             }
           >
@@ -764,7 +764,7 @@ const LifeImprovementHMOPage = () => {
                     "Button",
                     "/learn-more",
                     customerInfo,
-                    "otc",
+                    "otc"
                   )
                 }
                 href={evidenceOfCoverageURL.LifeImprovements.url}

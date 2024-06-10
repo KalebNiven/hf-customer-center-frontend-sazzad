@@ -22,10 +22,10 @@ const AuthorizationDetailsPage = () => {
   const authorizationId = location.state;
 
   const authorizationDetails = useSelector(
-    (state) => state.authorizationDetails.authorizationDetails,
+    (state) => state.authorizationDetails.authorizationDetails
   );
   const authorizationDetailsLoading = useSelector(
-    (state) => state.authorizationDetails.loading,
+    (state) => state.authorizationDetails.loading
   );
 
   const customerInfo = useSelector((state) => state.customerInfo);
@@ -104,7 +104,7 @@ const AuthorizationDetailsPage = () => {
                 <PatientName>
                   {authorizationDetails.patient.firstName.concat(
                     " ",
-                    authorizationDetails.patient.lastName,
+                    authorizationDetails.patient.lastName
                   )}
                 </PatientName>
                 <MemberIdTxt>MEMBER ID</MemberIdTxt>
@@ -186,7 +186,7 @@ const AuthorizationDetailsPage = () => {
                                 " ",
                                 authorizationDetails.address.state,
                                 " ",
-                                authorizationDetails.address.zip,
+                                authorizationDetails.address.zip
                               )}
                             </AddressTxt>
                           </Address>
@@ -272,7 +272,7 @@ const AuthorizationDetailsPage = () => {
                         )}
                       </Section>
                     </ServicePaper>
-                  ),
+                  )
                 )}
               </ServicePapers>
             </RightContainer>

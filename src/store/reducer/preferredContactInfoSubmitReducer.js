@@ -8,7 +8,7 @@ export const initialState = {
 
 export default function preferredContactInfoSubmit(
   state = initialState,
-  action,
+  action
 ) {
   switch (action.type) {
     case actionTypes.REQUEST_PREFERRED_CONTACT_INFO_SUBMIT: {

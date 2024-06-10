@@ -16,7 +16,7 @@ const SessionTimeoutModal = (props) => {
   const [timeoutVisible, setTimeoutVisible] = useState(false);
   const [warningTimerId, setWarningTimerId] = useState(undefined);
   const [countDownSecondsLeft, setCountdownSecondsLeft] = useState(
-    MIX_REACT_SESSION_WARNING_COUNTDOWN_SECONDS,
+    MIX_REACT_SESSION_WARNING_COUNTDOWN_SECONDS
   );
   const [startCounter, setStartCounter] = useState(false);
   const logout = useLogout();
@@ -52,16 +52,11 @@ const SessionTimeoutModal = (props) => {
 
   const startSessionTimer = () => {
     window.sessionStorage.setItem("SessionTimeStamp", new Date());
-    let aid = setTimeout(
-      () => {
-        setTimeoutVisible(true);
-        clearInterval(aid);
-        setStartCounter(true);
-      },
-      (MIX_REACT_SESSION_LIFETIME_SECONDS -
-        MIX_REACT_SESSION_WARNING_COUNTDOWN_SECONDS) *
-        1000,
-    );
+    let aid = setTimeout(() => {
+      setTimeoutVisible(true);
+      clearInterval(aid);
+      setStartCounter(true);
+    }, (MIX_REACT_SESSION_LIFETIME_SECONDS - MIX_REACT_SESSION_WARNING_COUNTDOWN_SECONDS) * 1000);
     setWarningTimerId(aid);
   };
 
@@ -77,7 +72,7 @@ const SessionTimeoutModal = (props) => {
       .catch((error) => {
         console.error("Error caught: ", error.message);
         logError(error).catch((error) =>
-          console.error("Error caught: ", error.message),
+          console.error("Error caught: ", error.message)
         );
       })
       .finally(() => {

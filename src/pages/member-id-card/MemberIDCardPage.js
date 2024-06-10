@@ -10,8 +10,9 @@ export default () => {
   const splitHookClient = useClient();
   const customerInfo = useSelector((state) => state.customerInfo);
 
-  const memberIdCardPageTreatment =
-    splitHookClient.getTreatment(MEMBER_ID_CARD_PAGE);
+  const memberIdCardPageTreatment = splitHookClient.getTreatment(
+    MEMBER_ID_CARD_PAGE
+  );
 
   switch (memberIdCardPageTreatment) {
     case "on":
