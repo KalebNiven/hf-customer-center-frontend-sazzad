@@ -27,8 +27,13 @@ import DocumentType from "./documentType";
 import DocumentsCenterPage from "../../pages/documents-center/DocumentsCenterPage";
 import { useDispatch, useSelector } from "react-redux";
 import { requestCCFormsDocs } from "../../store/actions";
-import { SHOW_DOC, SHOW_FORMS_AND_DOCS } from "../../constants/splits";
+import {
+  SHOW_DIGITAL_FORMS,
+  SHOW_DOC,
+  SHOW_FORMS_AND_DOCS,
+} from "../../constants/splits";
 import { NoFormsAndDocument } from "./formsAndDocumentErrors";
+import DigitalForm from "./digitalForm";
 
 //Custom theme
 const customTheme = createMuiTheme({
@@ -75,9 +80,10 @@ const FormsAndDocuments = (props) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const [memberSelection, setMemberSelection] = useState({});
   const [selectedTab, setSelectedTab] = useState(navItems[0].href);
+  const [templateId, setTemplateId] = useState(null);
   const ccForms = useSelector((state) => state.ccFormsDoc);
   const customerInfo = useSelector((state) => state.customerInfo);
-  const { memberId } = memberSelection;
+  const { memberId, customerId } = memberSelection;
 
   const setTab = () => {
     const plansAndDocumentTreatment = splitHookClient.getTreatmentWithConfig(
@@ -146,6 +152,7 @@ const FormsAndDocuments = (props) => {
       firstName: customerInfo?.data?.hohPlans[0]?.FirstName,
       lastName: customerInfo?.data?.hohPlans[0]?.LastName,
       memberYear: customerInfo?.data?.hohPlans[0]?.memberYear,
+      customerId: customerInfo?.data?.hohPlans[0]?.CustomerId,
     });
   }, [customerInfo]);
 
@@ -157,6 +164,17 @@ const FormsAndDocuments = (props) => {
   const handleClick = (href) => {
     setSelectedTab(href);
   };
+
+  const renderCommonlyUserForms = () => (
+    <>
+      <SubTitle>Commonly Used Forms</SubTitle>
+      <Wrapper>
+        <CommonlyUsedForm
+          data={ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms}
+        />
+      </Wrapper>
+    </>
+  );
 
   return (
     <Container>
@@ -239,36 +257,60 @@ const FormsAndDocuments = (props) => {
                         {ccForms?.ccFormsDocDetails?.data != null &&
                         ccForms.ccFormsDocLoading === false ? (
                           <Main>
-                            <SubTitle>Commonly Used Forms</SubTitle>
-                            <Wrapper>
-                              <CommonlyUsedForm
-                                data={
-                                  ccForms?.ccFormsDocDetails?.data[0]
-                                    .cc_commonly_used_forms
-                                }
-                              />
-                            </Wrapper>
-                            <SubTitle>General Forms</SubTitle>
-                            <DocsList
-                              data={
-                                ccForms?.ccFormsDocDetails?.data[0]
-                                  .cc_general_forms
-                              }
-                            />
-                            <SubTitle>Plan Documents</SubTitle>
-                            <DocsList
-                              data={
-                                ccForms?.ccFormsDocDetails?.data[0]
-                                  .cc_plan_documents
-                              }
-                            />
-                            <SubTitle>Additional Resources</SubTitle>
-                            <DocsList
-                              data={
-                                ccForms?.ccFormsDocDetails?.data[0]
-                                  .cc_additional_resources
-                              }
-                            />
+                            {customerInfo.data?.age >= 18 ? (
+                              <>
+                                <FeatureTreatment
+                                  treatmentName={SHOW_DIGITAL_FORMS}
+                                  onLoad={() => {}}
+                                  onTimedout={() => {}}
+                                  attributes={splitAttributes}
+                                >
+                                  <SubTitle>Digital Forms</SubTitle>
+                                  <DigitalForm
+                                    memberId={memberId}
+                                    customerId={customerId}
+                                    templateId={templateId}
+                                    setTemplateId={setTemplateId}
+                                  />
+                                </FeatureTreatment>
+                                <FeatureTreatment
+                                  treatmentName={SHOW_DIGITAL_FORMS}
+                                  onLoad={() => {}}
+                                  onTimedout={() => {}}
+                                  attributes={splitAttributes}
+                                  invertBehavior
+                                >
+                                  {renderCommonlyUserForms()}
+                                </FeatureTreatment>
+                              </>
+                            ) : (
+                              <>{renderCommonlyUserForms()}</>
+                            )}
+                            {!templateId ? (
+                              <>
+                                <SubTitle>General Forms</SubTitle>
+                                <DocsList
+                                  data={
+                                    ccForms?.ccFormsDocDetails?.data[0]
+                                      .cc_general_forms
+                                  }
+                                />
+                                <SubTitle>Plan Documents</SubTitle>
+                                <DocsList
+                                  data={
+                                    ccForms?.ccFormsDocDetails?.data[0]
+                                      .cc_plan_documents
+                                  }
+                                />
+                                <SubTitle>Additional Resources</SubTitle>
+                                <DocsList
+                                  data={
+                                    ccForms?.ccFormsDocDetails?.data[0]
+                                      .cc_additional_resources
+                                  }
+                                />
+                              </>
+                            ) : null}
                           </Main>
                         ) : (
                           <ProgressWrapper>

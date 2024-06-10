@@ -59,6 +59,7 @@ const DependentBlock = ({
           groupNumber: plan.GroupNumber,
           relationshipType: "SELF",
           relationshipCode: plan.RelationshipCode,
+          customerId: plan.CustomerId,
         };
 
         if (!activeOnly) {
@@ -88,6 +89,7 @@ const DependentBlock = ({
           lob: dependent.LobCode,
           groupNumber: dependent.groupNumber,
           relationshipType: dependent.RelationshipType,
+          customerId: dependent.customerId,
         };
 
         let isValidDependent = false;
@@ -148,6 +150,7 @@ const DependentBlock = ({
       lob,
       relationshipType,
       relationshipCode,
+      customerId,
     } = memberInfo;
     setMemberSelection({
       ...memberSelection,
@@ -164,6 +167,7 @@ const DependentBlock = ({
       lob,
       relationshipType,
       relationshipCode,
+      customerId,
     });
   };
 
