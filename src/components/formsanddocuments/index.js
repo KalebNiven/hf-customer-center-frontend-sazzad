@@ -153,7 +153,6 @@ const FormsAndDocuments = (props) => {
       lastName: customerInfo?.data?.hohPlans[0]?.LastName,
       memberYear: customerInfo?.data?.hohPlans[0]?.memberYear,
       customerId: customerInfo?.data?.hohPlans[0]?.CustomerId,
-      age: customerInfo?.data?.hohPlans[0]?.age,
       relationshipType:
         customerInfo?.data?.hohPlans[0]?.relationshipType || "SELF",
     });
@@ -169,7 +168,7 @@ const FormsAndDocuments = (props) => {
   };
 
   const enableDigitalForms =
-    memberSelection.age >= 18 &&
+    customerInfo?.data.age >= 18 &&
     memberSelection.membershipStatus === "active" &&
     memberSelection.relationshipType === "SELF";
 
