@@ -168,7 +168,7 @@ const FormsAndDocuments = (props) => {
   };
 
   const enableDigitalForms =
-    customerInfo?.data.age >= 18 &&
+    customerInfo?.data?.age >= 18 &&
     memberSelection.membershipStatus === "active" &&
     memberSelection.relationshipType === "SELF";
 
