@@ -169,6 +169,7 @@ const FormsAndDocuments = (props) => {
 
   const enableDigitalForms =
     customerInfo?.data?.age >= 18 &&
+    customerInfo?.data?.companyCode !== "20" &&
     memberSelection.membershipStatus === "active" &&
     memberSelection.relationshipType === "SELF";
 
@@ -185,154 +186,174 @@ const FormsAndDocuments = (props) => {
 
   return (
     <Container>
-      <MyDocuments isMobile={isMobile}>Forms and Documents</MyDocuments>
-      <>
-        {isMobile ? (
-          <>
-            <DocumentType />
-          </>
-        ) : (
-          <ThemeProvider theme={customTheme}>
-            <Main>
-              <Tabs
-                value={false}
-                TabIndicatorProps={{
-                  style: { background: "#3e7128" },
-                }}
-                className="reactNavMenu-coachmark"
-                style={{ display: "inline-flex" }}
-              >
-                {navItems.map((eachNav, index) => (
-                  <FeatureTreatment
-                    key="forms_and_document_page_feature"
-                    treatmentNames={[eachNav.treatmentName]}
-                    treatmentName={eachNav.treatmentName}
-                    onLoad={() => {}}
-                    onTimedout={() => {}}
-                    attributes={splitAttributes}
-                  >
-                    <Tab
-                      label={eachNav.label}
-                      value={eachNav.href}
-                      onClick={() => handleClick(eachNav.href)}
-                      className={
-                        selectedTab == eachNav.href
-                          ? "child-tab-active"
-                          : "child-tab-inactive"
-                      }
-                    />
-                  </FeatureTreatment>
-                ))}
-              </Tabs>
-              <HrLine />
+      {selectedTab === "/forms-and-documents" && enableDigitalForms ? (
+        <FeatureTreatment
+          treatmentName={SHOW_DIGITAL_FORMS}
+          onLoad={() => {}}
+          onTimedout={() => {}}
+          attributes={splitAttributes}
+        >
+          <DigitalForm
+            memberId={memberId}
+            customerId={customerId}
+            templateId={templateId}
+            setTemplateId={setTemplateId}
+            stepperId="dfw-main-stepper"
+            cardsId="dfw-main-cards"
+          />
+        </FeatureTreatment>
+      ) : null}
 
-              {selectedTab === "/document-center" ? (
-                <DocumentsCenterPage />
-              ) : (
-                <FeatureTreatment
-                  key="forms_and_document_page_feature"
-                  treatmentNames={SHOW_FORMS_AND_DOCS}
-                  treatmentName={SHOW_FORMS_AND_DOCS}
-                  onLoad={() => {}}
-                  onTimedout={() => {}}
-                  attributes={splitAttributes}
-                >
-                  <Main>
-                    <MyDocuments>Forms and Plan Documents</MyDocuments>
-                    <DependentBlockWrapper>
-                      {
-                        <DependentBlock
-                          memberSelection={memberSelection}
-                          setMemberSelection={setMemberSelection}
-                          halfWidth
-                          activeOnly={
-                            memberSelection?.accountStatus === "active"
-                              ? false
-                              : true
+      {templateId ? ( // showing digital form stepper widget when template is selected
+        <div id="dfw-main-stepper"></div>
+      ) : (
+        <>
+          <MyDocuments isMobile={isMobile}>Forms and Documents</MyDocuments>
+          <>
+            {isMobile ? (
+              <>
+                <DocumentType />
+              </>
+            ) : (
+              <ThemeProvider theme={customTheme}>
+                <Main>
+                  <Tabs
+                    value={false}
+                    TabIndicatorProps={{
+                      style: { background: "#3e7128" },
+                    }}
+                    className="reactNavMenu-coachmark"
+                    style={{ display: "inline-flex" }}
+                  >
+                    {navItems.map((eachNav, index) => (
+                      <FeatureTreatment
+                        key="forms_and_document_page_feature"
+                        treatmentNames={[eachNav.treatmentName]}
+                        treatmentName={eachNav.treatmentName}
+                        onLoad={() => {}}
+                        onTimedout={() => {}}
+                        attributes={splitAttributes}
+                      >
+                        <Tab
+                          label={eachNav.label}
+                          value={eachNav.href}
+                          onClick={() => handleClick(eachNav.href)}
+                          className={
+                            selectedTab == eachNav.href
+                              ? "child-tab-active"
+                              : "child-tab-inactive"
                           }
-                          minorsOnly={false}
-                          activeDepsOnly={false}
                         />
-                      }
-                    </DependentBlockWrapper>
-                    {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
-                      ccForms.ccFormsDocDetails?.data?.length === undefined) &&
-                    ccForms.ccFormsDocLoading === false ? (
-                      <NoFormsAndDocument />
-                    ) : (
-                      <>
-                        {ccForms?.ccFormsDocDetails?.data != null &&
+                      </FeatureTreatment>
+                    ))}
+                  </Tabs>
+                  <HrLine />
+
+                  {selectedTab === "/document-center" ? (
+                    <DocumentsCenterPage />
+                  ) : (
+                    <FeatureTreatment
+                      key="forms_and_document_page_feature"
+                      treatmentNames={SHOW_FORMS_AND_DOCS}
+                      treatmentName={SHOW_FORMS_AND_DOCS}
+                      onLoad={() => {}}
+                      onTimedout={() => {}}
+                      attributes={splitAttributes}
+                    >
+                      <Main>
+                        <MyDocuments>Forms and Plan Documents</MyDocuments>
+                        <DependentBlockWrapper>
+                          {
+                            <DependentBlock
+                              memberSelection={memberSelection}
+                              setMemberSelection={setMemberSelection}
+                              halfWidth
+                              activeOnly={
+                                memberSelection?.accountStatus === "active"
+                                  ? false
+                                  : true
+                              }
+                              minorsOnly={false}
+                              activeDepsOnly={false}
+                            />
+                          }
+                        </DependentBlockWrapper>
+                        {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
+                          ccForms.ccFormsDocDetails?.data?.length ===
+                            undefined) &&
                         ccForms.ccFormsDocLoading === false ? (
-                          <Main>
-                            {enableDigitalForms ? (
-                              <>
-                                <FeatureTreatment
-                                  treatmentName={SHOW_DIGITAL_FORMS}
-                                  onLoad={() => {}}
-                                  onTimedout={() => {}}
-                                  attributes={splitAttributes}
-                                >
-                                  <SubTitle>Digital Forms</SubTitle>
-                                  <DigitalForm
-                                    memberId={memberId}
-                                    customerId={customerId}
-                                    templateId={templateId}
-                                    setTemplateId={setTemplateId}
-                                  />
-                                </FeatureTreatment>
-                                <FeatureTreatment
-                                  treatmentName={SHOW_DIGITAL_FORMS}
-                                  onLoad={() => {}}
-                                  onTimedout={() => {}}
-                                  attributes={splitAttributes}
-                                  invertBehavior
-                                >
-                                  {renderCommonlyUserForms()}
-                                </FeatureTreatment>
-                              </>
-                            ) : (
-                              <>{renderCommonlyUserForms()}</>
-                            )}
-                            {!templateId ? (
-                              <>
-                                <SubTitle>General Forms</SubTitle>
-                                <DocsList
-                                  data={
-                                    ccForms?.ccFormsDocDetails?.data[0]
-                                      .cc_general_forms
-                                  }
-                                />
-                                <SubTitle>Plan Documents</SubTitle>
-                                <DocsList
-                                  data={
-                                    ccForms?.ccFormsDocDetails?.data[0]
-                                      .cc_plan_documents
-                                  }
-                                />
-                                <SubTitle>Additional Resources</SubTitle>
-                                <DocsList
-                                  data={
-                                    ccForms?.ccFormsDocDetails?.data[0]
-                                      .cc_additional_resources
-                                  }
-                                />
-                              </>
-                            ) : null}
-                          </Main>
+                          <NoFormsAndDocument />
                         ) : (
-                          <ProgressWrapper>
-                            <Spinner />
-                          </ProgressWrapper>
+                          <>
+                            {enableDigitalForms ? (
+                              <FeatureTreatment
+                                treatmentName={SHOW_DIGITAL_FORMS}
+                                onLoad={() => {}}
+                                onTimedout={() => {}}
+                                attributes={splitAttributes}
+                              >
+                                <SubTitle>Digital Forms</SubTitle>
+                                <div id="dfw-main-cards"></div>
+                              </FeatureTreatment>
+                            ) : null}
+                            {ccForms?.ccFormsDocDetails?.data != null &&
+                            ccForms.ccFormsDocLoading === false ? (
+                              <Main>
+                                {enableDigitalForms ? (
+                                  <FeatureTreatment
+                                    treatmentName={SHOW_DIGITAL_FORMS}
+                                    onLoad={() => {}}
+                                    onTimedout={() => {}}
+                                    attributes={splitAttributes}
+                                    invertBehavior
+                                  >
+                                    {renderCommonlyUserForms()}
+                                  </FeatureTreatment>
+                                ) : (
+                                  <>{renderCommonlyUserForms()}</>
+                                )}
+                                {!templateId ? (
+                                  <>
+                                    <SubTitle>General Forms</SubTitle>
+                                    <DocsList
+                                      data={
+                                        ccForms?.ccFormsDocDetails?.data[0]
+                                          .cc_general_forms
+                                      }
+                                    />
+                                    <SubTitle>Plan Documents</SubTitle>
+                                    <DocsList
+                                      data={
+                                        ccForms?.ccFormsDocDetails?.data[0]
+                                          .cc_plan_documents
+                                      }
+                                    />
+                                    <SubTitle>Additional Resources</SubTitle>
+                                    <DocsList
+                                      data={
+                                        ccForms?.ccFormsDocDetails?.data[0]
+                                          .cc_additional_resources
+                                      }
+                                    />
+                                  </>
+                                ) : null}
+                              </Main>
+                            ) : (
+                              <ProgressWrapper>
+                                <Spinner />
+                              </ProgressWrapper>
+                            )}
+                          </>
                         )}
-                      </>
-                    )}
-                  </Main>
-                </FeatureTreatment>
-              )}
-            </Main>
-          </ThemeProvider>
-        )}
-      </>
+                      </Main>
+                    </FeatureTreatment>
+                  )}
+                </Main>
+              </ThemeProvider>
+            )}
+          </>
+        </>
+      )}
     </Container>
   );
 };

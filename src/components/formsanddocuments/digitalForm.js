@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 
 import { loadExternalScript } from "../../utils/externalScripts";
 import useLogError from "../../hooks/useLogError";
 
 const DIGITAL_FORM_WIDGET_SCRIPT_ID = "DigitalFormWidgetScript";
 
-const DigitalForm = ({ memberId, customerId, templateId, setTemplateId }) => {
+const DigitalForm = ({
+  memberId,
+  customerId,
+  templateId,
+  setTemplateId,
+  stepperId,
+  cardsId,
+}) => {
   const { MIX_REACT_DIGITAL_FORM_WIDGET_BASE_URL } = process.env;
 
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
@@ -15,7 +21,7 @@ const DigitalForm = ({ memberId, customerId, templateId, setTemplateId }) => {
   const token = JSON.parse(localStorage.getItem("okta-token-storage"));
 
   const cardGridMountProps = {
-    parent: "dfw-main",
+    parent: cardsId,
     appId: "CUSTOMER_CENTER",
     token: token.accessToken.accessToken,
     widgetName: "FORMS_CARD_GRID",
@@ -26,9 +32,14 @@ const DigitalForm = ({ memberId, customerId, templateId, setTemplateId }) => {
 
   const mountCardGrid = () =>
     window.digitalFormsWidget.mount(cardGridMountProps);
+  const unmountCardGrid = () => {
+    if (window.digitalFormsWidget.isMounted(cardGridMountProps.widgetName)) {
+      window.digitalFormsWidget.unmount(cardGridMountProps.widgetName);
+    }
+  };
 
   const stepperMountProps = {
-    parent: "dfw-main",
+    parent: stepperId,
     appId: "CUSTOMER_CENTER",
     token: token.accessToken.accessToken,
     widgetName: "FORM_STEPPER",
@@ -42,6 +53,11 @@ const DigitalForm = ({ memberId, customerId, templateId, setTemplateId }) => {
   };
 
   const mountStepper = () => window.digitalFormsWidget.mount(stepperMountProps);
+  const unmountStepper = () => {
+    if (window.digitalFormsWidget.isMounted(stepperMountProps.widgetName)) {
+      window.digitalFormsWidget.unmount(stepperMountProps.widgetName);
+    }
+  };
 
   const onScriptLoad = () => {
     try {
@@ -72,7 +88,8 @@ const DigitalForm = ({ memberId, customerId, templateId, setTemplateId }) => {
 
     return () => {
       try {
-        window.digitalFormsWidget.unmount();
+        unmountCardGrid();
+        unmountStepper();
       } catch (error) {
         try {
           logError(error);
@@ -86,22 +103,16 @@ const DigitalForm = ({ memberId, customerId, templateId, setTemplateId }) => {
   useEffect(() => {
     if (isScriptLoaded) {
       if (templateId) {
+        unmountCardGrid();
         mountStepper();
       } else {
+        unmountStepper();
         mountCardGrid();
       }
     }
   }, [isScriptLoaded, templateId]);
 
-  return (
-    <DigitalFormWrapper>
-      <div id="dfw-main"></div>
-    </DigitalFormWrapper>
-  );
+  return null;
 };
-
-const DigitalFormWrapper = styled.div`
-  height: 100%;
-`;
 
 export default DigitalForm;
