@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { loadExternalScript } from "../../utils/externalScripts";
 import useLogError from "../../hooks/useLogError";
+import { getLocaleFromUrl } from "../../utils/misc";
 
 const DIGITAL_FORM_WIDGET_SCRIPT_ID = "DigitalFormWidgetScript";
 
@@ -49,7 +50,7 @@ const DigitalForm = ({
     templateId,
     memberId,
     customerId,
-    locale: "en",
+    locale: getLocaleFromUrl(),
   };
 
   const mountStepper = () => window.digitalFormsWidget.mount(stepperMountProps);
