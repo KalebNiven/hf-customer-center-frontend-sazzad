@@ -6,7 +6,7 @@ import { getLocaleFromUrl } from "../../utils/misc";
 
 const DIGITAL_FORM_WIDGET_SCRIPT_ID = "DigitalFormWidgetScript";
 
-const DigitalForm = ({
+const DigitalForm = ({ 
   memberId,
   customerId,
   templateId,
