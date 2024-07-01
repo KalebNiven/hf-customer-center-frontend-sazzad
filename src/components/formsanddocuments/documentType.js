@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useClient } from '@splitsoftware/splitio-react';
 import FormsAndDocumentsModel from "./formsAndDocument";
 import { FeatureTreatment } from "../../libs/featureFlags";
-import { SHOW_DOC, SHOW_FORMS_AND_DOCS } from "../../constants/splits";
+import { SHOW_DOC, SHOW_FORMS_AND_DOCS, DOCUMENTS_PAGE } from "../../constants/splits";
 import { useSelector } from "react-redux";
 import { SubTitle } from "./style";
 import DocumentCenter from "../../components/documents";
+import DocumentCenterWidget from "../../components/documents/DocumentCenterWidget";
+import PermissionDenied from '../../components/common/PermissionDenied';
 
 const DocumentType = () => {
   const [enableFormsAndDocument, setEnableFormsAndDocument] = useState(false);
   const [selectedTab, setSelectedTab] = useState("");
   const customerInfo = useSelector((state) => state.customerInfo);
+  const splitHookClient = useClient();
+  const documentPageSplitTreatment = splitHookClient.getTreatment(DOCUMENTS_PAGE);
 
   const splitAttributes = {
     memberId: customerInfo.data.memberId,
@@ -49,7 +54,9 @@ const DocumentType = () => {
                   <ButtonText>Back</ButtonText>
                 </ButtonWrapper>
               </BackButtonWrapper>
-              <DocumentCenter />
+              { documentPageSplitTreatment === "on" && <DocumentCenterWidget /> }
+              { documentPageSplitTreatment === "legacy" && <DocumentCenter /> }
+              { documentPageSplitTreatment === "off" && <PermissionDenied /> }
             </>
           )}
         </>
