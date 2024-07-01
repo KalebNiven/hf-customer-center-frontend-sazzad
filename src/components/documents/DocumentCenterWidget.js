@@ -32,7 +32,9 @@ function DocumentCenterWidget() {
     idToken === undefined ? idToken : idToken.replace("Bearer ", "");
   const accessToken = customerInfo.access_token;
   const updatedAccessToken =
-    accessToken === undefined ? accessToken : accessToken.replace("Bearer ", "");
+    accessToken === undefined
+      ? accessToken
+      : accessToken.replace("Bearer ", "");
   const [existingScript, setExistingScript] = useState(
     document.getElementById(DOCUMENT_CENTER_WIDGET_SCRIPT_ID),
   );
@@ -41,9 +43,12 @@ function DocumentCenterWidget() {
 
   const events = {
     onNavigateToPaperlessSettings: () => {
-      history.push({ pathname: "/settings", state: {
-        sideBarIndex: 2,
-    }});
+      history.push({
+        pathname: "/settings",
+        state: {
+          sideBarIndex: 2,
+        },
+      });
     },
   };
 
@@ -53,7 +58,7 @@ function DocumentCenterWidget() {
     idToken: updatedIdToken,
     appId: "CUSTOMER_CENTER",
     lang: getLanguageFromUrl(),
-    events: events
+    events: events,
   };
 
   useEffect(() => {
@@ -74,7 +79,7 @@ function DocumentCenterWidget() {
       loadExternalScript(
         MIX_REACT_CC_WIDGETS_BASE_URL +
           "/document-center/cc-document-center-widget.js",
-          DOCUMENT_CENTER_WIDGET_SCRIPT_ID,
+        DOCUMENT_CENTER_WIDGET_SCRIPT_ID,
         () => {
           try {
             window.CustomerCenterDocumentCenterWidget.mount(mountProps);
@@ -119,4 +124,3 @@ function DocumentCenterWidget() {
 const Wrapper = styled.div`
   min-height: 100%;
 `;
-
