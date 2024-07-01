@@ -42,7 +42,7 @@ const DigitalForm = ({
   const stepperMountProps = {
     parent: stepperId,
     appId: "CUSTOMER_CENTER",
-    idProvider: 'Okta',
+    idProvider: "Okta",
     token: token.accessToken.accessToken,
     idToken: token.idToken.idToken,
     widgetName: "FORM_STEPPER",
