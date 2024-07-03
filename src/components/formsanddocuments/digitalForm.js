@@ -13,6 +13,9 @@ const DigitalForm = ({
   setTemplateId,
   stepperId,
   cardsId,
+  envelopeId,
+  confirmationOnBackPressed,
+  confirmationId,
 }) => {
   const { MIX_REACT_DIGITAL_FORM_WIDGET_BASE_URL } = process.env;
 
@@ -62,6 +65,28 @@ const DigitalForm = ({
     }
   };
 
+  const confirmationMountProps = {
+    parent: confirmationId,
+    widgetName: "FORM_CONFIRMATION",
+    idProvider: "Okta",
+    token: token.accessToken.accessToken,
+    idToken: token.idToken.idToken,
+    appId: "CUSTOMER_CENTER",
+    envelopeId,
+    onBackPressed: confirmationOnBackPressed,
+    customerId,
+  };
+
+  const mountConfirmation = () =>
+    window.digitalFormsWidget.mount(confirmationMountProps);
+  const unmountConfirmation = () => {
+    if (
+      window.digitalFormsWidget.isMounted(confirmationMountProps.widgetName)
+    ) {
+      window.digitalFormsWidget.unmount(confirmationMountProps.widgetName);
+    }
+  };
+
   const onScriptLoad = () => {
     try {
       sessionStorage.setItem("longLoad", false);
@@ -93,6 +118,7 @@ const DigitalForm = ({
       try {
         unmountCardGrid();
         unmountStepper();
+        unmountConfirmation();
       } catch (error) {
         try {
           logError(error);
@@ -105,7 +131,9 @@ const DigitalForm = ({
 
   useEffect(() => {
     if (isScriptLoaded) {
-      if (templateId) {
+      if (envelopeId) {
+        mountConfirmation();
+      } else if (templateId) {
         unmountCardGrid();
         mountStepper();
       } else {
@@ -113,7 +141,7 @@ const DigitalForm = ({
         mountCardGrid();
       }
     }
-  }, [isScriptLoaded, templateId]);
+  }, [isScriptLoaded, templateId, envelopeId]);
 
   return null;
 };
