@@ -7,10 +7,9 @@ import PageLayout from "../../layouts/PageLayout";
 
 export default () => {
   const splitHookClient = useClient();
-  const claimsPageSplitTreatment =
-    splitHookClient.getTreatment(CLAIMS_PAGE);
+  const claimsPageSplitTreatment = splitHookClient.getTreatment(CLAIMS_PAGE);
 
-    console.log({claimsPageSplitTreatment})
+  console.log({ claimsPageSplitTreatment });
   switch (claimsPageSplitTreatment) {
     case "on":
       return <ClaimsWidget />;

@@ -77,16 +77,13 @@ function ClaimsWidget() {
       }
     } else {
       loadExternalScript(
-        MIX_REACT_CC_WIDGETS_BASE_URL +
-          "/cc-claims-widget.js",
+        MIX_REACT_CC_WIDGETS_BASE_URL + "/cc-claims-widget.js",
         CLAIMS_WIDGET_SCRIPT_ID,
         () => {
           try {
             window.CustomerCenterClaimsWidget.mount(mountProps);
             sessionStorage.setItem("longLoad", false);
-            setExistingScript(
-              document.getElementById(CLAIMS_WIDGET_SCRIPT_ID),
-            );
+            setExistingScript(document.getElementById(CLAIMS_WIDGET_SCRIPT_ID));
           } catch (error) {
             (async () => {
               try {
