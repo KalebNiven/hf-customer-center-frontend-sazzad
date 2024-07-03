@@ -34,6 +34,7 @@ import {
 } from "../../constants/splits";
 import { NoFormsAndDocument } from "./formsAndDocumentErrors";
 import DigitalForm from "./digitalForm";
+import useQuery from "../../hooks/useQuery";
 
 //Custom theme
 const customTheme = createMuiTheme({
@@ -48,6 +49,9 @@ const customTheme = createMuiTheme({
 
 const FormsAndDocuments = (props) => {
   const dispatch = useDispatch();
+  const queryEnvelopeId = useQuery().get("envelopeId");
+  const queryEvent = useQuery().get("event");
+  const [envelopeId, setEnvelopeId] = useState();
 
   const [navItems, setNavItems] = useState([
     {
@@ -173,6 +177,16 @@ const FormsAndDocuments = (props) => {
     memberSelection.membershipStatus === "active" &&
     memberSelection.relationshipType === "SELF";
 
+  useEffect(() => {
+    if (
+      enableDigitalForms &&
+      queryEnvelopeId &&
+      queryEvent === "signing_complete"
+    ) {
+      setEnvelopeId(queryEnvelopeId);
+    }
+  }, [queryEnvelopeId, queryEvent, enableDigitalForms]);
+
   const renderCommonlyUserForms = () => (
     <>
       <SubTitle>Commonly Used Forms</SubTitle>
@@ -186,7 +200,8 @@ const FormsAndDocuments = (props) => {
 
   return (
     <Container>
-      {selectedTab === "/forms-and-documents" && enableDigitalForms ? (
+      {(selectedTab === "/forms-and-documents" || envelopeId) &&
+      enableDigitalForms ? (
         <FeatureTreatment
           treatmentName={SHOW_DIGITAL_FORMS}
           onLoad={() => {}}
@@ -198,13 +213,18 @@ const FormsAndDocuments = (props) => {
             customerId={customerId}
             templateId={templateId}
             setTemplateId={setTemplateId}
+            envelopeId={envelopeId}
+            setEnvelopeId={setEnvelopeId}
             stepperId="dfw-main-stepper"
+            confirmationId="dfw-main-confirmation"
             cardsId="dfw-main-cards"
           />
         </FeatureTreatment>
       ) : null}
 
-      {templateId ? ( // showing digital form stepper widget when template is selected
+      {envelopeId ? (
+        <div id="dfw-main-confirmation"></div>
+      ) : templateId ? ( // showing digital form stepper widget when template is selected
         <div id="dfw-main-stepper"></div>
       ) : (
         <>
