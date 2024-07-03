@@ -41,16 +41,7 @@ function ClaimsWidget() {
   const history = useHistory();
   const { MIX_REACT_CC_WIDGETS_BASE_URL } = process.env;
 
-  const events = {
-    onNavigateToPaperlessSettings: () => {
-      history.push({
-        pathname: "/settings",
-        state: {
-          sideBarIndex: 2,
-        },
-      });
-    },
-  };
+  const events = {};
 
   const mountProps = {
     parentElement: "#CustomerCenterClaimsWidgetApp",
