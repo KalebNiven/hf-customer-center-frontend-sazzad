@@ -189,6 +189,11 @@ const FormsAndDocuments = (props) => {
     }
   }, [queryEnvelopeId, queryEvent, enableDigitalForms]);
 
+  const confirmationWidgetOnBackPressed = () => {
+    setEnvelopeId(null);
+    handleClick("/forms-and-documents");
+  };
+
   const renderCommonlyUserForms = () => (
     <>
       <SubTitle>Commonly Used Forms</SubTitle>
@@ -216,7 +221,7 @@ const FormsAndDocuments = (props) => {
             templateId={templateId}
             setTemplateId={setTemplateId}
             envelopeId={envelopeId}
-            setEnvelopeId={setEnvelopeId}
+            confirmationOnBackPressed={confirmationWidgetOnBackPressed}
             stepperId="dfw-main-stepper"
             confirmationId="dfw-main-confirmation"
             cardsId="dfw-main-cards"

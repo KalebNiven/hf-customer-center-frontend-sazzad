@@ -14,7 +14,7 @@ const DigitalForm = ({
   stepperId,
   cardsId,
   envelopeId,
-  setEnvelopeId,
+  confirmationOnBackPressed,
   confirmationId,
 }) => {
   const { MIX_REACT_DIGITAL_FORM_WIDGET_BASE_URL } = process.env;
@@ -73,9 +73,7 @@ const DigitalForm = ({
     idToken: token.idToken.idToken,
     appId: "CUSTOMER_CENTER",
     envelopeId,
-    onBackPressed: () => {
-      setEnvelopeId(null);
-    },
+    onBackPressed: confirmationOnBackPressed,
     customerId,
   };
 
