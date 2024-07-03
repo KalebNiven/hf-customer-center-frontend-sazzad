@@ -76,6 +76,7 @@ const DigitalForm = ({
     onBackPressed: () => {
       setEnvelopeId(null);
     },
+    customerId,
   };
 
   const mountConfirmation = () =>

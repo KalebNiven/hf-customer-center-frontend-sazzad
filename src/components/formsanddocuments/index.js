@@ -51,7 +51,7 @@ const FormsAndDocuments = (props) => {
   const dispatch = useDispatch();
   const queryEnvelopeId = useQuery().get("envelopeId");
   const queryEvent = useQuery().get("event");
-  const [envelopeId, setEnvelopeId] = useState();
+  const [envelopeId, setEnvelopeId] = useState(null);
 
   const [navItems, setNavItems] = useState([
     {
@@ -184,6 +184,8 @@ const FormsAndDocuments = (props) => {
       queryEvent === "signing_complete"
     ) {
       setEnvelopeId(queryEnvelopeId);
+    } else if (envelopeId) {
+      setEnvelopeId(null);
     }
   }, [queryEnvelopeId, queryEvent, enableDigitalForms]);
 
