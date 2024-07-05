@@ -665,6 +665,13 @@ pipeline{
                                     string(name: 'VersionNumber', value: "${PIPELINE_incrementtag}"), 
                                     string(name: 'AppEnv', value: 'DEV')], 
                         wait: false
+
+                        //Deploy the application via the CD Pipeline
+                        build job: 'Serverless/CD/CD',
+                        parameters: [string(name: 'ApplicationName', value: "${PIPELINE_App}"),
+                                    string(name: 'VersionNumber', value: "${PIPELINE_incrementtag}"),
+                                    string(name: 'AppEnv', value: 'ST')],
+                        wait: false
                 }
             }
             post {
