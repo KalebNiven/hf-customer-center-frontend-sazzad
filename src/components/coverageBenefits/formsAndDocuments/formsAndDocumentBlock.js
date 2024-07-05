@@ -1,19 +1,16 @@
 import React from "react";
 import { MainCard, DocName } from "../styles";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const FormsAndDocumentBlock = () => {
+  const history = useHistory();
   return (
     <MainCard>
       <DocCard>
         <DocName documents>Looking for Forms & Documents?</DocName>
         <DocContext>We’ve moved Forms & Documents to another page. </DocContext>
-        <Wrapper
-          onClick={() =>
-            (window.location.href =
-              window.location.origin + "/forms-and-documents")
-          }
-        >
+        <Wrapper onClick={() => history.push("/forms-and-documents")}>
           <Img src="/react/images/document_img.svg"></Img>
           <Text>View Form and Documents</Text>
         </Wrapper>
