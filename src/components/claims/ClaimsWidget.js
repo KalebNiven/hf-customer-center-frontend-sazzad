@@ -68,7 +68,7 @@ function ClaimsWidget() {
       }
     } else {
       loadExternalScript(
-        MIX_REACT_CC_WIDGETS_BASE_URL + "/cc-claims-widget.js",
+        MIX_REACT_CC_WIDGETS_BASE_URL + "/claims/cc-claims-widget.js",
         CLAIMS_WIDGET_SCRIPT_ID,
         () => {
           try {
