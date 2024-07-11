@@ -49,12 +49,12 @@ function ClaimsWidget() {
   } = useSurveyContext();
 
   const onClaimSubmitted = useCallback(() => {
-    console.log({claimsSubmitted}, 'debug');
+    console.log({ claimsSubmitted }, "debug");
     setClaimsSubmitted(claimsSubmitted + 1);
   }, []);
 
   const events = {
-    onClaimSubmitted
+    onClaimSubmitted,
   };
 
   const mountProps = {
@@ -64,16 +64,16 @@ function ClaimsWidget() {
     appId: "CUSTOMER_CENTER",
     lang: getLanguageFromUrl(),
     events: events,
-    onClaimSubmitted
+    onClaimSubmitted,
   };
 
   useEffect(() => {
     if (digitalSurveyWidget)
-    triggerDigitalSurveyByEventName(
-      digitalSurveyWidget,
-      DIGITAL_SURVEY_EVENTS.CLAIM_SUBMITTED,
-    );
-  }, [claimsSubmitted])
+      triggerDigitalSurveyByEventName(
+        digitalSurveyWidget,
+        DIGITAL_SURVEY_EVENTS.CLAIM_SUBMITTED,
+      );
+  }, [claimsSubmitted]);
 
   useEffect(() => {
     if (existingScript) {
