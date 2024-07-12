@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -7,6 +7,7 @@ import { FeatureTreatment } from "../../libs/featureFlags";
 import { loadExternalScript } from "../../utils/externalScripts";
 import { getLanguageFromUrl, getSplitAttributes } from "../../utils/misc";
 import { CLAIMS_PAGE } from "../../constants/splits";
+import { useSurveyContext } from "../../context/surveyContext";
 const CLAIMS_WIDGET_SCRIPT_ID = "ClaimsWidgetScript";
 
 export default () => {
@@ -38,10 +39,22 @@ function ClaimsWidget() {
   const [existingScript, setExistingScript] = useState(
     document.getElementById(CLAIMS_WIDGET_SCRIPT_ID),
   );
-  const history = useHistory();
   const { MIX_REACT_CC_WIDGETS_BASE_URL } = process.env;
+  const [claimsSubmitted, setClaimsSubmitted] = useState(0);
 
-  const events = {};
+  const {
+    digitalSurveyWidget,
+    triggerDigitalSurveyByEventName,
+    DIGITAL_SURVEY_EVENTS,
+  } = useSurveyContext();
+
+  const onClaimSubmitted = useCallback(() => {
+    setClaimsSubmitted(claimsSubmitted + 1);
+  }, []);
+
+  const events = {
+    onClaimSubmitted,
+  };
 
   const mountProps = {
     parentElement: "#CustomerCenterClaimsWidgetApp",
@@ -50,7 +63,16 @@ function ClaimsWidget() {
     appId: "CUSTOMER_CENTER",
     lang: getLanguageFromUrl(),
     events: events,
+    onClaimSubmitted,
   };
+
+  useEffect(() => {
+    if (digitalSurveyWidget)
+      triggerDigitalSurveyByEventName(
+        digitalSurveyWidget,
+        DIGITAL_SURVEY_EVENTS.CLAIM_SUBMITTED,
+      );
+  }, [claimsSubmitted]);
 
   useEffect(() => {
     if (existingScript) {
@@ -68,7 +90,7 @@ function ClaimsWidget() {
       }
     } else {
       loadExternalScript(
-        MIX_REACT_CC_WIDGETS_BASE_URL + "/claims/cc-claims-widget.js",
+        MIX_REACT_CC_WIDGETS_BASE_URL + "/cc-claims-widget.js",
         CLAIMS_WIDGET_SCRIPT_ID,
         () => {
           try {
