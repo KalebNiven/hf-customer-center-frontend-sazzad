@@ -76,6 +76,7 @@ const DigitalForm = ({
     envelopeId,
     onBackPressed: confirmationOnBackPressed,
     customerId,
+    locale: getLocaleFromUrl(),
   };
 
   const mountConfirmation = () =>
