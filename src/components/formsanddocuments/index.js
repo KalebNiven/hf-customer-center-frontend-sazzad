@@ -319,7 +319,6 @@ const FormsAndDocuments = (props) => {
                                 onTimedout={() => {}}
                                 attributes={splitAttributes}
                               >
-                                <SubTitle>Digital Forms</SubTitle>
                                 <div id="dfw-main-cards"></div>
                               </FeatureTreatment>
                             ) : null}
