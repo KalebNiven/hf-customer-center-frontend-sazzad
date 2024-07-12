@@ -32,6 +32,7 @@ const DigitalForm = ({
     onFormSelected: (templateId) => {
       setTemplateId(templateId);
     },
+    locale: getLocaleFromUrl(),
   };
 
   const mountCardGrid = () =>
