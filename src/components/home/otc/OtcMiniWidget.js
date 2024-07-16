@@ -19,7 +19,6 @@ export default () => {
       onLoad={() => {}}
       onTimedout={() => {}}
       attributes={splitAttributes}
-      invertBehavior
     >
       <OtcMiniWidget />
     </FeatureTreatment>
