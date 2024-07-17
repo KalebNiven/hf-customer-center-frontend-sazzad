@@ -93,7 +93,7 @@ function OtcMiniWidget() {
     }
     return () => {
       try {
-        window.MicroWidget.unmount();
+        window.MicroWidget.unmount(mountProps.widgetId);
       } catch (error) {
         (async () => {
           try {
