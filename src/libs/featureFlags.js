@@ -189,6 +189,14 @@ export class FeatureTreatment extends PureComponent {
           else if (treatment === "on" && invertBehavior) {
             return <></>;
           }
+          // if a split treatment is legacy, and the behavior isn't inverted
+          else if (treatment === "legacy" && !invertBehavior) {
+            return clonedChild;
+          }
+          // if a split treatment is legacy, and the behavior is inverted
+          else if (treatment === "legacy" && invertBehavior) {
+            return <></>;
+          }
           // if a split treatment is off, and the behavior is inverted
           else if (treatment === "off" && invertBehavior) {
             return clonedChild;
