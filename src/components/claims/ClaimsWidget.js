@@ -67,7 +67,7 @@ function ClaimsWidget() {
   };
 
   useEffect(() => {
-    if (digitalSurveyWidget)
+    if (digitalSurveyWidget && claimsSubmitted)
       triggerDigitalSurveyByEventName(
         digitalSurveyWidget,
         DIGITAL_SURVEY_EVENTS.CLAIM_SUBMITTED,
