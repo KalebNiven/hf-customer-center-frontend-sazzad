@@ -171,7 +171,13 @@ const FormsAndDocuments = (props) => {
     setSelectedTab(href);
   };
 
+  const isNoFormsAndDocument =
+    (ccForms.ccFormsDocDetails?.data?.length === 0 ||
+      ccForms.ccFormsDocDetails?.data?.length === undefined) &&
+    ccForms.ccFormsDocLoading === false;
+
   const enableDigitalForms =
+    !isNoFormsAndDocument &&
     customerInfo?.data?.age >= 18 &&
     customerInfo?.data?.companyCode !== "20" &&
     memberSelection.membershipStatus === "active" &&
@@ -305,10 +311,7 @@ const FormsAndDocuments = (props) => {
                             />
                           }
                         </DependentBlockWrapper>
-                        {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
-                          ccForms.ccFormsDocDetails?.data?.length ===
-                            undefined) &&
-                        ccForms.ccFormsDocLoading === false ? (
+                        {isNoFormsAndDocument ? (
                           <NoFormsAndDocument />
                         ) : (
                           <>
