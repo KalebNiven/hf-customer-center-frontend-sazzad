@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { ALERT_STYLES, ALERT_TYPES, LINK_TYPES } from "./config";
 import ExternalSiteLink from "../../common/externalSiteLink";
 import { SHOW_GLOBAL_ALERTS } from "../../../constants/splits";
 import { FeatureTreatment } from "../../../libs/featureFlags";
 
-const GlobalAlerts = ({ alertsList }) => {
-  const generateBackgroundColor = (alertType) => {
+const GlobalAlerts = ({ alertsList, ignoreSplit }) => {
+  const [closedAlerts, setClosedAlerts] = useState([]);
+  const generateAlertStyling = (alertType) => {
     switch (alertType) {
       case ALERT_TYPES.WARNING:
         return ALERT_STYLES.WARNING;
+      case ALERT_TYPES.INFO:
+        return ALERT_STYLES.INFO;
+      case ALERT_TYPES.DANGER:
+        return ALERT_STYLES.DANGER;
+      case ALERT_TYPES.SUCCESS:
+        return ALERT_STYLES.SUCCESS;
       default:
         return ALERT_STYLES.DEFAULT;
     }
@@ -45,32 +52,58 @@ const GlobalAlerts = ({ alertsList }) => {
     }
   };
 
+  const closeAlert = (id) => {
+    window.sessionStorage.setItem(`globalAlertClosed-${id}`, true);
+    setClosedAlerts([...closedAlerts, id]);
+  };
+
   return (
     <FeatureTreatment
       treatmentName={SHOW_GLOBAL_ALERTS}
       onLoad={() => {}}
       onTimedout={() => {}}
+      attributes={{ pathname: window.location.pathname }}
+      ignoreSplit={ignoreSplit}
     >
       <Wrapper>
         {alertsList.map((alert) => {
           const {
             id,
             alert_type,
-            alert_data: { alert_message, alert_links },
+            alert_data: {
+              alert_message,
+              alert_links,
+              show_alert_icon,
+              show_alert_close_button,
+            },
           } = alert;
-          const styles = generateBackgroundColor(alert_type);
+          const styles = generateAlertStyling(alert_type);
+          const alertNotClosed =
+            window.sessionStorage.getItem(`globalAlertClosed-${id}`) === null &&
+            !closedAlerts?.includes(id);
           return (
-            <Banner className="no-print" id="bannerContent" key={id}>
-              <BannerContent bgColor={styles.bgColor}>
-                <BannerIcon alt="" src={styles.icon} />
-                <BannerText textColor={styles.textColor}>
-                  {alert_message}
-                  {alert_links.map((link) =>
-                    generateLinkComponent(link, styles),
+            alertNotClosed && (
+              <Banner className="no-print" id="bannerContent" key={id}>
+                <BannerContent bgColor={styles.bgColor}>
+                  {show_alert_icon && (
+                    <BannerIcon alt={`banner-icon-${id}`} src={styles.icon} />
                   )}
-                </BannerText>
-              </BannerContent>
-            </Banner>
+                  <BannerText textColor={styles.textColor}>
+                    {alert_message}
+                    {alert_links.map((link) =>
+                      generateLinkComponent(link, styles),
+                    )}
+                  </BannerText>
+                  {show_alert_close_button && (
+                    <BannerCloseIcon
+                      alt={`banner-close-icon-${id}`}
+                      src={styles.closeIcon}
+                      onClick={() => closeAlert(id)}
+                    />
+                  )}
+                </BannerContent>
+              </Banner>
+            )
           );
         })}
       </Wrapper>
@@ -107,13 +140,24 @@ export const BannerText = styled.p`
 export const BannerIcon = styled.img`
   margin-right: 12px;
   align-self: baseline;
+  width: 24px;
+  height: 24px;
+`;
+
+export const BannerCloseIcon = styled.img`
+  margin-left: 16px;
+  margin-right: 12px;
+  align-self: baseline;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 `;
 
 export const BannerLink = styled.span`
   font-weight: 700;
   text-decoration: underline;
   color: ${(props) => props.textColor && props.textColor};
-  margin-left: 3px;
+  margin-left: 16px;
   cursor: pointer;
 `;
 

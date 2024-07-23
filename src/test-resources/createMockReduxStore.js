@@ -755,6 +755,10 @@ export default () => {
     submitAttestationAgreement: {
       loading: false,
     },
+    homeDetails: {
+      externalLinkError: "",
+      externalLinkLoading: "",
+    },
   };
   return mockStore(initialState);
 };

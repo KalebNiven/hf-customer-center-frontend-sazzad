@@ -16,6 +16,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import UnrecoverableErrorUnauthenticated from "./components/errors/UnrecoverableErrorUnauthenticated";
 import SurveyScript from "./components/scripts/SurveyScript";
 import { SurveyContextProvider } from "./context/surveyContext";
+import { AppContextProvider } from "./AppContext";
+import ExternalSiteModal from "./components/common/externalSiteModal";
 
 const UnauthenticatedUserWrapper = ({ children }) => {
   // Reset Redux Store if not authenticated
@@ -36,7 +38,12 @@ const UnauthenticatedUserWrapper = ({ children }) => {
           uniqueId={uuid}
           trafficType="anonymous"
         >
-          {alertsList?.length > 0 && <GlobalAlerts alertsList={alertsList} />}
+          {alertsList?.length > 0 && (
+            <AppContextProvider>
+              <GlobalAlerts alertsList={alertsList} />
+              <ExternalSiteModal />
+            </AppContextProvider>
+          )}
           <SurveyContextProvider>
             <Wrapper>
               <SurveyScript />
