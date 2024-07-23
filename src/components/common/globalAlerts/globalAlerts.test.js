@@ -59,6 +59,28 @@ describe("Global Alerts", () => {
           ],
         },
       },
+      {
+        id: 3,
+        alert_type: "warning",
+        published_at: "2024-07-19T13:51:23.000Z",
+        created_at: "2024-07-19T13:51:12.000Z",
+        updated_at: "2024-07-22T16:21:59.000Z",
+        alert_data: {
+          id: 5,
+          alert_message: "I am a warning message.",
+          auth_status: "any",
+          show_alert_icon: true,
+          show_alert_close_button: true,
+          alert_links: [
+            {
+              id: 8,
+              link_text: "Warning Message Link",
+              link_url: "https://www.google.com",
+              link_type: "external",
+            },
+          ],
+        },
+      },
     ];
   });
 
@@ -68,6 +90,7 @@ describe("Global Alerts", () => {
         <GlobalAlerts alertsList={alertsList} ignoreSplit={true} />
       </AppContextProvider>,
     );
+    // Danger
     expect(screen.getByText("This is a danger message")).toBeInTheDocument();
     expect(screen.getByText("Link")).toBeInTheDocument();
     // Icon not shown as show_alert_icon is false
@@ -75,6 +98,7 @@ describe("Global Alerts", () => {
     // Close Icon shown as show_alert_close_button is true
     expect(screen.queryByAltText("banner-close-icon-1")).toBeInTheDocument();
 
+    // Info
     expect(screen.getByText("I am an info message.")).toBeInTheDocument();
     expect(screen.getByText("Click Me")).toBeInTheDocument();
     // Icon is shown as show_alert_icon is true
@@ -83,6 +107,14 @@ describe("Global Alerts", () => {
     expect(
       screen.queryByAltText("banner-close-icon-2"),
     ).not.toBeInTheDocument();
+
+    // Warning
+    expect(screen.getByText("I am a warning message.")).toBeInTheDocument();
+    expect(screen.getByText("Warning Message Link")).toBeInTheDocument();
+    // Icon should be shown as show_alert_icon is true
+    expect(screen.queryByAltText("banner-icon-3")).toBeInTheDocument();
+    // Close Icon shown as show_alert_close_button is true
+    expect(screen.queryByAltText("banner-close-icon-3")).toBeInTheDocument();
   });
 
   it("shows the ExternalLink Modal when an external link is clicked", async () => {
