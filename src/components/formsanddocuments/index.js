@@ -171,13 +171,7 @@ const FormsAndDocuments = (props) => {
     setSelectedTab(href);
   };
 
-  const isNoFormsAndDocument =
-    (ccForms.ccFormsDocDetails?.data?.length === 0 ||
-      ccForms.ccFormsDocDetails?.data?.length === undefined) &&
-    ccForms.ccFormsDocLoading === false;
-
   const enableDigitalForms =
-    !isNoFormsAndDocument &&
     customerInfo?.data?.age >= 18 &&
     customerInfo?.data?.companyCode !== "20" &&
     memberSelection.membershipStatus === "active" &&
@@ -311,9 +305,22 @@ const FormsAndDocuments = (props) => {
                             />
                           }
                         </DependentBlockWrapper>
-                        {isNoFormsAndDocument ? (
-                          <NoFormsAndDocument />
-                        ) : (
+
+                        {enableDigitalForms ? (
+                          <FeatureTreatment
+                            treatmentName={SHOW_DIGITAL_FORMS}
+                            onLoad={() => {}}
+                            onTimedout={() => {}}
+                            attributes={splitAttributes}
+                          >
+                            <div id="dfw-main-cards"></div>
+                          </FeatureTreatment>
+                        ) : null}
+
+                        {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
+                          ccForms.ccFormsDocDetails?.data?.length ===
+                            undefined) &&
+                        ccForms.ccFormsDocLoading === false ? (
                           <>
                             {enableDigitalForms ? (
                               <FeatureTreatment
@@ -321,10 +328,16 @@ const FormsAndDocuments = (props) => {
                                 onLoad={() => {}}
                                 onTimedout={() => {}}
                                 attributes={splitAttributes}
+                                invertBehavior
                               >
-                                <div id="dfw-main-cards"></div>
+                                <NoFormsAndDocument />
                               </FeatureTreatment>
-                            ) : null}
+                            ) : (
+                              <NoFormsAndDocument />
+                            )}
+                          </>
+                        ) : (
+                          <>
                             {ccForms?.ccFormsDocDetails?.data != null &&
                             ccForms.ccFormsDocLoading === false ? (
                               <Main>
