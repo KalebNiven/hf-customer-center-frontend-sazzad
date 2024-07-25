@@ -167,8 +167,17 @@ const FormsAndDocuments = (props) => {
     sessionStorage.setItem("longLoad", false);
   }, []);
 
-  const handleClick = (href) => {
-    setSelectedTab(href);
+  const handleClick = (tab) => {
+    setSelectedTab(tab?.href);
+    handleSegmentClick(
+      tab?.href,
+      tab?.labelForSegment,
+      tab?.labelForSegment + " Tab Clicked",
+      "button",
+      "top",
+      customerInfo,
+      "documentCenter",
+    );
   };
 
   const enableDigitalForms =
@@ -191,7 +200,7 @@ const FormsAndDocuments = (props) => {
 
   const confirmationWidgetOnBackPressed = () => {
     setEnvelopeId(null);
-    handleClick("/forms-and-documents");
+    setSelectedTab("/forms-and-documents");
   };
 
   const renderCommonlyUserForms = () => (
@@ -264,7 +273,7 @@ const FormsAndDocuments = (props) => {
                         <Tab
                           label={eachNav.label}
                           value={eachNav.href}
-                          onClick={() => handleClick(eachNav.href)}
+                          onClick={() => handleClick(eachNav)}
                           className={
                             selectedTab == eachNav.href
                               ? "child-tab-active"
