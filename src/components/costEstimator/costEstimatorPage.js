@@ -43,6 +43,11 @@ export const CostEstimatorWidget = ({ removeCostEstimatorWidget }) => {
     jwt_token_with_bearer === undefined
       ? jwt_token_with_bearer
       : jwt_token_with_bearer.replace("Bearer ", "");
+  const accessToken = customerInfo.access_token;
+  const updatedAccessToken =
+    accessToken === undefined
+      ? accessToken
+      : accessToken.replace("Bearer ", "");
   const { logError } = useLogError();
 
   useEffect(() => {
@@ -59,6 +64,7 @@ export const CostEstimatorWidget = ({ removeCostEstimatorWidget }) => {
           window.CostEstimator.mount({
             parentElement: "#costCalculatorPageWrapper",
             oktaToken: jwt_token,
+            oktaAccessToken: updatedAccessToken,
           });
         } catch (error) {
           (async () => {
