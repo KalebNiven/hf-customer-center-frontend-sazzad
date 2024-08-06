@@ -4,7 +4,7 @@ import { loadExternalScript } from "../../utils/externalScripts";
 import useLogError from "../../hooks/useLogError";
 import { getLocaleFromUrl } from "../../utils/misc";
 
-const DIGITAL_FORM_WIDGET_SCRIPT_ID = "DigitalFormWidgetScript";
+export const DIGITAL_FORM_WIDGET_SCRIPT_ID = "DigitalFormWidgetScript";
 
 const DigitalForm = ({
   memberId,
