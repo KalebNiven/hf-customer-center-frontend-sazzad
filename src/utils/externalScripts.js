@@ -4,6 +4,7 @@ export const loadExternalScript = (url, scriptId, callback) => {
     const script = document.createElement("script");
     script.src = url;
     script.id = scriptId;
+    script.setAttribute("data-testid", scriptId);
     document.body.appendChild(script);
     script.onload = () => {
       if (callback) callback();
