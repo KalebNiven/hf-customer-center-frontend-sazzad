@@ -31,6 +31,12 @@
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvvE6q1r7EhhT7FLoQ4cr0jO0hUyZPp-c" type="text/javascript"></script>
     <script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/17b5f144af0/bf30931qph/beb1491694f54392_complete.js" crossorigin="anonymous"></script>
+    <script>
+      const env = "<%= process.env.MIX_REACT_APP_LOFL_SEGMENT_KEY%>"
+      if(env.toLocaleLowerCase('prod')){
+        window.console.log = function () {};
+      }
+    </script>
     <%= htmlWebpackPlugin.options.custom %>
 
     <!-- css -->
