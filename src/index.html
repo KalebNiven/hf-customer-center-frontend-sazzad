@@ -32,8 +32,9 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvvE6q1r7EhhT7FLoQ4cr0jO0hUyZPp-c" type="text/javascript"></script>
     <script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/17b5f144af0/bf30931qph/beb1491694f54392_complete.js" crossorigin="anonymous"></script>
     <script>
-      const env = "<%= process.env.MIX_REACT_APP_LOFL_SEGMENT_KEY%>"
-      if(env.toLocaleLowerCase('prod')){
+      const ENV = "<%= process.env.MIX_REACT_ENVIRONMENT%>";
+      const DISABLE_CONSOLE_LOG = "<%= process.env.MIX_REACT_APP_DISABLE_CONSOLE_LOG%>" === "true";
+      if(ENV.toLocaleLowerCase('prod') && DISABLE_CONSOLE_LOG){
         window.console.log = function () {};
       }
     </script>
