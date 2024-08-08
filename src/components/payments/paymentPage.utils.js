@@ -49,7 +49,6 @@ export const getSplitpAttributes = (account, accountStatus) => {
     companyCode: CompanyNumber || companyCode,
     accountStatus,
   };
-  // console.log('split Attributes', splitAttributes);
   return splitAttributes;
 };
 
@@ -62,7 +61,6 @@ const getTreatmentsFromSplit = (splitAttrs, splitClient) => {
     },
     {},
   );
-  // console.log('getTreatments for account', splitAttrs.accountId, ':', treatmentsForThisAccount);
   return treatmentsForThisAccount;
 };
 

@@ -152,8 +152,6 @@ const MailMemberIDCardForm = (props) => {
           ),
         );
         setStep("Suggested");
-      } else {
-        //console.log('verifyAddress call did not succeed');
       }
     }
   }, [verifyAddress]);

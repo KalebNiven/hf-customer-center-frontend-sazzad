@@ -280,7 +280,6 @@ const SubmitClaimModal = ({ unmountMe, showModal }) => {
   const validateForm = () => {
     if (initRender.current) return;
     let isValid = true;
-    console.log("*****************running****************");
     switch (step) {
       case 0:
         {
