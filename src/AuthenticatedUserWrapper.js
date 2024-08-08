@@ -77,7 +77,7 @@ const AuthenticatedUserWrapper = ({ children }) => {
   // Sets customerId for dynatrace to use for sessionId
   useEffect(() => {
     if (customerId) {
-      sessionStorage.setItem('dynatraceConfig', JSON.stringify({customerId}))
+      sessionStorage.setItem("dynatraceConfig", JSON.stringify({ customerId }));
     }
   }, [customerId]);
 
