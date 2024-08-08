@@ -7,9 +7,9 @@ import { loadExternalScript } from "../../../utils/externalScripts";
 import { getLanguageFromUrl, getSplitAttributes } from "../../../utils/misc";
 import { SHOW_OTC_CARD_HOME_PAGE } from "../../../constants/splits";
 import { useHistory } from "react-router-dom";
-const OTC_MIN_WIDGET_SCRIPT_ID = "OtcMiniWidgetScript";
+export const OTC_MIN_WIDGET_SCRIPT_ID = "OtcMiniWidgetScript";
 
-export default () => {
+export default ({ ignoreSplit }) => {
   const customerInfo = useSelector((state) => state.customerInfo);
   const splitAttributes = getSplitAttributes(customerInfo?.data);
 
@@ -19,6 +19,7 @@ export default () => {
       onLoad={() => {}}
       onTimedout={() => {}}
       attributes={splitAttributes}
+      ignoreSplit={ignoreSplit}
     >
       <OtcMiniWidget />
     </FeatureTreatment>
