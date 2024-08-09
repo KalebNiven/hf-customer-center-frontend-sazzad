@@ -314,12 +314,22 @@ const FormsAndDocuments = (props) => {
                             />
                           }
                         </DependentBlockWrapper>
+
+                        {enableDigitalForms ? (
+                          <FeatureTreatment
+                            treatmentName={SHOW_DIGITAL_FORMS}
+                            onLoad={() => {}}
+                            onTimedout={() => {}}
+                            attributes={splitAttributes}
+                          >
+                            <div id="dfw-main-cards"></div>
+                          </FeatureTreatment>
+                        ) : null}
+
                         {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
                           ccForms.ccFormsDocDetails?.data?.length ===
                             undefined) &&
                         ccForms.ccFormsDocLoading === false ? (
-                          <NoFormsAndDocument />
-                        ) : (
                           <>
                             {enableDigitalForms ? (
                               <FeatureTreatment
@@ -327,10 +337,16 @@ const FormsAndDocuments = (props) => {
                                 onLoad={() => {}}
                                 onTimedout={() => {}}
                                 attributes={splitAttributes}
+                                invertBehavior
                               >
-                                <div id="dfw-main-cards"></div>
+                                <NoFormsAndDocument />
                               </FeatureTreatment>
-                            ) : null}
+                            ) : (
+                              <NoFormsAndDocument />
+                            )}
+                          </>
+                        ) : (
+                          <>
                             {ccForms?.ccFormsDocDetails?.data != null &&
                             ccForms.ccFormsDocLoading === false ? (
                               <Main>
