@@ -455,27 +455,32 @@ const DocumentCenter = (props) => {
   ];
 
   useEffect(() => {
-    setMemberSelection({
-      ...memberSelection,
-      memberId: customerInfo.data.memberId,
-      planName: customerInfo.data.planName,
-      membershipStatus: customerInfo.data.membershipStatus,
-      membershipEffectiveDate: customerInfo.data.membershipEffectiveDate,
-      membershipExpirationDate: customerInfo.data.membershipExpirationDate,
-      companyCode: customerInfo.data.companyCode,
-      lob: customerInfo.data.sessLobCode,
-      groupNumber: customerInfo.data.groupNumber,
-      benefitPackage: customerInfo.data.benefitPackage,
-      firstName: customerInfo.data.firstName,
-      lastName: customerInfo.data.lastName,
-    });
-    getDocuments({
-      value: customerInfo.data.memberId,
-      companyCode: customerInfo.data.companyCode,
-      benefitPackage: customerInfo.data.benefitPackage,
-    });
+    // Picking the 1st value from the hohPlans array instead of the root response object.
+    // This would be used to show the default member in the dropdown as well as make the documents API call onload of page.
+    if (customerInfo?.data?.hohPlans?.length > 0) {
+      const defaultMember = customerInfo.data.hohPlans[0];
+      setMemberSelection({
+        ...memberSelection,
+        memberId: defaultMember.MemberId,
+        planName: defaultMember.PlanName,
+        membershipStatus: defaultMember.MembershipStatus,
+        membershipEffectiveDate: defaultMember.MembershipEffectiveDate,
+        membershipExpirationDate: defaultMember.MembershipExpirationDate,
+        companyCode: defaultMember.CompanyNumber,
+        lob: defaultMember.LOBCode,
+        groupNumber: defaultMember.GroupNumber,
+        benefitPackage: defaultMember.BenefitPackage,
+        firstName: defaultMember.FirstName,
+        lastName: defaultMember.LastName,
+      });
+      getDocuments({
+        value: defaultMember.MemberId,
+        companyCode: defaultMember.CompanyNumber,
+        benefitPackage: defaultMember.BenefitPackage,
+      });
 
-    dispatch(clearLoadingStatus());
+      dispatch(clearLoadingStatus());
+    }
   }, [customerInfo]);
 
   useEffect(() => {
