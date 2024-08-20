@@ -33,7 +33,7 @@
     <script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/17b5f144af0/bf30931qph/beb1491694f54392_complete.js" crossorigin="anonymous"></script>
     <script>
       const ENV = "<%= process.env.MIX_REACT_ENVIRONMENT%>";
-      const DISABLE_CONSOLE_LOG_ENVS = "<%= process.env.MIX_REACT_DISABLE_CONSOLE_LOG_ENVS%>".split(',');
+      const DISABLE_CONSOLE_LOG_ENVS = ['st', 'rt', 'prod'];
       if(DISABLE_CONSOLE_LOG_ENVS.includes(ENV)){
         window.console.log = function () {};
       }
