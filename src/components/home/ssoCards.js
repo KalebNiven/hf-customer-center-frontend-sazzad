@@ -106,13 +106,6 @@ const SSOCards = () => {
           SHOW_COST_ESTIMATOR_WIDGET,
           splitAttributes,
         );
-      console.log("splitHookClient ", splitHookClient);
-      console.log("SHOW_COST_ESTIMATOR_WIDGET ", SHOW_COST_ESTIMATOR_WIDGET);
-      console.log("splitAttributes ", splitAttributes);
-      console.log(
-        "showCostEstimatorWidgetTreatmentL ",
-        showCostEstimatorWidgetTreatment,
-      );
       const showManagePrescriptionNoticeTreatment =
         splitHookClient.getTreatmentWithConfig(
           SHOW_MANAGE_PRESCRIPTIONS,
@@ -358,10 +351,6 @@ const SSOCards = () => {
                 row.splitAttributes ? row.splitAttributes : splitAttributes
               }
             >
-              {console.log(
-                "costEstimatorWidgetEnabled: ",
-                costEstimatorWidgetEnabled,
-              )}
               {row?.routeLink === "payments" &&
               costEstimatorWidgetEnabled !== null &&
               costEstimatorWidgetEnabled !== true ? (
