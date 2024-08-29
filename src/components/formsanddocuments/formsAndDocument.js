@@ -8,17 +8,25 @@ import DependentBlock from "../common/dependentBlock";
 import Spinner from "../common/spinner";
 import { requestCCFormsDocs } from "../../store/actions";
 import { NoFormsAndDocument } from "./formsAndDocumentErrors";
-
-const FormsAndDocumentsModel = ({ onBack }) => {
+import { SHOW_DIGITAL_FORMS } from "../../constants/splits";
+import { FeatureTreatment } from "../../libs/featureFlags";
+import DigitalForm from "./digitalForm";
+ 
+const FormsAndDocumentsModel = ({
+  onBack,
+  splitAttributes,
+  enableDigitalForms,
+  templateId,
+  setTemplateId,
+}) => {
   const dispatch = useDispatch();
   const ccForms = useSelector((state) => state.ccFormsDoc);
   const [rowID, setRowId] = useState();
   const ref = useRef();
   const [memberSelection, setMemberSelection] = useState({});
   const customerInfo = useSelector((state) => state.customerInfo);
-
-  const { memberId } = memberSelection;
-
+  const { memberId, customerId } = memberSelection; 
+  
   useEffect(() => {
     if (memberId) {
       const data = {
@@ -64,7 +72,74 @@ const FormsAndDocumentsModel = ({ onBack }) => {
       memberYear: customerInfo.data.memberYear,
     });
   }, [customerInfo]);
-
+ 
+  const renderCommonlyUserForms = () => (
+    <>
+      <SubTitle>Commonly Used Forms</SubTitle>
+      {ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms.map(
+        (item) => (
+          <FormsWrapper>
+            <CommonImg src="/react/images/documents-pdf-icon.svg" />
+            <DocumentType>{item.Name}</DocumentType>
+            <Text>
+              Complete this form if you want to give someone (such as a family
+              member, caregiver, or another company) access to your health or
+              coverage information.
+            </Text>
+            {item.id === rowID ? (
+              <DownloadImg
+                onClick={() => setRowId(item.id)}
+                src="/react/images/download_blue.svg"
+              />
+            ) : (
+              <DownloadImg
+                onClick={() => setRowId(item.id)}
+                src="/react/images/download_pdf.svg"
+              />
+            )}
+ 
+            <LangWrapper
+              id="languageSelection"
+              isOpen={item.id === rowID}
+              last={false}
+              ref={ref}
+            >
+              <Language
+                id="languageSelectionEN"
+                onClick={() => {
+                  window.open(item.assetUrl.en);
+                  setRowId();
+                }}
+              >
+                English
+              </Language>
+ 
+              <Language
+                id="languageSelectionES"
+                onClick={() => {
+                  window.open(item.assetUrl.es);
+                  setRowId();
+                }}
+              >
+                Spanish
+              </Language>
+ 
+              <Language
+                id="languageSelectionZH"
+                onClick={() => {
+                  window.open(item.assetUrl.zh);
+                  setRowId();
+                }}
+              >
+                Chinese
+              </Language>
+            </LangWrapper>
+          </FormsWrapper>
+        ),
+      )}
+    </>
+  );
+ 
   return (
     <Container>
       <Wrapper onClick={() => onBack(false)}>
@@ -73,7 +148,7 @@ const FormsAndDocumentsModel = ({ onBack }) => {
           <ButtonText>Back</ButtonText>
         </ButtonWrapper>
       </Wrapper>
-
+ 
       {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
         ccForms.ccFormsDocDetails?.data?.length === undefined) &&
       ccForms.ccFormsDocLoading === false ? (
@@ -98,83 +173,63 @@ const FormsAndDocumentsModel = ({ onBack }) => {
                   />
                 }
               </DependentBlockWrapper>
-              <SubTitle>Commonly Used Forms</SubTitle>
-              {ccForms?.ccFormsDocDetails?.data[0].cc_commonly_used_forms.map(
-                (item) => (
-                  <FormsWrapper>
-                    <CommonImg src="/react/images/documents-pdf-icon.svg" />
-                    <DocumentType>{item.Name}</DocumentType>
-                    <Text>
-                      Complete this form if you want to give someone (such as a
-                      family member, caregiver, or another company) access to
-                      your health or coverage information.
-                    </Text>
-                    {item.id === rowID ? (
-                      <DownloadImg
-                        onClick={() => setRowId(item.id)}
-                        src="/react/images/download_blue.svg"
-                      />
-                    ) : (
-                      <DownloadImg
-                        onClick={() => setRowId(item.id)}
-                        src="/react/images/download_pdf.svg"
-                      />
-                    )}
-
-                    <LangWrapper
-                      id="languageSelection"
-                      isOpen={item.id === rowID}
-                      last={false}
-                      ref={ref}
-                    >
-                      <Language
-                        id="languageSelectionEN"
-                        onClick={() => {
-                          window.open(item.assetUrl.en);
-                          setRowId();
-                        }}
-                      >
-                        English
-                      </Language>
-
-                      <Language
-                        id="languageSelectionES"
-                        onClick={() => {
-                          window.open(item.assetUrl.es);
-                          setRowId();
-                        }}
-                      >
-                        Spanish
-                      </Language>
-
-                      <Language
-                        id="languageSelectionZH"
-                        onClick={() => {
-                          window.open(item.assetUrl.zh);
-                          setRowId();
-                        }}
-                      >
-                        Chinese
-                      </Language>
-                    </LangWrapper>
-                  </FormsWrapper>
-                ),
+              {enableDigitalForms ? (
+                <FeatureTreatment
+                  treatmentName={SHOW_DIGITAL_FORMS}
+                  onLoad={() => {}}
+                  onTimedout={() => {}}
+                  attributes={splitAttributes}
+                >
+                  <DigitalForm
+                    memberId={memberId}
+                    customerId={customerId}
+                    templateId={templateId}
+                    setTemplateId={setTemplateId}
+                    // envelopeId={envelopeId}
+                    // confirmationOnBackPressed={confirmationWidgetOnBackPressed}
+                    stepperId="dfw-main-stepper"
+                    // confirmationId="dfw-main-confirmation"
+                    cardsId="dfw-main-cards"
+                  />
+ 
+                  <div id="dfw-main-cards"></div>
+                </FeatureTreatment>
+              ) : null}
+ 
+              {enableDigitalForms ? (
+                <FeatureTreatment
+                  treatmentName={SHOW_DIGITAL_FORMS}
+                  onLoad={() => {}}
+                  onTimedout={() => {}}
+                  attributes={splitAttributes}
+                  invertBehavior
+                >
+                  {renderCommonlyUserForms()}
+                </FeatureTreatment>
+              ) : (
+                <>{renderCommonlyUserForms()}</>
               )}
-
-              <SubTitle>General Forms</SubTitle>
-              <DocsList
-                data={ccForms?.ccFormsDocDetails?.data[0].cc_general_forms}
-              />
-              <SubTitle>Plan Documents</SubTitle>
-              <DocsList
-                data={ccForms?.ccFormsDocDetails?.data[0].cc_plan_documents}
-              />
-              <SubTitle>Additional Resources</SubTitle>
-              <DocsList
-                data={
-                  ccForms?.ccFormsDocDetails?.data[0].cc_additional_resources
-                }
-              />
+ 
+              {!templateId ? (
+                <>
+                  {" "}
+                  <SubTitle>General Forms</SubTitle>
+                  <DocsList
+                    data={ccForms?.ccFormsDocDetails?.data[0].cc_general_forms}
+                  />
+                  <SubTitle>Plan Documents</SubTitle>
+                  <DocsList
+                    data={ccForms?.ccFormsDocDetails?.data[0].cc_plan_documents}
+                  />
+                  <SubTitle>Additional Resources</SubTitle>
+                  <DocsList
+                    data={
+                      ccForms?.ccFormsDocDetails?.data[0]
+                        .cc_additional_resources
+                    }
+                  />
+                </>
+              ) : null}
             </>
           ) : (
             <ProgressWrapper>
