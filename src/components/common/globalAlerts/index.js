@@ -1,11 +1,19 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { ALERT_STYLES, ALERT_TYPES, LINK_TYPES } from "./config";
 import ExternalSiteLink from "../../common/externalSiteLink";
-import { SHOW_GLOBAL_ALERTS } from "../../../constants/splits";
+import { SHOW_GLOBAL_ALERTS_WARNING, SHOW_GLOBAL_ALERTS_INFO, SHOW_GLOBAL_ALERTS_DANGER, SHOW_GLOBAL_ALERTS_SUCCESS } from "../../../constants/splits";
 import { FeatureTreatment } from "../../../libs/featureFlags";
+import { getSplitAttributes } from "../../../utils/misc";
 
 const GlobalAlerts = ({ alertsList, ignoreSplit }) => {
+  const customerInfo = useSelector((state) => state?.customerInfo);
+  const splitAttributes = {
+    ...(customerInfo?.data?.customerId && {...getSplitAttributes(customerInfo?.data)}), 
+    pathname: window.location.pathname 
+  }
+  console.log('splitAttributes', splitAttributes);
   const [closedAlerts, setClosedAlerts] = useState([]);
   const generateAlertStyling = (alertType) => {
     switch (alertType) {
@@ -19,6 +27,21 @@ const GlobalAlerts = ({ alertsList, ignoreSplit }) => {
         return ALERT_STYLES.SUCCESS;
       default:
         return ALERT_STYLES.DEFAULT;
+    }
+  };
+
+  const getTreatmentName = (alertType) => {
+    switch (alertType) {
+      case ALERT_TYPES.WARNING:
+        return SHOW_GLOBAL_ALERTS_WARNING;
+      case ALERT_TYPES.INFO:
+        return SHOW_GLOBAL_ALERTS_INFO;
+      case ALERT_TYPES.DANGER:
+        return SHOW_GLOBAL_ALERTS_DANGER;
+      case ALERT_TYPES.SUCCESS:
+        return SHOW_GLOBAL_ALERTS_SUCCESS;
+      default:
+        return SHOW_GLOBAL_ALERTS_WARNING;
     }
   };
 
@@ -58,13 +81,6 @@ const GlobalAlerts = ({ alertsList, ignoreSplit }) => {
   };
 
   return (
-    <FeatureTreatment
-      treatmentName={SHOW_GLOBAL_ALERTS}
-      onLoad={() => {}}
-      onTimedout={() => {}}
-      attributes={{ pathname: window.location.pathname }}
-      ignoreSplit={ignoreSplit}
-    >
       <Wrapper>
         {alertsList.map((alert) => {
           const {
@@ -82,32 +98,39 @@ const GlobalAlerts = ({ alertsList, ignoreSplit }) => {
             window.sessionStorage.getItem(`globalAlertClosed-${id}`) === null &&
             !closedAlerts?.includes(id);
           return (
-            alertNotClosed && (
-              <Banner className="no-print" id="bannerContent" key={id}>
-                <BannerContent bgColor={styles.bgColor}>
-                  {show_alert_icon && (
-                    <BannerIcon alt={`banner-icon-${id}`} src={styles.icon} />
-                  )}
-                  <BannerText textColor={styles.textColor}>
-                    {alert_message}
-                    {alert_links.map((link) =>
-                      generateLinkComponent(link, styles),
+            <FeatureTreatment
+              treatmentName={getTreatmentName(alert_type)}
+              onLoad={() => {}}
+              onTimedout={() => {}}
+              attributes={splitAttributes}
+              ignoreSplit={ignoreSplit}
+            >
+              {alertNotClosed && (
+                <Banner className="no-print" id="bannerContent" key={id}>
+                  <BannerContent bgColor={styles.bgColor}>
+                    {show_alert_icon && (
+                      <BannerIcon alt={`banner-icon-${id}`} src={styles.icon} />
                     )}
-                  </BannerText>
-                  {show_alert_close_button && (
-                    <BannerCloseIcon
-                      alt={`banner-close-icon-${id}`}
-                      src={styles.closeIcon}
-                      onClick={() => closeAlert(id)}
-                    />
-                  )}
-                </BannerContent>
-              </Banner>
-            )
+                    <BannerText textColor={styles.textColor}>
+                      {alert_message}
+                      {alert_links.map((link) =>
+                        generateLinkComponent(link, styles),
+                      )}
+                    </BannerText>
+                    {show_alert_close_button && (
+                      <BannerCloseIcon
+                        alt={`banner-close-icon-${id}`}
+                        src={styles.closeIcon}
+                        onClick={() => closeAlert(id)}
+                      />
+                    )}
+                  </BannerContent>
+                </Banner>
+              )}
+            </FeatureTreatment>
           );
         })}
       </Wrapper>
-    </FeatureTreatment>
   );
 };
 
