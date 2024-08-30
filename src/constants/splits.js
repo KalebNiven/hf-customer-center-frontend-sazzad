@@ -41,7 +41,10 @@ export const SHOW_HOME = "CustomerCenter_ShowHome";
 export const SHOW_PAYMENTS = "CustomerCenter_ShowPayments";
 export const PAYMENTS_ACL = "CustomerCenter_PaymentsACL";
 export const BINDER_ACL = "CustomerCenter_BinderACL";
-export const SHOW_GLOBAL_ALERTS = "CustomerCenter_GlobalAlerts";
+export const SHOW_GLOBAL_ALERTS_WARNING = "CustomerCenter_GlobalAlerts_Warning";
+export const SHOW_GLOBAL_ALERTS_INFO = "CustomerCenter_GlobalAlerts_Info";
+export const SHOW_GLOBAL_ALERTS_DANGER = "CustomerCenter_GlobalAlerts_Danger";
+export const SHOW_GLOBAL_ALERTS_SUCCESS = "CustomerCenter_GlobalAlerts_Success";
 export const SHOW_OTC_LEARN_MORE_PAGES = "CustomerCenter_OTCLearnMorePages";
 export const SHOW_CONTACT_INFO = "CustomerCenter_ContactInfoPreferenceCenter";
 export const SHOW_CONTACT_INFO_PM_WIDGET =
@@ -163,7 +166,10 @@ export const getFeatureFlagList = () => {
     SHOW_PAYMENTS,
     PAYMENTS_ACL,
     BINDER_ACL,
-    SHOW_GLOBAL_ALERTS,
+    SHOW_GLOBAL_ALERTS_WARNING,
+    SHOW_GLOBAL_ALERTS_INFO,
+    SHOW_GLOBAL_ALERTS_DANGER,
+    SHOW_GLOBAL_ALERTS_SUCCESS,
     SHOW_OTC_LEARN_MORE_PAGES,
     SHOW_CONTACT_INFO_PM_WIDGET,
     SHOW_PCP_SUB_NAV,
