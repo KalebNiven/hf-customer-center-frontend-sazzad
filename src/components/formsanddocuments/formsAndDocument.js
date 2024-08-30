@@ -11,7 +11,7 @@ import { NoFormsAndDocument } from "./formsAndDocumentErrors";
 import { SHOW_DIGITAL_FORMS } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import DigitalForm from "./digitalForm";
- 
+
 const FormsAndDocumentsModel = ({
   onBack,
   splitAttributes,
@@ -25,8 +25,8 @@ const FormsAndDocumentsModel = ({
   const ref = useRef();
   const [memberSelection, setMemberSelection] = useState({});
   const customerInfo = useSelector((state) => state.customerInfo);
-  const { memberId, customerId } = memberSelection; 
-  
+  const { memberId, customerId } = memberSelection;
+
   useEffect(() => {
     if (memberId) {
       const data = {
@@ -72,7 +72,7 @@ const FormsAndDocumentsModel = ({
       memberYear: customerInfo.data.memberYear,
     });
   }, [customerInfo]);
- 
+
   const renderCommonlyUserForms = () => (
     <>
       <SubTitle>Commonly Used Forms</SubTitle>
@@ -97,7 +97,7 @@ const FormsAndDocumentsModel = ({
                 src="/react/images/download_pdf.svg"
               />
             )}
- 
+
             <LangWrapper
               id="languageSelection"
               isOpen={item.id === rowID}
@@ -113,7 +113,7 @@ const FormsAndDocumentsModel = ({
               >
                 English
               </Language>
- 
+
               <Language
                 id="languageSelectionES"
                 onClick={() => {
@@ -123,7 +123,7 @@ const FormsAndDocumentsModel = ({
               >
                 Spanish
               </Language>
- 
+
               <Language
                 id="languageSelectionZH"
                 onClick={() => {
@@ -139,7 +139,7 @@ const FormsAndDocumentsModel = ({
       )}
     </>
   );
- 
+
   return (
     <Container>
       <Wrapper onClick={() => onBack(false)}>
@@ -188,11 +188,11 @@ const FormsAndDocumentsModel = ({
                     stepperId="dfw-main-stepper"
                     cardsId="dfw-main-cards"
                   />
- 
+
                   <div id="dfw-main-cards"></div>
                 </FeatureTreatment>
               ) : null}
- 
+
               {enableDigitalForms ? (
                 <FeatureTreatment
                   treatmentName={SHOW_DIGITAL_FORMS}
@@ -206,7 +206,7 @@ const FormsAndDocumentsModel = ({
               ) : (
                 <>{renderCommonlyUserForms()}</>
               )}
- 
+
               {!templateId ? (
                 <>
                   {" "}
