@@ -148,7 +148,7 @@ const FormsAndDocumentsModel = ({
           <ButtonText>Back</ButtonText>
         </ButtonWrapper>
       </Wrapper>
- 
+
       {(ccForms.ccFormsDocDetails?.data?.length === 0 ||
         ccForms.ccFormsDocDetails?.data?.length === undefined) &&
       ccForms.ccFormsDocLoading === false ? (
@@ -185,10 +185,7 @@ const FormsAndDocumentsModel = ({
                     customerId={customerId}
                     templateId={templateId}
                     setTemplateId={setTemplateId}
-                    // envelopeId={envelopeId}
-                    // confirmationOnBackPressed={confirmationWidgetOnBackPressed}
                     stepperId="dfw-main-stepper"
-                    // confirmationId="dfw-main-confirmation"
                     cardsId="dfw-main-cards"
                   />
  
