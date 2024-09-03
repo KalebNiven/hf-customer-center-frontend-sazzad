@@ -216,8 +216,9 @@ const FormsAndDocuments = (props) => {
 
   return (
     <Container>
-      {(selectedTab === "/forms-and-documents" || envelopeId) &&
-      enableDigitalForms ? (
+      {(selectedTab === "/forms-and-documents" || isMobile || envelopeId) &&
+      enableDigitalForms &&
+      (templateId || !isMobile) ? (
         <FeatureTreatment
           treatmentName={SHOW_DIGITAL_FORMS}
           onLoad={() => {}}
@@ -248,7 +249,11 @@ const FormsAndDocuments = (props) => {
           <>
             {isMobile ? (
               <>
-                <DocumentType />
+                <DocumentType
+                  enableDigitalForms={enableDigitalForms}
+                  templateId={templateId}
+                  setTemplateId={setTemplateId}
+                />
               </>
             ) : (
               <ThemeProvider theme={customTheme}>
