@@ -9,7 +9,7 @@
 2. ```npm i``` 
 3. Use ```npm run build:dev``` to build your changes;
 4. Use ```npm run serve``` to run dev environment;
-5. App should be accessible on ```localhost:3000``` (if not, look for more details in the terminal);
+5. App should be accessible on ```localhost:3000``` (if not, look for more details in the terminal):
 
 To run the app with hot reload for development use ```npm run serve```. Your app rebuild and refresh automatically after you save your changes.
 
