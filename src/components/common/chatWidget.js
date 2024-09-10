@@ -59,11 +59,17 @@ export const ChatWidgetScript = ({
 
   const handleChatWindowClosed = () => {
     // Trigger the survey
-    if (digitalSurveyWidget)
+    console.log("chat closing... triggering survey", "debug - REMOVE ME");
+    if (digitalSurveyWidget) {
+      console.log(
+        "chat closing..., survery object found triggering survey",
+        "debug - REMOVE ME",
+      );
       triggerDigitalSurveyByEventName(
         digitalSurveyWidget,
         DIGITAL_SURVEY_EVENTS.CHAT,
       );
+    }
   };
 
   // Chat Widget Integration
