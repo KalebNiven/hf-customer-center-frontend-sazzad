@@ -6,11 +6,18 @@ jest.mock("../../utils/api/ccUtils", () => ({
   ccUtils: jest.fn(),
 }));
 
+jest.mock("./apis", () => ({
+  __esModule: true,
+  default: "mockedDefaultExport",
+  sendErrorLog: jest.fn(),
+}));
+
 describe("ccUtilsApis", () => {
   beforeEach(() => {
     jest.resetAllMocks();
     console = {
       error: jest.fn(),
+      info: jest.fn()
     };
   });
 
