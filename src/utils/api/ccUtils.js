@@ -1,7 +1,7 @@
 /* eslint-disable filename-rules/match */
 import axios from "axios";
 
-const { API_UTILS_BASE_URL } = process.env;
+const { MIX_REACT_API_UTILS_BASE_URL } = process.env;
 const HEADERS = {
   "Content-Type": "application/json",
   Accept: "application/json",
@@ -20,7 +20,7 @@ export const ccUtils = (
   { accessToken, idToken } = {},
 ) => {
   let ccUtilsRequest = axios.create({
-    baseURL: API_UTILS_BASE_URL,
+    baseURL: MIX_REACT_API_UTILS_BASE_URL,
     headers: HEADERS,
   });
 
