@@ -1,10 +1,10 @@
 /* eslint-disable filename-rules/match */
-import axios from 'axios';
+import axios from "axios";
 
 const { API_UTILS_BASE_URL } = process.env;
 const HEADERS = {
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
+  "Content-Type": "application/json",
+  Accept: "application/json",
 };
 
 /**
@@ -15,7 +15,10 @@ const HEADERS = {
  * @param {string} [obj.idToken]
  * @returns {import('axios').AxiosInstance}
  */
-export const ccUtils = (authenticated = false, { accessToken, idToken } = {}) => {
+export const ccUtils = (
+  authenticated = false,
+  { accessToken, idToken } = {},
+) => {
   let ccUtilsRequest = axios.create({
     baseURL: API_UTILS_BASE_URL,
     headers: HEADERS,
@@ -24,14 +27,14 @@ export const ccUtils = (authenticated = false, { accessToken, idToken } = {}) =>
   if (authenticated) {
     try {
       ccUtilsRequest.interceptors.request.use(
-          (config) => {
-            config.headers['Authorization'] = 'Bearer ' + accessToken;
-            config.headers['id-token'] = idToken;
-            return config;
-          },
-          (error) => {
-            return Promise.reject(error);
-          },
+        (config) => {
+          config.headers["Authorization"] = "Bearer " + accessToken;
+          config.headers["id-token"] = idToken;
+          return config;
+        },
+        (error) => {
+          return Promise.reject(error);
+        },
       );
     } catch (e) {
       console.log(e);

@@ -1,5 +1,5 @@
-import {ccUtils} from "../../utils/api/ccUtils";
-import {sendErrorLog} from "./apis";
+import { ccUtils } from "../../utils/api/ccUtils";
+import { sendErrorLog } from "./apis";
 
 /**
  * Posts user data to Lexis Nexis when called
@@ -8,7 +8,7 @@ import {sendErrorLog} from "./apis";
  */
 export const postRiskAssessment = async () => {
   try {
-    console.info('Running postRiskAssessment function')
+    console.info("Running postRiskAssessment function");
     await ccUtils(true).post(`/risk-assessment`);
   } catch (err) {
     try {

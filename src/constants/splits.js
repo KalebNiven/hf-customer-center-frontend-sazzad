@@ -123,8 +123,7 @@ export const COMMUNITY_RESOURCES_WIDGET =
 export const COMMUNITY_RESOURCES_LEGACY =
   "CustomerCenter_Community_Resources_Legacy";
 
-export const RUN_RISK_ASSESSMENT =
-    "CustomerCenter_Run_Risk_Assessment";
+export const RUN_RISK_ASSESSMENT = "CustomerCenter_Run_Risk_Assessment";
 
 // return a list of the above featureflag names
 export const getFeatureFlagList = () => {
@@ -227,7 +226,7 @@ export const getFeatureFlagList = () => {
     QUESTIONNAIRE_PAGE,
     COMMUNITY_RESOURCES_WIDGET,
     COMMUNITY_RESOURCES_LEGACY,
-    RUN_RISK_ASSESSMENT
+    RUN_RISK_ASSESSMENT,
   ];
 };
 

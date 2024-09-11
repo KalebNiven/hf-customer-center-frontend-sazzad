@@ -1,5 +1,5 @@
-import {postRiskAssessment} from "./ccUtilsApis";
-import {ccUtils} from "../../utils/api/ccUtils";
+import { postRiskAssessment } from "./ccUtilsApis";
+import { ccUtils } from "../../utils/api/ccUtils";
 jest.mock("../../utils/api/ccUtils", () => ({
   __esModule: true,
   default: "mockedDefaultExport",

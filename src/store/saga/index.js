@@ -1,4 +1,12 @@
-import { call, put, takeLatest, all, select, fork, take } from "redux-saga/effects";
+import {
+  call,
+  put,
+  takeLatest,
+  all,
+  select,
+  fork,
+  take,
+} from "redux-saga/effects";
 import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";
 import {
@@ -60,7 +68,7 @@ import {
 } from "./apis";
 import customerInfo from "../reducer/customerInfoReducer";
 import reducer from "../reducer";
-import {postRiskAssessment} from "./ccUtilsApis";
+import { postRiskAssessment } from "./ccUtilsApis";
 
 const formatNameCapitalize = (name) => {
   if (typeof name !== "undefined") {
@@ -1198,20 +1206,20 @@ export function* getCCFormsDocs(payload) {
 }
 
 export function* watchCustomerInfoPostRiskAssessment() {
-    const runAssessment = sessionStorage.getItem('runAssessment')
-    if (!runAssessment || runAssessment === 'true') {
-      try {
-        console.log('Running risk assessment on user')
-        yield take(actionTypes.RECEIVE_CUSTOMER_INFO)
+  const runAssessment = sessionStorage.getItem("runAssessment");
+  if (!runAssessment || runAssessment === "true") {
+    try {
+      console.log("Running risk assessment on user");
+      yield take(actionTypes.RECEIVE_CUSTOMER_INFO);
 
-        yield fork(postRiskAssessment)
-        console.log('Setting runAssessment session cookie to false')
-        sessionStorage.setItem('runAssessment', 'false')
-      } catch (e) {
-        // do nothing
-        console.log(e)
-      }
+      yield fork(postRiskAssessment);
+      console.log("Setting runAssessment session cookie to false");
+      sessionStorage.setItem("runAssessment", "false");
+    } catch (e) {
+      // do nothing
+      console.log(e);
     }
+  }
 }
 
 export default function* rootSaga() {
@@ -1271,6 +1279,6 @@ export default function* rootSaga() {
     watchVerifyAddressSaga(),
     watchPcpHousehold(),
     watchCCFormsDocs(),
-    watchCustomerInfoPostRiskAssessment()
+    watchCustomerInfoPostRiskAssessment(),
   ]);
 }
