@@ -17,7 +17,7 @@ describe("ccUtilsApis", () => {
     jest.resetAllMocks();
     console = {
       error: jest.fn(),
-      info: jest.fn()
+      info: jest.fn(),
     };
   });
 
