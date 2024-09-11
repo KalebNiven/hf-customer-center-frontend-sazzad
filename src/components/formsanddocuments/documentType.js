@@ -14,7 +14,7 @@ import DocumentCenter from "../../components/documents";
 import DocumentCenterWidget from "../../components/documents/DocumentCenterWidget";
 import PermissionDenied from "../../components/common/PermissionDenied";
 
-const DocumentType = () => {
+const DocumentType = ({ enableDigitalForms, templateId, setTemplateId }) => {
   const [enableFormsAndDocument, setEnableFormsAndDocument] = useState(false);
   const [selectedTab, setSelectedTab] = useState("");
   const customerInfo = useSelector((state) => state.customerInfo);
@@ -48,6 +48,10 @@ const DocumentType = () => {
           {selectedTab === "FormsAndDocs" ? (
             <FormsAndDocumentsModel
               onBack={(data) => setEnableFormsAndDocument(data)}
+              splitAttributes={splitAttributes}
+              enableDigitalForms={enableDigitalForms}
+              templateId={templateId}
+              setTemplateId={setTemplateId}
             />
           ) : (
             <>

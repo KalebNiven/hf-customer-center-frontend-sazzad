@@ -1,11 +1,25 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { ALERT_STYLES, ALERT_TYPES, LINK_TYPES } from "./config";
 import ExternalSiteLink from "../../common/externalSiteLink";
-import { SHOW_GLOBAL_ALERTS } from "../../../constants/splits";
+import {
+  SHOW_GLOBAL_ALERTS_WARNING,
+  SHOW_GLOBAL_ALERTS_INFO,
+  SHOW_GLOBAL_ALERTS_DANGER,
+  SHOW_GLOBAL_ALERTS_SUCCESS,
+} from "../../../constants/splits";
 import { FeatureTreatment } from "../../../libs/featureFlags";
+import { getSplitAttributes } from "../../../utils/misc";
 
 const GlobalAlerts = ({ alertsList, ignoreSplit }) => {
+  const customerInfo = useSelector((state) => state?.customerInfo);
+  const splitAttributes = {
+    ...(customerInfo?.data?.customerId && {
+      ...getSplitAttributes(customerInfo?.data),
+    }),
+    pathname: window.location.pathname,
+  };
   const [closedAlerts, setClosedAlerts] = useState([]);
   const generateAlertStyling = (alertType) => {
     switch (alertType) {
@@ -19,6 +33,21 @@ const GlobalAlerts = ({ alertsList, ignoreSplit }) => {
         return ALERT_STYLES.SUCCESS;
       default:
         return ALERT_STYLES.DEFAULT;
+    }
+  };
+
+  const getTreatmentName = (alertType) => {
+    switch (alertType) {
+      case ALERT_TYPES.WARNING:
+        return SHOW_GLOBAL_ALERTS_WARNING;
+      case ALERT_TYPES.INFO:
+        return SHOW_GLOBAL_ALERTS_INFO;
+      case ALERT_TYPES.DANGER:
+        return SHOW_GLOBAL_ALERTS_DANGER;
+      case ALERT_TYPES.SUCCESS:
+        return SHOW_GLOBAL_ALERTS_SUCCESS;
+      default:
+        return SHOW_GLOBAL_ALERTS_WARNING;
     }
   };
 
@@ -58,31 +87,31 @@ const GlobalAlerts = ({ alertsList, ignoreSplit }) => {
   };
 
   return (
-    <FeatureTreatment
-      treatmentName={SHOW_GLOBAL_ALERTS}
-      onLoad={() => {}}
-      onTimedout={() => {}}
-      attributes={{ pathname: window.location.pathname }}
-      ignoreSplit={ignoreSplit}
-    >
-      <Wrapper>
-        {alertsList.map((alert) => {
-          const {
-            id,
-            alert_type,
-            alert_data: {
-              alert_message,
-              alert_links,
-              show_alert_icon,
-              show_alert_close_button,
-            },
-          } = alert;
-          const styles = generateAlertStyling(alert_type);
-          const alertNotClosed =
-            window.sessionStorage.getItem(`globalAlertClosed-${id}`) === null &&
-            !closedAlerts?.includes(id);
-          return (
-            alertNotClosed && (
+    <Wrapper>
+      {alertsList.map((alert) => {
+        const {
+          id,
+          alert_type,
+          alert_data: {
+            alert_message,
+            alert_links,
+            show_alert_icon,
+            show_alert_close_button,
+          },
+        } = alert;
+        const styles = generateAlertStyling(alert_type);
+        const alertNotClosed =
+          window.sessionStorage.getItem(`globalAlertClosed-${id}`) === null &&
+          !closedAlerts?.includes(id);
+        return (
+          <FeatureTreatment
+            treatmentName={getTreatmentName(alert_type)}
+            onLoad={() => {}}
+            onTimedout={() => {}}
+            attributes={splitAttributes}
+            ignoreSplit={ignoreSplit}
+          >
+            {alertNotClosed && (
               <Banner className="no-print" id="bannerContent" key={id}>
                 <BannerContent bgColor={styles.bgColor}>
                   {show_alert_icon && (
@@ -103,11 +132,11 @@ const GlobalAlerts = ({ alertsList, ignoreSplit }) => {
                   )}
                 </BannerContent>
               </Banner>
-            )
-          );
-        })}
-      </Wrapper>
-    </FeatureTreatment>
+            )}
+          </FeatureTreatment>
+        );
+      })}
+    </Wrapper>
   );
 };
 

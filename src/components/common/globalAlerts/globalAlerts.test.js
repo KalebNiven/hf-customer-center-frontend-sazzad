@@ -87,7 +87,9 @@ describe("Global Alerts", () => {
   it("shows the alert message with different configuration", () => {
     render(
       <AppContextProvider>
-        <GlobalAlerts alertsList={alertsList} ignoreSplit={true} />
+        <Provider store={store}>
+          <GlobalAlerts alertsList={alertsList} ignoreSplit={true} />
+        </Provider>
       </AppContextProvider>,
     );
     // Danger
@@ -120,8 +122,8 @@ describe("Global Alerts", () => {
   it("shows the ExternalLink Modal when an external link is clicked", async () => {
     render(
       <AppContextProvider>
-        <GlobalAlerts alertsList={alertsList} ignoreSplit={true} />
         <Provider store={store}>
+          <GlobalAlerts alertsList={alertsList} ignoreSplit={true} />
           <ExternalSiteModal />
         </Provider>
       </AppContextProvider>,
@@ -140,7 +142,9 @@ describe("Global Alerts", () => {
   it("clicking on close button closes the banner", async () => {
     render(
       <AppContextProvider>
-        <GlobalAlerts alertsList={alertsList} ignoreSplit={true} />
+        <Provider store={store}>
+          <GlobalAlerts alertsList={alertsList} ignoreSplit={true} />
+        </Provider>
       </AppContextProvider>,
     );
     // 1st banner is shown

@@ -22,6 +22,7 @@ export const SurveyContextProvider = ({ children }) => {
   };
 
   const triggerDigitalSurveyByEventName = (widget, eventName) => {
+    console.log({ eventName }, "debug - REMOVE ME");
     if (!widget) new Error("Survey Widget not found");
     if (!eventName) new Error("Event name not provided");
     widget.action = eventName;
