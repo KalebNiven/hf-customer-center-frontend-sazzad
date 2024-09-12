@@ -12,7 +12,7 @@ import { HealthResourcesContextProvider } from "./components/myHealth/healthReso
 import { HomeContextProvider } from "./components/home/homeContext";
 import { ChatWidget } from "./components/common/chatWidget";
 import { FeatureFactory } from "./libs/featureFlags";
-import { featureFlagOptions } from "./constants/splits";
+import { featureFlagOptions, RUN_RISK_ASSESSMENT } from "./constants/splits";
 import useRedirect from "./hooks/useRedirect";
 import GlobalAlerts from "./components/common/globalAlerts";
 import LoadingOverlay from "./components/common/loadingOverlay";
@@ -247,6 +247,12 @@ const Wrapper = ({ children }) => {
   const maintenanceFeature =
     splitHookClient.getTreatmentWithConfig(MAINTENANCE_PAGE);
   if (maintenanceFeature?.treatment === "on") return <Maintenance />;
+
+  const runRiskAssessment =
+    splitHookClient.getTreatmentWithConfig(RUN_RISK_ASSESSMENT);
+  if (runRiskAssessment?.treatment === "off") {
+    sessionStorage.setItem("runAssessment", "false");
+  }
   return children;
 };
 

@@ -72,8 +72,6 @@ export const AppContextProvider = ({ children }) => {
         setToastOpen,
         drawerOpen,
         setDrawerOpen,
-        externalSiteModal,
-        setExternalSiteModal,
         resetExternalModal,
         innerWidth,
         setInnerWidth,
