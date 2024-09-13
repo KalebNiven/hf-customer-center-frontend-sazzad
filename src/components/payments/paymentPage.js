@@ -43,6 +43,7 @@ import {
   RightContainer,
   FirstPaymentButton,
 } from "./paymentPage.styles";
+import styled from "styled-components";
 
 const { MIX_REACT_APP_BINDER_SITE_HREF } = process.env;
 const { MIX_REACT_APP_PAYMENT_SITE_HREF } = process.env;
@@ -263,18 +264,39 @@ function PaymentPage() {
             <Card>
               <Heading>First premium payment for a new plan</Heading>
               <Description>
-                Make your first payment for your new plan. This payment will
-                confirm your enrollment so you can start using your benefits.{" "}
+                Make your first premium payment to complete enrollment in your
+                new plan.*{" "}
               </Description>
               <FirstPaymentButton onClick={onShowBinder}>
-                First Premium Payment
+                Make a First Premium Payment
               </FirstPaymentButton>
             </Card>
           </RightContainer>
         </InnerContainer>
+        <AdditionalInfoText>
+          *When you first enroll in a new plan, you make this payment once. Then
+          you make monthly premium payments every month to stay enrolled. Please
+          note that your first premium payment does not enroll you in recurring
+          payments.
+        </AdditionalInfoText>
       </>
     </Container>
   );
 }
 
 export default PaymentPage;
+
+const AdditionalInfoText = styled.div`
+  font-weight: 400;
+  font-style: italic;
+  color: #474b55;
+  line-height: 24px;
+  margin: 40px auto 40px auto;
+  width: 896px;
+  display: flex;
+  justify-content: flex-start;
+  @media only screen and (max-width: 1024px) {
+    width: 100%;
+    overflow-wrap: break-word;
+  }
+`;
