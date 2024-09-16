@@ -256,7 +256,7 @@ function PaymentPage() {
                 Make ongoing monthly payments towards your premium plan.
               </Description>
               <PaymentButton onClick={onShowPaymentPortal}>
-                Monthly Premium Payment
+                Make a Monthly Premium Payment
               </PaymentButton>
             </Card>
           </LeftContainer>
