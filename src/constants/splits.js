@@ -122,6 +122,8 @@ export const COMMUNITY_RESOURCES_WIDGET =
   "CustomerCenter_Community_Resources_Widget";
 export const COMMUNITY_RESOURCES_LEGACY =
   "CustomerCenter_Community_Resources_Legacy";
+export const SHOW_CVS_COST_CALCULATOR =
+  "CustomerCenter_Show_CVS_cost_calculator";
 
 export const RUN_RISK_ASSESSMENT = "CustomerCenter_Run_Risk_Assessment";
 
@@ -227,6 +229,7 @@ export const getFeatureFlagList = () => {
     COMMUNITY_RESOURCES_WIDGET,
     COMMUNITY_RESOURCES_LEGACY,
     RUN_RISK_ASSESSMENT,
+    SHOW_CVS_COST_CALCULATOR,
   ];
 };
 

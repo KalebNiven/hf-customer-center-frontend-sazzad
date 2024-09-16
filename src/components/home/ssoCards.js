@@ -31,6 +31,7 @@ import {
   SHOW_MY_REWARDS,
   SHOW_HEALTH_ASSESMENT_SURVEY,
   SHOW_HEALTH_ASSESMENT_SURVEY_CARD,
+  SHOW_CVS_COST_CALCULATOR,
 } from "../../constants/splits";
 import { FeatureTreatment } from "../../libs/featureFlags";
 import ExternalSiteLink from "../common/externalSiteLink";
@@ -269,6 +270,16 @@ const SSOCards = () => {
       img: "/react/images/icn-nation-otc.svg",
       featureName: SHOW_NATIONSOTC,
       routeLink: MIX_REACT_APP_NATIONS_OTC_HREF,
+      type: SSO,
+    },
+    {
+      name: "CVS Cost Calculator",
+      desc: "Testing Cost Calculator Card",
+      vendor: "",
+      img: "/react/images/icon_calculator.svg",
+      featureName: SHOW_CVS_COST_CALCULATOR,
+      routeLink:
+        "https://identity-st.healthfirst.org/home/st-healthfirst_cvscostcalculator_1/0oa26ypqxywZsOqjQ0h8/aln26ypwt0gBbT7IZ0h8",
       type: SSO,
     },
   ];
