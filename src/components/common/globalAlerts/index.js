@@ -15,7 +15,7 @@ import { getSplitAttributes } from "../../../utils/misc";
 const GlobalAlerts = ({ alertsList, ignoreSplit }) => {
   const customerInfo = useSelector((state) => state?.customerInfo);
   const splitAttributes = {
-    ...(customerInfo?.data?.customerId && {
+    ...(customerInfo?.data && {
       ...getSplitAttributes(customerInfo?.data),
     }),
     pathname: window.location.pathname,
