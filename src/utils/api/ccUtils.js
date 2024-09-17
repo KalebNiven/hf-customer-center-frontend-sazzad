@@ -26,6 +26,12 @@ export const ccUtils = (
 
   if (authenticated) {
     try {
+      const localStorageOKTA = JSON.parse(
+          localStorage.getItem("okta-token-storage"),
+      );
+      const accessToken = "Bearer " + localStorageOKTA.accessToken.accessToken;
+      const idToken = "Bearer " + localStorageOKTA.idToken.idToken;
+
       ccUtilsRequest.interceptors.request.use(
         (config) => {
           config.headers["Authorization"] = "Bearer " + accessToken;
