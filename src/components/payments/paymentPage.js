@@ -251,9 +251,10 @@ function PaymentPage() {
         <InnerContainer>
           <LeftContainer>
             <Card>
-              <Heading>Monthly premium payment</Heading>
+              <Heading>Monthly Premium Payment</Heading>
               <Description>
-                Make ongoing monthly payments towards your premium plan.
+                Make or schedule a one-time payment or set up recurring
+                payments.
               </Description>
               <PaymentButton onClick={onShowPaymentPortal}>
                 Make a Monthly Premium Payment
@@ -262,7 +263,7 @@ function PaymentPage() {
           </LeftContainer>
           <RightContainer>
             <Card>
-              <Heading>First premium payment for a new plan</Heading>
+              <Heading>First Premium Payment for a New Plan</Heading>
               <Description>
                 Make your first premium payment to complete enrollment in your
                 new plan.*{" "}
