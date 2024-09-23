@@ -279,7 +279,7 @@ const SSOCards = () => {
       img: "/react/images/icon_calculator.svg",
       featureName: SHOW_CVS_COST_CALCULATOR,
       routeLink:
-        "https://identity-st.healthfirst.org/home/st-healthfirst_cvscostcalculator_1/0oa26ypqxywZsOqjQ0h8/aln26ypwt0gBbT7IZ0h8",
+        "https://identity-rt.healthfirst.org/home/rt-healthfirst_cvscostcalculator_1/0oa26yaln79PnwPLW0h8/aln26yaq1dnmIrLqq0h8",
       type: SSO,
     },
   ];
