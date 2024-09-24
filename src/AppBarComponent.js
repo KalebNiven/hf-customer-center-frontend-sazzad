@@ -1113,7 +1113,7 @@ function AppBarComponent() {
                     )
                   }
                 >
-                  FormsAndDocument
+                  Forms And Document
                 </Settings>
               </SetDiv>
             )}
