@@ -23,7 +23,10 @@ const DigitalSurvey = () => {
   const token =
     id_token === undefined ? id_token : id_token.replace("Bearer ", "");
   const splitHookClient = useClient();
-  const { treatment } = splitHookClient.getTreatmentWithConfig(DIGITAL_SURVEY, splitAttributes);
+  const { treatment } = splitHookClient.getTreatmentWithConfig(
+    DIGITAL_SURVEY,
+    splitAttributes,
+  );
 
   useEffect(() => {
     if (!token || !memberId) return;
