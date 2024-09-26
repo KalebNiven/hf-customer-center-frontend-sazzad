@@ -5,6 +5,7 @@ import { getLocaleFromUrl } from "../../utils/misc";
 import { DIGITAL_SURVEY } from "../../constants/splits";
 import { useClient } from "@splitsoftware/splitio-react";
 import useLogError from "../../hooks/useLogError";
+import { getSplitAttributes } from "../../utils/misc";
 
 // This Component is used to mount Digital Survey widget.
 const DigitalSurvey = () => {
@@ -16,13 +17,16 @@ const DigitalSurvey = () => {
     resetDigitalSurveyWidget,
   } = useSurveyContext();
   const { logError } = useLogError();
-  const { memberId, id_token, customerId } = useSelector(
-    (state) => state.customerInfo.data,
-  );
+  const customerInfoData = useSelector((state) => state.customerInfo?.data);
+  const { memberId, id_token } = customerInfoData;
+  const splitAttributes = getSplitAttributes(customerInfoData);
   const token =
     id_token === undefined ? id_token : id_token.replace("Bearer ", "");
   const splitHookClient = useClient();
-  const { treatment } = splitHookClient.getTreatmentWithConfig(DIGITAL_SURVEY);
+  const { treatment } = splitHookClient.getTreatmentWithConfig(
+    DIGITAL_SURVEY,
+    splitAttributes,
+  );
 
   useEffect(() => {
     if (!token || !memberId) return;
