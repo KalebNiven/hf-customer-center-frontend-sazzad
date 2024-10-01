@@ -47,6 +47,7 @@ import {
   SHOW_CC_FORMS_AND_DOCS,
   SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK,
   SHOW_COVERAGE_AND_BENEFITS,
+  SHOW_TRANSPORTATION_CARD,
 } from "./constants/splits";
 import { FeatureTreatment } from "./libs/featureFlags";
 import { useAppContext } from "./AppContext";
@@ -473,6 +474,12 @@ function AppBarComponent() {
       href: "/authorizations",
       treatmentName: SHOW_AUTHS,
     },
+    {
+      label: "Transportation",
+      labelForSegment: "CC_Transportation_Page_Clicked",
+      href: "/transportation",
+      treatmentName: SHOW_TRANSPORTATION_CARD,
+    },
   ];
 
   const [navItems, setNavItems] = useState([
@@ -610,6 +617,7 @@ function AppBarComponent() {
         "/authorizations",
         "/coverage-and-benefits",
         "/home",
+        "/transportation",
         "/idcard",
         "/my-health",
         "/findcare",
@@ -671,6 +679,7 @@ function AppBarComponent() {
         "/coverage-and-benefits",
         "/idcard",
         "/home",
+        "/transportation",
       ].some((x) => x === window.location.pathname)
     ) {
       setSelectedParentTab("/home");
@@ -806,6 +815,7 @@ function AppBarComponent() {
         "/coverage-and-benefits",
         "/idcard",
         "/home",
+        "/transportation",
       ].some((x) => x === window.location.pathname)
     ) {
       currentTab = navItems[1];

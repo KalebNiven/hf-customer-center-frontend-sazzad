@@ -16,6 +16,7 @@ export const SHOW_HEALTH_ASSESMENT_SURVEY_USERCARD_LINK =
   "CustomerCenter_ShowHealthAssesmentSurvey_UserCard";
 export const SHOW_COACH_MARKS = "CustomerCenter_ShowCoachMarks";
 export const SHOW_MEMBER_ID_CARD = "CustomerCenter_ShowMemberIdCard";
+export const SHOW_TRANSPORTATION_CARD = "CustomerCenter_ShowTransportationCard";
 export const SHOW_MAIL_ID_CARD = "CustomerCenter_ShowMailIdCard";
 export const SHOW_SUBMIT_CLAIM_BUTTON = "CustomerCenter_ShowSubmitClaim";
 export const SHOW_CHAT_WIDGET = "CustomerCenter_ShowChatWidget";
@@ -136,6 +137,7 @@ export const getFeatureFlagList = () => {
     SHOW_MORE_TOOLS,
     SHOW_MAIL_ID_CARD,
     SHOW_MEMBER_ID_CARD,
+    SHOW_TRANSPORTATION_CARD,
     SHOW_HEALTH_ASSESMENT_SURVEY,
     SHOW_COVERAGE_AND_BENEFITS,
     SHOW_SUBMIT_CLAIM_BUTTON,

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Carousel from "./carousel";
 import HealthFirstPlan from "./healthFirstPlan";
 import PreviousHealthPlan from "./prevHealthPlan";
@@ -7,10 +7,8 @@ import AddMembership from "./addMembership";
 import PrimaryCareProvider from "./primaryCareProvider";
 import SSOCards from "./ssoCards";
 import PlanDetails from "./planDetails";
-import MembershipLookup from "./membershipLookup";
 import MakePayment from "./makePayment";
 import HealthFirstChecklist from "./healthfirstChecklist";
-import ReportAnIssue from "./reportAnIssue";
 import UpcomingPlan from "./upcomingPlan";
 import CoverageActivation from "./coverageActivation";
 import HOHDependents from "./hohDependents";
@@ -20,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../common/spinner";
 import { requestCarouselItems } from "../../store/actions";
 import OTC from "./otc/index";
+import TransportationMicroWidget from "../transportation/TransporationMicroWidget";
 
 const HomeDetails = () => {
   const carouselLoading = useSelector(
@@ -62,6 +61,7 @@ const HomeDetails = () => {
                 <PrimaryCareProvider />
                 <PreviousHealthPlan />
                 <OTC />
+                <TransportationMicroWidget />
               </LeftContainer>
               <RightContainer>
                 <Carousel />
@@ -79,6 +79,7 @@ const HomeDetails = () => {
               <PrimaryCareProvider />
               <PreviousHealthPlan />
               <OTC />
+              <TransportationMicroWidget />
               <SSOCards />
             </MobContainer>
           </Hidden>

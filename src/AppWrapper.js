@@ -49,6 +49,7 @@ import OTCWidgetPage from "./pages/otc/OTCWidgetPage";
 import FormsAndDocumentPage from "./pages/forms-and-documents/FormsAndDocumentPage";
 import QuestionnaireLIPPage from "./pages/questionnaire/QuestionnairePage";
 import FormSuccessMedicareCard from "./components/auth/registration/formSuccessMedicaid";
+import TransporationPage from "./pages/transportation/TransporationPage";
 
 const AppWrapper = () => {
   const { authState, oktaAuth } = useOktaAuth();
@@ -112,6 +113,11 @@ const AppWrapper = () => {
               exact
               path="/authorizations"
               component={AuthorizationsPage}
+            />
+            <SecureRoute
+              exact
+              path="/transportation"
+              component={TransporationPage}
             />
             <SecureRoute
               exact

@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transportation Micro Widget renders correctly 1`] = `
+<DocumentFragment>
+  .c0 {
+  min-height: 100%;
+  margin-top: 18px;
+}
+
+<div
+    class="c0"
+  >
+    <div
+      id="transport-mini-widget"
+    />
+  </div>
+</DocumentFragment>
+`;
