@@ -72,7 +72,7 @@ const TransportationMicroWidget = () => {
     } else {
       loadExternalScript(
         MIX_REACT_MODE_OF_TRANSPORT_WIDGET_BASE_URL +
-          "/modeOfTransportMicroWidget.js",
+          "/embed/modeOfTransportMicroWidget.js",
         MODE_OF_TRANSPORT_MICRO_WIDGET_SCRIPT_ID,
         () => {
           try {
