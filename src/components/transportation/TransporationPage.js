@@ -46,7 +46,7 @@ const TransportationPage = () => {
     } else {
       loadExternalScript(
         MIX_REACT_MODE_OF_TRANSPORT_WIDGET_BASE_URL +
-          "/modeOfTransportWidget.js",
+          "/embed/modeOfTransportWidget.js",
         MODE_OF_TRANSPORT_WIDGET_SCRIPT_ID,
         () => {
           try {
