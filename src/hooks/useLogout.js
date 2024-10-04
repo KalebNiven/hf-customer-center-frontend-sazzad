@@ -24,6 +24,7 @@ export const useLogout = () => {
       sessionStorage.removeItem("skipAddMembership");
       sessionStorage.removeItem("visitedPrefCenterSync");
       sessionStorage.removeItem("isNotificationModalClosed");
+      sessionStorage.removeItem("runAssessment")
       ProviderDirectoryWidget.invalidateStore();
     } catch (err) {
       console.log("Error caught: ", err.message);
