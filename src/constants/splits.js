@@ -82,6 +82,7 @@ export const SHOW_MANAGE_PRESCRIPTIONS_MEMBERSHIP_TREATMENTS =
   "CustomerCenter_ShowManagePrescriptionsMembershipTreatment";
 export const SHOW_TRANSLATION_LINKS = "CustomerCenter_TranslationLinks";
 export const SHOW_NOTIFICATION_MODAL = "CustomerCenter_NotificationModal";
+export const SHOW_PCP_MINI_WIDGET = "CustomerCenter_ShowPCPMiniWidget";
 
 // Page Splits
 export const CLAIMS_PAGE = "CustomerCenter_Claims_Page";
@@ -232,6 +233,7 @@ export const getFeatureFlagList = () => {
     COMMUNITY_RESOURCES_LEGACY,
     RUN_RISK_ASSESSMENT,
     SHOW_CVS_COST_CALCULATOR,
+    SHOW_PCP_MINI_WIDGET,
   ];
 };
 

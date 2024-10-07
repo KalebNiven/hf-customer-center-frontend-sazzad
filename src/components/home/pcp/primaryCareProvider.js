@@ -1,19 +1,16 @@
 import styled from "styled-components";
 import React, { useEffect } from "react";
-import GlobalStyle from "../../styles/GlobalStyle";
+import GlobalStyle from "../../../styles/GlobalStyle";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
-import {
-  AnalyticsPage,
-  AnalyticsTrack,
-} from "../../components/common/segment/analytics";
+import { AnalyticsPage, AnalyticsTrack } from "../../common/segment/analytics";
 import {
   ANALYTICS_TRACK_TYPE,
   ANALYTICS_TRACK_CATEGORY,
-} from "../../constants/segment";
-import ExternalSiteLink from "../common/externalSiteLink";
-import { requestPcpHousehold } from "../../store/actions";
-import Spinner from "../common/spinner";
+} from "../../../constants/segment";
+import ExternalSiteLink from "../../common/externalSiteLink";
+import { requestPcpHousehold } from "../../../store/actions";
+import Spinner from "../../common/spinner";
 
 const PrimaryCareProvider = () => {
   const dispatch = useDispatch();
