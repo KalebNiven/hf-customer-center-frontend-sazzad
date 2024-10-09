@@ -248,11 +248,6 @@ const Wrapper = ({ children }) => {
     splitHookClient.getTreatmentWithConfig(MAINTENANCE_PAGE);
   if (maintenanceFeature?.treatment === "on") return <Maintenance />;
 
-  const runRiskAssessment =
-    splitHookClient.getTreatmentWithConfig(RUN_RISK_ASSESSMENT);
-  if (runRiskAssessment?.treatment === "off") {
-    sessionStorage.setItem("runAssessment", "false");
-  }
   return children;
 };
 

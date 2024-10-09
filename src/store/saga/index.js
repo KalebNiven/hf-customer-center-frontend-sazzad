@@ -1209,7 +1209,9 @@ export function* watchCustomerInfoPostRiskAssessment() {
   const runAssessment = sessionStorage.getItem("runAssessment");
   if (!runAssessment || runAssessment === "true") {
     try {
-      console.log("Running risk assessment on user");
+      console.log(
+        "runAssessment cookie is not set. Attempting to run assessment",
+      );
       yield take(actionTypes.RECEIVE_CUSTOMER_INFO);
 
       yield fork(postRiskAssessment);
