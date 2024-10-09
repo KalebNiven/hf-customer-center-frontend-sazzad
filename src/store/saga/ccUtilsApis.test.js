@@ -1,6 +1,7 @@
 import { postRiskAssessment } from "./ccUtilsApis";
 import { ccUtils } from "../../utils/api/ccUtils";
 import { getSplitFeatures } from "./apis";
+import { RUN_RISK_ASSESSMENT } from "../../constants/splits";
 jest.mock("../../utils/api/ccUtils", () => ({
   __esModule: true,
   default: "mockedDefaultExport",
@@ -20,6 +21,7 @@ describe("ccUtilsApis", () => {
     console = {
       error: jest.fn(),
       info: jest.fn(),
+      log: jest.fn(),
     };
   });
 
@@ -27,9 +29,9 @@ describe("ccUtilsApis", () => {
     it("should call the correct endpoint", async () => {
       const mockPost = jest.fn().mockReturnValue({ message: "success" });
       ccUtils.mockReturnValue({ post: mockPost });
-      getSplitFeatures.mockReturnValue({
-        splits: [{ defaultTreatment: "on" }],
-      });
+      getSplitFeatures.mockReturnValue([
+        { name: RUN_RISK_ASSESSMENT, treatment: "on" },
+      ]);
       const result = await postRiskAssessment();
 
       expect(ccUtils).toHaveBeenCalledTimes(1);
@@ -43,7 +45,8 @@ describe("ccUtilsApis", () => {
       const mockPost = jest.fn().mockReturnValue({ message: "success" });
       ccUtils.mockReturnValue({ post: mockPost });
       getSplitFeatures.mockReturnValue({
-        splits: [{ defaultTreatment: "off" }],
+        name: RUN_RISK_ASSESSMENT,
+        treatment: "off",
       });
       await postRiskAssessment();
 

@@ -14,7 +14,9 @@ export const postRiskAssessment = async () => {
       (split) => split.name === RUN_RISK_ASSESSMENT,
     );
 
-    console.log(`Risk assessment feature ${riskAssessmentFeatureFlag}`);
+    console.info(
+      `${riskAssessmentFeatureFlag.name} feature "${riskAssessmentFeatureFlag.treatment}"`,
+    );
 
     if (riskAssessmentFeatureFlag.treatment === "on") {
       console.info("Running postRiskAssessment function");
