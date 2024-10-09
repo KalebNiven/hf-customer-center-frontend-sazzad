@@ -1320,3 +1320,96 @@ export const getPcpHousehold = async () => {
     }
   }
 };
+
+/** @typedef Partition
+ * @property {string} treatment
+ * @property {number} size
+ */
+
+/**
+ * @typedef Condition
+ * @property {Partition[]} partitions
+ */
+
+/**
+ * @typedef Split
+ * @property {number} changeNumber
+ * @property {string} trafficTypeName
+ * @property {string} name
+ * @property {number} trafficAllocation
+ * @property {number} trafficAllocationSeed
+ * @property {number} seed
+ * @property {string} status
+ * @property {boolean} killed
+ * @property {string} defaultTreatment
+ * @property {number} algo
+ * @property {Condition[]} conditions
+ * @property {object} configurations
+ * @property {object[]} sets
+ *
+ */
+
+/**
+ * @typedef SplitResponse
+ * @property till
+ * @property since
+ * @property {Split[]} splits
+ */
+
+/**
+ * @typedef SplitFeature
+ * @property {string} name
+ * @property {"on"|"off"} treatment
+ */
+
+/**
+ * Specifically for flags that are "on" or "off"
+ *
+ * @param {string} splitNames - Comma delimited string of Split names
+ * @returns {Promise<SplitFeature[]>}
+ */
+export const getSplitFeatures = async (splitNames) => {
+  const { MIX_SPLITIO_KEY } = process.env;
+  const splitNamesArray = splitNames.split(",");
+
+  try {
+    /**
+     * @type {import('axios').AxiosResponse<SplitResponse>}
+     */
+    const res = await axios.get(`https://sdk.split.io/api/splitChanges`, {
+      params: { since: -1, names: splitNames },
+      headers: {
+        authorization: `Bearer ${MIX_SPLITIO_KEY}`,
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+      },
+    });
+
+    /**
+     * @type {SplitFeature[]}
+     */
+    const splits = [];
+    let splitNumber = 0;
+    for (const split of res.data.splits) {
+      const { partitions } = split.conditions[0];
+      const featureState = partitions.find(
+        (partition) => partition.size === 100,
+      );
+
+      splits.push({
+        name: splitNamesArray[splitNumber],
+        treatment: featureState.treatment,
+      });
+      splitNumber++;
+    }
+
+    return splits;
+  } catch (err) {
+    try {
+      console.error("Error caught: ", err.message);
+      await sendErrorLog(err);
+    } catch (error) {
+      console.error("Error caught: ", error.message);
+    }
+  }
+};
