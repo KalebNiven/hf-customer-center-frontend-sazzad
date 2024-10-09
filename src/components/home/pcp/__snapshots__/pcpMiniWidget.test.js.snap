@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PCP mini widget renders correctly 1`] = `
+<DocumentFragment>
+  .c0 {
+  min-height: 100%;
+  max-height: 315px;
+}
+
+<div
+    class="c0"
+  >
+    <div
+      id="CustomerCenterPCPMiniWidgetApp"
+    />
+  </div>
+</DocumentFragment>
+`;

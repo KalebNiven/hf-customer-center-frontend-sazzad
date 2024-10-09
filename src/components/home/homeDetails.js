@@ -4,7 +4,6 @@ import Carousel from "./carousel";
 import HealthFirstPlan from "./healthFirstPlan";
 import PreviousHealthPlan from "./prevHealthPlan";
 import AddMembership from "./addMembership";
-import PrimaryCareProvider from "./primaryCareProvider";
 import SSOCards from "./ssoCards";
 import PlanDetails from "./planDetails";
 import MakePayment from "./makePayment";
@@ -19,6 +18,7 @@ import Spinner from "../common/spinner";
 import { requestCarouselItems } from "../../store/actions";
 import OTC from "./otc/index";
 import TransportationMicroWidget from "../transportation/TransporationMicroWidget";
+import PCP from "./pcp/index";
 
 const HomeDetails = () => {
   const carouselLoading = useSelector(
@@ -58,7 +58,7 @@ const HomeDetails = () => {
               <LeftContainer>
                 <HealthFirstPlan />
                 <HOHDependents />
-                <PrimaryCareProvider />
+                <PCP />
                 <PreviousHealthPlan />
                 <OTC />
                 <TransportationMicroWidget />
@@ -76,7 +76,7 @@ const HomeDetails = () => {
               <HelpfulTips />
               <HealthFirstPlan />
               <HOHDependents />
-              <PrimaryCareProvider />
+              <PCP />
               <PreviousHealthPlan />
               <OTC />
               <TransportationMicroWidget />
