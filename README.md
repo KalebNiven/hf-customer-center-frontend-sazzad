@@ -43,5 +43,3 @@ To run the app with hot reload for development use ```npm run serve```. Your app
 
 
 # making update to trigger build
-
-

@@ -514,7 +514,13 @@ const AddMemberPage = () => {
           />
         );
       case "success_medicare":
-        return <FormSuccessMedicareCard handleCloseCallback={handleSuccess} />;
+        // return <FormSuccessMedicareCard handleCloseCallback={handleSuccess} />;
+        return (
+          <FormSuccessCard
+            message="Membership added successfully!"
+            delayedCallback={handleSuccess}
+          />
+        );
     }
   };
 

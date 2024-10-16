@@ -246,7 +246,8 @@ const CreateUserCredentials = (props) => {
           registrationOnlyValue ? (
             <RegistrationOnlySuccess />
           ) : validationRequired ? (
-            <FormSuccessMedicareCard handleCloseCallback={handleSuccess} />
+            // <FormSuccessMedicareCard handleCloseCallback={handleSuccess} />
+            <RegistrationSuccess />
           ) : (
             <RegistrationSuccess />
           )

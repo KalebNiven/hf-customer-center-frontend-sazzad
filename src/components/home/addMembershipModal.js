@@ -97,7 +97,8 @@ const AddMembershipModal = ({ unmountMe, showModal }) => {
       } else if (addMembership.success === "success_medicare") {
         closeModal();
         setSubmitClicked(false);
-        history.push("/success-medicare");
+        setShowSuccessModal(true);
+        // history.push("/success-medicare");
         // setShowMedicareMessage(true);
         // medicareMessageAndLogout();
         // return <FormSuccessMedicareCard handleCloseCallback={handleSuccess}/>;
