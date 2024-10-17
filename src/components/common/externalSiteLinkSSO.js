@@ -18,12 +18,14 @@ const ExternalSiteLinkSSO = ({
   label,
   membershipSplit,
   featureNameSplit,
+  linkType,
 }) => {
   const customerInfo = useSelector((state) => state.customerInfo);
   const { externalSiteModal, setExternalSiteModal } = useAppContext();
   const { ssoModalState, setSsoModalState, resetSsoModal } =
     useSSOModalContext();
   const { showMemberModal, routeLink } = ssoModalState;
+  const { MIX_REACT_OKTA_API_URL } = process.env;
 
   useEffect(() => {
     if (!showMemberModal && routeLink && ssoModalState.membershipKey) {
@@ -49,18 +51,52 @@ const ExternalSiteLinkSSO = ({
     label = ssoModalState.externalLinkName
       ? ssoModalState.externalLinkName
       : label;
-    setExternalSiteModal({
-      ...externalSiteModal,
-      isVisible: true,
-      link,
-      target,
-      segmentPageCategory,
-      segmentTitle,
-      segmentTargetMemberId,
-      membershipKey,
-      label,
-    });
-    resetSsoModal();
+    console.log("debug", linkType);
+    if (linkType === "cvs") {
+      fetch(`${MIX_REACT_OKTA_API_URL}/users/${customerInfo?.data?.oktaId}`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          Accpet: "application/json",
+        },
+        body: {
+          profile: {
+            targetURL:
+              "https://www.caremark.com/drugSearchInit.do?newLogin=yes",
+          },
+        },
+      })
+        .then((data) => {
+          setExternalSiteModal({
+            ...externalSiteModal,
+            isVisible: true,
+            link,
+            target,
+            segmentPageCategory,
+            segmentTitle,
+            segmentTargetMemberId,
+            membershipKey,
+            label,
+          });
+          resetSsoModal();
+        })
+        .catch((error) => {
+          console.error("Error caught: ", error.message);
+        });
+    } else {
+      setExternalSiteModal({
+        ...externalSiteModal,
+        isVisible: true,
+        link,
+        target,
+        segmentPageCategory,
+        segmentTitle,
+        segmentTargetMemberId,
+        membershipKey,
+        label,
+      });
+      resetSsoModal();
+    }
   };
 
   const hasDependents = (customerInfo) =>

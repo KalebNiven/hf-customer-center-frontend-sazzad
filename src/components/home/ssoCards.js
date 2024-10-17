@@ -278,9 +278,9 @@ const SSOCards = () => {
       vendor: "",
       img: "/react/images/icon_calculator.svg",
       featureName: SHOW_CVS_COST_CALCULATOR,
-      routeLink:
-        "https://identity-rt.healthfirst.org/home/rt-healthfirst_cvscostcalculator_1/0oa26yaln79PnwPLW0h8/aln26yaq1dnmIrLqq0h8",
+      routeLink: MIX_REACT_APP_CVS_HREF,
       type: SSO,
+      linkType: "cvs",
     },
   ];
 
@@ -383,7 +383,13 @@ const SSOCards = () => {
                 <Card
                   className={row?.className}
                   onClick={() =>
-                    handleSegmentBtn(row?.name, row?.routeLink, row?.name, row)
+                    handleSegmentBtn(
+                      row?.name,
+                      row?.routeLink,
+                      row?.name,
+                      row,
+                      row?.linkType,
+                    )
                   }
                   innerWidth={innerWidth}
                 >
@@ -415,6 +421,7 @@ const SSOCards = () => {
               membershipSplit={row?.membershipSplit}
               featureNameSplit={row?.featureName}
               target="_blank"
+              linkType={row?.linkType}
             >
               <LinkIcon alt="" src={row?.img} />
               <LinkVerbiage>{row?.name}</LinkVerbiage>
