@@ -1,1 +1,27 @@
+name: Serverless CD
+run-name: Serverless CD - ${{ inputs.Version }} ${{ inputs.Env }} ${{ inputs.CTASK }}
+on:
+  workflow_dispatch:
+    inputs:
+      Version:
+        description: Application Version
+        type: string
+        required: true
+      Env:
+        description: Deployment Environment
+        type: environment
+        required: true
+      CTASK:
+        description: Deployment CTASK
+        required: false
+        type: string
 
+jobs:
+  CD:
+    uses: Platform/serverless-cd-rw/.github/workflows/Deploy.yml@v1
+    with: 
+      AppName: ${{ github.event.repository.name }}
+      Version: ${{ inputs.Version }}
+      Env: ${{ inputs.Env }}
+      CTASK: ${{ inputs.CTASK }}
+    secrets: inherit
